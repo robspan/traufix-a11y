@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "WebFetch(domain:material.angular.dev)",
+      "WebSearch",
+      "Bash(node -e:*)",
+      "Bash(node bin/cli.js:*)",
+      "Bash(findstr:*)",
+      "Bash(node test-debug.js:*)",
+      "Bash(node debug.js:*)",
+      "Bash(del \"C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\traufix-a11y\\test-debug.js\")",
+      "Bash(node audit-checks.js:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

@@ -53,10 +53,14 @@ module.exports = {
       if (!hasAriaDescribedBy(elementString)) {
         const exampleInstruction = instructionExamples[role] || 'keyboard navigation instructions';
         issues.push(
-          `Line ${lineNumber}: Complex widget with role="${role}" lacks aria-describedby: "${getSnippet(elementString)}". ` +
-          `Screen reader users may not know how to interact with this widget. ` +
-          `FIX: Add a description element with usage instructions (e.g., "${exampleInstruction}") ` +
-          `and link it with aria-describedby="description-id".`
+          `Warning: Complex widget lacks usage instructions. Screen reader users may not understand how to interact with this custom widget.\n` +
+          `  How to fix:\n` +
+          `    - Create an element containing usage instructions (e.g., "${exampleInstruction}")\n` +
+          `    - Give the instructions element a unique id (e.g., id="widget-instructions")\n` +
+          `    - Link the widget to instructions with aria-describedby="widget-instructions"\n` +
+          `    - Alternatively, use Angular CDK's AriaDescriber service programmatically\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Found: role="${role}" widget at line ${lineNumber}: "${getSnippet(elementString)}"`
         );
       }
     }

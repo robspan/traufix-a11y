@@ -48,9 +48,14 @@ module.exports = {
       if (hasTransition) motionTypes.push('transitions');
 
       issues.push(
-        `File uses ${motionTypes.join(' and ')} but does not include a @media (prefers-reduced-motion) query. ` +
-        `Users with vestibular disorders or motion sensitivity may experience discomfort. ` +
-        `Consider adding: @media (prefers-reduced-motion: reduce) { /* reduce or remove motion */ }`
+        `[Warning] File uses ${motionTypes.join(' and ')} without respecting user motion preferences. ` +
+        `Users with vestibular disorders or motion sensitivity may experience nausea, dizziness, or discomfort.\n` +
+        `  How to fix:\n` +
+        `    - Wrap animations/transitions in @media (prefers-reduced-motion: reduce) { /* reduce or disable motion */ }\n` +
+        `    - Provide alternative non-animated experiences for users who prefer reduced motion\n` +
+        `    - Consider using prefers-reduced-motion: no-preference for motion-heavy features\n` +
+        `  WCAG 2.3.3: Animation from Interactions (Level AAA)\n` +
+        `  Found: ${motionTypes.join(' and ')} in file`
       );
     }
 

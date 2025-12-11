@@ -1,0 +1,101 @@
+<!-- @a11y-pass -->
+<!-- Bottom sheet template with proper heading -->
+<ng-template #bottomSheetTemplate>
+  <h2>Select an option</h2>
+  <ul>
+    <li>Option 1</li>
+    <li>Option 2</li>
+  </ul>
+</ng-template>
+
+<!-- Bottom sheet with heading and close button with aria-label -->
+<ng-template #shareBottomSheet>
+  <h3>Share this item</h3>
+  <p>Choose how to share:</p>
+  <button aria-label="Close" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+  <button>Email</button>
+  <button>Copy Link</button>
+</ng-template>
+
+<!-- Bottom sheet with mat-dialog-close and aria-label -->
+<ng-template matBottomSheet>
+  <h2>Confirm action</h2>
+  <p>Are you sure you want to proceed?</p>
+  <button [mat-dialog-close]="true" aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-button>Cancel</button>
+  <button mat-raised-button color="primary">Confirm</button>
+</ng-template>
+
+<!-- mat-bottom-sheet-container with heading -->
+<mat-bottom-sheet-container>
+  <h2>Settings</h2>
+  <mat-list>
+    <mat-list-item>Theme</mat-list-item>
+    <mat-list-item>Notifications</mat-list-item>
+  </mat-list>
+</mat-bottom-sheet-container>
+
+<!-- Bottom sheet with role="heading" instead of h1-h6 -->
+<ng-template #accessibleBottomSheet>
+  <div role="heading" aria-level="2">Filter Options</div>
+  <mat-selection-list>
+    <mat-list-option>Filter A</mat-list-option>
+    <mat-list-option>Filter B</mat-list-option>
+  </mat-selection-list>
+</ng-template>
+
+<!-- Bottom sheet with close button that has text content -->
+<ng-template #textCloseBottomSheet>
+  <h2>Actions</h2>
+  <button mat-button>Close</button>
+</ng-template>
+
+<!-- @a11y-fail -->
+<!-- Bottom sheet without any heading -->
+<ng-template #noHeadingBottomSheet>
+  <p>Select an option to continue:</p>
+  <ul>
+    <li>Option A</li>
+    <li>Option B</li>
+  </ul>
+</ng-template>
+
+<!-- mat-bottom-sheet-container without heading -->
+<mat-bottom-sheet-container>
+  <mat-list>
+    <mat-list-item>Item 1</mat-list-item>
+    <mat-list-item>Item 2</mat-list-item>
+  </mat-list>
+</mat-bottom-sheet-container>
+
+<!-- Bottom sheet with close button missing aria-label (icon only) -->
+<ng-template #noAriaLabelBottomSheet>
+  <h2>Share</h2>
+  <button mat-icon-button class="close-button">
+    <mat-icon>close</mat-icon>
+  </button>
+  <p>Share content here</p>
+</ng-template>
+
+<!-- Bottom sheet with mat-dialog-close but no aria-label on icon button -->
+<ng-template matBottomSheet>
+  <h3>Quick Actions</h3>
+  <button [mat-dialog-close]="false">
+    <mat-icon>cancel</mat-icon>
+  </button>
+  <button mat-button>Action 1</button>
+</ng-template>
+
+<!-- Another bottom sheet missing both heading and close button aria-label -->
+<ng-template #problematicBottomSheet>
+  <div class="sheet-content">
+    <button class="dismiss">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <span>No heading here</span>
+  </div>
+</ng-template>

@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '1.1.1',
 
   check(content) {
     const issues = [];
@@ -30,8 +31,12 @@ module.exports = {
         // Extract a snippet for context (truncate if too long)
         const snippet = fullMatch.length > 80 ? fullMatch.substring(0, 80) + '...' : fullMatch;
         issues.push(
-          `<mat-icon> missing accessibility attribute. Add aria-hidden="true" for decorative icons ` +
-          `or aria-label/aria-labelledby for informative icons. Found: ${snippet}`
+          `[Error] mat-icon missing accessibility attributes. Icons are announced incorrectly without proper ARIA\n` +
+          `  How to fix:\n` +
+          `    - Add aria-hidden="true" for decorative icons\n` +
+          `    - Add aria-label for meaningful icons\n` +
+          `  WCAG 1.1.1: Non-text Content | See: https://material.angular.io/components/icon/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }
@@ -47,8 +52,12 @@ module.exports = {
       if (!hasAriaHidden && !hasAriaLabel && !hasAriaLabelledby) {
         const snippet = fullMatch.length > 80 ? fullMatch.substring(0, 80) + '...' : fullMatch;
         issues.push(
-          `Element with [matIcon] missing accessibility attribute. Add aria-hidden="true" for decorative icons ` +
-          `or aria-label/aria-labelledby for informative icons. Found: ${snippet}`
+          `[Error] mat-icon missing accessibility attributes. Icons are announced incorrectly without proper ARIA\n` +
+          `  How to fix:\n` +
+          `    - Add aria-hidden="true" for decorative icons\n` +
+          `    - Add aria-label for meaningful icons\n` +
+          `  WCAG 1.1.1: Non-text Content | See: https://material.angular.io/components/icon/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }

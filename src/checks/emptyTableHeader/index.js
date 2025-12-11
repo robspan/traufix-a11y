@@ -32,8 +32,14 @@ module.exports = {
 
       if (!hasVisibleContent && !hasAriaLabel && !hasAriaLabelledby && !hasScreenReaderText) {
         issues.push(
-          `Found empty <th> element without text content, aria-label, or aria-labelledby. ` +
-          `Table headers must have accessible text to provide context for data cells.`
+          `[Error] Empty table header found. Screen readers cannot convey the meaning of table columns/rows without header text.\n` +
+          `  How to fix:\n` +
+          `    - Add descriptive text content to the <th> element\n` +
+          `    - Or add an aria-label attribute with descriptive text\n` +
+          `    - Or use aria-labelledby to reference another element with the header text\n` +
+          `    - Or add visually hidden text using sr-only/visually-hidden classes\n` +
+          `  WCAG 1.3.1: Info and Relationships\n` +
+          `  Found: Empty <th> element`
         );
       }
     }

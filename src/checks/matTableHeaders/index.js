@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -28,8 +29,11 @@ module.exports = {
       if (!hasHeaderRow) {
         const snippet = fullMatch.length > 100 ? fullMatch.substring(0, 100) + '...' : fullMatch;
         issues.push(
-          `<mat-table> missing <mat-header-row>. Tables must have header rows for ` +
-          `screen readers to understand the table structure. Found: ${snippet}`
+          `[Error] mat-table missing header row. Screen readers need headers to describe column data\n` +
+          `  How to fix:\n` +
+          `    - Add mat-header-row with mat-header-cell elements\n` +
+          `  WCAG 1.3.1: Info and Relationships | See: https://material.angular.io/components/table/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }
@@ -47,8 +51,11 @@ module.exports = {
       if (!hasHeaderRow) {
         const snippet = fullMatch.length > 100 ? fullMatch.substring(0, 100) + '...' : fullMatch;
         issues.push(
-          `<table mat-table> missing header row. Add <tr mat-header-row> or ` +
-          `<mat-header-row> for screen readers to understand the table structure. Found: ${snippet}`
+          `[Error] mat-table missing header row. Screen readers need headers to describe column data\n` +
+          `  How to fix:\n` +
+          `    - Add mat-header-row with mat-header-cell elements\n` +
+          `  WCAG 1.3.1: Info and Relationships | See: https://material.angular.io/components/table/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }

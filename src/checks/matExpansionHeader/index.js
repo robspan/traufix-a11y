@@ -71,9 +71,7 @@ module.exports = {
 
       if (!headerMatch) {
         issues.push(
-          `mat-expansion-panel #${panelIndex} is missing <mat-expansion-panel-header>.\n` +
-          `  Why it matters: The header is the clickable/focusable trigger for the panel. Without it,\n` +
-          `  keyboard users cannot expand/collapse the panel and screen readers lack context.\n` +
+          `[Error] mat-expansion-panel #${panelIndex} is missing <mat-expansion-panel-header>. The header is the clickable/focusable trigger - without it, keyboard users cannot expand/collapse the panel and screen readers lack context.\n` +
           `  How to fix:\n` +
           `    <mat-expansion-panel>\n` +
           `      <mat-expansion-panel-header>\n` +
@@ -81,7 +79,7 @@ module.exports = {
           `      </mat-expansion-panel-header>\n` +
           `      <!-- Panel content -->\n` +
           `    </mat-expansion-panel>\n` +
-          `  See: https://material.angular.io/components/expansion/overview`
+          `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/expansion/overview#accessibility`
         );
         continue;
       }
@@ -105,22 +103,21 @@ module.exports = {
 
         if (hasIconOnly) {
           issues.push(
-            `mat-expansion-panel #${panelIndex} header contains only an icon without accessible text.\n` +
-            `  Why it matters: Icons alone don't provide meaning to screen reader users.\n` +
+            `[Error] mat-expansion-panel #${panelIndex} header contains only an icon without accessible text. Icons alone don't provide meaning to screen reader users.\n` +
             `  How to fix (choose one):\n` +
             `    - Add aria-label to the header: <mat-expansion-panel-header aria-label="Settings">\n` +
             `    - Add mat-panel-title: <mat-panel-title>Settings</mat-panel-title>\n` +
             `    - Add visually-hidden text: <span class="cdk-visually-hidden">Settings</span>\n` +
-            `  See: https://material.angular.io/components/expansion/overview#accessibility`
+            `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/expansion/overview#accessibility`
           );
         } else {
           issues.push(
-            `mat-expansion-panel #${panelIndex} header appears to be empty or lacks accessible content.\n` +
+            `[Error] mat-expansion-panel #${panelIndex} header appears to be empty or lacks accessible content. Screen readers need text content to announce the panel's purpose.\n` +
             `  How to fix:\n` +
             `    - Add text content: <mat-expansion-panel-header>Section Name</mat-expansion-panel-header>\n` +
             `    - Use mat-panel-title: <mat-panel-title>Section Name</mat-panel-title>\n` +
             `    - Add aria-label: <mat-expansion-panel-header aria-label="Section Name">\n` +
-            `  See: https://material.angular.io/components/expansion/overview#accessibility`
+            `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/expansion/overview#accessibility`
           );
         }
       }

@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '1.4.2',
 
   check(content) {
     const issues = [];
@@ -19,17 +20,34 @@ module.exports = {
       const hasControls = /\bcontrols\b/i.test(mediaTag);
       const hasMuted = /\bmuted\b/i.test(mediaTag);
 
-      // Try to get src for better error message
-      const srcRegex = /\bsrc\s*=\s*["']([^"']*)["']/i;
-      const srcMatch = mediaTag.match(srcRegex);
-      const srcInfo = srcMatch ? ` (src="${srcMatch[1]}")` : '';
-
       if (!hasControls && !hasMuted) {
-        issues.push(`<${mediaType} autoplay>${srcInfo} should have both "controls" and "muted" attributes. Users need to be able to pause media and autoplaying audio is disorienting.`);
+        issues.push(
+          `[Error] Media autoplays without controls or muted attribute. Autoplay can interfere with screen readers and distract users\n` +
+          `  How to fix:\n` +
+          `    - Add muted attribute to prevent audio interference\n` +
+          `    - Provide controls so users can pause/stop the media\n` +
+          `    - Limit autoplay to 3 seconds or less\n` +
+          `  WCAG 1.4.2: Audio Control | See: https://www.w3.org/WAI/WCAG21/Understanding/audio-control\n` +
+          `  Found: ${mediaTag}`
+        );
       } else if (!hasControls) {
-        issues.push(`<${mediaType} autoplay>${srcInfo} should have "controls" attribute so users can pause/stop the media.`);
+        issues.push(
+          `[Error] Media autoplays without controls. Autoplay can interfere with screen readers and distract users\n` +
+          `  How to fix:\n` +
+          `    - Add controls attribute so users can pause/stop the media\n` +
+          `    - Limit autoplay to 3 seconds or less\n` +
+          `  WCAG 1.4.2: Audio Control | See: https://www.w3.org/WAI/WCAG21/Understanding/audio-control\n` +
+          `  Found: ${mediaTag}`
+        );
       } else if (!hasMuted) {
-        issues.push(`<${mediaType} autoplay>${srcInfo} should have "muted" attribute. Autoplaying audio can be disorienting for screen reader users.`);
+        issues.push(
+          `[Error] Media autoplays without muted attribute. Autoplay can interfere with screen readers and distract users\n` +
+          `  How to fix:\n` +
+          `    - Add muted attribute to prevent audio interference\n` +
+          `    - Limit autoplay to 3 seconds or less\n` +
+          `  WCAG 1.4.2: Audio Control | See: https://www.w3.org/WAI/WCAG21/Understanding/audio-control\n` +
+          `  Found: ${mediaTag}`
+        );
       }
     }
 

@@ -36,8 +36,13 @@ module.exports = {
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         issues.push(
-          `Dialog element missing focus trap: "${getSnippet(elementString)}". ` +
-          `Add cdkTrapFocus or cdkTrapFocusAutoCapture to trap keyboard focus within the dialog.`
+          `[Error] Dialog element missing focus trap. Keyboard users may become trapped or unable to navigate the dialog properly.\n` +
+          `  How to fix:\n` +
+          `    - Add cdkTrapFocus directive to the dialog element\n` +
+          `    - Or use cdkTrapFocusAutoCapture to automatically capture focus\n` +
+          `    - Ensure focus returns to the triggering element when dialog closes\n` +
+          `  WCAG 2.1.2: No Keyboard Trap | WCAG 2.4.3: Focus Order\n` +
+          `  Found: "${getSnippet(elementString)}"`
         );
       }
     }
@@ -47,8 +52,13 @@ module.exports = {
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         issues.push(
-          `mat-dialog-container missing focus trap: "${getSnippet(elementString)}". ` +
-          `Consider adding cdkTrapFocus for proper modal focus management.`
+          `[Warning] mat-dialog-container missing focus trap. Modal dialogs should trap focus for proper keyboard navigation.\n` +
+          `  How to fix:\n` +
+          `    - Add cdkTrapFocus directive to the mat-dialog-container element\n` +
+          `    - Or use cdkTrapFocusAutoCapture to automatically capture focus\n` +
+          `    - Ensure focus returns to the triggering element when dialog closes\n` +
+          `  WCAG 2.1.2: No Keyboard Trap | WCAG 2.4.3: Focus Order\n` +
+          `  Found: "${getSnippet(elementString)}"`
         );
       }
     }
@@ -58,8 +68,13 @@ module.exports = {
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         issues.push(
-          `cdk-dialog-container missing focus trap: "${getSnippet(elementString)}". ` +
-          `Consider adding cdkTrapFocus for proper modal focus management.`
+          `[Warning] cdk-dialog-container missing focus trap. Modal dialogs should trap focus for proper keyboard navigation.\n` +
+          `  How to fix:\n` +
+          `    - Add cdkTrapFocus directive to the cdk-dialog-container element\n` +
+          `    - Or use cdkTrapFocusAutoCapture to automatically capture focus\n` +
+          `    - Ensure focus returns to the triggering element when dialog closes\n` +
+          `  WCAG 2.1.2: No Keyboard Trap | WCAG 2.4.3: Focus Order\n` +
+          `  Found: "${getSnippet(elementString)}"`
         );
       }
     }

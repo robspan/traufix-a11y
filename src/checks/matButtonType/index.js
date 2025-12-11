@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '4.1.2',
 
   check(content) {
     const issues = [];
@@ -47,9 +48,11 @@ module.exports = {
         if (!validElements.includes(tagName)) {
           const snippet = fullMatch.length > 80 ? fullMatch.substring(0, 80) + '...' : fullMatch;
           issues.push(
-            `"${foundDirective}" directive applied to <${tagName}> element. ` +
-            `Material button directives should only be used on <button> or <a> elements ` +
-            `for proper accessibility. Found: ${snippet}`
+            `[Error] mat-button directive on non-button element. Semantic role is lost when mat-button is on div/span\n` +
+            `  How to fix:\n` +
+            `    - Use mat-button only on <button> or <a> elements\n` +
+            `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/button/overview#accessibility\n` +
+            `  Found: ${snippet}`
           );
         }
       }

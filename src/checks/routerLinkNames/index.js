@@ -13,6 +13,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '2.4.4',
 
   check(content) {
     const issues = [];
@@ -53,8 +54,13 @@ module.exports = {
       if (!hasAccessibleName) {
         const lineNumber = getLineNumber(content, match.index);
         issues.push(
-          `Line ${lineNumber}: <${elementName}> with routerLink has no accessible name. ` +
-          `Add text content, aria-label, or aria-labelledby to describe the link destination.`
+          `[Error] routerLink element missing accessible text. Screen readers cannot announce link destination without text\n` +
+          `  How to fix:\n` +
+            `    - Add text content\n` +
+            `    - Add aria-label attribute\n` +
+            `    - Use meaningful link text\n` +
+          `  WCAG 2.4.4: Link Purpose (In Context) | See: https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context\n` +
+          `  Found: <${elementName}> at line ${lineNumber}`
         );
       }
     }

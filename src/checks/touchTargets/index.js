@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'scss',
   weight: 7,
+  wcag: '2.5.5',
 
   check(content) {
     const issues = [];
@@ -60,9 +61,11 @@ module.exports = {
           // Check if min-height compensates
           if (!minHeightMatch || toPixels(minHeightMatch[1], minHeightMatch[2]) < minSize) {
             issues.push(
-              `Touch target too small: "${selector}" has height: ${heightMatch[1]}${heightMatch[2]} (${Math.round(heightPx)}px). ` +
-              `WCAG 2.5.5 requires minimum 44x44px touch targets. ` +
-              `Fix: Add min-height: 44px or min-height: 2.75rem to ensure adequate touch target size.`
+              `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+              `  How to fix:\n` +
+              `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+              `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+              `  Found: <${selector}> (height: ${heightMatch[1]}${heightMatch[2]} = ${Math.round(heightPx)}px)`
             );
           }
         }
@@ -75,9 +78,11 @@ module.exports = {
           // Check if min-width compensates
           if (!minWidthMatch || toPixels(minWidthMatch[1], minWidthMatch[2]) < minSize) {
             issues.push(
-              `Touch target too small: "${selector}" has width: ${widthMatch[1]}${widthMatch[2]} (${Math.round(widthPx)}px). ` +
-              `WCAG 2.5.5 requires minimum 44x44px touch targets. ` +
-              `Fix: Add min-width: 44px or min-width: 2.75rem to ensure adequate touch target size.`
+              `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+              `  How to fix:\n` +
+              `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+              `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+              `  Found: <${selector}> (width: ${widthMatch[1]}${widthMatch[2]} = ${Math.round(widthPx)}px)`
             );
           }
         }
@@ -88,9 +93,11 @@ module.exports = {
         const minHeightPx = toPixels(minHeightMatch[1], minHeightMatch[2]);
         if (minHeightPx < minSize && minHeightPx > 0) {
           issues.push(
-            `Touch target may be too small: "${selector}" has min-height: ${minHeightMatch[1]}${minHeightMatch[2]} (${Math.round(minHeightPx)}px). ` +
-            `WCAG 2.5.5 recommends minimum 44px. ` +
-            `Fix: Increase min-height to at least 44px (2.75rem).`
+            `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+            `  How to fix:\n` +
+            `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+            `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+            `  Found: <${selector}> (min-height: ${minHeightMatch[1]}${minHeightMatch[2]} = ${Math.round(minHeightPx)}px)`
           );
         }
       }
@@ -99,9 +106,11 @@ module.exports = {
         const minWidthPx = toPixels(minWidthMatch[1], minWidthMatch[2]);
         if (minWidthPx < minSize && minWidthPx > 0) {
           issues.push(
-            `Touch target may be too small: "${selector}" has min-width: ${minWidthMatch[1]}${minWidthMatch[2]} (${Math.round(minWidthPx)}px). ` +
-            `WCAG 2.5.5 recommends minimum 44px. ` +
-            `Fix: Increase min-width to at least 44px (2.75rem).`
+            `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+            `  How to fix:\n` +
+            `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+            `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+            `  Found: <${selector}> (min-width: ${minWidthMatch[1]}${minWidthMatch[2]} = ${Math.round(minWidthPx)}px)`
           );
         }
       }
@@ -116,8 +125,11 @@ module.exports = {
 
         if (fontSizePx < 24 && !hasPadding && !hasMinSize) {
           issues.push(
-            `Icon button "${selector}" may have inadequate touch target. Font-size: ${fontSizeMatch[1]}${fontSizeMatch[2]}. ` +
-            `Fix: Add padding or min-width/min-height to ensure 44x44px touch area.`
+            `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+            `  How to fix:\n` +
+            `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+            `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+            `  Found: <${selector}> (font-size: ${fontSizeMatch[1]}${fontSizeMatch[2]}, no padding or min-size)`
           );
         }
       }
@@ -134,9 +146,11 @@ module.exports = {
       // Only flag if it's a pixel value less than minimum
       if (unit === 'px' && lineHeightValue < minSize && lineHeightValue > 0) {
         issues.push(
-          `Interactive element "${selector}" has constrained line-height: ${lineHeightValue}px. ` +
-          `This may result in touch targets smaller than 44px. ` +
-          `Fix: Ensure adequate padding or min-height to meet WCAG 2.5.5 requirements.`
+          `[Error] Touch target smaller than 44x44px. Small targets are difficult to activate for users with motor impairments\n` +
+          `  How to fix:\n` +
+          `    - Ensure minimum 44x44px clickable area (padding counts)\n` +
+          `  WCAG 2.5.5: Target Size | See: https://www.w3.org/WAI/WCAG21/Understanding/target-size\n` +
+          `  Found: <${selector}> (line-height: ${lineHeightValue}px)`
         );
       }
     }

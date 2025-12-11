@@ -4,6 +4,7 @@ module.exports = {
   tier: 'full',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -33,8 +34,11 @@ module.exports = {
             ? selectMatch[0].substring(0, 80) + '...'
             : selectMatch[0];
           issues.push(
-            `<mat-select> uses placeholder attribute without <mat-label>. ` +
-            `Placeholder disappears on selection. Add <mat-label> for persistent labeling. Found: ${snippet}`
+            `[Error] mat-select using placeholder instead of label. Placeholders disappear on selection, leaving no label\n` +
+            `  How to fix:\n` +
+            `    - Use mat-label instead of placeholder attribute\n` +
+            `  WCAG 1.3.1: Info and Relationships | See: https://material.angular.io/components/select/overview#accessibility\n` +
+            `  Found: ${snippet}`
           );
         }
       }
@@ -65,8 +69,11 @@ module.exports = {
       if (hasPlaceholder && !hasAriaLabel && !hasAriaLabelledby) {
         const snippet = fullMatch.length > 80 ? fullMatch.substring(0, 80) + '...' : fullMatch;
         issues.push(
-          `Standalone <mat-select> uses placeholder without proper labeling. ` +
-          `Add aria-label or wrap in <mat-form-field> with <mat-label>. Found: ${snippet}`
+          `[Error] mat-select using placeholder instead of label. Placeholders disappear on selection, leaving no label\n` +
+          `  How to fix:\n` +
+            `    - Use mat-label instead of placeholder attribute\n` +
+          `  WCAG 1.3.1: Info and Relationships | See: https://material.angular.io/components/select/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }

@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'scss',
   weight: 3,
+  wcag: '2.1.1',
 
   check(content) {
     const issues = [];
@@ -61,8 +62,12 @@ module.exports = {
 
       if (!hasFocus) {
         issues.push(
-          `[Warning] "${selector}:hover" has styles but no corresponding :focus or :focus-visible styles found. ` +
-          `Keyboard users should have equivalent visual feedback. Consider adding "${selector}:focus" or combining them.`
+          `[Error] :hover style without matching :focus style. Keyboard users don't see hover effects, need focus equivalent\n` +
+          `  How to fix:\n` +
+          `    - Add :focus selector alongside :hover\n` +
+          `    - Or use :hover, :focus combined\n` +
+          `  WCAG 2.1.1: Keyboard | See: https://www.w3.org/WAI/WCAG21/Understanding/keyboard\n` +
+          `  Found: <${selector}:hover>`
         );
       }
     }

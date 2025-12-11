@@ -68,28 +68,30 @@ module.exports = {
     // Detect obviously problematic patterns even without pairing
     const problematicPatterns = [
       {
-        // Very light gray text (#ccc, #ddd, #eee, #fff) - almost invisible on white
-        pattern: /(?:^|[^-])color\s*:\s*#([cdef])\1\1(?![0-9a-f])/gi,
+        // Very light gray text (#ccc, #ddd, #eee) - almost invisible on white
+        // These are definite problems - #ccc on white is only 1.6:1 ratio
+        pattern: /(?:^|[^-])color\s*:\s*#([cde])\1\1(?![0-9a-f])/gi,
         msg: (match) => {
-          const color = match.match(/#[cdef]{3}/i)[0];
-          return `Very light text color "${color}" will have poor contrast on light backgrounds. ` +
-                 `FIX: Use a darker color (e.g., #666 or darker for body text).`;
+          const color = match.match(/#[cde]{3}/i)[0];
+          return `[Error] Very light text color "${color}" has insufficient contrast on light backgrounds. ` +
+                 `FIX: Use a darker color (e.g., #767676 or darker meets 4.5:1 on white).`;
         }
       },
       {
-        // Highly transparent text (opacity below 0.4)
+        // Highly transparent text (opacity below 0.4) - definitely unreadable
         pattern: /(?:^|[^-])color\s*:\s*rgba\s*\([^)]*,\s*0\.[0-3]\d*\s*\)/gi,
         msg: (match) => {
           const colorValue = match.match(/rgba\s*\([^)]+\)/i)[0];
-          return `Highly transparent text "${colorValue}" may be difficult to read. ` +
-                 `FIX: Increase opacity to at least 0.5, or use a solid color with appropriate contrast.`;
+          return `[Error] Highly transparent text "${colorValue}" is difficult to read. ` +
+                 `FIX: Increase opacity to at least 0.55 for adequate contrast.`;
         }
       },
       {
-        // White or near-white text without context
-        pattern: /(?:^|[^-])color\s*:\s*(?:#fff(?:fff)?|white|#fafafa|#f5f5f5)\s*[;}\n]/gi,
+        // White or near-white text without context - informational only
+        // This might be intentional with a dark background, so just warn
+        pattern: /(?:^|[^-])color\s*:\s*(?:#fff(?:fff)?|white)\s*[;}\n]/gi,
         msg: () => {
-          return `[Info] White/near-white text detected. Ensure it's paired with a dark background ` +
+          return `[Info] White text detected. Verify it's paired with a dark background ` +
                  `(contrast ratio 4.5:1 minimum for normal text).`;
         }
       }

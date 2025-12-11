@@ -39,12 +39,14 @@ module.exports = {
 
       if (!hasLabel && !hasLabelBinding && !hasAriaLabel && !hasAriaLabelledby && !hasMatStepLabel) {
         issues.push(
-          `mat-step #${stepIndex} is missing a label. Screen readers announce step labels for navigation. ` +
-          `Fix: Add one of the following:\n` +
-          `  - label="Step Name" attribute\n` +
-          `  - [label]="stepLabel" for dynamic labels\n` +
-          `  - <ng-template matStepLabel>Step Name</ng-template> for rich content\n` +
-          `Example: <mat-step label="Personal Info">...</mat-step>`
+          `[Error] mat-step #${stepIndex} is missing an accessible label. Screen readers cannot announce step information or provide proper navigation context without a label.\n` +
+          `  How to fix:\n` +
+          `    - Add label="Step Name" attribute for simple text labels\n` +
+          `    - Or use [label]="expression" for dynamic labels\n` +
+          `    - Or use <ng-template matStepLabel>Step Name</ng-template> for rich content with icons\n` +
+          `    - Or add aria-label="Description" or aria-labelledby="id" attributes\n` +
+          `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/stepper/overview#accessibility\n` +
+          `  Found: mat-step #${stepIndex}`
         );
       }
     }

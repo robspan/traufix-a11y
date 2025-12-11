@@ -23,6 +23,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '2.1.1',
 
   check(content) {
     const issues = [];
@@ -52,8 +53,12 @@ module.exports = {
         if (!hasKeyboardHandler) {
           const lineNumber = getLineNumber(content, match.index);
           issues.push(
-            `Line ${lineNumber}: <${elementName}> has (click) handler without keyboard handler. ` +
-            `Add (keydown.enter) or (keydown.space) for keyboard accessibility.`
+            `[Error] (click) handler without keyboard equivalent. Keyboard users cannot activate elements with mouse-only handlers\n` +
+            `  How to fix:\n` +
+            `    - Add (keydown.enter) or (keydown.space) handler\n` +
+            `    - Use button element instead\n` +
+            `  WCAG 2.1.1: Keyboard | See: https://www.w3.org/WAI/WCAG21/Understanding/keyboard\n` +
+            `  Found: <${elementName}> at line ${lineNumber}`
           );
         }
       }

@@ -4,6 +4,7 @@ module.exports = {
   tier: 'full',
   type: 'html',
   weight: 3,
+  wcag: '2.1.1',
 
   check(content) {
     const issues = [];
@@ -37,16 +38,14 @@ module.exports = {
 
       // If element is not focusable, flag it
       if (!isNaturallyFocusable && !hasTabindex && !hasTabindexBinding) {
-        let suggestion = `Add tabindex="0" to make it keyboard accessible`;
-
-        // If it has a click handler, it really should be a button
-        if (hasClickHandler) {
-          suggestion = `Consider using a <button> element, or add tabindex="0"`;
-        }
-
+        const snippet = fullMatch.length > 100 ? fullMatch.substring(0, 100) + '...' : fullMatch;
         issues.push(
-          `matTooltip on <${tagName}> is not keyboard accessible. ` +
-          `Keyboard users cannot focus this element to see the tooltip. ${suggestion}.`
+          `[Error] matTooltip on non-focusable element. Keyboard users cannot access tooltip content\n` +
+          `  How to fix:\n` +
+          `    - Add tabindex="0" to make element focusable\n` +
+          `    - Use on button/link instead\n` +
+          `  WCAG 2.1.1: Keyboard | See: https://material.angular.io/components/tooltip/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }

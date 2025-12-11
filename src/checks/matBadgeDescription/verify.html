@@ -1,0 +1,41 @@
+<!-- @a11y-pass -->
+<!-- Static matBadge with static matBadgeDescription -->
+<span matBadge="5" matBadgeDescription="5 unread messages">Inbox</span>
+
+<!-- Bound matBadge with bound matBadgeDescription -->
+<span [matBadge]="unreadCount" [matBadgeDescription]="badgeDescription">Notifications</span>
+
+<!-- Static matBadge with bound matBadgeDescription -->
+<button mat-button matBadge="3" [matBadgeDescription]="'3 new items'">Cart</button>
+
+<!-- Bound matBadge with static matBadgeDescription -->
+<div [matBadge]="count" matBadgeDescription="Number of alerts">Alerts</div>
+
+<!-- Hidden badge (static true) - description not required -->
+<span matBadge="0" matBadgeHidden="true">Empty</span>
+
+<!-- Hidden badge with description (valid but description not needed) -->
+<span matBadge="5" matBadgeHidden="true" matBadgeDescription="5 items">Hidden badge</span>
+
+<!-- Complex element with multiple attributes -->
+<button mat-raised-button color="primary" matBadge="99+" matBadgePosition="above after" matBadgeDescription="99 or more notifications">
+  Notifications
+</button>
+
+<!-- @a11y-fail -->
+<!-- Static matBadge without description -->
+<span matBadge="5">Inbox</span>
+
+<!-- Bound matBadge without description -->
+<span [matBadge]="messageCount">Messages</span>
+
+<!-- matBadge on button without description -->
+<button mat-icon-button matBadge="3">
+  <mat-icon>shopping_cart</mat-icon>
+</button>
+
+<!-- matBadge with other attributes but no description -->
+<div matBadge="!" matBadgeColor="warn" matBadgeSize="small">Warning</div>
+
+<!-- Bound matBadge with position but no description -->
+<span [matBadge]="count" matBadgePosition="below before">Items</span>

@@ -35,9 +35,14 @@ module.exports = {
               : '';
 
           issues.push(
-            `Invalid "scope" attribute on <${tagName}> element${valueInfo}. ` +
-            `The scope attribute is only valid on <th> (table header) elements. ` +
-            `FIX: Remove the scope attribute from <${tagName}>, or if this should be a header cell, change <${tagName}> to <th>.`
+            `[Error] Invalid "scope" attribute on <${tagName}> element${valueInfo}. ` +
+            `The scope attribute is only valid on <th> elements and helps screen readers understand table structure.\n` +
+            `  How to fix:\n` +
+            `    - Remove the scope attribute from <${tagName}> element\n` +
+            `    - If this should be a header cell, change <${tagName}> to <th> and use scope="row" or scope="col"\n` +
+            `    - Use scope="rowgroup" or scope="colgroup" for headers spanning multiple rows/columns\n` +
+            `  WCAG 1.3.1: Info and Relationships (Level A)\n` +
+            `  Found: <${tagName}> with scope attribute`
           );
         }
       }
@@ -56,9 +61,14 @@ module.exports = {
           seenElements.add(key);
 
           issues.push(
-            `Invalid "scope" attribute on <${tagName}> element. ` +
-            `The scope attribute is only valid on <th> (table header) elements. ` +
-            `FIX: Remove the scope attribute from <${tagName}>, or if this should be a header cell, change <${tagName}> to <th>.`
+            `[Error] Invalid "scope" attribute on <${tagName}> element. ` +
+            `The scope attribute is only valid on <th> elements and helps screen readers understand table structure.\n` +
+            `  How to fix:\n` +
+            `    - Remove the scope attribute from <${tagName}> element\n` +
+            `    - If this should be a header cell, change <${tagName}> to <th> and use scope="row" or scope="col"\n` +
+            `    - Use scope="rowgroup" or scope="colgroup" for headers spanning multiple rows/columns\n` +
+            `  WCAG 1.3.1: Info and Relationships (Level A)\n` +
+            `  Found: <${tagName}> with scope attribute`
           );
         }
       }

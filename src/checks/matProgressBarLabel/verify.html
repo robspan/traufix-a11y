@@ -1,0 +1,35 @@
+<!-- @a11y-pass -->
+<!-- mat-progress-bar with static aria-label -->
+<mat-progress-bar mode="determinate" value="50" aria-label="Loading data"></mat-progress-bar>
+
+<!-- mat-progress-bar with Angular binding [aria-label] -->
+<mat-progress-bar mode="indeterminate" [aria-label]="progressLabel"></mat-progress-bar>
+
+<!-- mat-progress-bar with aria-labelledby -->
+<span id="upload-label">Uploading files</span>
+<mat-progress-bar mode="buffer" aria-labelledby="upload-label"></mat-progress-bar>
+
+<!-- mat-progress-bar with Angular binding [aria-labelledby] -->
+<mat-progress-bar mode="query" [aria-labelledby]="labelId"></mat-progress-bar>
+
+<!-- mat-progress-bar with attr.aria-label binding -->
+<mat-progress-bar [attr.aria-label]="'Processing request'"></mat-progress-bar>
+
+<!-- Self-closing mat-progress-bar with aria-label -->
+<mat-progress-bar mode="determinate" value="75" aria-label="Download progress"/>
+
+<!-- @a11y-fail -->
+<!-- mat-progress-bar without any label -->
+<mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+
+<!-- mat-progress-bar mode="indeterminate" without label -->
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
+<!-- Self-closing mat-progress-bar without label -->
+<mat-progress-bar mode="buffer" value="30"/>
+
+<!-- mat-progress-bar with empty aria-label (should fail) -->
+<mat-progress-bar mode="query" aria-label=""></mat-progress-bar>
+
+<!-- mat-progress-bar with only other attributes, no label -->
+<mat-progress-bar mode="determinate" value="100" color="primary"></mat-progress-bar>

@@ -44,8 +44,14 @@ module.exports = {
           const identifier = idMatch ? ` (id="${idMatch[1]}")` : '';
 
           issues.push(
-            `<input type="${type}">${identifier} inside <form> is missing a name attribute. ` +
-            `Fix: Add name="fieldName" for form submission, or use formControlName for reactive forms.`
+            `[Error] Form field <input type="${type}">${identifier} is missing a name attribute. ` +
+            `Form fields must be properly identified for form submission and assistive technologies.\n` +
+            `  How to fix:\n` +
+            `    - Add name="fieldName" for standard HTML forms\n` +
+            `    - Use [formControlName]="'controlName'" for Angular Reactive Forms\n` +
+            `    - Use name="fieldName" [(ngModel)]="model" for Template-driven Forms\n` +
+            `  WCAG 4.1.2: Name, Role, Value | WCAG 3.3.2: Labels or Instructions\n` +
+            `  Found: <input type="${type}">${identifier}`
           );
         }
       }
@@ -67,8 +73,14 @@ module.exports = {
           const identifier = idMatch ? ` (id="${idMatch[1]}")` : '';
 
           issues.push(
-            `<select>${identifier} inside <form> is missing a name attribute. ` +
-            `Fix: Add name="fieldName" for form submission, or use formControlName for reactive forms.`
+            `[Error] Form field <select>${identifier} is missing a name attribute. ` +
+            `Form fields must be properly identified for form submission and assistive technologies.\n` +
+            `  How to fix:\n` +
+            `    - Add name="fieldName" for standard HTML forms\n` +
+            `    - Use [formControlName]="'controlName'" for Angular Reactive Forms\n` +
+            `    - Use name="fieldName" [(ngModel)]="model" for Template-driven Forms\n` +
+            `  WCAG 4.1.2: Name, Role, Value | WCAG 3.3.2: Labels or Instructions\n` +
+            `  Found: <select>${identifier}`
           );
         }
       }
@@ -90,8 +102,14 @@ module.exports = {
           const identifier = idMatch ? ` (id="${idMatch[1]}")` : '';
 
           issues.push(
-            `<textarea>${identifier} inside <form> is missing a name attribute. ` +
-            `Fix: Add name="fieldName" for form submission, or use formControlName for reactive forms.`
+            `[Error] Form field <textarea>${identifier} is missing a name attribute. ` +
+            `Form fields must be properly identified for form submission and assistive technologies.\n` +
+            `  How to fix:\n` +
+            `    - Add name="fieldName" for standard HTML forms\n` +
+            `    - Use [formControlName]="'controlName'" for Angular Reactive Forms\n` +
+            `    - Use name="fieldName" [(ngModel)]="model" for Template-driven Forms\n` +
+            `  WCAG 4.1.2: Name, Role, Value | WCAG 3.3.2: Labels or Instructions\n` +
+            `  Found: <textarea>${identifier}`
           );
         }
       }

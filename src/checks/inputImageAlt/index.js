@@ -43,21 +43,36 @@ module.exports = {
 
       if (!altMatch && !hasAltBinding && !ariaLabelMatch) {
         issues.push(
-          `Line ${lineNumber}: <input type="image">${srcInfo} is missing accessible name. ` +
-          `FIX: Add alt attribute describing the button action (e.g., alt="Submit form" or alt="Search"). ` +
-          `The alt text should describe what happens when clicked, not the image itself.`
+          `[Error] Line ${lineNumber}: <input type="image"> is missing accessible name. ` +
+          `Image buttons must have text alternatives describing their purpose for screen reader users.\n` +
+          `  How to fix:\n` +
+          `    - Add alt="Description of action" (e.g., alt="Submit form", alt="Search")\n` +
+          `    - Or use aria-label="Description of action" as an alternative\n` +
+          `    - Describe what happens when clicked, not the image appearance\n` +
+          `    - Avoid generic text like "button" or "image"\n` +
+          `  WCAG 1.1.1: Non-text Content\n` +
+          `  Found: <input type="image">${srcInfo}`
         );
       } else if (altMatch && !altMatch[1].trim() && !hasAltBinding) {
         issues.push(
-          `Line ${lineNumber}: <input type="image">${srcInfo} has an empty alt attribute. ` +
-          `FIX: Provide descriptive alt text for the button action. ` +
-          `Example: alt="Submit", alt="Search", alt="Go to next page". ` +
-          `Avoid generic text like "button" or "image".`
+          `[Error] Line ${lineNumber}: <input type="image"> has empty alt attribute. ` +
+          `Empty alt text provides no information to screen reader users about the button's purpose.\n` +
+          `  How to fix:\n` +
+          `    - Provide descriptive alt text: alt="Submit", alt="Search", alt="Go to next page"\n` +
+          `    - Describe the action performed, not the image appearance\n` +
+          `    - Keep it concise but meaningful (e.g., "Add to cart" not "button")\n` +
+          `  WCAG 1.1.1: Non-text Content\n` +
+          `  Found: <input type="image">${srcInfo}`
         );
       } else if (ariaLabelMatch && !ariaLabelMatch[1].trim()) {
         issues.push(
-          `Line ${lineNumber}: <input type="image">${srcInfo} has an empty aria-label. ` +
-          `FIX: Provide descriptive text for the button action in the aria-label attribute.`
+          `[Error] Line ${lineNumber}: <input type="image"> has empty aria-label. ` +
+          `Empty aria-label provides no information to screen reader users about the button's purpose.\n` +
+          `  How to fix:\n` +
+          `    - Provide descriptive text in aria-label attribute\n` +
+          `    - Example: aria-label="Submit form" or aria-label="Search"\n` +
+          `  WCAG 1.1.1: Non-text Content\n` +
+          `  Found: <input type="image">${srcInfo}`
         );
       }
     }

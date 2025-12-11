@@ -18,8 +18,13 @@ module.exports = {
 
       issues.push(
         `[Warning] "${selector}" uses "text-align: justify" which creates uneven word spacing. ` +
-        `This can cause readability issues for users with dyslexia due to "rivers" of white space. ` +
-        `Consider using "text-align: left" (or "start") for better readability.`
+        `This causes readability issues for users with dyslexia, cognitive disabilities, or low vision due to "rivers" of white space.\n` +
+        `  How to fix:\n` +
+        `    - Use "text-align: left" (or "start" for RTL language support) instead\n` +
+        `    - If justification is required for design reasons, ensure text can be overridden by user stylesheets\n` +
+        `    - Test readability with users who have cognitive disabilities\n` +
+        `  WCAG 1.4.8: Visual Presentation (Level AAA)\n` +
+        `  Found: text-align: justify on "${selector}"`
       );
     }
 

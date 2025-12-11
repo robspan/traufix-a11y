@@ -67,12 +67,15 @@ module.exports = {
 
           if (!isAcceptable) {
             issues.push(
-              `"user-select: none" on "${fullSelector}" prevents text selection. ` +
-              `This is an accessibility barrier for users who need to copy text for translation, ` +
-              `text-to-speech, or note-taking. ` +
-              `Fix: Remove user-select: none from large containers, or limit it to specific ` +
-              `interactive elements like drag handles, sliders, or icon buttons where text selection ` +
-              `would interfere with functionality.`
+              `[Warning] "user-select: none" on "${fullSelector}" prevents text selection. ` +
+              `This creates an accessibility barrier for users who need to copy text for translation, text-to-speech, or note-taking.\n` +
+              `  How to fix:\n` +
+              `    - Remove user-select: none from large containers (body, main, sections)\n` +
+              `    - Limit it to specific interactive elements where text selection interferes with functionality\n` +
+              `    - Acceptable use cases: drag handles, sliders, icon buttons, carousels\n` +
+              `    - Ensure users can still select and copy important content\n` +
+              `  WCAG 1.3.1: Info and Relationships (Level A) / Usability concern\n` +
+              `  Found: user-select: none on "${fullSelector}"`
             );
           }
         }

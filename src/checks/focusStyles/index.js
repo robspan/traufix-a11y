@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'scss',
   weight: 7,
+  wcag: '2.4.7',
 
   check(content) {
     const issues = [];
@@ -40,9 +41,11 @@ module.exports = {
             // Extract a cleaner selector for the message
             const cleanSelector = selector.replace(/\s+/g, ' ').substring(0, 60);
             issues.push(
-              `Focus indicator removed without alternative in "${cleanSelector}". ` +
-              `"outline: none" removes the default keyboard focus indicator. ` +
-              `FIX: Add a visible alternative like box-shadow, border-color change, or background-color change on :focus/:focus-visible.`
+              `[Error] Interactive element missing focus styles. Keyboard users cannot see which element has focus\n` +
+              `  How to fix:\n` +
+              `    - Add :focus styles with outline, box-shadow, or border\n` +
+              `  WCAG 2.4.7: Focus Visible | See: https://www.w3.org/WAI/WCAG21/Understanding/focus-visible\n` +
+              `  Found: <${cleanSelector}>`
             );
           }
         }
@@ -59,9 +62,12 @@ module.exports = {
 
       if (!hasFocusVisibleCompensation) {
         issues.push(
-          `Global focus outline removal detected. Removing outline on all elements or :focus globally ` +
-          `hides the keyboard focus indicator from all users. ` +
-          `FIX: Use :focus-visible instead to only hide outline for mouse users, or provide visible alternatives.`
+          `[Error] Interactive element missing focus styles. Keyboard users cannot see which element has focus\n` +
+          `  How to fix:\n` +
+          `    - Add :focus styles with outline, box-shadow, or border\n` +
+          `    - Use :focus-visible instead to only hide outline for mouse users\n` +
+          `  WCAG 2.4.7: Focus Visible | See: https://www.w3.org/WAI/WCAG21/Understanding/focus-visible\n` +
+          `  Found: <global focus outline removal>`
         );
       }
     }

@@ -1,0 +1,54 @@
+<!-- @a11y-pass -->
+<!-- mat-paginator with static aria-label -->
+<mat-paginator aria-label="Table pagination"></mat-paginator>
+
+<!-- mat-paginator with aria-labelledby -->
+<span id="user-table-label">Users table pagination</span>
+<mat-paginator aria-labelledby="user-table-label"></mat-paginator>
+
+<!-- mat-paginator with Angular binding [aria-label] -->
+<mat-paginator [aria-label]="paginatorLabel"></mat-paginator>
+
+<!-- mat-paginator with Angular binding [aria-labelledby] -->
+<mat-paginator [aria-labelledby]="labelId"></mat-paginator>
+
+<!-- mat-paginator with attr.aria-label binding -->
+<mat-paginator [attr.aria-label]="'Products pagination'"></mat-paginator>
+
+<!-- mat-paginator with attr.aria-labelledby binding -->
+<mat-paginator [attr.aria-labelledby]="paginationLabelId"></mat-paginator>
+
+<!-- Self-closing mat-paginator with aria-label -->
+<mat-paginator aria-label="Order history pagination"/>
+
+<!-- mat-paginator with common attributes and proper aria-label -->
+<mat-paginator
+  [pageSize]="10"
+  [length]="totalItems"
+  [pageSizeOptions]="[5, 10, 25]"
+  aria-label="Search results pagination">
+</mat-paginator>
+
+<!-- @a11y-fail -->
+<!-- mat-paginator without any label -->
+<mat-paginator></mat-paginator>
+
+<!-- mat-paginator with [pageSize] and [length] but no aria-label -->
+<mat-paginator
+  [pageSize]="10"
+  [length]="totalItems"
+  [pageSizeOptions]="[5, 10, 25]">
+</mat-paginator>
+
+<!-- Self-closing mat-paginator without label -->
+<mat-paginator [pageSize]="25"/>
+
+<!-- mat-paginator with empty aria-label -->
+<mat-paginator aria-label=""></mat-paginator>
+
+<!-- mat-paginator with showFirstLastButtons but no label -->
+<mat-paginator
+  [length]="100"
+  [pageSize]="10"
+  showFirstLastButtons>
+</mat-paginator>

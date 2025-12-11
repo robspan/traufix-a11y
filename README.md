@@ -2,7 +2,7 @@
 
 Static accessibility analyzer for Angular/HTML templates with full Lighthouse audit coverage.
 
-**67 checks** | **3 tiers** | **Angular Material support** | **WCAG 2.1 contrast calculation**
+**82 checks** | **3 tiers** | **100% Angular Material coverage** | **WCAG 2.1 contrast calculation**
 
 ## Quick Start
 
@@ -92,23 +92,23 @@ src/core/
 | Tier | Checks | Best For |
 |------|--------|----------|
 | **basic** | 20 | Quick CI checks, small projects |
-| **enhanced** | 40 | Angular apps, daily development (default) |
-| **full** | 67 | Production audits, maximum coverage |
+| **enhanced** | 37 | Angular apps, daily development (default) |
+| **full** | 82 | Production audits, maximum coverage |
 
 ### Basic (20 checks)
 Core Lighthouse accessibility audits:
 - HTML: buttons, images, forms, ARIA, headings, links, tables, iframes, videos
 - SCSS: color contrast, focus styles, touch targets
 
-### Enhanced (40 checks)
+### Enhanced (37 checks)
 Basic + Angular + common Material:
 - Angular: `(click)` handlers, `routerLink`, `*ngFor` trackBy
 - Material: `mat-icon`, `mat-form-field`, `mat-button`, `mat-table`
 - Extra HTML: viewport, skip links, autoplay media
 
-### Full (67 checks)
-Everything:
-- All Material: dialogs, sliders, menus, tabs, steppers, chips, expansion panels
+### Full (82 checks)
+Everything including 100% Angular Material coverage:
+- All Material components (29 checks): autocomplete, datepicker, radio, checkbox, slider, progress, badge, sidenav, tree, paginator, and more
 - CDK: focus trapping, aria describer, live announcer
 - All SCSS: animations, font sizes, line heights, text-align
 
@@ -406,92 +406,157 @@ module.exports = {
 - Follow existing naming conventions (camelCase)
 - Document any WCAG criteria the check addresses
 
+## Understanding Issues
+
+When traufix-a11y finds accessibility issues, it provides structured output that's both human-readable and machine-parseable.
+
+### Issue Format
+
+```
+[Severity] What's wrong. Why it matters for accessibility
+  How to fix:
+    - Option 1
+    - Option 2
+  WCAG X.X.X: Criterion Name | See: documentation-url
+  Found: <the offending code>
+```
+
+### Severity Levels
+
+| Level | Meaning | Action |
+|-------|---------|--------|
+| `[Error]` | Definite accessibility barrier | Must fix |
+| `[Warning]` | Potential issue or edge case | Should review |
+| `[Info]` | Informational, may be intentional | Verify correct |
+
+### Programmatic Parsing
+
+Issues follow a consistent format for CI integration:
+
+```javascript
+const { parseIssue } = require('traufix-a11y/src/core/issue-format');
+
+// Parse an issue string to structured object
+const parsed = parseIssue(issueString);
+console.log(parsed.severity);  // 'error' | 'warning' | 'info'
+console.log(parsed.message);   // What's wrong
+console.log(parsed.why);       // Why it matters
+console.log(parsed.fix);       // Array of fix suggestions
+console.log(parsed.wcag);      // WCAG criterion or null
+console.log(parsed.element);   // The offending code
+```
+
+### WCAG References
+
+Each issue references the relevant WCAG 2.1 Success Criterion:
+- **1.x.x** = Perceivable (images, media, structure)
+- **2.x.x** = Operable (keyboard, timing, navigation)
+- **3.x.x** = Understandable (language, predictable, input)
+- **4.x.x** = Robust (parsing, name/role/value)
+
+Learn more: [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)
+
 ## Checks Reference
 
 ### HTML Checks (23)
 
-| Check | Description |
-|-------|-------------|
-| buttonNames | Buttons must have accessible names |
-| imageAlt | Images must have alt attributes |
-| formLabels | Form controls must have labels |
-| ariaRoles | ARIA roles must be valid |
-| ariaAttributes | ARIA attributes must have valid values |
-| uniqueIds | IDs must be unique |
-| headingOrder | Headings must follow logical order |
-| linkNames | Links must have accessible names |
-| listStructure | Lists must have proper structure |
-| dlStructure | Definition lists must use proper markup |
-| tableHeaders | Tables must have headers |
-| iframeTitles | Iframes must have titles |
-| videoCaptions | Videos should have captions |
-| objectAlt | Objects must have alt text |
-| accesskeyUnique | Accesskey values must be unique |
-| tabindex | No positive tabindex values |
-| ariaHiddenBody | Body cannot have aria-hidden |
-| htmlHasLang | HTML must have lang attribute |
-| metaViewport | Viewport must allow zooming |
-| skipLink | Skip navigation link should exist |
-| inputImageAlt | Input images must have alt |
-| autoplayMedia | Autoplay media must be muted with controls |
-| marqueeElement | Marquee element not allowed |
+| Check | WCAG | Description |
+|-------|------|-------------|
+| buttonNames | 4.1.2 | Buttons must have accessible names |
+| imageAlt | 1.1.1 | Images must have alt attributes |
+| formLabels | 1.3.1 | Form controls must have labels |
+| ariaRoles | 4.1.2 | ARIA roles must be valid |
+| ariaAttributes | 4.1.2 | ARIA attributes must have valid values |
+| uniqueIds | 4.1.1 | IDs must be unique |
+| headingOrder | 1.3.1 | Headings must follow logical order |
+| linkNames | 2.4.4 | Links must have accessible names |
+| listStructure | 1.3.1 | Lists must have proper structure |
+| dlStructure | 1.3.1 | Definition lists must use proper markup |
+| tableHeaders | 1.3.1 | Tables must have headers |
+| iframeTitles | 2.4.1 | Iframes must have titles |
+| videoCaptions | 1.2.2 | Videos should have captions |
+| objectAlt | 1.1.1 | Objects must have alt text |
+| accesskeyUnique | 4.1.1 | Accesskey values must be unique |
+| tabindex | 2.4.3 | No positive tabindex values |
+| ariaHiddenBody | 4.1.2 | Body cannot have aria-hidden |
+| htmlHasLang | 3.1.1 | HTML must have lang attribute |
+| metaViewport | 1.4.4 | Viewport must allow zooming |
+| skipLink | 2.4.1 | Skip navigation link should exist |
+| inputImageAlt | 1.1.1 | Input images must have alt |
+| autoplayMedia | 1.4.2 | Autoplay media must be muted with controls |
+| marqueeElement | 2.2.2 | Marquee element not allowed |
 
 ### Angular Checks (6)
 
-| Check | Description |
-|-------|-------------|
-| clickWithoutKeyboard | (click) needs keyboard handler |
-| clickWithoutRole | (click) needs role and tabindex |
-| routerLinkNames | routerLink needs accessible name |
-| ngForTrackBy | *ngFor should have trackBy |
-| innerHtmlUsage | [innerHTML] usage warning |
-| asyncPipeAria | Async pipe content needs aria-live |
+| Check | WCAG | Description |
+|-------|------|-------------|
+| clickWithoutKeyboard | 2.1.1 | (click) needs keyboard handler |
+| clickWithoutRole | 4.1.2 | (click) needs role and tabindex |
+| routerLinkNames | 2.4.4 | routerLink needs accessible name |
+| ngForTrackBy | - | *ngFor should have trackBy (performance) |
+| innerHtmlUsage | - | [innerHTML] usage warning |
+| asyncPipeAria | 4.1.3 | Async pipe content needs aria-live |
 
-### Angular Material Checks (14)
+### Angular Material Checks (29)
 
-| Check | Description |
-|-------|-------------|
-| matIconAccessibility | mat-icon needs aria-hidden or aria-label |
-| matFormFieldLabel | mat-form-field needs mat-label |
-| matSelectPlaceholder | mat-select needs label, not just placeholder |
-| matButtonType | mat-button only on button/a elements |
-| matDialogFocus | mat-dialog needs focus management |
-| matTableHeaders | mat-table needs header row |
-| matChipListLabel | mat-chip-list needs aria-label |
-| matSliderLabel | mat-slider needs label |
-| matMenuTrigger | Menu trigger needs accessible name |
-| matTooltipKeyboard | matTooltip needs focusable host |
-| matExpansionHeader | Expansion panel needs header |
-| matTabLabel | mat-tab needs label |
-| matStepLabel | mat-step needs label |
-| matSnackbarPoliteness | Snackbar politeness warning |
+| Check | WCAG | Description |
+|-------|------|-------------|
+| matFormFieldLabel | 1.3.1 | mat-form-field needs mat-label |
+| matSelectPlaceholder | 1.3.1 | mat-select needs label, not just placeholder |
+| matAutocompleteLabel | 4.1.2 | mat-autocomplete input needs aria-label |
+| matDatepickerLabel | 4.1.2 | mat-datepicker input needs label |
+| matRadioGroupLabel | 1.3.1 | mat-radio-group needs group label |
+| matSlideToggleLabel | 4.1.2 | mat-slide-toggle needs label |
+| matCheckboxLabel | 4.1.2 | mat-checkbox needs label |
+| matChipListLabel | 4.1.2 | mat-chip-list needs aria-label |
+| matSliderLabel | 4.1.2 | mat-slider needs label |
+| matButtonType | 4.1.2 | mat-button only on button/a elements |
+| matIconAccessibility | 1.1.1 | mat-icon needs aria-hidden or aria-label |
+| matButtonToggleLabel | 4.1.2 | mat-button-toggle-group needs label |
+| matProgressBarLabel | 1.1.1 | mat-progress-bar needs aria-label |
+| matProgressSpinnerLabel | 1.1.1 | mat-progress-spinner needs aria-label |
+| matBadgeDescription | 1.1.1 | matBadge needs matBadgeDescription |
+| matMenuTrigger | 4.1.2 | Menu trigger needs accessible name |
+| matSidenavA11y | 4.1.2 | mat-sidenav needs role or label |
+| matTabLabel | 4.1.2 | mat-tab needs label |
+| matStepLabel | 4.1.2 | mat-step needs label |
+| matExpansionHeader | 4.1.2 | Expansion panel needs header |
+| matTreeA11y | 4.1.2 | mat-tree needs aria-label |
+| matListSelectionLabel | 4.1.2 | mat-selection-list needs label |
+| matTableHeaders | 1.3.1 | mat-table needs header row |
+| matPaginatorLabel | 4.1.2 | mat-paginator needs aria-label |
+| matSortHeaderAnnounce | 4.1.2 | mat-sort-header needs sortActionDescription |
+| matDialogFocus | 2.4.3 | mat-dialog needs focus management |
+| matBottomSheetA11y | 2.4.3 | mat-bottom-sheet needs heading |
+| matTooltipKeyboard | 2.1.1 | matTooltip needs focusable host |
+| matSnackbarPoliteness | 4.1.3 | Snackbar politeness setting |
 
 ### CDK Checks (3)
 
-| Check | Description |
-|-------|-------------|
-| cdkTrapFocusDialog | Dialogs should trap focus |
-| cdkAriaDescriber | Complex widgets may need descriptions |
-| cdkLiveAnnouncer | Dynamic content may need announcements |
+| Check | WCAG | Description |
+|-------|------|-------------|
+| cdkTrapFocusDialog | 2.4.3 | Dialogs should trap focus |
+| cdkAriaDescriber | 4.1.2 | Complex widgets may need descriptions |
+| cdkLiveAnnouncer | 4.1.3 | Dynamic content may need announcements |
 
 ### SCSS Checks (14)
 
-| Check | Description |
-|-------|-------------|
-| colorContrast | WCAG 2.1 AA color contrast |
-| focusStyles | Interactive elements need focus indicators |
-| touchTargets | Minimum 44x44px touch targets |
-| outlineNoneWithoutAlt | outline:none needs alternative focus |
-| prefersReducedMotion | Animations should respect motion preference |
-| userSelectNone | user-select:none warning |
-| pointerEventsNone | pointer-events:none on interactive elements |
-| visibilityHiddenUsage | visibility:hidden usage info |
-| focusWithinSupport | Complex components may need :focus-within |
-| hoverWithoutFocus | :hover should have matching :focus |
-| contentOverflow | overflow:hidden may hide content |
-| smallFontSize | Font sizes below 12px warning |
-| lineHeightTight | line-height below 1.2 warning |
-| textJustify | text-align:justify readability warning |
+| Check | WCAG | Description |
+|-------|------|-------------|
+| colorContrast | 1.4.3 | WCAG 2.1 AA color contrast (4.5:1) |
+| focusStyles | 2.4.7 | Interactive elements need focus indicators |
+| touchTargets | 2.5.5 | Minimum 44x44px touch targets |
+| outlineNoneWithoutAlt | 2.4.7 | outline:none needs alternative focus |
+| prefersReducedMotion | 2.3.3 | Animations should respect motion preference |
+| userSelectNone | - | user-select:none warning |
+| pointerEventsNone | 2.1.1 | pointer-events:none on interactive elements |
+| visibilityHiddenUsage | - | visibility:hidden usage info |
+| focusWithinSupport | 2.4.7 | Complex components may need :focus-within |
+| hoverWithoutFocus | 2.1.1 | :hover should have matching :focus |
+| contentOverflow | 1.4.4 | overflow:hidden may hide content |
+| smallFontSize | 1.4.4 | Font sizes below 12px warning |
+| lineHeightTight | 1.4.12 | line-height below 1.2 warning |
+| textJustify | 1.4.8 | text-align:justify readability warning |
 
 ---
 

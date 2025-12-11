@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -14,7 +15,13 @@ module.exports = {
       const hasRoleList = /role=["']list["'][\s\S]*<li|role=["']listitem["']/i.test(content);
 
       if (!hasProperList && !hasRoleList) {
-        issues.push('<li> element not inside <ul>, <ol>, or <menu>');
+        const message = `[Error] Invalid list structure. Improper list markup breaks screen reader list navigation
+  How to fix:
+    - Use ul/ol with li children only
+    - Don't nest list items improperly
+  WCAG 1.3.1: Info and Relationships | See: https://www.w3.org/WAI/tutorials/page-structure/content/#lists
+  Found: <li>`;
+        issues.push(message);
       }
     }
 

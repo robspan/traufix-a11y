@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -27,8 +28,11 @@ module.exports = {
           ? fullMatch.substring(0, 100) + '...'
           : fullMatch;
         issues.push(
-          `<mat-form-field> missing <mat-label> element. Add a <mat-label> to provide ` +
-          `an accessible label for the form field. Found: ${snippet}`
+          `[Error] mat-form-field missing mat-label. Form fields need visible labels for accessibility\n` +
+          `  How to fix:\n` +
+          `    - Add <mat-label>Label text</mat-label> inside mat-form-field\n` +
+          `  WCAG 1.3.1: Info and Relationships | See: https://material.angular.io/components/form-field/overview#accessibility\n` +
+          `  Found: ${snippet}`
         );
       }
     }

@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 10,
+  wcag: '4.1.1',
 
   check(content) {
     const issues = [];
@@ -56,10 +57,11 @@ module.exports = {
         const elementTypes = [...new Set(occurrences.map(o => o.elementTag))].join(', ');
 
         issues.push(
-          `Duplicate ID "${id}" found ${occurrences.length} times (on: ${elementTypes}). ` +
-          `Each ID must be unique within a document per HTML specification and WCAG 4.1.1. ` +
-          `Fix: Use unique IDs for each element, or use classes for styling multiple elements. ` +
-          `Duplicate IDs break label associations, fragment identifiers, and JavaScript selectors.`
+          `[Error] Duplicate ID found. IDs must be unique for labels, ARIA references, and focus management\n` +
+          `  How to fix:\n` +
+          `    - Ensure each ID is unique in the document\n` +
+          `  WCAG 4.1.1: Parsing | See: https://www.w3.org/TR/WCAG21/#parsing\n` +
+          `  Found: <${elementTypes} id="${id}"> (${occurrences.length} occurrences)`
         );
       }
     }
@@ -69,9 +71,12 @@ module.exports = {
     const emptyMatches = content.match(emptyIdPattern);
     if (emptyMatches && emptyMatches.length > 0) {
       issues.push(
-        `Found ${emptyMatches.length} empty ID attribute(s). ` +
-        `Empty IDs are invalid HTML and can cause issues with accessibility tools. ` +
-        `Fix: Either provide a meaningful ID value or remove the id attribute entirely.`
+        `[Error] Empty ID attribute found. IDs must be unique for labels, ARIA references, and focus management\n` +
+        `  How to fix:\n` +
+        `    - Provide a meaningful ID value\n` +
+        `    - Remove the id attribute entirely if not needed\n` +
+        `  WCAG 4.1.1: Parsing | See: https://www.w3.org/TR/WCAG21/#parsing\n` +
+        `  Found: id="" (${emptyMatches.length} occurrences)`
       );
     }
 
@@ -79,9 +84,11 @@ module.exports = {
     for (const [id] of idOccurrences) {
       if (/^\d/.test(id)) {
         issues.push(
-          `ID "${id}" starts with a number. While valid in HTML5, IDs starting with numbers ` +
-          `cannot be used in CSS selectors without escaping and may cause issues. ` +
-          `Fix: Prefix numeric IDs with a letter (e.g., "item-${id}" instead of "${id}").`
+          `[Error] ID starts with a number. IDs starting with numbers cannot be used in CSS selectors without escaping\n` +
+          `  How to fix:\n` +
+          `    - Prefix numeric IDs with a letter (e.g., "item-${id}" instead of "${id}")\n` +
+          `  WCAG 4.1.1: Parsing | See: https://www.w3.org/TR/WCAG21/#parsing\n` +
+          `  Found: id="${id}"`
         );
       }
     }

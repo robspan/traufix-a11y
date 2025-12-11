@@ -21,6 +21,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 10,
+  wcag: '4.1.2',
 
   check(content) {
     const issues = [];
@@ -30,7 +31,14 @@ module.exports = {
     while ((match = roleRegex.exec(content)) !== null) {
       const role = match[1].toLowerCase();
       if (!VALID_ARIA_ROLES.includes(role)) {
-        issues.push(`Invalid ARIA role: "${role}"`);
+        issues.push(
+          `[Error] Invalid ARIA role. Invalid roles cause assistive technology to misrepresent elements\n` +
+          `  How to fix:\n` +
+          `    - Use a valid ARIA role from the spec\n` +
+          `    - Remove the role attribute if not needed\n` +
+          `  WCAG 4.1.2: Name, Role, Value | See: https://www.w3.org/TR/wai-aria/#role_definitions\n` +
+          `  Found: role="${role}"`
+        );
       }
     }
 

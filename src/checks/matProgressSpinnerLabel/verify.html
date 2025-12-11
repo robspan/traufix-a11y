@@ -1,0 +1,46 @@
+<!-- @a11y-pass -->
+<!-- mat-progress-spinner with static aria-label -->
+<mat-progress-spinner mode="indeterminate" aria-label="Loading user data"></mat-progress-spinner>
+
+<!-- mat-spinner with static aria-label -->
+<mat-spinner aria-label="Processing request"></mat-spinner>
+
+<!-- mat-progress-spinner with Angular bound aria-label -->
+<mat-progress-spinner mode="determinate" [value]="progress" [aria-label]="loadingMessage"></mat-progress-spinner>
+
+<!-- mat-spinner with Angular attr binding for aria-label -->
+<mat-spinner [attr.aria-label]="spinnerLabel"></mat-spinner>
+
+<!-- mat-progress-spinner with static aria-labelledby -->
+<mat-progress-spinner mode="indeterminate" aria-labelledby="loading-text"></mat-progress-spinner>
+
+<!-- mat-spinner with aria-labelledby -->
+<mat-spinner aria-labelledby="status-message"></mat-spinner>
+
+<!-- mat-progress-spinner with Angular bound aria-labelledby -->
+<mat-progress-spinner [aria-labelledby]="labelElementId"></mat-progress-spinner>
+
+<!-- Self-closing mat-progress-spinner with aria-label -->
+<mat-progress-spinner mode="indeterminate" aria-label="Fetching data"/>
+
+<!-- Self-closing mat-spinner with aria-label -->
+<mat-spinner aria-label="Loading"/>
+
+<!-- @a11y-fail -->
+<!-- mat-progress-spinner without any label -->
+<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+
+<!-- mat-spinner without any label -->
+<mat-spinner></mat-spinner>
+
+<!-- Self-closing mat-progress-spinner without label -->
+<mat-progress-spinner mode="determinate" [value]="50"/>
+
+<!-- Self-closing mat-spinner without label -->
+<mat-spinner diameter="40"/>
+
+<!-- mat-progress-spinner with other attributes but no label -->
+<mat-progress-spinner mode="indeterminate" color="primary" diameter="50"></mat-progress-spinner>
+
+<!-- mat-spinner with other attributes but no label -->
+<mat-spinner color="accent" strokeWidth="3"></mat-spinner>

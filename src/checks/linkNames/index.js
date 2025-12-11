@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 10,
+  wcag: '2.4.4',
 
   check(content) {
     const issues = [];
@@ -23,7 +24,17 @@ module.exports = {
         .trim();
 
       if (!textContent && !hasAriaLabel && !hasAriaLabelledBy && !hasTitle) {
-        issues.push('Link without accessible name');
+        const snippet = link.substring(0, 80).replace(/\s+/g, ' ').trim();
+        const truncated = link.length > 80 ? '...' : '';
+        issues.push(
+          `[Error] Link missing accessible name. Screen readers announce "link" without context\n` +
+          `  How to fix:\n` +
+          `    - Add descriptive link text\n` +
+          `    - Add aria-label attribute\n` +
+          `    - Use aria-labelledby to reference existing text\n` +
+          `  WCAG 2.4.4: Link Purpose (In Context) | See: https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context\n` +
+          `  Found: <${snippet}${truncated}>`
+        );
       }
     }
 

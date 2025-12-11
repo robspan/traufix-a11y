@@ -36,12 +36,13 @@ module.exports = {
 
       if (!hasLabel && !hasLabelBinding && !hasAriaLabel && !hasAriaLabelledby && !hasMatTabLabel) {
         issues.push(
-          `mat-tab #${tabIndex} is missing a label. Screen readers use tab labels for navigation. ` +
-          `Fix: Add one of the following:\n` +
-          `  - label="Tab Name" attribute\n` +
-          `  - [label]="tabLabel" for dynamic labels\n` +
-          `  - <ng-template mat-tab-label>Tab Name</ng-template> for rich content (icons, badges)\n` +
-          `Example: <mat-tab label="Overview">...</mat-tab>`
+          `[Error] mat-tab #${tabIndex} is missing a label. Screen readers cannot announce the purpose of unlabeled tabs, making navigation impossible for users who rely on assistive technology.\n` +
+          `  How to fix:\n` +
+          `    - Add label="Tab Name" attribute for static labels\n` +
+          `    - Add [label]="tabLabel" for dynamic labels\n` +
+          `    - Add <ng-template mat-tab-label>Tab Name</ng-template> for rich content (icons, badges)\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Example: <mat-tab label="Overview">...</mat-tab>`
         );
       }
     }

@@ -1,0 +1,91 @@
+<!-- @a11y-pass -->
+<!-- Input with matAutocomplete and static aria-label -->
+<input type="text" [matAutocomplete]="auto" aria-label="Search cities">
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let city of cities" [value]="city">{{ city }}</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and static aria-labelledby -->
+<label id="country-label">Select a country</label>
+<input type="text" [matAutocomplete]="countryAuto" aria-labelledby="country-label">
+<mat-autocomplete #countryAuto="matAutocomplete">
+  <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and Angular bound aria-label -->
+<input type="text" [matAutocomplete]="dynamicAuto" [aria-label]="autocompleteLabel">
+<mat-autocomplete #dynamicAuto="matAutocomplete">
+  <mat-option value="option1">Option 1</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and attr.aria-label binding -->
+<input type="text" [matAutocomplete]="attrAuto" [attr.aria-label]="searchLabel">
+<mat-autocomplete #attrAuto="matAutocomplete">
+  <mat-option value="result">Result</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and attr.aria-labelledby binding -->
+<input type="text" [matAutocomplete]="refAuto" [attr.aria-labelledby]="labelElementId">
+<mat-autocomplete #refAuto="matAutocomplete">
+  <mat-option value="item">Item</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete inside mat-form-field with mat-label -->
+<mat-form-field>
+  <mat-label>Choose a fruit</mat-label>
+  <input type="text" matInput [matAutocomplete]="fruitAuto">
+  <mat-autocomplete #fruitAuto="matAutocomplete">
+    <mat-option *ngFor="let fruit of fruits" [value]="fruit">{{ fruit }}</mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Input with matAutocomplete inside mat-form-field with appearance and mat-label -->
+<mat-form-field appearance="outline">
+  <mat-label>Select user</mat-label>
+  <input matInput [matAutocomplete]="userAuto" placeholder="Type to search">
+  <mat-autocomplete #userAuto="matAutocomplete">
+    <mat-option *ngFor="let user of users" [value]="user.name">{{ user.name }}</mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Non-property binding syntax with aria-label (matAutocomplete="auto") -->
+<input type="text" matAutocomplete="simpleAuto" aria-label="Simple search">
+<mat-autocomplete #simpleAuto="matAutocomplete">
+  <mat-option value="simple">Simple Option</mat-option>
+</mat-autocomplete>
+
+<!-- @a11y-fail -->
+<!-- Input with matAutocomplete but NO label at all -->
+<input type="text" [matAutocomplete]="noLabelAuto">
+<mat-autocomplete #noLabelAuto="matAutocomplete">
+  <mat-option *ngFor="let item of items" [value]="item">{{ item }}</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete outside mat-form-field, no aria-label -->
+<input type="text" [matAutocomplete]="bareAuto" placeholder="Search...">
+<mat-autocomplete #bareAuto="matAutocomplete">
+  <mat-option value="result1">Result 1</mat-option>
+  <mat-option value="result2">Result 2</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete inside mat-form-field WITHOUT mat-label -->
+<mat-form-field>
+  <input matInput [matAutocomplete]="noFormLabelAuto" placeholder="Type something">
+  <mat-autocomplete #noFormLabelAuto="matAutocomplete">
+    <mat-option value="opt">Option</mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Non-property binding syntax without any labeling -->
+<input type="text" matAutocomplete="unlabeledAuto">
+<mat-autocomplete #unlabeledAuto="matAutocomplete">
+  <mat-option value="unlabeled">Unlabeled Option</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and only placeholder (not sufficient) -->
+<mat-form-field appearance="fill">
+  <input matInput [matAutocomplete]="placeholderOnlyAuto" placeholder="Enter value">
+  <mat-autocomplete #placeholderOnlyAuto="matAutocomplete">
+    <mat-option value="val">Value</mat-option>
+  </mat-autocomplete>
+</mat-form-field>

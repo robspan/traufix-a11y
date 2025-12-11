@@ -70,27 +70,42 @@ module.exports = {
       if (isSanitized) {
         // Sanitized content - lower severity warning
         issues.push(
-          `Line ${lineNumber}: [innerHTML] binding with apparent sanitization (${boundExpression}). ` +
-          `[Info] While sanitized, ensure the injected HTML includes: ` +
-          `(1) alt text for images, (2) proper heading structure, (3) ARIA labels for interactive elements. ` +
-          `Consider using Angular templates instead for better accessibility control.`
+          `[Info] Line ${lineNumber}: [innerHTML] binding with apparent sanitization. ` +
+          `While sanitized, dynamically injected HTML may bypass Angular's accessibility features.\n` +
+          `  How to fix:\n` +
+          `    - Ensure injected HTML includes alt text for images\n` +
+          `    - Verify proper heading structure (h1-h6) is maintained\n` +
+          `    - Add ARIA labels for interactive elements\n` +
+          `    - Consider using Angular templates (*ngFor, *ngIf) for better control\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Found: [innerHTML]="${boundExpression}"`
         );
       } else if (isUserContent) {
         // User content without apparent sanitization - high severity
         issues.push(
-          `Line ${lineNumber}: [innerHTML] binding with user content (${boundExpression}). ` +
-          `[Warning] User-generated HTML may lack accessibility features and poses XSS risk. ` +
-          `FIX: (1) Use DomSanitizer to sanitize content, (2) Validate HTML structure, ` +
-          `(3) Ensure images have alt text, (4) Consider using Angular templates instead.`
+          `[Warning] Line ${lineNumber}: [innerHTML] binding with user-generated content. ` +
+          `User-generated HTML may lack accessibility features and poses XSS security risk.\n` +
+          `  How to fix:\n` +
+          `    - Use DomSanitizer.sanitize() to sanitize untrusted content\n` +
+          `    - Validate HTML structure before injection\n` +
+          `    - Ensure all images have alt text and interactive elements have labels\n` +
+          `    - Prefer Angular templates over innerHTML for dynamic content\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Security: https://angular.io/guide/security#sanitization-and-security-contexts\n` +
+          `  Found: [innerHTML]="${boundExpression}"`
         );
       } else {
         // General innerHTML usage
         issues.push(
-          `Line ${lineNumber}: [innerHTML] binding found (${boundExpression}). ` +
-          `Dynamic HTML content may lack accessibility features. ` +
-          `FIX: (1) Ensure injected content has proper headings, alt text, and ARIA attributes, ` +
-          `(2) Use Angular's DomSanitizer if content comes from untrusted sources, ` +
-          `(3) Consider using structural directives (*ngFor, *ngIf) for dynamic content.`
+          `[Warning] Line ${lineNumber}: [innerHTML] binding may bypass accessibility features. ` +
+          `Dynamic HTML content injected via innerHTML can lack proper semantic structure and labels.\n` +
+          `  How to fix:\n` +
+          `    - Ensure injected content has proper headings, alt text, and ARIA attributes\n` +
+          `    - Use Angular's DomSanitizer if content comes from untrusted sources\n` +
+          `    - Consider using structural directives (*ngFor, *ngIf) instead\n` +
+          `    - Test injected content with screen readers\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Found: [innerHTML]="${boundExpression}"`
         );
       }
     }
@@ -103,10 +118,14 @@ module.exports = {
       const lineNumber = getLineNumber(content, match.index);
 
       issues.push(
-        `Line ${lineNumber}: [outerHTML] binding found (${boundExpression}). ` +
-        `[Warning] outerHTML replaces the entire element and may break accessibility. ` +
-        `FIX: Use [innerHTML] instead to preserve the container element, or use Angular templates ` +
-        `for dynamic content generation.`
+        `[Warning] Line ${lineNumber}: [outerHTML] binding replaces entire element. ` +
+        `Replacing the outer element destroys semantic structure and may break accessibility.\n` +
+        `  How to fix:\n` +
+        `    - Use [innerHTML] instead to preserve the container element\n` +
+        `    - Use Angular templates (*ngIf, *ngFor, *ngSwitch) for dynamic content\n` +
+        `    - Ensure replacement maintains proper document structure\n` +
+        `  WCAG 4.1.2: Name, Role, Value\n` +
+        `  Found: [outerHTML]="${boundExpression}"`
       );
     }
 

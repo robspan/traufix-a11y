@@ -1,0 +1,44 @@
+<!-- @a11y-pass -->
+<!-- mat-slide-toggle with text content -->
+<mat-slide-toggle>Enable notifications</mat-slide-toggle>
+
+<!-- mat-slide-toggle with aria-label -->
+<mat-slide-toggle aria-label="Enable dark mode"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with aria-labelledby -->
+<mat-slide-toggle aria-labelledby="toggle-label"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with Angular binding [aria-label] -->
+<mat-slide-toggle [aria-label]="toggleLabel"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with Angular binding [aria-labelledby] -->
+<mat-slide-toggle [aria-labelledby]="labelId"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with Angular attr binding -->
+<mat-slide-toggle [attr.aria-label]="dynamicLabel"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with interpolated text content -->
+<mat-slide-toggle>{{ toggleLabelText }}</mat-slide-toggle>
+
+<!-- mat-slide-toggle with text content and other attributes -->
+<mat-slide-toggle color="primary" [(ngModel)]="isEnabled">Slide me</mat-slide-toggle>
+
+<!-- Self-closing mat-slide-toggle with aria-label -->
+<mat-slide-toggle aria-label="Auto-save"/>
+
+<!-- @a11y-fail -->
+<!-- Empty mat-slide-toggle without label -->
+<mat-slide-toggle></mat-slide-toggle>
+
+<!-- mat-slide-toggle with only whitespace content -->
+<mat-slide-toggle>   </mat-slide-toggle>
+
+<!-- mat-slide-toggle with only newlines -->
+<mat-slide-toggle>
+</mat-slide-toggle>
+
+<!-- Self-closing mat-slide-toggle without label -->
+<mat-slide-toggle color="accent"/>
+
+<!-- mat-slide-toggle with attributes but no label -->
+<mat-slide-toggle [(ngModel)]="isChecked" color="primary"></mat-slide-toggle>

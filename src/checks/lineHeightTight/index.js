@@ -66,13 +66,26 @@ module.exports = {
 
         if (isBodyText) {
           issues.push(
-            `[Warning] "${selector}" has line-height: ${parsedValue} which is below the recommended minimum of 1.2. ` +
-            `Tight line spacing makes text harder to read. WCAG recommends at least 1.5 for body text.`
+            `[Warning] Selector "${selector}" has tight line-height. ` +
+            `Insufficient line spacing makes text difficult to read, especially for users with cognitive disabilities or low vision.\n` +
+            `  How to fix:\n` +
+            `    - Increase line-height to at least 1.5 for body text (WCAG recommendation)\n` +
+            `    - Use unitless values for better scaling: line-height: 1.5;\n` +
+            `    - For headings, minimum 1.2 is acceptable\n` +
+            `    - Test with users who have dyslexia or low vision\n` +
+            `  WCAG 1.4.12: Text Spacing\n` +
+            `  Found: ${selector} { line-height: ${parsedValue}; }`
           );
         } else {
           issues.push(
-            `[Info] "${selector}" has line-height: ${parsedValue}. ` +
-            `If this contains readable text, consider increasing to at least 1.2 for better readability.`
+            `[Info] Selector "${selector}" has tight line-height. ` +
+            `If this contains readable text, insufficient spacing may impact readability.\n` +
+            `  How to fix:\n` +
+            `    - Consider increasing to at least 1.2 for better readability\n` +
+            `    - Use 1.5 or higher for body text\n` +
+            `    - Use unitless values for better scaling\n` +
+            `  WCAG 1.4.12: Text Spacing\n` +
+            `  Found: ${selector} { line-height: ${parsedValue}; }`
           );
         }
       }

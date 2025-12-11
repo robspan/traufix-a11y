@@ -42,8 +42,13 @@ module.exports = {
         referencedIds.forEach((refId) => {
           if (!definedIds.has(refId)) {
             issues.push(
-              `${attr} references ID "${refId}" which does not exist in the document. ` +
-              `Ensure all referenced IDs are defined.`
+              `[Error] ARIA attribute references non-existent ID. Screen readers cannot find the referenced element, breaking accessibility.\n` +
+              `  How to fix:\n` +
+              `    - Add an element with id="${refId}" to the document\n` +
+              `    - Or correct the ${attr} attribute to reference an existing ID\n` +
+              `    - Ensure IDs are unique and properly defined before being referenced\n` +
+              `  WCAG 4.1.1: Parsing\n` +
+              `  Found: ${attr}="${refId}" (ID does not exist)`
             );
           }
         });

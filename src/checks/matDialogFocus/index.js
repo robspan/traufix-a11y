@@ -69,14 +69,13 @@ module.exports = {
       if (!hasFocusManagement(dialogContext) && hasInteractiveElements(dialogContent)) {
         const snippet = fullMatch.length > 100 ? fullMatch.substring(0, 100) + '...' : fullMatch;
         issues.push(
-          `Dialog content has interactive elements but no explicit focus management.\n` +
-          `  Why it matters: Screen reader users need predictable focus when dialogs open.\n` +
+          `[Warning] Dialog content has interactive elements but no explicit focus management. Screen reader users and keyboard navigators need predictable focus when dialogs open.\n` +
           `  How to fix:\n` +
           `    - Add cdkFocusInitial to the element that should receive focus: <input cdkFocusInitial>\n` +
           `    - For dialogs with a primary action, focus that button: <button cdkFocusInitial mat-raised-button>Submit</button>\n` +
           `    - For form dialogs, focus the first input field\n` +
           `  Note: MatDialog auto-focuses the first tabbable element by default, but explicit focus is more reliable.\n` +
-          `  See: https://material.angular.io/cdk/a11y/overview#cdkFocusInitial\n` +
+          `  WCAG 2.4.3: Focus Order | See: https://material.angular.io/cdk/a11y/overview#cdkFocusInitial\n` +
           `  Found: ${snippet}`
         );
       }
@@ -92,9 +91,11 @@ module.exports = {
       if (!hasFocusManagement(dialogContext) && hasInteractiveElements(dialogContent)) {
         const snippet = fullMatch.length > 100 ? fullMatch.substring(0, 100) + '...' : fullMatch;
         issues.push(
-          `Dialog content (div with mat-dialog-content) has interactive elements but no explicit focus management.\n` +
-          `  How to fix: Add cdkFocusInitial to the element that should receive focus when the dialog opens.\n` +
-          `  See: https://material.angular.io/cdk/a11y/overview#cdkFocusInitial\n` +
+          `[Warning] Dialog content (div with mat-dialog-content) has interactive elements but no explicit focus management. Screen reader users and keyboard navigators need predictable focus when dialogs open.\n` +
+          `  How to fix:\n` +
+          `    - Add cdkFocusInitial to the element that should receive focus when the dialog opens\n` +
+          `    - Example: <input cdkFocusInitial> or <button cdkFocusInitial>\n` +
+          `  WCAG 2.4.3: Focus Order | See: https://material.angular.io/cdk/a11y/overview#cdkFocusInitial\n` +
           `  Found: ${snippet}`
         );
       }

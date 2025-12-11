@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -19,7 +20,13 @@ module.exports = {
       const prev = levels[i - 1];
       const curr = levels[i];
       if (curr > prev + 1) {
-        issues.push(`Heading level skipped: h${prev} -> h${curr}`);
+        const message = `[Error] Heading level skipped (h${prev} to h${curr}). Screen reader users rely on heading hierarchy for navigation
+  How to fix:
+    - Use sequential heading levels (h1→h2→h3)
+    - Don't skip levels in the heading structure
+  WCAG 1.3.1: Info and Relationships | See: https://www.w3.org/WAI/tutorials/page-structure/headings/
+  Found: <h${curr}>`;
+        issues.push(message);
       }
     }
 

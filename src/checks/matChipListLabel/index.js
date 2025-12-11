@@ -32,13 +32,12 @@ module.exports = {
      */
     function createIssue(componentName, snippet) {
       return (
-        `<${componentName}> missing accessible label. ` +
-        `Screen readers need a label to describe the purpose of this chip collection.\n` +
+        `[Error] <${componentName}> missing accessible label. Screen readers need a label to describe the purpose of this chip collection.\n` +
         `  How to fix:\n` +
         `    - Add aria-label: <${componentName} aria-label="Select your tags">\n` +
         `    - Or use aria-labelledby: <${componentName} aria-labelledby="label-id">\n` +
         `    - Angular binding also works: [aria-label]="labelVariable"\n` +
-        `  See: https://material.angular.io/components/chips/overview#accessibility\n` +
+        `  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/chips/overview#accessibility\n` +
         `  Found: ${snippet}`
       );
     }

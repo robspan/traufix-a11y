@@ -1,26 +1,10 @@
-/**
- * Gets the line number for a given index in the HTML string
- */
-function getLineNumber(html, index) {
-  const upToIndex = html.substring(0, index);
-  const lines = upToIndex.split('\n');
-  return lines.length;
-}
-
-/**
- * Extract the data attribute value from an object tag for context
- */
-function getDataValue(obj) {
-  const dataMatch = obj.match(/data\s*=\s*["']([^"']*)["']/i);
-  return dataMatch ? dataMatch[1] : 'unknown';
-}
-
 module.exports = {
   name: 'objectAlt',
   description: 'Object elements have accessible name or fallback content',
   tier: 'basic',
   type: 'html',
   weight: 7,
+  wcag: '1.1.1',
 
   check(content) {
     const issues = [];
@@ -29,7 +13,6 @@ module.exports = {
     let match;
     while ((match = objectRegex.exec(content)) !== null) {
       const obj = match[0];
-      const lineNumber = getLineNumber(content, match.index);
 
       const hasTitle = /\btitle\s*=\s*["'][^"']+["']/i.test(obj);
       const hasAriaLabel = /aria-label\s*=\s*["'][^"']+["']/i.test(obj);
@@ -41,13 +24,15 @@ module.exports = {
       const meaningfulFallback = innerContent.replace(/<[^>]*>/g, '').trim().length > 0;
 
       if (!hasTitle && !hasAriaLabel && !hasAriaLabelledBy && !meaningfulFallback) {
-        const dataValue = getDataValue(obj);
+        // Extract just the opening object tag for the "Found" output
+        const openingTag = obj.match(/<object[^>]*>/i)?.[0] || '<object>';
         issues.push(
-          `Line ${lineNumber}: <object data="${dataValue}"> is missing an accessible name. ` +
-          `FIX: Add title="Description of content", aria-label="Description", ` +
-          `or provide text fallback content inside the <object> element. ` +
-          `Example: <object data="file.pdf" title="Monthly report">Fallback text</object>. ` +
-          `See WCAG H53: https://www.w3.org/WAI/WCAG21/Techniques/html/H53`
+          `[Error] Object element missing alternative text. Screen readers cannot describe embedded content without alternatives\n` +
+          `  How to fix:\n` +
+          `    - Add text content inside object as fallback\n` +
+          `    - Use aria-label\n` +
+          `  WCAG 1.1.1: Non-text Content | See: https://www.w3.org/TR/WCAG21/#non-text-content\n` +
+          `  Found: ${openingTag}`
         );
       }
     }

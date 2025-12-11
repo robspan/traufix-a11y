@@ -21,9 +21,14 @@ module.exports = {
         const contentValue = contentMatch ? contentMatch[1] : 'unknown';
 
         issues.push(
-          `Found <meta http-equiv="refresh"> with content="${contentValue}". ` +
-          `Auto-refresh can disorient users, especially those using screen readers. ` +
-          `Consider providing user-controlled refresh options instead.`
+          `[Error] Found <meta http-equiv="refresh"> with content="${contentValue}". Auto-refresh can disorient users, especially those using screen readers or with cognitive disabilities who need more time to read content.\n` +
+          `  How to fix:\n` +
+          `    - Remove the meta refresh tag\n` +
+          `    - Provide user-controlled refresh options (e.g., a "Refresh" button)\n` +
+          `    - If auto-refresh is essential, provide a way to disable or extend the time limit\n` +
+          `  WCAG 2.2.1: Timing Adjustable\n` +
+          `  WCAG 3.2.5: Change on Request\n` +
+          `  Found: ${match}`
         );
       });
     }

@@ -49,8 +49,14 @@ module.exports = {
 
     if (uniquePatterns.length > 0 && !hasFocusWithin) {
       issues.push(
-        `[Info] Complex interactive containers detected (${uniquePatterns.slice(0, 3).join(', ')}${uniquePatterns.length > 3 ? '...' : ''}). ` +
-        `Consider using :focus-within to provide visual feedback when any child element receives focus.`
+        `[Info] Complex interactive containers without :focus-within. Keyboard users may not see clear visual indication when navigating nested focusable elements.\n` +
+        `  How to fix:\n` +
+        `    - Add :focus-within pseudo-class to container selectors\n` +
+        `    - Apply visual styles (border, background, shadow) when children are focused\n` +
+        `    - Example: .container:focus-within { outline: 2px solid blue; }\n` +
+        `    - Test with keyboard navigation to ensure focus is always visible\n` +
+        `  WCAG 2.4.7: Focus Visible\n` +
+        `  Found: Complex containers (${uniquePatterns.slice(0, 3).join(', ')}${uniquePatterns.length > 3 ? '...' : ''})`
       );
     }
 

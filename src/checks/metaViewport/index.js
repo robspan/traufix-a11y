@@ -4,6 +4,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '1.4.4',
 
   check(content) {
     const issues = [];
@@ -33,10 +34,12 @@ module.exports = {
       const userScalableNoRegex = /user-scalable\s*=\s*(no|0|false)/i;
       if (userScalableNoRegex.test(viewportContent)) {
         issues.push(
-          'Meta viewport disables zooming with user-scalable restriction. ' +
-          'FIX: Remove "user-scalable=no" (or "user-scalable=0") from the viewport meta tag. ' +
-          'Users with low vision need to zoom to read content. ' +
-          'See WCAG 1.4.4 Resize Text: https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html'
+          `[Error] Viewport meta prevents user scaling. Users with low vision need to zoom content\n` +
+          `  How to fix:\n` +
+          `    - Remove user-scalable=no from the viewport meta tag\n` +
+          `    - Set user-scalable=yes if explicitly needed\n` +
+          `  WCAG 1.4.4: Resize Text | See: https://www.w3.org/WAI/WCAG21/Understanding/resize-text\n` +
+          `  Found: ${viewportTag}`
         );
       }
 
@@ -47,10 +50,12 @@ module.exports = {
         const maxScale = parseFloat(maxScaleMatch[1]);
         if (maxScale <= 1) {
           issues.push(
-            `Meta viewport limits zoom with maximum-scale=${maxScaleMatch[1]}. ` +
-            'FIX: Remove the maximum-scale attribute entirely, or set it to at least 5.0. ' +
-            'Example: <meta name="viewport" content="width=device-width, initial-scale=1">. ' +
-            'See WCAG 1.4.4 Resize Text: https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html'
+            `[Error] Viewport meta prevents user scaling with maximum-scale=${maxScaleMatch[1]}. Users with low vision need to zoom content\n` +
+            `  How to fix:\n` +
+            `    - Remove maximum-scale restriction entirely\n` +
+            `    - Set maximum-scale to at least 5.0 if needed\n` +
+            `  WCAG 1.4.4: Resize Text | See: https://www.w3.org/WAI/WCAG21/Understanding/resize-text\n` +
+            `  Found: ${viewportTag}`
           );
         }
       }

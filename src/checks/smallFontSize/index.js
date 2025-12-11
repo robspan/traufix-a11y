@@ -63,7 +63,14 @@ module.exports = {
       if (isTooSmall) {
         issues.push(
           `[Warning] "${selector}" has a small font-size of ${parsedValue}. ` +
-          `Font sizes below 12px may be difficult to read. Consider using at least 12px (0.75rem) for readability.`
+          `Small text can be difficult or impossible to read for users with visual impairments.\n` +
+          `  How to fix:\n` +
+          `    - Use at least 12px (0.75rem) for body text\n` +
+          `    - Prefer relative units (rem, em) over pixels for better scalability\n` +
+          `    - Test text readability at 200% zoom level\n` +
+          `    - Consider using 14-16px (0.875-1rem) as a comfortable base font size\n` +
+          `  WCAG 1.4.4: Resize Text (Level AA)\n` +
+          `  Found: ${parsedValue} on "${selector}"`
         );
       }
     }

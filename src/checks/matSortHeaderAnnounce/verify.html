@@ -1,0 +1,25 @@
+<!-- @a11y-pass -->
+<!-- mat-sort-header with sortActionDescription -->
+<th mat-sort-header="name" sortActionDescription="Sort by name">Name</th>
+
+<!-- mat-sort-header with Angular binding [sortActionDescription] -->
+<th mat-sort-header="date" [sortActionDescription]="sortByDateDescription">Date</th>
+
+<!-- mat-sort-header on different element with sortActionDescription -->
+<mat-header-cell mat-sort-header="price" sortActionDescription="Sort by price">Price</mat-header-cell>
+
+<!-- mat-sort-header with binding and other attributes -->
+<th mat-sort-header="status" class="status-header" [sortActionDescription]="'Sort by status'">Status</th>
+
+<!-- @a11y-fail -->
+<!-- mat-sort-header without sortActionDescription -->
+<th mat-sort-header="name">Name</th>
+
+<!-- th with mat-sort-header but no description -->
+<th mat-sort-header="date" class="date-column">Date</th>
+
+<!-- mat-header-cell with mat-sort-header but no description -->
+<mat-header-cell mat-sort-header="price">Price</mat-header-cell>
+
+<!-- mat-sort-header with value but missing description -->
+<th mat-sort-header="quantity" ariaLabel="Quantity column">Quantity</th>

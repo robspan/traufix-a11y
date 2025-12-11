@@ -1,0 +1,60 @@
+<!-- @a11y-pass -->
+<!-- mat-checkbox with text content -->
+<mat-checkbox>Accept terms and conditions</mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with aria-label -->
+<mat-checkbox aria-label="Subscribe to newsletter"></mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with aria-labelledby -->
+<span id="checkbox-label">Enable notifications</span>
+<mat-checkbox aria-labelledby="checkbox-label"></mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with Angular binding for aria-label -->
+<mat-checkbox [aria-label]="checkboxLabel"></mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with Angular binding for aria-labelledby -->
+<mat-checkbox [aria-labelledby]="labelId"></mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with attr binding for aria-label -->
+<mat-checkbox [attr.aria-label]="dynamicLabel"></mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with Angular interpolation content (dynamic label) -->
+<mat-checkbox>{{ checkboxLabel }}</mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with mixed text and interpolation -->
+<mat-checkbox>I agree to the {{ termsType }}</mat-checkbox>
+
+<!-- @a11y-pass -->
+<!-- mat-checkbox with text and additional attributes -->
+<mat-checkbox color="primary" formControlName="agree">I have read the policy</mat-checkbox>
+
+<!-- @a11y-fail -->
+<!-- Empty mat-checkbox -->
+<mat-checkbox></mat-checkbox>
+
+<!-- @a11y-fail -->
+<!-- mat-checkbox with only whitespace -->
+<mat-checkbox>   </mat-checkbox>
+
+<!-- @a11y-fail -->
+<!-- Self-closing mat-checkbox without aria-label -->
+<mat-checkbox />
+
+<!-- @a11y-fail -->
+<!-- Self-closing mat-checkbox with other attributes but no label -->
+<mat-checkbox formControlName="terms" color="accent" />
+
+<!-- @a11y-fail -->
+<!-- mat-checkbox with only HTML comments inside (no actual content) -->
+<mat-checkbox><!-- TODO: add label --></mat-checkbox>
+
+<!-- @a11y-fail -->
+<!-- mat-checkbox with only empty nested elements -->
+<mat-checkbox><span></span></mat-checkbox>

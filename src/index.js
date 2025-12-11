@@ -16,28 +16,10 @@ const fs = require('fs');
 const path = require('path');
 const colors = require('./colors');
 
-// Import new modular architecture
+// Import modular architecture
 const { loadAllChecks, getChecksByTier, getCheck } = require('./core/loader');
 const { verifyByTier, getVerifySummary } = require('./core/verifier');
 const { CheckRunner, createRunner } = require('./core/runner');
-
-// Import legacy check modules for backwards compatibility fallback
-let baseChecks, angularChecks, materialChecks1, materialChecks2, htmlChecks1, htmlChecks2;
-let scssChecks1, scssChecks2, cdkChecks;
-
-try {
-  baseChecks = require('./checks');
-  angularChecks = require('./checks-angular');
-  materialChecks1 = require('./checks-material-1');
-  materialChecks2 = require('./checks-material-2');
-  htmlChecks1 = require('./checks-html-extra-1');
-  htmlChecks2 = require('./checks-html-extra-2');
-  scssChecks1 = require('./checks-scss-extra-1');
-  scssChecks2 = require('./checks-scss-extra-2');
-  cdkChecks = require('./checks-cdk');
-} catch (e) {
-  // Modules not available, will use new loader
-}
 
 // ============================================
 // CHECK REGISTRY (New Modular System)
@@ -60,14 +42,6 @@ function getRegistry() {
   return checkRegistry;
 }
 
-/**
- * Check if the new modular system is available
- * @returns {boolean} True if new checks are available
- */
-function hasNewChecks() {
-  const registry = getRegistry();
-  return registry && registry.size > 0;
-}
 
 // ============================================
 // TIERS CONFIGURATION
@@ -187,31 +161,34 @@ const STATIC_TIERS = {
       'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria'
     ],
     material: [
-      // Material 1
-      'matIconAccessibility', 'matFormFieldLabel', 'matSelectPlaceholder',
-      'matButtonType', 'matDialogFocus', 'matTableHeaders', 'matChipListLabel',
-      // Material 2
-      'matSliderLabel', 'matMenuTrigger', 'matTooltipKeyboard',
-      'matExpansionHeader', 'matTabLabel', 'matStepLabel', 'matSnackbarPoliteness'
+      // Material - Form Controls
+      'matFormFieldLabel', 'matSelectPlaceholder', 'matAutocompleteLabel',
+      'matDatepickerLabel', 'matRadioGroupLabel', 'matSlideToggleLabel',
+      'matCheckboxLabel', 'matChipListLabel', 'matSliderLabel',
+      // Material - Buttons & Indicators
+      'matButtonType', 'matIconAccessibility', 'matButtonToggleLabel',
+      'matProgressBarLabel', 'matProgressSpinnerLabel', 'matBadgeDescription',
+      // Material - Navigation & Layout
+      'matMenuTrigger', 'matSidenavA11y', 'matTabLabel', 'matStepLabel',
+      'matExpansionHeader', 'matTreeA11y', 'matListSelectionLabel',
+      // Material - Data Table
+      'matTableHeaders', 'matPaginatorLabel', 'matSortHeaderAnnounce',
+      // Material - Popups & Modals
+      'matDialogFocus', 'matBottomSheetA11y', 'matTooltipKeyboard', 'matSnackbarPoliteness'
     ],
     cdk: ['cdkTrapFocusDialog', 'cdkAriaDescriber', 'cdkLiveAnnouncer']
   }
 };
 
 /**
- * Get effective TIERS configuration
- * Merges static tiers with dynamically loaded checks
+ * Get effective TIERS configuration from registry
  */
 function getTiers() {
-  if (hasNewChecks()) {
-    // Try to use dynamically generated tiers
-    try {
-      return generateTiersFromRegistry();
-    } catch (e) {
-      // Fall back to static tiers
-    }
+  try {
+    return generateTiersFromRegistry();
+  } catch (e) {
+    return STATIC_TIERS;
   }
-  return STATIC_TIERS;
 }
 
 // Export TIERS - use getter to allow dynamic updates
@@ -245,72 +222,16 @@ const DEFAULT_CONFIG = {
 // ============================================
 
 /**
- * Get check function by name
- * First tries new modular system, then falls back to legacy modules
- * Handles both 'buttonNames' and 'checkButtonNames' formats
+ * Get check function by name from modular registry
+ * @param {string} name - Check name (e.g., 'buttonNames')
+ * @returns {Function|null} Check function or null if not found
  */
 function getCheckFunction(name) {
-  // Try new modular system first
-  if (hasNewChecks()) {
-    const registry = getRegistry();
-    const checkModule = registry.get(name);
-    if (checkModule && typeof checkModule.check === 'function') {
-      return checkModule.check;
-    }
+  const registry = getRegistry();
+  const checkModule = registry.get(name);
+  if (checkModule && typeof checkModule.check === 'function') {
+    return checkModule.check;
   }
-
-  // Fall back to legacy modules
-  // Try with 'check' prefix (e.g., buttonNames -> checkButtonNames)
-  const prefixedName = 'check' + name.charAt(0).toUpperCase() + name.slice(1);
-
-  // Base checks
-  if (baseChecks) {
-    if (baseChecks[prefixedName]) return baseChecks[prefixedName];
-    if (baseChecks[name]) return baseChecks[name];
-  }
-
-  // Angular checks
-  if (angularChecks) {
-    if (angularChecks[prefixedName]) return angularChecks[prefixedName];
-    if (angularChecks[name]) return angularChecks[name];
-  }
-
-  // Material checks
-  if (materialChecks1) {
-    if (materialChecks1[prefixedName]) return materialChecks1[prefixedName];
-    if (materialChecks1[name]) return materialChecks1[name];
-  }
-  if (materialChecks2) {
-    if (materialChecks2[prefixedName]) return materialChecks2[prefixedName];
-    if (materialChecks2[name]) return materialChecks2[name];
-  }
-
-  // HTML extra checks
-  if (htmlChecks1) {
-    if (htmlChecks1[prefixedName]) return htmlChecks1[prefixedName];
-    if (htmlChecks1[name]) return htmlChecks1[name];
-  }
-  if (htmlChecks2) {
-    if (htmlChecks2[prefixedName]) return htmlChecks2[prefixedName];
-    if (htmlChecks2[name]) return htmlChecks2[name];
-  }
-
-  // SCSS extra checks
-  if (scssChecks1) {
-    if (scssChecks1[prefixedName]) return scssChecks1[prefixedName];
-    if (scssChecks1[name]) return scssChecks1[name];
-  }
-  if (scssChecks2) {
-    if (scssChecks2[prefixedName]) return scssChecks2[prefixedName];
-    if (scssChecks2[name]) return scssChecks2[name];
-  }
-
-  // CDK checks
-  if (cdkChecks) {
-    if (cdkChecks[prefixedName]) return cdkChecks[prefixedName];
-    if (cdkChecks[name]) return cdkChecks[name];
-  }
-
   return null;
 }
 
@@ -320,42 +241,18 @@ function getCheckFunction(name) {
  * @returns {object|null} Check info or null if not found
  */
 function getCheckInfo(name) {
-  // Try new modular system
-  if (hasNewChecks()) {
-    const registry = getRegistry();
-    const checkModule = registry.get(name);
-    if (checkModule) {
-      return {
-        name: checkModule.name,
-        description: checkModule.description,
-        tier: checkModule.tier,
-        type: checkModule.type,
-        weight: checkModule.weight || 1,
-        wcag: checkModule.wcag || null
-      };
-    }
+  const registry = getRegistry();
+  const checkModule = registry.get(name);
+  if (checkModule) {
+    return {
+      name: checkModule.name,
+      description: checkModule.description,
+      tier: checkModule.tier,
+      type: checkModule.type,
+      weight: checkModule.weight || 1,
+      wcag: checkModule.wcag || null
+    };
   }
-
-  // Fallback: try to determine basic info from TIERS
-  const tiers = getTiers();
-  for (const [tierName, categories] of Object.entries(tiers)) {
-    for (const [category, checks] of Object.entries(categories)) {
-      if (checks.includes(name)) {
-        return {
-          name,
-          description: `${name} check`,
-          tier: tierName === 'basic' ? 'basic' :
-                tierName === 'enhanced' ? (tiers.basic[category]?.includes(name) ? 'basic' : 'enhanced') :
-                (tiers.enhanced[category]?.includes(name) ?
-                  (tiers.basic[category]?.includes(name) ? 'basic' : 'enhanced') : 'full'),
-          type: category === 'scss' ? 'scss' : 'html',
-          weight: 1,
-          wcag: null
-        };
-      }
-    }
-  }
-
   return null;
 }
 

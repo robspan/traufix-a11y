@@ -7,12 +7,27 @@ const ARIA_BOOLEAN_ATTRS = [
 // ARIA attributes that accept true/false/mixed
 const ARIA_TRISTATE_ATTRS = ['checked', 'pressed'];
 
+/**
+ * Generates a standardized error message for invalid ARIA attribute values
+ */
+function formatAriaError(attr, value, validValues) {
+  return (
+    `[Error] Invalid ARIA attribute value. Incorrect ARIA values cause unpredictable behavior\n` +
+    `  How to fix:\n` +
+    `    - Use valid values: ${validValues}\n` +
+    `    - For booleans use true/false, for references use valid IDs\n` +
+    `  WCAG 4.1.2: Name, Role, Value | See: https://www.w3.org/TR/wai-aria/#states_and_properties\n` +
+    `  Found: aria-${attr}="${value}"`
+  );
+}
+
 module.exports = {
   name: 'ariaAttributes',
   description: 'ARIA attributes have valid values',
   tier: 'basic',
   type: 'html',
   weight: 10,
+  wcag: '4.1.2',
 
   check(content) {
     const issues = [];
@@ -29,45 +44,45 @@ module.exports = {
       // Boolean attributes
       if (ARIA_BOOLEAN_ATTRS.includes(attr)) {
         if (!['true', 'false'].includes(value)) {
-          issues.push(`aria-${attr}="${value}" - must be "true" or "false"`);
+          issues.push(formatAriaError(attr, value, 'true, false'));
         }
       }
 
       // Tristate attributes
       if (ARIA_TRISTATE_ATTRS.includes(attr)) {
         if (!['true', 'false', 'mixed'].includes(value)) {
-          issues.push(`aria-${attr}="${value}" - must be "true", "false", or "mixed"`);
+          issues.push(formatAriaError(attr, value, 'true, false, mixed'));
         }
       }
 
       // aria-live
       if (attr === 'live' && !['off', 'polite', 'assertive'].includes(value)) {
-        issues.push(`aria-live="${value}" - must be "off", "polite", or "assertive"`);
+        issues.push(formatAriaError(attr, value, 'off, polite, assertive'));
       }
 
       // aria-current
       if (attr === 'current' && !['page', 'step', 'location', 'date', 'time', 'true', 'false'].includes(value)) {
-        issues.push(`aria-current="${value}" - invalid value`);
+        issues.push(formatAriaError(attr, value, 'page, step, location, date, time, true, false'));
       }
 
       // aria-haspopup
       if (attr === 'haspopup' && !['true', 'false', 'menu', 'listbox', 'tree', 'grid', 'dialog'].includes(value)) {
-        issues.push(`aria-haspopup="${value}" - invalid value`);
+        issues.push(formatAriaError(attr, value, 'true, false, menu, listbox, tree, grid, dialog'));
       }
 
       // aria-autocomplete
       if (attr === 'autocomplete' && !['none', 'inline', 'list', 'both'].includes(value)) {
-        issues.push(`aria-autocomplete="${value}" - invalid value`);
+        issues.push(formatAriaError(attr, value, 'none, inline, list, both'));
       }
 
       // aria-sort
       if (attr === 'sort' && !['none', 'ascending', 'descending', 'other'].includes(value)) {
-        issues.push(`aria-sort="${value}" - invalid value`);
+        issues.push(formatAriaError(attr, value, 'none, ascending, descending, other'));
       }
 
       // aria-invalid
       if (attr === 'invalid' && !['true', 'false', 'grammar', 'spelling'].includes(value)) {
-        issues.push(`aria-invalid="${value}" - invalid value`);
+        issues.push(formatAriaError(attr, value, 'true, false, grammar, spelling'));
       }
     }
 

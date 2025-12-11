@@ -1,0 +1,58 @@
+<!-- @a11y-pass -->
+<!-- Static aria-label -->
+<mat-selection-list aria-label="Select your favorite options">
+  <mat-list-option>Option 1</mat-list-option>
+  <mat-list-option>Option 2</mat-list-option>
+</mat-selection-list>
+
+<!-- Static aria-labelledby -->
+<h3 id="selection-label">Choose items</h3>
+<mat-selection-list aria-labelledby="selection-label">
+  <mat-list-option>Item A</mat-list-option>
+  <mat-list-option>Item B</mat-list-option>
+</mat-selection-list>
+
+<!-- Angular property binding for aria-label -->
+<mat-selection-list [aria-label]="listLabel">
+  <mat-list-option>Dynamic Option 1</mat-list-option>
+  <mat-list-option>Dynamic Option 2</mat-list-option>
+</mat-selection-list>
+
+<!-- Angular attr binding for aria-label -->
+<mat-selection-list [attr.aria-label]="computedLabel">
+  <mat-list-option>Attr Binding Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Angular property binding for aria-labelledby -->
+<mat-selection-list [aria-labelledby]="labelElementId">
+  <mat-list-option>Bound Labelledby Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Angular attr binding for aria-labelledby -->
+<mat-selection-list [attr.aria-labelledby]="headingId">
+  <mat-list-option>Attr Labelledby Option</mat-list-option>
+</mat-selection-list>
+
+<!-- @a11y-fail -->
+<!-- Missing any accessible label -->
+<mat-selection-list>
+  <mat-list-option>Unlabeled Option 1</mat-list-option>
+  <mat-list-option>Unlabeled Option 2</mat-list-option>
+</mat-selection-list>
+
+<!-- Has child options but no list label -->
+<mat-selection-list class="my-selection-list">
+  <mat-list-option value="opt1">First Option</mat-list-option>
+  <mat-list-option value="opt2">Second Option</mat-list-option>
+  <mat-list-option value="opt3">Third Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Empty aria-label should still fail -->
+<mat-selection-list aria-label="">
+  <mat-list-option>Empty Label Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Only has other attributes, no accessible label -->
+<mat-selection-list multiple="true" color="primary">
+  <mat-list-option>No A11y Label</mat-list-option>
+</mat-selection-list>

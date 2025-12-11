@@ -91,9 +91,14 @@ module.exports = {
         const snippet = getSnippet(elementString);
         const fix = getRecommendedFix(elementString, matchedKeyword);
         issues.push(
-          `Line ${lineNumber}: Dynamic content with *ngIf lacks live region announcement: "${snippet}". ` +
-          `Screen reader users will not be notified when this content appears. ` +
-          `FIX: ${fix} Alternatively, inject CDK LiveAnnouncer service and call announce() programmatically.`
+          `Warning: Dynamic status message lacks live region announcement. Screen reader users will not be notified when this content appears or changes.\n` +
+          `  How to fix:\n` +
+          `    - ${fix}\n` +
+          `    - Inject CDK LiveAnnouncer service and call announce() programmatically\n` +
+          `    - Wrap element in container with cdkAriaLive directive\n` +
+          `    - Ensure status messages are announced without requiring user interaction\n` +
+          `  WCAG 4.1.3: Status Messages\n` +
+          `  Found: "${snippet}" at line ${lineNumber}`
         );
       }
     }
@@ -114,9 +119,14 @@ module.exports = {
         const snippet = getSnippet(elementString);
         const fix = getRecommendedFix(elementString, matchedKeyword);
         issues.push(
-          `Line ${lineNumber}: Dynamic content with *ngIf lacks live region announcement: "${snippet}". ` +
-          `Screen reader users will not be notified when this content appears. ` +
-          `FIX: ${fix} Alternatively, inject CDK LiveAnnouncer service and call announce() programmatically.`
+          `Warning: Dynamic status message lacks live region announcement. Screen reader users will not be notified when this content appears or changes.\n` +
+          `  How to fix:\n` +
+          `    - ${fix}\n` +
+          `    - Inject CDK LiveAnnouncer service and call announce() programmatically\n` +
+          `    - Wrap element in container with cdkAriaLive directive\n` +
+          `    - Ensure status messages are announced without requiring user interaction\n` +
+          `  WCAG 4.1.3: Status Messages\n` +
+          `  Found: "${snippet}" at line ${lineNumber}`
         );
       }
     }

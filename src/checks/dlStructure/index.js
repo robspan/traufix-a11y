@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 7,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -26,7 +27,13 @@ module.exports = {
         // Check for any remaining tags (invalid children)
         const invalidTags = stripped.match(/<[a-z][^>]*>/gi);
         if (invalidTags) {
-          issues.push('<dl> contains invalid children (only <dt>, <dd>, <div> allowed)');
+          const message = `[Error] Invalid definition list structure. dl elements must have proper dt/dd pairs for accessibility
+  How to fix:
+    - Use dt (term) followed by dd (definition) inside dl
+    - Only dt, dd, and div elements are allowed as direct children
+  WCAG 1.3.1: Info and Relationships | See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
+  Found: <dl>`;
+          issues.push(message);
         }
       }
     }

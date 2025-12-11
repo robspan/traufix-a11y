@@ -1,0 +1,68 @@
+<!-- @a11y-pass -->
+<!-- Static aria-label -->
+<mat-button-toggle-group aria-label="Text alignment">
+  <mat-button-toggle value="left">Left</mat-button-toggle>
+  <mat-button-toggle value="center">Center</mat-button-toggle>
+  <mat-button-toggle value="right">Right</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Static aria-labelledby -->
+<span id="font-style-label">Font style</span>
+<mat-button-toggle-group aria-labelledby="font-style-label">
+  <mat-button-toggle value="bold">Bold</mat-button-toggle>
+  <mat-button-toggle value="italic">Italic</mat-button-toggle>
+  <mat-button-toggle value="underline">Underline</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Angular property binding for aria-label -->
+<mat-button-toggle-group [aria-label]="viewModeLabel">
+  <mat-button-toggle value="list">List View</mat-button-toggle>
+  <mat-button-toggle value="grid">Grid View</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Angular property binding for aria-labelledby -->
+<mat-button-toggle-group [aria-labelledby]="sortLabelId">
+  <mat-button-toggle value="asc">Ascending</mat-button-toggle>
+  <mat-button-toggle value="desc">Descending</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Angular attr binding for aria-label -->
+<mat-button-toggle-group [attr.aria-label]="dynamicLabel">
+  <mat-button-toggle value="day">Day</mat-button-toggle>
+  <mat-button-toggle value="week">Week</mat-button-toggle>
+  <mat-button-toggle value="month">Month</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Angular attr binding for aria-labelledby -->
+<mat-button-toggle-group [attr.aria-labelledby]="dynamicLabelId">
+  <mat-button-toggle value="sm">Small</mat-button-toggle>
+  <mat-button-toggle value="md">Medium</mat-button-toggle>
+  <mat-button-toggle value="lg">Large</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- @a11y-fail -->
+<!-- Missing any group label -->
+<mat-button-toggle-group>
+  <mat-button-toggle value="on">On</mat-button-toggle>
+  <mat-button-toggle value="off">Off</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Only has individual mat-button-toggle children, no group label -->
+<mat-button-toggle-group name="priority">
+  <mat-button-toggle value="low">Low</mat-button-toggle>
+  <mat-button-toggle value="medium">Medium</mat-button-toggle>
+  <mat-button-toggle value="high">High</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Has formControlName but no accessible label -->
+<mat-button-toggle-group formControlName="frequency">
+  <mat-button-toggle value="daily">Daily</mat-button-toggle>
+  <mat-button-toggle value="weekly">Weekly</mat-button-toggle>
+  <mat-button-toggle value="monthly">Monthly</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Has other attributes but no aria-label or aria-labelledby -->
+<mat-button-toggle-group class="my-toggle-group" multiple>
+  <mat-button-toggle value="1">Option 1</mat-button-toggle>
+  <mat-button-toggle value="2">Option 2</mat-button-toggle>
+</mat-button-toggle-group>

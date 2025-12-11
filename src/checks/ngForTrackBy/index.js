@@ -31,10 +31,13 @@ module.exports = {
       if (!hasTrackBy) {
         const lineNumber = getLineNumber(content, match.index);
         issues.push(
-          `Line ${lineNumber}: *ngFor without trackBy function. ` +
-          `FIX: Add a trackBy function, e.g., *ngFor="let item of items; trackBy: trackById". ` +
-          `Then in your component: trackById(index: number, item: any) { return item.id; }. ` +
-          `This maintains element identity for screen readers and improves performance.`
+          `[Warning] Line ${lineNumber}: *ngFor without trackBy function. Without tracking element identity, DOM re-renders can confuse screen readers and users with disabilities who may need more time to interact with dynamic content.\n` +
+          `  How to fix:\n` +
+          `    - Add trackBy function: *ngFor="let item of items; trackBy: trackById"\n` +
+          `    - In component: trackById(index: number, item: any) { return item.id; }\n` +
+          `    - This maintains element identity for assistive technologies and improves performance\n` +
+          `  WCAG 2.2.1: Timing Adjustable (users with disabilities may need more time)\n` +
+          `  Found: ${ngForExpression}`
         );
       }
     }
@@ -53,10 +56,13 @@ module.exports = {
       if (!hasTrack) {
         const lineNumber = getLineNumber(content, match.index);
         issues.push(
-          `Line ${lineNumber}: @for without track expression. ` +
-          `FIX: Add a track expression, e.g., @for (item of items; track item.id) { ... }. ` +
-          `For simple cases, use @for (item of items; track $index). ` +
-          `This maintains element identity for screen readers and improves performance.`
+          `[Warning] Line ${lineNumber}: @for without track expression. Without tracking element identity, DOM re-renders can confuse screen readers and users with disabilities who may need more time to interact with dynamic content.\n` +
+          `  How to fix:\n` +
+          `    - Add track expression: @for (item of items; track item.id) { ... }\n` +
+          `    - For simple cases: @for (item of items; track $index) { ... }\n` +
+          `    - This maintains element identity for assistive technologies and improves performance\n` +
+          `  WCAG 2.2.1: Timing Adjustable (users with disabilities may need more time)\n` +
+          `  Found: ${forExpression}`
         );
       }
     }

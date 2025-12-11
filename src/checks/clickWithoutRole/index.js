@@ -23,6 +23,7 @@ module.exports = {
   tier: 'enhanced',
   type: 'html',
   weight: 7,
+  wcag: '4.1.2',
 
   check(content) {
     const issues = [];
@@ -57,8 +58,12 @@ module.exports = {
         if (missingAttributes.length > 0) {
           const lineNumber = getLineNumber(content, match.index);
           issues.push(
-            `Line ${lineNumber}: <${elementName}> has (click) handler but is missing ${missingAttributes.join(' and ')}. ` +
-            `Non-interactive elements with click handlers need proper ARIA roles and focus capability.`
+            `[Error] Non-interactive element with (click) missing role and tabindex. Screen readers don't announce clickable divs/spans as interactive\n` +
+            `  How to fix:\n` +
+            `    - Add role="button" tabindex="0"\n` +
+            `    - Use <button> element instead\n` +
+            `  WCAG 4.1.2: Name, Role, Value | See: https://www.w3.org/WAI/ARIA/apg/patterns/button/\n` +
+            `  Found: <${elementName}> at line ${lineNumber}`
           );
         }
       }

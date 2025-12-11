@@ -147,8 +147,14 @@ module.exports = {
 
       if (!isInAriaLiveRegion && !isInLiveRole && !hasCdkAriaLive) {
         issues.push(
-          `Line ${lineNumber}: {{ ${asyncExpression} | async }} content may change dynamically. ` +
-          `Consider wrapping in an aria-live region to announce updates to screen reader users.`
+          `Warning: Async pipe content changes without live region announcement. Dynamically updated content must be announced to screen readers.\n` +
+          `  How to fix:\n` +
+          `    - Wrap element in a container with aria-live="polite" for non-urgent updates\n` +
+          `    - Use aria-live="assertive" for urgent/critical updates\n` +
+          `    - Use role="status" or role="alert" (implicit live regions)\n` +
+          `    - Apply cdkAriaLive directive from Angular CDK\n` +
+          `  WCAG 4.1.2: Name, Role, Value\n` +
+          `  Found: {{ ${asyncExpression} | async }} at line ${lineNumber}`
         );
       }
     }

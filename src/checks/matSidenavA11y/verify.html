@@ -1,0 +1,87 @@
+<!-- @a11y-pass -->
+<!-- mat-sidenav with role="navigation" -->
+<mat-sidenav-container>
+  <mat-sidenav role="navigation">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/about">About</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Main content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with aria-label -->
+<mat-sidenav-container>
+  <mat-sidenav aria-label="Main navigation menu">
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/settings">Settings</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Page content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav inside nav element -->
+<mat-sidenav-container>
+  <nav>
+    <mat-sidenav>
+      <a routerLink="/products">Products</a>
+      <a routerLink="/services">Services</a>
+    </mat-sidenav>
+  </nav>
+  <mat-sidenav-content>Content area</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with aria-labelledby -->
+<h2 id="sidenav-heading" class="cdk-visually-hidden">Site Navigation</h2>
+<mat-sidenav-container>
+  <mat-sidenav aria-labelledby="sidenav-heading">
+    <a routerLink="/contact">Contact</a>
+    <a routerLink="/support">Support</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Main area</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with Angular bound aria-label -->
+<mat-sidenav-container>
+  <mat-sidenav [aria-label]="sidenavLabel">
+    <a routerLink="/profile">Profile</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with attr.aria-label binding -->
+<mat-sidenav-container>
+  <mat-sidenav [attr.aria-label]="'Admin navigation'">
+    <a routerLink="/admin">Admin</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Admin content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- @a11y-fail -->
+<!-- mat-sidenav without role or label -->
+<mat-sidenav-container>
+  <mat-sidenav>
+    <a routerLink="/home">Home</a>
+    <a routerLink="/about">About</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Main content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- bare mat-sidenav with no accessibility attributes -->
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">Dashboard</a>
+      <a mat-list-item routerLink="/reports">Reports</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with unrelated attributes but no accessibility -->
+<mat-sidenav-container>
+  <mat-sidenav position="end" mode="over" #endSidenav>
+    <button mat-button (click)="endSidenav.close()">Close</button>
+    <a routerLink="/help">Help</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content with end sidenav</mat-sidenav-content>
+</mat-sidenav-container>

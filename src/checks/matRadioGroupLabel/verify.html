@@ -1,0 +1,66 @@
+<!-- @a11y-pass -->
+<!-- Static aria-label -->
+<mat-radio-group aria-label="Select your favorite color">
+  <mat-radio-button value="red">Red</mat-radio-button>
+  <mat-radio-button value="blue">Blue</mat-radio-button>
+  <mat-radio-button value="green">Green</mat-radio-button>
+</mat-radio-group>
+
+<!-- Static aria-labelledby -->
+<span id="size-label">Select size</span>
+<mat-radio-group aria-labelledby="size-label">
+  <mat-radio-button value="s">Small</mat-radio-button>
+  <mat-radio-button value="m">Medium</mat-radio-button>
+  <mat-radio-button value="l">Large</mat-radio-button>
+</mat-radio-group>
+
+<!-- Angular property binding for aria-label -->
+<mat-radio-group [aria-label]="paymentMethodLabel">
+  <mat-radio-button value="card">Credit Card</mat-radio-button>
+  <mat-radio-button value="paypal">PayPal</mat-radio-button>
+</mat-radio-group>
+
+<!-- Angular property binding for aria-labelledby -->
+<mat-radio-group [aria-labelledby]="shippingLabelId">
+  <mat-radio-button value="standard">Standard</mat-radio-button>
+  <mat-radio-button value="express">Express</mat-radio-button>
+</mat-radio-group>
+
+<!-- Angular attr binding for aria-label -->
+<mat-radio-group [attr.aria-label]="dynamicLabel">
+  <mat-radio-button value="opt1">Option 1</mat-radio-button>
+  <mat-radio-button value="opt2">Option 2</mat-radio-button>
+</mat-radio-group>
+
+<!-- Angular attr binding for aria-labelledby -->
+<mat-radio-group [attr.aria-labelledby]="dynamicLabelId">
+  <mat-radio-button value="a">A</mat-radio-button>
+  <mat-radio-button value="b">B</mat-radio-button>
+</mat-radio-group>
+
+<!-- @a11y-fail -->
+<!-- Missing any group label -->
+<mat-radio-group>
+  <mat-radio-button value="yes">Yes</mat-radio-button>
+  <mat-radio-button value="no">No</mat-radio-button>
+</mat-radio-group>
+
+<!-- Only has individual mat-radio-button labels, no group label -->
+<mat-radio-group name="priority">
+  <mat-radio-button value="low">Low Priority</mat-radio-button>
+  <mat-radio-button value="medium">Medium Priority</mat-radio-button>
+  <mat-radio-button value="high">High Priority</mat-radio-button>
+</mat-radio-group>
+
+<!-- Has formControlName but no accessible label -->
+<mat-radio-group formControlName="frequency">
+  <mat-radio-button value="daily">Daily</mat-radio-button>
+  <mat-radio-button value="weekly">Weekly</mat-radio-button>
+  <mat-radio-button value="monthly">Monthly</mat-radio-button>
+</mat-radio-group>
+
+<!-- Has other attributes but no aria-label or aria-labelledby -->
+<mat-radio-group class="my-radio-group" color="primary">
+  <mat-radio-button value="1">First</mat-radio-button>
+  <mat-radio-button value="2">Second</mat-radio-button>
+</mat-radio-group>

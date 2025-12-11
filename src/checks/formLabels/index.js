@@ -4,6 +4,7 @@ module.exports = {
   tier: 'basic',
   type: 'html',
   weight: 10,
+  wcag: '1.3.1',
 
   check(content) {
     const issues = [];
@@ -83,19 +84,17 @@ module.exports = {
         const snippet = fullMatch.substring(0, 80).replace(/\s+/g, ' ').trim();
         const truncated = fullMatch.length > 80 ? '...' : '';
 
-        // Provide specific fix suggestions
-        let fixSuggestion = '';
-        if (idMatch) {
-          fixSuggestion = `Fix: Add <label for="${idMatch[1]}">Label text</label>, or add aria-label="${tagName} description"`;
-        } else {
-          fixSuggestion = `Fix: Add an id and <label for="id">, use aria-label="description", or wrap in <label>`;
-        }
-
         // Note if placeholder exists but warn it's not sufficient
-        const placeholderNote = hasPlaceholder ? ' (placeholder is not a substitute for a proper label)' : '';
+        const placeholderNote = hasPlaceholder ? ' (Note: placeholder is not a substitute for a proper label)' : '';
 
         issues.push(
-          `<${tagName}> missing accessible label${placeholderNote}: ${snippet}${truncated}. ${fixSuggestion}`
+          `[Error] Form input missing label. Screen reader users cannot identify the input's purpose${placeholderNote}\n` +
+          `  How to fix:\n` +
+          `    - Add <label for="id">Label text</label>\n` +
+          `    - Wrap input in <label>\n` +
+          `    - Use aria-label or aria-labelledby attribute\n` +
+          `  WCAG 1.3.1: Info and Relationships | See: https://www.w3.org/WAI/tutorials/forms/labels/\n` +
+          `  Found: <${snippet}${truncated}>`
         );
       }
     }
