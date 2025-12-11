@@ -12,7 +12,7 @@ function getLineNumber(content, index) {
 module.exports = {
   name: 'outlineNoneWithoutAlt',
   description: 'Detects outline removal without alternative focus indicator',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'scss',
   weight: 3,
 

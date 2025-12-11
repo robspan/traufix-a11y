@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'matFormFieldLabel',
   description: 'Check that mat-form-field contains a mat-label element for proper accessibility',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '1.3.1',

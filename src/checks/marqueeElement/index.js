@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'marqueeElement',
   description: 'The deprecated <marquee> element is inaccessible and should not be used',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
 

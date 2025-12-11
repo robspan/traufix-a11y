@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'blinkElement',
   description: 'The deprecated <blink> element can trigger seizures and should not be used',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
 

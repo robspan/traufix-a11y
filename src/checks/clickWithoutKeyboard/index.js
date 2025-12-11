@@ -22,7 +22,7 @@ function getLineNumber(html, index) {
 module.exports = {
   name: 'clickWithoutKeyboard',
   description: 'Non-interactive elements with (click) must have keyboard handlers',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '2.1.1',

@@ -9,7 +9,7 @@
 // CORE TYPES
 // ============================================
 
-export type Tier = 'basic' | 'material' | 'full' | 'enhanced';
+export type Tier = 'basic' | 'material' | 'full';
 export type FileType = 'html' | 'scss';
 export type Severity = 'error' | 'warning' | 'info';
 export type ContrastRating = 'fail' | 'AA-large' | 'AA' | 'AAA' | 'unknown';
@@ -22,7 +22,7 @@ export type RGB = [number, number, number];
 // ============================================
 
 export interface AnalyzeOptions {
-  /** Tier level: 'basic', 'enhanced', or 'full' */
+  /** Tier level: 'basic', 'material', or 'full' */
   tier?: Tier;
   /** Patterns to ignore (e.g., 'node_modules', 'dist') */
   ignore?: string[];
@@ -203,7 +203,7 @@ export interface TierConfig {
 
 export interface TiersConfig {
   basic: TierConfig;
-  enhanced: TierConfig;
+  material: TierConfig;
   full: TierConfig;
 }
 
@@ -267,12 +267,6 @@ export function basic(targetPath: string): AnalysisResult;
  * @param targetPath - Directory or file to analyze
  */
 export function material(targetPath: string): AnalysisResult;
-
-/**
- * @deprecated Use material() instead
- * Alias for backwards compatibility
- */
-export function enhanced(targetPath: string): AnalysisResult;
 
 /**
  * Full audit with all 82 checks (most thorough)

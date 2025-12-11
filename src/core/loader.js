@@ -32,7 +32,7 @@ const REQUIRED_FIELDS = ['name', 'description', 'tier', 'type', 'check'];
  * Valid tier values
  * @type {string[]}
  */
-const VALID_TIERS = ['basic', 'material', 'enhanced', 'full'];
+const VALID_TIERS = ['basic', 'material', 'full'];
 
 /**
  * Valid type values
@@ -43,14 +43,12 @@ const VALID_TYPES = ['html', 'scss'];
 /**
  * Tier hierarchy for filtering
  * Maps each tier to the tiers it includes
- * 'material' and 'enhanced' are equivalent (enhanced is backwards compat alias)
  * @type {Object<string, string[]>}
  */
 const TIER_HIERARCHY = {
   basic: ['basic'],
-  material: ['basic', 'enhanced', 'material'],
-  enhanced: ['basic', 'enhanced', 'material'],  // alias for material
-  full: ['basic', 'enhanced', 'material', 'full']
+  material: ['basic', 'material'],
+  full: ['basic', 'material', 'full']
 };
 
 /**
@@ -304,7 +302,7 @@ function loadAllChecks(forceReload = false) {
  * - 'full': all checks (basic + material + full)
  *
  * @param {Map<string, object>} registry - Check registry (from loadAllChecks)
- * @param {'basic'|'material'|'enhanced'|'full'} tier - Tier to filter by
+ * @param {'basic'|'material'|'full'} tier - Tier to filter by
  * @returns {Map<string, object>} Filtered checks
  *
  * @example

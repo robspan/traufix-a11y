@@ -95,7 +95,7 @@ const { verifyByTier, getVerifySummary } = require('./verifier');
  * const runner = new CheckRunner({ workers: 4 });
  * await runner.init();
  *
- * const results = await runner.runChecks(files, 'enhanced');
+ * const results = await runner.runChecks(files, 'material');
  * console.log(`Found ${results.summary.issues.length} issues`);
  *
  * await runner.shutdown();
@@ -430,7 +430,7 @@ class CheckRunner {
    * if no workers are available) and aggregates results.
    *
    * @param {Array<{path: string, content: string}>} files - Files to check
-   * @param {'basic'|'enhanced'|'full'} [tier='enhanced'] - Which tier of checks to run
+   * @param {'basic'|'material'|'full'} [tier='material'] - Which tier of checks to run
    * @param {Object} [options={}] - Additional options
    * @param {string} [options.check] - Optional single check name to run
    * @returns {Promise<RunResults>} Aggregated results
@@ -441,10 +441,10 @@ class CheckRunner {
    *   { path: 'link.html', content: '<a href="#">Click</a>' }
    * ];
    *
-   * const results = await runner.runChecks(files, 'enhanced');
+   * const results = await runner.runChecks(files, 'material');
    * console.log(`Checked ${results.summary.totalFiles} files`);
    */
-  async runChecks(files, tier = 'enhanced', options = {}) {
+  async runChecks(files, tier = 'material', options = {}) {
     const startTime = Date.now();
 
     // Initialize if not already done
@@ -453,10 +453,10 @@ class CheckRunner {
     }
 
     // Validate tier
-    const validTiers = ['basic', 'enhanced', 'full'];
+    const validTiers = ['basic', 'material', 'full'];
     if (!validTiers.includes(tier)) {
-      console.warn(`[runner] Invalid tier "${tier}", defaulting to "enhanced"`);
-      tier = 'enhanced';
+      console.warn(`[runner] Invalid tier "${tier}", defaulting to "material"`);
+      tier = 'material';
     }
 
     // Load and filter checks
@@ -596,7 +596,7 @@ class CheckRunner {
    *
    * Runs each check against its verify file to ensure correct behavior.
    *
-   * @param {'basic'|'enhanced'|'full'} [tier='full'] - Which tier to verify
+   * @param {'basic'|'material'|'full'} [tier='full'] - Which tier to verify
    * @returns {Promise<VerifyResults>} Verification results
    *
    * @example
@@ -607,7 +607,7 @@ class CheckRunner {
     const startTime = Date.now();
 
     // Validate tier
-    const validTiers = ['basic', 'enhanced', 'full'];
+    const validTiers = ['basic', 'material', 'full'];
     if (!validTiers.includes(tier)) {
       console.warn(`[runner] Invalid tier "${tier}", defaulting to "full"`);
       tier = 'full';
@@ -722,7 +722,7 @@ async function createRunner(options = {}) {
  *
  * @param {Array<{path: string, content: string}>} files - Files to check
  * @param {Object} [options] - Options
- * @param {'basic'|'enhanced'|'full'} [options.tier='enhanced'] - Check tier
+ * @param {'basic'|'material'|'full'} [options.tier='material'] - Check tier
  * @param {string} [options.check] - Specific check to run
  * @param {number|'auto'} [options.workers='auto'] - Worker count
  * @returns {Promise<RunResults>} Check results
@@ -739,7 +739,7 @@ async function runChecksOnFiles(files, options = {}) {
   });
 
   try {
-    return await runner.runChecks(files, options.tier || 'enhanced', {
+    return await runner.runChecks(files, options.tier || 'material', {
       check: options.check
     });
   } finally {

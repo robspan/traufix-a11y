@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'metaViewport',
   description: 'Meta viewport must allow user zooming for accessibility',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '1.4.4',

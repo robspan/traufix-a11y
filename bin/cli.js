@@ -45,7 +45,6 @@ function parseArgs(args) {
     else if (arg === '--verbose' || arg === '-V') options.verbose = true;
     else if (arg === '--basic' || arg === '-b') options.tier = 'basic';
     else if (arg === '--material' || arg === '-m') options.tier = 'material';
-    else if (arg === '--enhanced' || arg === '-e') options.tier = 'material'; // backwards compat
     else if (arg === '--full' || arg === '-F') options.tier = 'full';
     else if (arg === '--tier' || arg === '-t') options.tier = args[++i] || 'material';
     else if (arg === '--format' || arg === '-f') options.format = args[++i] || 'console';

@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'matTableHeaders',
   description: 'Check that mat-table has mat-header-row for screen reader accessibility',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '1.3.1',

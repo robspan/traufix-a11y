@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'autoplayMedia',
   description: 'Autoplay media should have controls and be muted for accessibility',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '1.4.2',

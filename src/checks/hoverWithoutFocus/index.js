@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'hoverWithoutFocus',
   description: 'Ensures :hover styles have matching :focus styles for keyboard user parity',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'scss',
   weight: 3,
   wcag: '2.1.1',

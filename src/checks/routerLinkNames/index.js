@@ -12,7 +12,7 @@ function getLineNumber(html, index) {
 module.exports = {
   name: 'routerLinkNames',
   description: 'Elements with routerLink must have accessible names',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '2.4.4',

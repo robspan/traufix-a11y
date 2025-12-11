@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'matButtonType',
   description: 'Check that Material button directives are only applied to <button> or <a> elements',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '4.1.2',

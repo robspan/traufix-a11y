@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'htmlHasLang',
   description: 'HTML element must have a valid lang attribute for screen readers and translation tools',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '3.1.1',

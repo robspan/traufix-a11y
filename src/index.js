@@ -57,15 +57,15 @@ function generateTiersFromRegistry() {
 
   const tiers = {
     basic: { html: [], scss: [], angular: [], material: [], cdk: [] },
-    enhanced: { html: [], scss: [], angular: [], material: [], cdk: [] },
+    material: { html: [], scss: [], angular: [], material: [], cdk: [] },
     full: { html: [], scss: [], angular: [], material: [], cdk: [] }
   };
 
   // Tier hierarchy - each tier includes checks from lower tiers
   const tierHierarchy = {
     basic: ['basic'],
-    enhanced: ['basic', 'enhanced'],
-    full: ['basic', 'enhanced', 'full']
+    material: ['basic', 'material'],
+    full: ['basic', 'material', 'full']
   };
 
   for (const [name, module] of registry) {
@@ -182,12 +182,7 @@ const STATIC_TIERS = {
     cdk: ['cdkTrapFocusDialog', 'cdkAriaDescriber', 'cdkLiveAnnouncer']
   },
 
-  // Backwards compatibility alias
-  enhanced: null // Will be set to 'material' below
 };
-
-// Backwards compatibility: 'enhanced' maps to 'material'
-STATIC_TIERS.enhanced = STATIC_TIERS.material;
 
 /**
  * Get effective TIERS configuration from registry
@@ -386,9 +381,9 @@ function findFilesWithContent(targetPath, config) {
  * @param {string} tier - Tier name
  * @param {string|null} singleCheck - If set, only run this specific check
  */
-function analyzeFile(filePath, tier = 'enhanced', singleCheck = null) {
+function analyzeFile(filePath, tier = 'material', singleCheck = null) {
   const tiers = getTiers();
-  const tierConfig = tiers[tier] || tiers.enhanced;
+  const tierConfig = tiers[tier] || tiers.material;
   const ext = path.extname(filePath).toLowerCase();
   const content = fs.readFileSync(filePath, 'utf-8');
   const results = [];
@@ -430,7 +425,7 @@ function analyzeFile(filePath, tier = 'enhanced', singleCheck = null) {
  */
 function analyzeSync(targetPath, options = {}) {
   const config = { ...DEFAULT_CONFIG, ...options };
-  const tier = config.tier || 'enhanced';
+  const tier = config.tier || 'material';
   const ignore = config.ignore || DEFAULT_CONFIG.ignore;
   const singleCheck = config.check || null;
 
@@ -486,7 +481,7 @@ function analyzeSync(targetPath, options = {}) {
  * Main analysis function - supports both sync and async modes
  * @param {string} targetPath - Directory or file to analyze
  * @param {object} options - Configuration options
- * @param {string} options.tier - 'basic', 'enhanced', or 'full'
+ * @param {string} options.tier - 'basic', 'material', or 'full'
  * @param {string[]} options.ignore - Patterns to ignore
  * @param {string} options.check - Single check name to run (optional)
  * @param {boolean} options.verified - Run self-test first (optional)
@@ -584,7 +579,7 @@ function convertRunnerResults(runnerResults, config) {
 
 /**
  * Verify all checks for a tier (self-test)
- * @param {'basic'|'enhanced'|'full'} tier - Tier to verify
+ * @param {'basic'|'material'|'full'} tier - Tier to verify
  * @returns {Promise<object>} Verification results
  *
  * @example
@@ -637,14 +632,6 @@ function material(targetPath) {
 }
 
 /**
- * @deprecated Use material() instead
- * Alias for backwards compatibility
- */
-function enhanced(targetPath) {
-  return analyze(targetPath, { tier: 'material' });
-}
-
-/**
  * Full audit with all 82 checks (most thorough)
  * @param {string} targetPath - Directory or file to analyze
  * @returns {object} Analysis results
@@ -660,12 +647,12 @@ function full(targetPath) {
 /**
  * Check specific HTML content
  * @param {string} html - HTML string to analyze
- * @param {string} tier - 'basic', 'enhanced', or 'full'
+ * @param {string} tier - 'basic', 'material', or 'full'
  * @returns {CheckResult[]} Array of check results
  */
-function checkHTML(html, tier = 'enhanced') {
+function checkHTML(html, tier = 'material') {
   const tiers = getTiers();
-  const tierConfig = tiers[tier] || tiers.enhanced;
+  const tierConfig = tiers[tier] || tiers.material;
   const results = [];
 
   for (const checkName of [
@@ -683,12 +670,12 @@ function checkHTML(html, tier = 'enhanced') {
 /**
  * Check specific SCSS content
  * @param {string} scss - SCSS string to analyze
- * @param {string} tier - 'basic', 'enhanced', or 'full'
+ * @param {string} tier - 'basic', 'material', or 'full'
  * @returns {CheckResult[]} Array of check results
  */
-function checkSCSS(scss, tier = 'enhanced') {
+function checkSCSS(scss, tier = 'material') {
   const tiers = getTiers();
-  const tierConfig = tiers[tier] || tiers.enhanced;
+  const tierConfig = tiers[tier] || tiers.material;
   const results = [];
 
   for (const checkName of (tierConfig.scss || [])) {
@@ -766,7 +753,6 @@ module.exports = {
   // Simple one-liner API
   basic,
   material,
-  enhanced, // deprecated alias for material
   full,
 
   // Flexible API

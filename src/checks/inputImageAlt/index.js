@@ -12,7 +12,7 @@ function getLineNumber(content, index) {
 module.exports = {
   name: 'inputImageAlt',
   description: 'Input type="image" elements must have alt text describing their purpose',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
 

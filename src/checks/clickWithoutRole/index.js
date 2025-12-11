@@ -22,7 +22,7 @@ function getLineNumber(html, index) {
 module.exports = {
   name: 'clickWithoutRole',
   description: 'Non-interactive elements with (click) need role and tabindex',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '4.1.2',

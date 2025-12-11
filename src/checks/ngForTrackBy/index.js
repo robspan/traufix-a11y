@@ -12,7 +12,7 @@ function getLineNumber(html, index) {
 module.exports = {
   name: 'ngForTrackBy',
   description: '*ngFor and @for should use trackBy/track for element identity',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
 

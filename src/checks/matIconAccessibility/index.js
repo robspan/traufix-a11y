@@ -3,7 +3,7 @@ const { format } = require('../../core/errors');
 module.exports = {
   name: 'matIconAccessibility',
   description: 'Check that mat-icon has proper accessibility attributes (aria-hidden, aria-label, or aria-labelledby)',
-  tier: 'enhanced',
+  tier: 'material',
   type: 'html',
   weight: 7,
   wcag: '1.1.1',
