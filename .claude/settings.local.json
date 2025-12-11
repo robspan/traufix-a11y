@@ -12,7 +12,8 @@
       "Bash(del \"C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\traufix-a11y\\test-debug.js\")",
       "Bash(node audit-checks.js:*)",
       "Bash(cat:*)",
-      "Bash(node -c:*)"
+      "Bash(node -c:*)",
+      "Bash(npm view:*)"
     ]
   }
 }

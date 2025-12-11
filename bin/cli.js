@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-// traufix-a11y CLI
-// Static accessibility analyzer for Angular/HTML templates.
+// mat-a11y CLI
+// Angular Material accessibility linter.
 // KEINE GEWÄHR - Use at your own risk.
 
 const fs = require('fs');
@@ -23,7 +23,7 @@ const c = {
 function parseArgs(args) {
   const options = {
     files: [],
-    tier: 'enhanced',
+    tier: 'material',
     format: 'console',
     verbose: false,
     help: false,
@@ -44,9 +44,10 @@ function parseArgs(args) {
     else if (arg === '--version' || arg === '-v') options.version = true;
     else if (arg === '--verbose' || arg === '-V') options.verbose = true;
     else if (arg === '--basic' || arg === '-b') options.tier = 'basic';
-    else if (arg === '--enhanced' || arg === '-e') options.tier = 'enhanced';
+    else if (arg === '--material' || arg === '-m') options.tier = 'material';
+    else if (arg === '--enhanced' || arg === '-e') options.tier = 'material'; // backwards compat
     else if (arg === '--full' || arg === '-F') options.tier = 'full';
-    else if (arg === '--tier' || arg === '-t') options.tier = args[++i] || 'enhanced';
+    else if (arg === '--tier' || arg === '-t') options.tier = args[++i] || 'material';
     else if (arg === '--format' || arg === '-f') options.format = args[++i] || 'console';
     else if (arg === '--output' || arg === '-o') options.output = args[++i];
     else if (arg === '--ignore' || arg === '-i') options.ignore.push(args[++i]);
@@ -67,28 +68,30 @@ function parseArgs(args) {
 
 // Help
 function showHelp() {
-  const basicCount = TIERS.basic.html.length + TIERS.basic.scss.length;
-  const enhancedCount = TIERS.enhanced.html.length + TIERS.enhanced.scss.length +
-                        TIERS.enhanced.angular.length + TIERS.enhanced.material.length;
+  const basicCount = TIERS.basic.html.length + TIERS.basic.scss.length +
+                     TIERS.basic.material.length;
+  const materialCount = TIERS.material.html.length + TIERS.material.scss.length +
+                        TIERS.material.angular.length + TIERS.material.material.length +
+                        TIERS.material.cdk.length;
   const fullCount = TIERS.full.html.length + TIERS.full.scss.length +
                     TIERS.full.angular.length + TIERS.full.material.length + TIERS.full.cdk.length;
 
   console.log(`
-${c.bold}traufix-a11y${c.reset} - Static Accessibility Analyzer for Angular
+${c.bold}mat-a11y${c.reset} - Angular Material Accessibility Linter
 
 ${c.cyan}USAGE:${c.reset}
-  traufix-a11y [options] <directory|file>
+  mat-a11y [options] <directory|file>
 
 ${c.cyan}TIERS:${c.reset}
-  ${c.green}-b, --basic${c.reset}      Basic checks only (${basicCount} checks) - Lighthouse core
-  ${c.green}-e, --enhanced${c.reset}   Enhanced checks (${enhancedCount} checks) - Recommended for Angular ${c.dim}[default]${c.reset}
-  ${c.green}-F, --full${c.reset}       Full checks (${fullCount} checks) - Maximum coverage
+  ${c.green}-b, --basic${c.reset}      Quick lint (~${basicCount} checks) - Fast CI checks
+  ${c.green}-m, --material${c.reset}   Material mode (~${materialCount} checks) - All mat-* + Angular ${c.dim}[default]${c.reset}
+  ${c.green}-F, --full${c.reset}       Full audit (${fullCount} checks) - Maximum coverage
 
 ${c.cyan}OPTIONS:${c.reset}
   -h, --help            Show this help
   -v, --version         Show version
   -V, --verbose         Verbose output
-  -t, --tier <tier>     Set tier: basic, enhanced, full
+  -t, --tier <tier>     Set tier: basic, material, full
   -f, --format <type>   Output: console, json, html
   -o, --output <file>   Write to file
   -i, --ignore <path>   Ignore pattern (can repeat)
@@ -105,71 +108,59 @@ ${c.cyan}PARALLELIZATION:${c.reset}
                         Use 'auto' for CPU count, or a number
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Check only your app's media folder${c.reset}
-  traufix-a11y ./src/app/media
+  ${c.dim}# Default: Material mode${c.reset}
+  mat-a11y ./src/app
 
   ${c.dim}# Quick basic check${c.reset}
-  traufix-a11y ./src --basic
+  mat-a11y ./src --basic
 
   ${c.dim}# Full audit for production${c.reset}
-  traufix-a11y ./src --full
+  mat-a11y ./src --full
 
   ${c.dim}# JSON output for CI${c.reset}
-  traufix-a11y ./src -f json -o report.json
+  mat-a11y ./src -f json -o report.json
 
   ${c.dim}# Run only a single check${c.reset}
-  traufix-a11y ./src --check buttonNames
+  mat-a11y ./src --check matFormFieldLabel
 
-  ${c.dim}# List all available checks${c.reset}
-  traufix-a11y --list-checks
+  ${c.dim}# Self-test before running${c.reset}
+  mat-a11y ./src --full-verified
 
-  ${c.dim}# Self-test before running (verified mode)${c.reset}
-  traufix-a11y ./src --full-verified
-
-  ${c.dim}# Parallel execution with worker count${c.reset}
-  traufix-a11y ./src --workers 4
-  traufix-a11y ./src --workers auto
-
-  ${c.dim}# Self-test only (no analysis)${c.reset}
-  traufix-a11y --self-test
-  traufix-a11y --self-test --tier basic
-
-  ${c.dim}# Combine flags${c.reset}
-  traufix-a11y ./src --full-verified --workers auto
+  ${c.dim}# Parallel execution${c.reset}
+  mat-a11y ./src --workers auto
 
 ${c.cyan}TIERS EXPLAINED:${c.reset}
-  ${c.bold}BASIC (${basicCount} checks)${c.reset}
-    Core Lighthouse accessibility audits. Fast CI checks.
-    HTML: buttons, images, forms, ARIA, headings, links, tables
-    SCSS: contrast, focus, touch targets
+  ${c.bold}BASIC (~${basicCount} checks)${c.reset}
+    Quick lint for CI. Core HTML + essential Material.
+    HTML: buttons, images, forms, ARIA, headings
+    Material: mat-form-field, mat-icon
 
-  ${c.bold}ENHANCED (${enhancedCount} checks)${c.reset} ${c.green}[recommended]${c.reset}
-    Basic + Angular + common Material checks.
+  ${c.bold}MATERIAL (~${materialCount} checks)${c.reset} ${c.green}[default]${c.reset}
+    All Angular Material components + Angular patterns.
+    + All mat-* components: forms, buttons, tables, dialogs...
     + Angular: click handlers, routerLink, ngFor
-    + Material: mat-icon, mat-form-field, mat-button, mat-table
+    + CDK: focus trapping, live announcer
 
   ${c.bold}FULL (${fullCount} checks)${c.reset}
-    Everything. Maximum accessibility coverage.
-    + All Material: dialogs, sliders, menus, tabs, steppers
-    + CDK: focus trapping, live announcer
-    + SCSS: animations, font sizes, line heights
+    Complete audit. Everything + deep HTML/SCSS checks.
+    + All HTML: meta tags, skip links, media, tables
+    + All SCSS: animations, font sizes, line heights
 
 ${c.cyan}DEFAULT IGNORES:${c.reset}
   ${DEFAULT_CONFIG.ignore.join(', ')}
 
-${c.yellow}HINWEIS / DISCLAIMER:${c.reset}
-  Diese Software wird ohne Gewähr bereitgestellt.
-  Keine Garantie für Vollständigkeit oder Richtigkeit.
+${c.yellow}DISCLAIMER:${c.reset}
   This software is provided "as is" without warranty.
+  No guarantee of completeness or correctness.
 
-${c.dim}https://github.com/traufix/traufix-a11y${c.reset}
+${c.dim}https://github.com/robspan/mat-a11y${c.reset}
 `);
 }
 
 // Version
 function showVersion() {
   const pkg = require('../package.json');
-  console.log('traufix-a11y v' + pkg.version);
+  console.log('mat-a11y v' + pkg.version);
 }
 
 // JSON format
@@ -201,7 +192,7 @@ function formatHTML(results) {
     '.success{background:#f0fdf4;border-left:3px solid #22c55e;padding:1rem;border-radius:4px}' +
     '.disclaimer{background:#fffbeb;border:1px solid #f59e0b;padding:1rem;margin-top:2rem;border-radius:4px;font-size:0.875rem}' +
     '</style></head><body>' +
-    '<h1>Accessibility Report</h1><p>Tier: ' + (results.tier || 'enhanced').toUpperCase() + '</p>' +
+    '<h1>mat-a11y Report</h1><p>Tier: ' + (results.tier || 'material').toUpperCase() + '</p>' +
     '<div class="summary">' +
     '<div class="stat"><div class="stat-value">' + s.totalFiles + '</div>Files</div>' +
     '<div class="stat"><div class="stat-value">' + s.totalChecks + '</div>Checks</div>' +
@@ -212,7 +203,7 @@ function formatHTML(results) {
     '<div class="disclaimer"><strong>Haftungsausschluss:</strong> Diese Analyse wird ohne Gewähr bereitgestellt. ' +
     'Keine Garantie für Vollständigkeit, Richtigkeit oder Eignung. Nutzung auf eigene Verantwortung.<br>' +
     '<strong>Disclaimer:</strong> This analysis is provided "as is" without warranty of any kind.</div>' +
-    '<footer style="margin-top:2rem;color:#666;font-size:0.875rem">Generated by traufix-a11y | ' + new Date().toISOString() + '</footer>' +
+    '<footer style="margin-top:2rem;color:#666;font-size:0.875rem">Generated by mat-a11y | ' + new Date().toISOString() + '</footer>' +
     '</body></html>';
 }
 
@@ -220,52 +211,34 @@ function formatHTML(results) {
 function listChecks() {
   console.log('\n' + c.bold + 'AVAILABLE CHECKS' + c.reset + '\n');
 
-  console.log(c.cyan + 'HTML Checks (basic):' + c.reset);
-  TIERS.basic.html.forEach(check => console.log('  ' + check));
+  console.log(c.cyan + 'BASIC TIER:' + c.reset);
+  console.log('  HTML: ' + TIERS.basic.html.join(', '));
+  console.log('  SCSS: ' + TIERS.basic.scss.join(', '));
+  console.log('  Material: ' + TIERS.basic.material.join(', '));
 
-  console.log('\n' + c.cyan + 'SCSS Checks (basic):' + c.reset);
-  TIERS.basic.scss.forEach(check => console.log('  ' + check));
+  console.log('\n' + c.cyan + 'MATERIAL TIER (default):' + c.reset);
+  console.log('  HTML: ' + TIERS.material.html.join(', '));
+  console.log('  SCSS: ' + TIERS.material.scss.join(', '));
+  console.log('  Angular: ' + TIERS.material.angular.join(', '));
+  console.log('  Material: ' + TIERS.material.material.join(', '));
+  console.log('  CDK: ' + TIERS.material.cdk.join(', '));
 
-  console.log('\n' + c.cyan + 'Additional HTML Checks (enhanced):' + c.reset);
-  const enhancedHtmlExtra = TIERS.enhanced.html.filter(c => !TIERS.basic.html.includes(c));
-  enhancedHtmlExtra.forEach(check => console.log('  ' + check));
+  console.log('\n' + c.cyan + 'FULL TIER (additional):' + c.reset);
+  const fullHtmlExtra = TIERS.full.html.filter(ch => !TIERS.material.html.includes(ch));
+  const fullScssExtra = TIERS.full.scss.filter(ch => !TIERS.material.scss.includes(ch));
+  const fullAngularExtra = TIERS.full.angular.filter(ch => !TIERS.material.angular.includes(ch));
+  console.log('  + HTML: ' + fullHtmlExtra.join(', '));
+  console.log('  + SCSS: ' + fullScssExtra.join(', '));
+  console.log('  + Angular: ' + fullAngularExtra.join(', '));
 
-  console.log('\n' + c.cyan + 'Additional SCSS Checks (enhanced):' + c.reset);
-  const enhancedScssExtra = TIERS.enhanced.scss.filter(c => !TIERS.basic.scss.includes(c));
-  enhancedScssExtra.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Angular Checks (enhanced):' + c.reset);
-  TIERS.enhanced.angular.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Material Checks (enhanced):' + c.reset);
-  TIERS.enhanced.material.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Additional HTML Checks (full):' + c.reset);
-  const fullHtmlExtra = TIERS.full.html.filter(c => !TIERS.enhanced.html.includes(c));
-  fullHtmlExtra.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Additional SCSS Checks (full):' + c.reset);
-  const fullScssExtra = TIERS.full.scss.filter(c => !TIERS.enhanced.scss.includes(c));
-  fullScssExtra.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Additional Angular Checks (full):' + c.reset);
-  const fullAngularExtra = TIERS.full.angular.filter(c => !TIERS.enhanced.angular.includes(c));
-  fullAngularExtra.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'Additional Material Checks (full):' + c.reset);
-  const fullMaterialExtra = TIERS.full.material.filter(c => !TIERS.enhanced.material.includes(c));
-  fullMaterialExtra.forEach(check => console.log('  ' + check));
-
-  console.log('\n' + c.cyan + 'CDK Checks (full):' + c.reset);
-  TIERS.full.cdk.forEach(check => console.log('  ' + check));
-
-  const totalBasic = TIERS.basic.html.length + TIERS.basic.scss.length;
-  const totalEnhanced = TIERS.enhanced.html.length + TIERS.enhanced.scss.length +
-                        TIERS.enhanced.angular.length + TIERS.enhanced.material.length;
+  const totalBasic = TIERS.basic.html.length + TIERS.basic.scss.length + TIERS.basic.material.length;
+  const totalMaterial = TIERS.material.html.length + TIERS.material.scss.length +
+                        TIERS.material.angular.length + TIERS.material.material.length +
+                        TIERS.material.cdk.length;
   const totalFull = TIERS.full.html.length + TIERS.full.scss.length +
                     TIERS.full.angular.length + TIERS.full.material.length + TIERS.full.cdk.length;
 
-  console.log('\n' + c.dim + 'Total: basic=' + totalBasic + ', enhanced=' + totalEnhanced + ', full=' + totalFull + c.reset + '\n');
+  console.log('\n' + c.dim + 'Total: basic=' + totalBasic + ', material=' + totalMaterial + ', full=' + totalFull + c.reset + '\n');
 }
 
 // Main
@@ -289,8 +262,8 @@ async function main() {
 
   if (opts.files.length === 0) {
     console.error(c.red + 'Error: No path specified' + c.reset);
-    console.log('Usage: traufix-a11y <directory>');
-    console.log('       traufix-a11y --help');
+    console.log('Usage: mat-a11y <directory>');
+    console.log('       mat-a11y --help');
     process.exit(2);
   }
 

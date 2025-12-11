@@ -32,7 +32,7 @@ const REQUIRED_FIELDS = ['name', 'description', 'tier', 'type', 'check'];
  * Valid tier values
  * @type {string[]}
  */
-const VALID_TIERS = ['basic', 'enhanced', 'full'];
+const VALID_TIERS = ['basic', 'material', 'enhanced', 'full'];
 
 /**
  * Valid type values
@@ -43,12 +43,14 @@ const VALID_TYPES = ['html', 'scss'];
 /**
  * Tier hierarchy for filtering
  * Maps each tier to the tiers it includes
+ * 'material' and 'enhanced' are equivalent (enhanced is backwards compat alias)
  * @type {Object<string, string[]>}
  */
 const TIER_HIERARCHY = {
   basic: ['basic'],
-  enhanced: ['basic', 'enhanced'],
-  full: ['basic', 'enhanced', 'full']
+  material: ['basic', 'enhanced', 'material'],
+  enhanced: ['basic', 'enhanced', 'material'],  // alias for material
+  full: ['basic', 'enhanced', 'material', 'full']
 };
 
 /**
@@ -298,23 +300,23 @@ function loadAllChecks(forceReload = false) {
  * Returns a filtered registry containing only checks that match the specified tier.
  * Tier filtering is cumulative:
  * - 'basic': only basic tier checks
- * - 'enhanced': basic + enhanced tier checks
- * - 'full': all checks (basic + enhanced + full)
+ * - 'material': basic + material tier checks (default)
+ * - 'full': all checks (basic + material + full)
  *
  * @param {Map<string, object>} registry - Check registry (from loadAllChecks)
- * @param {'basic'|'enhanced'|'full'} tier - Tier to filter by
+ * @param {'basic'|'material'|'enhanced'|'full'} tier - Tier to filter by
  * @returns {Map<string, object>} Filtered checks
  *
  * @example
  * const registry = loadAllChecks();
- * const basicChecks = getChecksByTier(registry, 'basic');
- * console.log(`Basic tier has ${basicChecks.size} checks`);
+ * const materialChecks = getChecksByTier(registry, 'material');
+ * console.log(`Material tier has ${materialChecks.size} checks`);
  */
 function getChecksByTier(registry, tier) {
   // Validate tier
   if (!VALID_TIERS.includes(tier)) {
-    console.warn(`[loader] Invalid tier "${tier}", defaulting to "enhanced"`);
-    tier = 'enhanced';
+    console.warn(`[loader] Invalid tier "${tier}", defaulting to "material"`);
+    tier = 'material';
   }
 
   const allowedTiers = TIER_HIERARCHY[tier];

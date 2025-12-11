@@ -1,6 +1,6 @@
-# traufix-a11y
+# mat-a11y
 
-Static accessibility analyzer for Angular/HTML templates with full Lighthouse audit coverage.
+Angular Material accessibility linter. Static analysis for mat-* components, Angular templates & SCSS.
 
 **82 checks** | **3 tiers** | **100% Angular Material coverage** | **WCAG 2.1 contrast calculation**
 
@@ -8,25 +8,25 @@ Static accessibility analyzer for Angular/HTML templates with full Lighthouse au
 
 ```bash
 # Install
-npm install traufix-a11y
+npm install mat-a11y
 
-# Run on your project
-npx traufix-a11y ./src/app
+# Run on your project (default: material mode)
+npx mat-a11y ./src/app
 ```
 
 ## Simple One-Liner API
 
 ```javascript
-const { basic, enhanced, full } = require('traufix-a11y');
+const { basic, material, full } = require('mat-a11y');
 
-// Quick check (20 checks)
-const results = basic('./src/app/media');
+// Quick lint (~15 checks)
+const results = basic('./src/app');
 
-// Recommended for Angular (37 checks)
-const results = enhanced('./src/app/media');
+// Material mode - all mat-* components (~45 checks) [default]
+const results = material('./src/app');
 
-// Maximum coverage (82 checks)
-const results = full('./src/app/media');
+// Full audit (82 checks)
+const results = full('./src/app');
 ```
 
 ## Architecture
@@ -70,7 +70,7 @@ Example verify file:
 
 ### Parallel Execution
 
-For large codebases, traufix-a11y supports parallel execution using worker threads:
+For large codebases, mat-a11y supports parallel execution using worker threads:
 
 - Automatically determines optimal worker count based on CPU cores
 - Distributes checks across workers for faster analysis
@@ -92,69 +92,65 @@ src/core/
 
 | Tier | Checks | Best For |
 |------|--------|----------|
-| **basic** | 20 | Quick CI checks, small projects |
-| **enhanced** | 37 | Angular apps, daily development (default) |
+| **basic** | ~15 | Quick CI checks, fast feedback |
+| **material** | ~45 | Angular Material apps (default) |
 | **full** | 82 | Production audits, maximum coverage |
 
-### Basic (20 checks)
-Core Lighthouse accessibility audits:
-- HTML: buttons, images, forms, ARIA, headings, links, tables, iframes, videos
-- SCSS: color contrast, focus styles, touch targets
+### Basic (~15 checks)
+Quick lint for CI pipelines:
+- HTML: buttons, images, forms, ARIA, headings, links
+- SCSS: color contrast, focus styles
+- Material: mat-form-field, mat-icon (essentials)
 
-### Enhanced (37 checks)
-Basic + Angular + common Material:
+### Material (~45 checks) [default]
+All Angular Material components + Angular patterns:
+- All mat-* components: forms, buttons, tables, dialogs, tabs, menus...
 - Angular: `(click)` handlers, `routerLink`, `*ngFor` trackBy
-- Material: `mat-icon`, `mat-form-field`, `mat-button`, `mat-table`
-- Extra HTML: viewport, skip links, autoplay media
+- CDK: focus trapping, aria describer, live announcer
+- Core HTML & SCSS checks
 
 ### Full (82 checks)
-Everything including 100% Angular Material coverage:
-- All Material components (29 checks): autocomplete, datepicker, radio, checkbox, slider, progress, badge, sidenav, tree, paginator, and more
-- CDK: focus trapping, aria describer, live announcer
-- All SCSS: animations, font sizes, line heights, text-align
+Complete audit with deep HTML/SCSS analysis:
+- Everything from Material tier
+- Extra HTML: meta tags, skip links, autoplay media, tables
+- Extra SCSS: animations, font sizes, line heights, text-align
 
 ## CLI Usage
 
 ```bash
-# Basic check (fastest)
-traufix-a11y ./src --basic
+# Default: Material mode (~45 checks)
+mat-a11y ./src/app
 
-# Enhanced check (default)
-traufix-a11y ./src
+# Quick basic check
+mat-a11y ./src --basic
 
 # Full audit
-traufix-a11y ./src --full
-
-# Check specific folder only
-traufix-a11y ./src/app/media
+mat-a11y ./src --full
 
 # JSON output for CI
-traufix-a11y ./src -f json -o report.json
+mat-a11y ./src -f json -o report.json
 
 # HTML report
-traufix-a11y ./src -f html -o report.html
+mat-a11y ./src -f html -o report.html
 
 # Ignore additional paths
-traufix-a11y ./src -i "test" -i "mock"
+mat-a11y ./src -i "test" -i "mock"
 
 # Run with self-test verification first
-traufix-a11y ./src --full-verified
+mat-a11y ./src --full-verified
 
-# Parallel execution (auto-detect workers)
-traufix-a11y ./src --workers auto
-
-# Parallel execution (specific worker count)
-traufix-a11y ./src --workers 4
+# Parallel execution
+mat-a11y ./src --workers auto
 
 # Self-test only (verify all checks work)
-traufix-a11y --self-test
+mat-a11y --self-test
 ```
 
 ### CLI Options
 
 ```
--b, --basic           Basic tier (20 checks)
--e, --enhanced        Enhanced tier (37 checks) [default]
+-b, --basic           Basic tier (~15 checks)
+-m, --material        Material tier (~45 checks) [default]
 -F, --full            Full tier (82 checks)
 -f, --format          Output: console, json, html
 -o, --output          Write to file
@@ -175,13 +171,13 @@ Test individual checks in isolation:
 
 ```bash
 # Run only the buttonNames check
-traufix-a11y ./src --check buttonNames
+mat-a11y ./src --check buttonNames
 
 # Run only the matIconAccessibility check
-traufix-a11y ./src --check matIconAccessibility
+mat-a11y ./src --check matIconAccessibility
 
 # List all available checks by name
-traufix-a11y --list-checks
+mat-a11y --list-checks
 ```
 
 This is useful for:
@@ -192,11 +188,11 @@ This is useful for:
 ## Programmatic API
 
 ```javascript
-const { analyze, checkHTML, checkSCSS, formatConsoleOutput } = require('traufix-a11y');
+const { analyze, checkHTML, checkSCSS, formatConsoleOutput } = require('mat-a11y');
 
-// Analyze directory
-const results = analyze('./src/app/media', {
-  tier: 'enhanced',
+// Analyze directory (default: material tier)
+const results = analyze('./src/app', {
+  tier: 'material',
   ignore: ['node_modules', 'dist', 'test']
 });
 
@@ -205,11 +201,11 @@ console.log(formatConsoleOutput(results));
 // Run a single check only
 const buttonResults = analyze('./src/app', {
   tier: 'full',
-  check: 'buttonNames'
+  check: 'matFormFieldLabel'
 });
 
 // Check HTML string directly
-const htmlResults = checkHTML('<button></button>', 'enhanced');
+const htmlResults = checkHTML('<mat-form-field></mat-form-field>', 'material');
 
 // Check SCSS string directly
 const scssResults = checkSCSS('button { outline: none; }', 'full');
@@ -221,13 +217,13 @@ const results = await analyze('./src', { tier: 'full', verified: true });
 const results = await analyze('./src', { workers: 'auto' });
 
 // Get info about a specific check
-const { getCheckInfo } = require('traufix-a11y');
-const info = getCheckInfo('buttonNames');
+const { getCheckInfo } = require('mat-a11y');
+const info = getCheckInfo('matFormFieldLabel');
 console.log(info.description);
 console.log(info.tier);
 
 // Verify checks work correctly
-const { verifyChecks } = require('traufix-a11y');
+const { verifyChecks } = require('mat-a11y');
 const verifyResults = await verifyChecks('full');
 console.log(verifyResults.summary);
 ```
@@ -256,15 +252,15 @@ These paths are ignored by default:
 
 ```yaml
 - name: Accessibility Check
-  run: npx traufix-a11y ./src --enhanced
+  run: npx mat-a11y ./src/app
 
 # With verification
 - name: Verified Accessibility Check
-  run: npx traufix-a11y ./src --full-verified
+  run: npx mat-a11y ./src --full-verified
 
 # Parallel execution for faster CI
 - name: Fast Accessibility Check
-  run: npx traufix-a11y ./src --full --workers auto
+  run: npx mat-a11y ./src --full --workers auto
 ```
 
 ### Pre-commit Hook
@@ -272,7 +268,7 @@ These paths are ignored by default:
 ```json
 {
   "scripts": {
-    "a11y": "traufix-a11y ./src",
+    "a11y": "mat-a11y ./src",
     "precommit": "npm run a11y"
   }
 }
@@ -287,7 +283,7 @@ The library uses a self-testing verification system. Each check module has its o
 node tests/run-tests.js
 
 # Or use CLI self-test
-traufix-a11y --self-test
+mat-a11y --self-test
 ```
 
 ### How Verification Works
@@ -339,7 +335,7 @@ Contributions welcome! Here's how to add a new check:
    module.exports = {
      name: 'myNewCheck',
      description: 'Description of what this check does',
-     tier: 'enhanced', // 'basic', 'enhanced', or 'full'
+     tier: 'material', // 'basic', 'material', or 'full'
      type: 'html',     // 'html' or 'scss'
      wcag: '4.1.2',    // WCAG criterion (optional)
      check: function(content) {
@@ -369,12 +365,12 @@ Contributions welcome! Here's how to add a new check:
 
 4. **Run self-test to verify your check works:**
    ```bash
-   traufix-a11y --self-test
+   mat-a11y --self-test
    ```
 
 5. **Test on a real codebase:**
    ```bash
-   traufix-a11y ./src --check myNewCheck
+   mat-a11y ./src --check myNewCheck
    ```
 
 ### Check Module Structure
@@ -390,7 +386,7 @@ module.exports = {
   description: 'What this check does',
 
   // Required: Which tier includes this check
-  tier: 'basic' | 'enhanced' | 'full',
+  tier: 'basic' | 'material' | 'full',
 
   // Required: File type this check analyzes
   type: 'html' | 'scss',
@@ -420,7 +416,7 @@ module.exports = {
 
 ## Understanding Issues
 
-When traufix-a11y finds accessibility issues, it provides structured output that's both human-readable and machine-parseable.
+When mat-a11y finds accessibility issues, it provides structured output that's both human-readable and machine-parseable.
 
 ### Issue Format
 
@@ -452,7 +448,7 @@ Categories: `IMG`, `BTN`, `LINK`, `FORM`, `ARIA`, `FOCUS`, `COLOR`, `MAT`, `CDK`
 The error catalog provides multiple output formats:
 
 ```javascript
-const { format, compact, toJSON, parse, filterBySeverity } = require('traufix-a11y/src/core/errors');
+const { format, compact, toJSON, parse, filterBySeverity } = require('mat-a11y/src/core/errors');
 
 // Human-readable format (default)
 format('BTN_MISSING_NAME', { element: '<button></button>' });

@@ -1,8 +1,9 @@
 /**
- * traufix-a11y
+ * mat-a11y
  *
- * Static accessibility analyzer for Angular/HTML templates.
- * Full Lighthouse audit coverage with WCAG 2.1 contrast ratio calculation.
+ * Angular Material accessibility linter.
+ * 82 WCAG checks for mat-* components, Angular templates & SCSS.
+ * Static analysis with color contrast calculation.
  *
  * HAFTUNGSAUSSCHLUSS / DISCLAIMER:
  * Diese Software wird "wie besehen" ohne jegliche Gewaehrleistung bereitgestellt.
@@ -101,65 +102,31 @@ function generateTiersFromRegistry() {
 }
 
 /**
- * Static TIERS for backwards compatibility (legacy format)
- * This will be merged with dynamically loaded checks
+ * TIERS Configuration
+ *
+ * - basic: Quick lint (~15 checks) - CI/CD friendly
+ * - material: Default mode (~45 checks) - All Material + Angular + core HTML
+ * - full: Everything (82 checks) - Complete audit
  */
 const STATIC_TIERS = {
   basic: {
     html: [
-      'buttonNames', 'imageAlt', 'formLabels', 'ariaRoles', 'ariaAttributes',
-      'uniqueIds', 'headingOrder', 'linkNames', 'listStructure', 'dlStructure',
-      'tableHeaders', 'iframeTitles', 'videoCaptions', 'objectAlt',
-      'accesskeyUnique', 'tabindex', 'ariaHiddenBody'
+      'buttonNames', 'imageAlt', 'formLabels', 'linkNames',
+      'ariaRoles', 'ariaAttributes', 'uniqueIds', 'headingOrder'
     ],
-    scss: ['colorContrast', 'focusStyles', 'touchTargets'],
+    scss: ['colorContrast', 'focusStyles'],
     angular: [],
-    material: [],
+    material: ['matFormFieldLabel', 'matIconAccessibility'],
     cdk: []
   },
 
-  enhanced: {
+  material: {
     html: [
       'buttonNames', 'imageAlt', 'formLabels', 'ariaRoles', 'ariaAttributes',
-      'uniqueIds', 'headingOrder', 'linkNames', 'listStructure', 'dlStructure',
-      'tableHeaders', 'iframeTitles', 'videoCaptions', 'objectAlt',
-      'accesskeyUnique', 'tabindex', 'ariaHiddenBody',
-      // Extra HTML
-      'htmlHasLang', 'metaViewport', 'skipLink', 'inputImageAlt',
-      'autoplayMedia', 'marqueeElement', 'blinkElement'
+      'uniqueIds', 'headingOrder', 'linkNames', 'tableHeaders', 'iframeTitles'
     ],
     scss: ['colorContrast', 'focusStyles', 'touchTargets', 'outlineNoneWithoutAlt', 'hoverWithoutFocus'],
     angular: ['clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames', 'ngForTrackBy'],
-    material: ['matIconAccessibility', 'matFormFieldLabel', 'matButtonType', 'matTableHeaders'],
-    cdk: []
-  },
-
-  full: {
-    html: [
-      'buttonNames', 'imageAlt', 'formLabels', 'ariaRoles', 'ariaAttributes',
-      'uniqueIds', 'headingOrder', 'linkNames', 'listStructure', 'dlStructure',
-      'tableHeaders', 'iframeTitles', 'videoCaptions', 'objectAlt',
-      'accesskeyUnique', 'tabindex', 'ariaHiddenBody',
-      // Extra HTML 1
-      'htmlHasLang', 'metaViewport', 'skipLink', 'inputImageAlt',
-      'autoplayMedia', 'marqueeElement', 'blinkElement',
-      // Extra HTML 2
-      'metaRefresh', 'duplicateIdAria', 'emptyTableHeader',
-      'scopeAttrMisuse', 'autofocusUsage', 'formFieldName'
-    ],
-    scss: [
-      'colorContrast', 'focusStyles', 'touchTargets',
-      // Extra SCSS 1
-      'outlineNoneWithoutAlt', 'prefersReducedMotion', 'userSelectNone',
-      'pointerEventsNone', 'visibilityHiddenUsage',
-      // Extra SCSS 2
-      'focusWithinSupport', 'hoverWithoutFocus', 'contentOverflow',
-      'smallFontSize', 'lineHeightTight', 'textJustify'
-    ],
-    angular: [
-      'clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames',
-      'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria'
-    ],
     material: [
       // Material - Form Controls
       'matFormFieldLabel', 'matSelectPlaceholder', 'matAutocompleteLabel',
@@ -177,8 +144,50 @@ const STATIC_TIERS = {
       'matDialogFocus', 'matBottomSheetA11y', 'matTooltipKeyboard', 'matSnackbarPoliteness'
     ],
     cdk: ['cdkTrapFocusDialog', 'cdkAriaDescriber', 'cdkLiveAnnouncer']
-  }
+  },
+
+  full: {
+    html: [
+      'buttonNames', 'imageAlt', 'formLabels', 'ariaRoles', 'ariaAttributes',
+      'uniqueIds', 'headingOrder', 'linkNames', 'listStructure', 'dlStructure',
+      'tableHeaders', 'iframeTitles', 'videoCaptions', 'objectAlt',
+      'accesskeyUnique', 'tabindex', 'ariaHiddenBody',
+      'htmlHasLang', 'metaViewport', 'skipLink', 'inputImageAlt',
+      'autoplayMedia', 'marqueeElement', 'blinkElement',
+      'metaRefresh', 'duplicateIdAria', 'emptyTableHeader',
+      'scopeAttrMisuse', 'autofocusUsage', 'formFieldName'
+    ],
+    scss: [
+      'colorContrast', 'focusStyles', 'touchTargets',
+      'outlineNoneWithoutAlt', 'prefersReducedMotion', 'userSelectNone',
+      'pointerEventsNone', 'visibilityHiddenUsage',
+      'focusWithinSupport', 'hoverWithoutFocus', 'contentOverflow',
+      'smallFontSize', 'lineHeightTight', 'textJustify'
+    ],
+    angular: [
+      'clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames',
+      'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria'
+    ],
+    material: [
+      'matFormFieldLabel', 'matSelectPlaceholder', 'matAutocompleteLabel',
+      'matDatepickerLabel', 'matRadioGroupLabel', 'matSlideToggleLabel',
+      'matCheckboxLabel', 'matChipListLabel', 'matSliderLabel',
+      'matButtonType', 'matIconAccessibility', 'matButtonToggleLabel',
+      'matProgressBarLabel', 'matProgressSpinnerLabel', 'matBadgeDescription',
+      'matMenuTrigger', 'matSidenavA11y', 'matTabLabel', 'matStepLabel',
+      'matExpansionHeader', 'matTreeA11y', 'matListSelectionLabel',
+      'matTableHeaders', 'matPaginatorLabel', 'matSortHeaderAnnounce',
+      'matDialogFocus', 'matBottomSheetA11y', 'matTooltipKeyboard', 'matSnackbarPoliteness'
+    ],
+    cdk: ['cdkTrapFocusDialog', 'cdkAriaDescriber', 'cdkLiveAnnouncer']
+  },
+
+  // Backwards compatibility alias
+  enhanced: null // Will be set to 'material' below
 };
+
+// Backwards compatibility: 'enhanced' maps to 'material'
+STATIC_TIERS.enhanced = STATIC_TIERS.material;
 
 /**
  * Get effective TIERS configuration from registry
@@ -203,7 +212,7 @@ const TIERS = new Proxy(STATIC_TIERS, {
  * Default configuration
  */
 const DEFAULT_CONFIG = {
-  tier: 'enhanced',
+  tier: 'material',
   ignore: ['node_modules', '.git', 'dist', 'build', '.angular', 'coverage'],
   extensions: {
     html: ['.html', '.htm'],
@@ -601,39 +610,48 @@ async function verifyChecks(tier = 'full') {
 // ============================================
 
 /**
- * Quick check with basic tier (fastest, 20 checks)
+ * Quick check with basic tier (~15 checks, fastest)
  * @param {string} targetPath - Directory or file to analyze
  * @returns {object} Analysis results
  *
  * @example
- * const { basic } = require('traufix-a11y');
- * const results = basic('./src/app/media');
+ * const { basic } = require('mat-a11y');
+ * const results = basic('./src/app');
  */
 function basic(targetPath) {
   return analyze(targetPath, { tier: 'basic' });
 }
 
 /**
- * Standard check with enhanced tier (40 checks, recommended)
+ * Material-focused check (~45 checks, recommended default)
+ * All mat-* components + Angular patterns + core HTML
  * @param {string} targetPath - Directory or file to analyze
  * @returns {object} Analysis results
  *
  * @example
- * const { enhanced } = require('traufix-a11y');
- * const results = enhanced('./src/app/media');
+ * const { material } = require('mat-a11y');
+ * const results = material('./src/app');
  */
-function enhanced(targetPath) {
-  return analyze(targetPath, { tier: 'enhanced' });
+function material(targetPath) {
+  return analyze(targetPath, { tier: 'material' });
 }
 
 /**
- * Full check with all 67 checks (most thorough)
+ * @deprecated Use material() instead
+ * Alias for backwards compatibility
+ */
+function enhanced(targetPath) {
+  return analyze(targetPath, { tier: 'material' });
+}
+
+/**
+ * Full audit with all 82 checks (most thorough)
  * @param {string} targetPath - Directory or file to analyze
  * @returns {object} Analysis results
  *
  * @example
- * const { full } = require('traufix-a11y');
- * const results = full('./src/app/media');
+ * const { full } = require('mat-a11y');
+ * const results = full('./src/app');
  */
 function full(targetPath) {
   return analyze(targetPath, { tier: 'full' });
@@ -692,10 +710,10 @@ function formatConsoleOutput(results) {
   const { summary, tier } = results;
 
   lines.push('\n========================================');
-  lines.push('  TRAUFIX-A11Y ACCESSIBILITY REPORT');
+  lines.push('  MAT-A11Y ACCESSIBILITY REPORT');
   lines.push('========================================\n');
 
-  lines.push('Tier: ' + (tier || 'enhanced').toUpperCase());
+  lines.push('Tier: ' + (tier || 'material').toUpperCase());
   lines.push('Files analyzed: ' + summary.totalFiles);
   lines.push('Total checks: ' + summary.totalChecks);
 
@@ -747,7 +765,8 @@ function formatConsoleOutput(results) {
 module.exports = {
   // Simple one-liner API
   basic,
-  enhanced,
+  material,
+  enhanced, // deprecated alias for material
   full,
 
   // Flexible API

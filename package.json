@@ -1,29 +1,33 @@
 {
-  "name": "traufix-a11y",
-  "version": "2.0.2",
-  "description": "Static accessibility analyzer for Angular/HTML templates. 82 checks in 3 tiers with centralized error catalog. Full Lighthouse audit coverage with WCAG 2.1 contrast calculation. 100% Angular Material & CDK support.",
+  "name": "mat-a11y",
+  "version": "3.0.0",
+  "description": "Angular Material accessibility linter. 82 WCAG checks for mat-* components, Angular templates & SCSS. Static analysis with color contrast calculation.",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "bin": {
-    "traufix-a11y": "bin/cli.js"
+    "mat-a11y": "bin/cli.js"
   },
   "scripts": {
     "test": "node bin/cli.js --help"
   },
   "keywords": [
-    "accessibility",
+    "angular-material",
+    "mat-components",
+    "angular",
     "a11y",
-    "lighthouse",
+    "accessibility",
     "wcag",
     "aria",
-    "angular",
-    "angular-material",
-    "cdk",
+    "accessibility-linter",
+    "a11y-linter",
+    "angular-cdk",
+    "material-design",
+    "template-linter",
     "static-analysis",
-    "linter",
-    "contrast",
-    "seo",
-    "bitv",
-    "barrierefreiheit"
+    "color-contrast",
+    "screen-reader",
+    "wcag21",
+    "lighthouse"
   ],
   "author": "Robin Spanier <robin.spanier@robspan.de>",
   "license": "MIT + Commons Clause",
@@ -42,6 +46,7 @@
     "src",
     "bin",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "src/index.d.ts"
   ]
 }

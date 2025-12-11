@@ -297,19 +297,24 @@ function verifyAll(registry) {
  * Loads all checks, filters by the specified tier, and runs verification
  * on the filtered set.
  *
- * @param {'basic'|'enhanced'|'full'} tier - Tier to verify
+ * @param {'basic'|'material'|'enhanced'|'full'} tier - Tier to verify
  * @returns {Map<string, VerifyResult>} Map of checkName to VerifyResult
  *
  * @example
- * const results = verifyByTier('basic');
- * console.log(`Verified ${results.size} basic tier checks`);
+ * const results = verifyByTier('material');
+ * console.log(`Verified ${results.size} material tier checks`);
  */
 function verifyByTier(tier) {
-  // Validate tier
-  const validTiers = ['basic', 'enhanced', 'full'];
+  // Validate tier - 'enhanced' is an alias for 'material'
+  const validTiers = ['basic', 'material', 'enhanced', 'full'];
   if (!validTiers.includes(tier)) {
-    console.warn(`[verifier] Invalid tier "${tier}", defaulting to "enhanced"`);
-    tier = 'enhanced';
+    console.warn(`[verifier] Invalid tier "${tier}", defaulting to "material"`);
+    tier = 'material';
+  }
+
+  // Map 'enhanced' to 'material' for backwards compatibility
+  if (tier === 'enhanced') {
+    tier = 'material';
   }
 
   // Load and filter checks
