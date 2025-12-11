@@ -1,6 +1,6 @@
 {
   "name": "traufix-a11y",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Static accessibility analyzer for Angular/HTML templates. 82 checks in 3 tiers with centralized error catalog. Full Lighthouse audit coverage with WCAG 2.1 contrast calculation. 100% Angular Material & CDK support.",
   "main": "src/index.js",
   "bin": {
