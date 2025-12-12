@@ -4,6 +4,23 @@ Angular Material accessibility linter. Static analysis for mat-* components, Ang
 
 **82 checks** | **3 tiers** | **100% Angular Material coverage** | **WCAG 2.1 contrast calculation**
 
+## Compatibility
+
+| Environment | Version | Notes |
+|-------------|---------|-------|
+| **Node.js** | >= 16.0.0 | Runtime environment |
+| **Angular Material** | >= 12 | Target project |
+| **Angular** | >= 12 | Target project |
+
+**Why Angular Material 12+?**
+- `sortActionDescription` on `mat-sort-header` requires v12+
+- Consistent ARIA attribute handling across components
+- All checked patterns work reliably from v12+
+- Earlier versions have quirks that may cause false positives
+
+**Angular Material 15+ Support:**
+The tool auto-detects and supports the new `mat-slider` API (`<input matSliderThumb>`) introduced in v15.
+
 ## Quick Start
 
 ```bash
