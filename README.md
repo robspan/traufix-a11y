@@ -1,6 +1,21 @@
 # mat-a11y
 
-Angular Material accessibility linter. 82 checks.
+Angular Material accessibility linter. 82 checks. Static analysis for Angular templates and SCSS.
+
+## Why mat-a11y?
+
+| Feature | Lighthouse | mat-a11y |
+|---------|-----------|----------|
+| Angular Material checks | ❌ | ✅ 29 mat-* component checks |
+| SCSS source analysis | ❌ (computed styles only) | ✅ prefers-reduced-motion, focus styles |
+| Angular template patterns | ❌ | ✅ (click), ngFor, routerLink |
+| CDK accessibility | ❌ | ✅ cdkTrapFocus, LiveAnnouncer |
+| Runs without browser | ❌ | ✅ CI/CD friendly |
+| Source file + line number | ❌ (DOM only) | ✅ exact code location |
+| Progress tracking | ❌ (pass/fail only) | ✅ element-by-element |
+
+**Lighthouse** tells you "buttonNames: FAIL" but not how many buttons or which ones.
+**mat-a11y** tells you "buttonNames: 36 issues in 112 elements" with file:line for each.
 
 ## Usage
 
@@ -16,39 +31,35 @@ npx mat-a11y ./src
   MAT-A11Y ACCESSIBILITY REPORT
 ========================================
 
-Tier: MATERIAL
-Files analyzed: 12
+Tier: FULL
+Files analyzed: 42
 
-Elements checked: 284
-  Passed: 281 (98.9%)
-  Failed: 3
+AUDIT SCORE: 49%
+  Passing audits: 15/29
+
+ELEMENT COVERAGE: 92.0%
+  4427/4812 elements OK
+
+TOP ISSUES TO FIX:
+  buttonNames: 36 issues (fix for +10 audit points)
+  formLabels: 3 issues (fix for +10 audit points)
+  clickWithoutKeyboard: 21 issues (fix for +7 audit points)
 
 ISSUES FOUND:
 ----------------------------------------
 
 src/app/dialog/dialog.component.html:
-  [matDialogFocus] [Error] mat-dialog should manage focus. Focus should move to dialog and return on close
-  How to fix:
-    - Use cdkFocusInitial for custom initial focus
-    - Ensure focusable element exists in dialog
+  [matDialogFocus] [Error] mat-dialog should manage focus...
   WCAG 2.4.3: Focus Order
   Found: <mat-dialog-content>... (line 15)
-
-src/app/shared/icon-button.component.html:
-  [buttonNames] [Error] Button missing accessible name. Screen readers cannot announce the button purpose
-  How to fix:
-    - Add aria-label="description"
-    - Add visually-hidden text
-  WCAG 4.1.2: Name, Role, Value
-  Found: <button><mat-icon>close</mat-icon></button> (line 8)
 
 ========================================
 ```
 
-The report shows:
-- **Elements checked**: Total HTML elements and CSS rules evaluated
-- **Passed**: Elements without accessibility issues
-- **Failed**: Elements with issues (each issue includes file path and line number)
+### Two Scores Explained
+
+- **Audit Score** (Lighthouse-style): Pass/fail per check category. One failing button = entire buttonNames audit fails. Comparable to Lighthouse.
+- **Element Coverage** (mat-a11y unique): Per-element tracking. Shows progress as you fix issues. "Fixed 10 buttons" = coverage improves even if audit still fails.
 
 ## Tiers
 

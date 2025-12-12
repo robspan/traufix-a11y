@@ -21,6 +21,7 @@ const colors = require('./colors');
 const { loadAllChecks, getChecksByTier, getCheck } = require('./core/loader');
 const { verifyByTier, getVerifySummary } = require('./core/verifier');
 const { CheckRunner, createRunner } = require('./core/runner');
+const { WEIGHTS, getWeight, calculateAuditScore } = require('./core/weights');
 
 // ============================================
 // CHECK REGISTRY (New Modular System)
@@ -442,12 +443,23 @@ function analyzeSync(targetPath, options = {}) {
     files: {},
     summary: {
       totalFiles: 0,
-      elementsChecked: 0,  // Total elements evaluated
-      elementsPassed: 0,   // Elements without issues
-      elementsFailed: 0,   // Elements with issues (= issues.length)
+      // Element-level metrics (granular progress)
+      elementsChecked: 0,
+      elementsPassed: 0,
+      elementsFailed: 0,
+      // Audit-level metrics (Lighthouse-style)
+      auditScore: 0,
+      auditsTotal: 0,
+      auditsPassed: 0,
+      auditsFailed: 0,
+      audits: [],
+      // Issues
       issues: []
     }
   };
+
+  // Aggregate check results across all files for audit scoring
+  const checkAggregates = {};
 
   for (const filePath of files) {
     const results = analyzeFile(filePath, tier, singleCheck);
@@ -459,6 +471,13 @@ function analyzeSync(targetPath, options = {}) {
     allResults.summary.totalFiles++;
 
     for (const result of results) {
+      // Aggregate for audit scoring
+      if (!checkAggregates[result.name]) {
+        checkAggregates[result.name] = { elementsFound: 0, issues: 0 };
+      }
+      checkAggregates[result.name].elementsFound += result.elementsFound || 0;
+      checkAggregates[result.name].issues += result.issues.length;
+
       // Only count checks that found elements to evaluate
       if (result.elementsFound > 0) {
         const issueCount = result.issues.length;
@@ -482,6 +501,14 @@ function analyzeSync(targetPath, options = {}) {
       }
     }
   }
+
+  // Calculate Lighthouse-style audit score
+  const auditResult = calculateAuditScore(checkAggregates);
+  allResults.summary.auditScore = auditResult.score;
+  allResults.summary.auditsTotal = auditResult.passed + auditResult.failed;
+  allResults.summary.auditsPassed = auditResult.passed;
+  allResults.summary.auditsFailed = auditResult.failed;
+  allResults.summary.audits = auditResult.audits;
 
   return allResults;
 }
@@ -561,10 +588,18 @@ function convertRunnerResults(runnerResults, config) {
       elementsChecked: 0,
       elementsPassed: 0,
       elementsFailed: 0,
+      auditScore: 0,
+      auditsTotal: 0,
+      auditsPassed: 0,
+      auditsFailed: 0,
+      audits: [],
       issues: runnerResults.summary.issues
     },
     timing: runnerResults.timing
   };
+
+  // Aggregate check results for audit scoring
+  const checkAggregates = {};
 
   // Convert Map to object and calculate element-level metrics
   for (const [filePath, fileResult] of runnerResults.files) {
@@ -578,6 +613,13 @@ function convertRunnerResults(runnerResults, config) {
         elementsFound
       ));
 
+      // Aggregate for audit scoring
+      if (!checkAggregates[checkName]) {
+        checkAggregates[checkName] = { elementsFound: 0, issues: 0 };
+      }
+      checkAggregates[checkName].elementsFound += elementsFound;
+      checkAggregates[checkName].issues += (checkResult.issues || []).length;
+
       if (elementsFound > 0) {
         const issueCount = (checkResult.issues || []).length;
         allResults.summary.elementsChecked += elementsFound;
@@ -587,6 +629,14 @@ function convertRunnerResults(runnerResults, config) {
     }
     allResults.files[filePath] = checkResults;
   }
+
+  // Calculate Lighthouse-style audit score
+  const auditResult = calculateAuditScore(checkAggregates);
+  allResults.summary.auditScore = auditResult.score;
+  allResults.summary.auditsTotal = auditResult.passed + auditResult.failed;
+  allResults.summary.auditsPassed = auditResult.passed;
+  allResults.summary.auditsFailed = auditResult.failed;
+  allResults.summary.audits = auditResult.audits;
 
   return allResults;
 }
@@ -714,28 +764,42 @@ function formatConsoleOutput(results) {
   const lines = [];
   const { summary, tier } = results;
 
-  lines.push('\n========================================');
+  lines.push('========================================');
   lines.push('  MAT-A11Y ACCESSIBILITY REPORT');
-  lines.push('========================================\n');
-
+  lines.push('========================================');
+  lines.push('');
   lines.push('Tier: ' + (tier || 'material').toUpperCase());
   lines.push('Files analyzed: ' + summary.totalFiles);
 
-  // Element-level metrics
+  // Audit Score (Lighthouse-style)
+  lines.push('');
+  lines.push('AUDIT SCORE: ' + summary.auditScore + '%');
+  lines.push('  Passing audits: ' + summary.auditsPassed + '/' + summary.auditsTotal);
+
+  // Element Coverage (our differentiation)
   if (summary.elementsChecked > 0) {
-    const passPercent = ((summary.elementsPassed / summary.elementsChecked) * 100).toFixed(1);
+    const coveragePercent = ((summary.elementsPassed / summary.elementsChecked) * 100).toFixed(1);
     lines.push('');
-    lines.push('Elements checked: ' + summary.elementsChecked);
-    lines.push('  Passed: ' + summary.elementsPassed + ' (' + passPercent + '%)');
-    lines.push('  Failed: ' + summary.elementsFailed);
-  } else {
-    lines.push('Elements checked: 0');
+    lines.push('ELEMENT COVERAGE: ' + coveragePercent + '%');
+    lines.push('  ' + summary.elementsPassed + '/' + summary.elementsChecked + ' elements OK');
   }
 
   // Show timing if available (from parallel runner)
   if (results.timing && results.timing.duration) {
+    lines.push('');
     lines.push('Duration: ' + results.timing.duration + 'ms');
   }
+
+  // Show top failing audits with fix impact
+  if (summary.audits && summary.auditsFailed > 0) {
+    const failingAudits = summary.audits.filter(a => !a.passed).slice(0, 5);
+    lines.push('');
+    lines.push('TOP ISSUES TO FIX:');
+    for (const audit of failingAudits) {
+      lines.push('  ' + audit.name + ': ' + audit.issues + ' issues (fix for +' + audit.weight + ' audit points)');
+    }
+  }
+
   lines.push('');
 
   if (summary.issues.length > 0) {
@@ -751,7 +815,8 @@ function formatConsoleOutput(results) {
     }
 
     for (const [file, issues] of Object.entries(issuesByFile)) {
-      lines.push('\n' + file + ':');
+      lines.push('');
+      lines.push(file + ':');
       for (const issue of issues) {
         lines.push('  [' + issue.check + '] ' + issue.message);
       }
@@ -760,7 +825,8 @@ function formatConsoleOutput(results) {
     lines.push('No accessibility issues found!');
   }
 
-  lines.push('\n========================================\n');
+  lines.push('');
+  lines.push('========================================');
 
   return lines.join('\n');
 }
@@ -793,6 +859,7 @@ module.exports = {
   // Configuration
   TIERS,
   DEFAULT_CONFIG,
+  WEIGHTS,
 
   // Re-exports
   colors,

@@ -52,6 +52,19 @@ export interface Issue {
   line?: number | null;
 }
 
+export interface AuditResult {
+  /** Check name */
+  name: string;
+  /** Lighthouse-style weight */
+  weight: number;
+  /** Whether audit passed (0 issues) */
+  passed: boolean;
+  /** Number of elements found */
+  elementsFound: number;
+  /** Number of issues */
+  issues: number;
+}
+
 export interface AnalysisSummary {
   /** Total files analyzed */
   totalFiles: number;
@@ -61,6 +74,16 @@ export interface AnalysisSummary {
   elementsPassed: number;
   /** Number of elements that failed (have issues) */
   elementsFailed: number;
+  /** Lighthouse-style audit score (0-100) */
+  auditScore: number;
+  /** Total applicable audits */
+  auditsTotal: number;
+  /** Number of passing audits */
+  auditsPassed: number;
+  /** Number of failing audits */
+  auditsFailed: number;
+  /** Detailed audit results */
+  audits: AuditResult[];
   /** Array of all issues found */
   issues: Issue[];
 }
@@ -341,6 +364,9 @@ export const TIERS: TiersConfig;
 
 /** Default configuration options */
 export const DEFAULT_CONFIG: DefaultConfig;
+
+/** Lighthouse-style audit weights by check name */
+export const WEIGHTS: Record<string, number>;
 
 /** Color utilities for contrast calculations */
 export const colors: ColorUtils;

@@ -179,11 +179,24 @@ function formatJSON(results) {
 // HTML format
 function formatHTML(results) {
   const s = results.summary;
-  const passRate = s.elementsChecked > 0
+  const auditScore = s.auditScore || 0;
+  const coverageRate = s.elementsChecked > 0
     ? ((s.elementsPassed / s.elementsChecked) * 100).toFixed(1)
     : '100.0';
   const hasIssues = s.issues.length > 0;
-  const color = hasIssues ? '#ef4444' : '#22c55e';
+  const auditColor = auditScore >= 90 ? '#22c55e' : auditScore >= 50 ? '#f59e0b' : '#ef4444';
+  const coverageColor = parseFloat(coverageRate) >= 90 ? '#22c55e' : parseFloat(coverageRate) >= 50 ? '#f59e0b' : '#ef4444';
+
+  // Top failing audits
+  let topIssuesHtml = '';
+  if (s.audits && s.auditsFailed > 0) {
+    const failingAudits = s.audits.filter(a => !a.passed).slice(0, 5);
+    topIssuesHtml = '<h3>Top Issues to Fix</h3><ul>';
+    for (const audit of failingAudits) {
+      topIssuesHtml += '<li><strong>' + audit.name + '</strong>: ' + audit.issues + ' issues (fix for +' + audit.weight + ' audit points)</li>';
+    }
+    topIssuesHtml += '</ul>';
+  }
 
   let issuesHtml = '';
   if (s.issues.length === 0) {
@@ -194,29 +207,44 @@ function formatHTML(results) {
     }
   }
 
-  return '<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>A11y Report</title>' +
+  return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>mat-a11y Report</title>' +
     '<style>body{font-family:system-ui;max-width:900px;margin:2rem auto;padding:1rem}' +
-    '.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0}' +
-    '.stat{background:#f5f5f5;padding:1rem;border-radius:8px;text-align:center}' +
-    '.stat-value{font-size:2rem;font-weight:bold}' +
-    '.stat-label{font-size:0.875rem;color:#666;margin-top:0.25rem}' +
-    '.pass{color:#22c55e}.fail{color:#ef4444}' +
-    '.issue{background:#fef2f2;border-left:3px solid #ef4444;padding:0.75rem;margin:0.5rem 0;border-radius:0 4px 4px 0}' +
+    '.scores{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2rem 0}' +
+    '.score-card{background:#f5f5f5;padding:1.5rem;border-radius:12px;text-align:center}' +
+    '.score-value{font-size:3rem;font-weight:bold}' +
+    '.score-label{font-size:1rem;color:#666;margin-top:0.5rem}' +
+    '.score-detail{font-size:0.875rem;color:#888;margin-top:0.25rem}' +
+    '.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}' +
+    '.stat{background:#fff;border:1px solid #e5e5e5;padding:1rem;border-radius:8px;text-align:center}' +
+    '.stat-value{font-size:1.5rem;font-weight:bold}' +
+    '.stat-label{font-size:0.75rem;color:#666}' +
+    '.issue{background:#fef2f2;border-left:3px solid #ef4444;padding:0.75rem;margin:0.5rem 0;border-radius:0 4px 4px 0;font-size:0.875rem}' +
     '.success{background:#f0fdf4;border-left:3px solid #22c55e;padding:1rem;border-radius:4px}' +
     '.disclaimer{background:#fffbeb;border:1px solid #f59e0b;padding:1rem;margin-top:2rem;border-radius:4px;font-size:0.875rem}' +
+    'h3{margin-top:2rem;margin-bottom:1rem}' +
     '</style></head><body>' +
-    '<h1>mat-a11y Report</h1><p>Tier: ' + (results.tier || 'material').toUpperCase() + '</p>' +
-    '<div class="summary">' +
-    '<div class="stat"><div class="stat-value">' + s.totalFiles + '</div><div class="stat-label">Files</div></div>' +
-    '<div class="stat"><div class="stat-value">' + s.elementsChecked + '</div><div class="stat-label">Elements</div></div>' +
-    '<div class="stat"><div class="stat-value class="pass">' + s.elementsPassed + '</div><div class="stat-label">Passed</div></div>' +
-    '<div class="stat"><div class="stat-value" style="color:' + color + '">' + passRate + '%</div><div class="stat-label">Pass Rate</div></div>' +
-    '</div><h2>' + (hasIssues ? s.elementsFailed + ' Issues Found' : 'All Clear!') + '</h2>' +
+    '<h1>mat-a11y Accessibility Report</h1>' +
+    '<p>Tier: ' + (results.tier || 'material').toUpperCase() + ' | Files: ' + s.totalFiles + '</p>' +
+    '<div class="scores">' +
+    '<div class="score-card"><div class="score-value" style="color:' + auditColor + '">' + auditScore + '%</div>' +
+    '<div class="score-label">Audit Score</div>' +
+    '<div class="score-detail">' + s.auditsPassed + '/' + s.auditsTotal + ' audits passing</div></div>' +
+    '<div class="score-card"><div class="score-value" style="color:' + coverageColor + '">' + coverageRate + '%</div>' +
+    '<div class="score-label">Element Coverage</div>' +
+    '<div class="score-detail">' + s.elementsPassed + '/' + s.elementsChecked + ' elements OK</div></div>' +
+    '</div>' +
+    '<div class="stats">' +
+    '<div class="stat"><div class="stat-value">' + s.elementsChecked + '</div><div class="stat-label">Elements Checked</div></div>' +
+    '<div class="stat"><div class="stat-value" style="color:#22c55e">' + s.elementsPassed + '</div><div class="stat-label">Passed</div></div>' +
+    '<div class="stat"><div class="stat-value" style="color:#ef4444">' + s.elementsFailed + '</div><div class="stat-label">Failed</div></div>' +
+    '</div>' +
+    topIssuesHtml +
+    '<h3>' + (hasIssues ? s.issues.length + ' Issues Found' : 'All Clear!') + '</h3>' +
     issuesHtml +
     '<div class="disclaimer"><strong>Haftungsausschluss:</strong> Diese Analyse wird ohne Gewähr bereitgestellt. ' +
     'Keine Garantie für Vollständigkeit, Richtigkeit oder Eignung. Nutzung auf eigene Verantwortung.<br>' +
     '<strong>Disclaimer:</strong> This analysis is provided "as is" without warranty of any kind.</div>' +
-    '<footer style="margin-top:2rem;color:#666;font-size:0.875rem">Generated by mat-a11y | ' + new Date().toISOString() + '</footer>' +
+    '<footer style="margin-top:2rem;color:#666;font-size:0.875rem">Generated by mat-a11y v4.0.0 | ' + new Date().toISOString() + '</footer>' +
     '</body></html>';
 }
 
