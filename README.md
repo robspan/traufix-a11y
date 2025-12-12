@@ -14,6 +14,82 @@ npm install mat-a11y
 npx mat-a11y ./src/app
 ```
 
+## ⚠️ False Positives & Configuration Guide
+
+Static analysis cannot always determine runtime behavior. Some checks may flag code that is actually accessible. **Review warnings before fixing** - not all flagged issues are problems.
+
+### Severity Levels
+
+| Level | Count | Meaning | Action |
+|-------|-------|---------|--------|
+| **Error** | 60 | Definite accessibility barrier | Must fix |
+| **Warning** | 18 | Potential issue, context-dependent | Review first |
+| **Info** | 4 | Informational only | Usually safe to ignore |
+
+### Common False Positives by Check
+
+#### Info-Level (Usually Safe to Ignore)
+
+| Check | Why It's Flagged | When It's Fine |
+|-------|------------------|----------------|
+| `ngForTrackBy` | Missing trackBy function | Small/static lists don't benefit |
+| `matSnackbarPoliteness` | Default politeness used | Default "polite" is usually correct |
+| `matIconDecorative` | Icon without aria-hidden | Parent element has aria-label |
+
+#### Warning-Level (Review Before Fixing)
+
+| Check | Why It's Flagged | When It's Fine |
+|-------|------------------|----------------|
+| `autofocusUsage` | autofocus attribute found | Intentional in dialogs/modals |
+| `skipLink` | No skip navigation link | Single-page apps, minimal nav |
+| `innerHtmlUsage` | [innerHTML] detected | Sanitized content, intentional |
+| `textJustify` | text-align: justify | Design requirement, short blocks |
+| `smallFontSize` | Font < 12px | Labels, captions, legal text |
+| `lineHeightTight` | line-height < 1.2 | Headings, single-line elements |
+| `userSelectNone` | user-select: none | UI controls (buttons, sliders) |
+| `prefersReducedMotion` | Animation without @media query | Non-essential micro-animations |
+| `cdkLiveAnnouncer` | Dynamic content without announcer | Visual-only updates (counters) |
+| `matTooltipKeyboard` | Tooltip on non-focusable element | Parent is focusable |
+
+#### SCSS Checks (Static Analysis Limitations)
+
+| Check | Limitation |
+|-------|------------|
+| `colorContrast` | Can't resolve CSS variables, computed values, or theme colors |
+| `touchTargets` | Can't calculate actual rendered sizes with padding/margin |
+| `focusStyles` | Custom focus styles may be in global stylesheet or theme |
+| `hoverWithoutFocus` | Focus styles may be defined separately |
+
+### Recommended Tier by Project Type
+
+| Project Type | Recommended Tier | Why |
+|--------------|------------------|-----|
+| **New Angular Material app** | `--material` (default) | All mat-* checks, balanced coverage |
+| **Quick CI/pre-commit** | `--basic` | Fast feedback, core issues only |
+| **Production audit** | `--full` | Maximum coverage, review warnings |
+| **Component library** | `--basic` | Fewer false positives on isolated components |
+| **Legacy app migration** | `--material` + `-i "legacy"` | Ignore legacy code directories |
+
+### Debugging Specific Checks
+
+```bash
+# Run single check to investigate
+mat-a11y ./src --check colorContrast
+
+# List all available checks
+mat-a11y --list-checks
+
+# See what a check does
+mat-a11y --list-checks | grep matIcon
+```
+
+### Suppressing Warnings in CI
+
+```bash
+# Exit 0 only on errors (ignore warnings/info)
+mat-a11y ./src -f json | jq '.issues | map(select(.severity == "error")) | length'
+```
+
 ## Simple One-Liner API
 
 ```javascript
@@ -431,11 +507,7 @@ When mat-a11y finds accessibility issues, it provides structured output that's b
 
 ### Severity Levels
 
-| Level | Count | Meaning | Action |
-|-------|-------|---------|--------|
-| `[Error]` | 60 | Definite accessibility barrier | Must fix |
-| `[Warning]` | 18 | Potential issue or edge case | Should review |
-| `[Info]` | 4 | Informational, may be intentional | Verify correct |
+See [False Positives & Configuration Guide](#️-false-positives--configuration-guide) for details on severity levels and common false positives.
 
 ### Error Codes
 
