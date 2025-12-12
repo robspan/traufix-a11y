@@ -41,3 +41,43 @@
 
 <!-- @a11y-fail -->
 <input type="text" aria-errormessage="error-that-does-not-exist">
+
+<!-- @a11y-false-positive -->
+<!-- Same ID used in different shadow DOM scopes (valid) -->
+<custom-component>
+  <!-- Internal: <span id="label1">Label</span> -->
+</custom-component>
+<span id="label1">Another label in light DOM</span>
+
+<!-- ID that looks duplicated but is in ng-template (not rendered) -->
+<ng-template>
+  <span id="template-label">Template Label</span>
+</ng-template>
+<span id="template-label">Real Label</span>
+<input aria-labelledby="template-label">
+
+<!-- Dynamic ID with Angular binding (unique at runtime) -->
+<span [id]="'label-' + index">Dynamic Label</span>
+<input [attr.aria-labelledby]="'label-' + index">
+
+<!-- @a11y-false-negative -->
+<!-- Duplicate IDs in document but aria reference seems valid -->
+<span id="duplicate-label">First Label</span>
+<span id="duplicate-label">Second Label (duplicate!)</span>
+<input aria-labelledby="duplicate-label">
+
+<!-- ID exists but in wrong DOM order (after the reference) -->
+<input aria-labelledby="late-label">
+<span id="late-label">Label defined after reference</span>
+
+<!-- ID referenced is inside display:none container -->
+<div style="display:none">
+  <span id="hidden-label">Hidden Label</span>
+</div>
+<input aria-labelledby="hidden-label">
+
+<!-- aria-labelledby with multiple IDs where one is duplicate -->
+<span id="shared-id">Label A</span>
+<span id="unique-id">Label B</span>
+<span id="shared-id">Label C (duplicate!)</span>
+<input aria-labelledby="shared-id unique-id">

@@ -9,6 +9,45 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
+
+    /**
+     * Check if cdkFocusInitial is on an unfocusable element
+     * Returns true if cdkFocusInitial is present but on an element that can't be focused
+     */
+    function hasFocusOnUnfocusableElement(dialogArea) {
+      // Pattern to match elements with cdkFocusInitial
+      const focusInitialRegex = /<([a-z][a-z0-9-]*)\s+([^>]*cdkFocusInitial[^>]*)>/gi;
+      let match;
+
+      while ((match = focusInitialRegex.exec(dialogArea)) !== null) {
+        const tagName = match[1].toLowerCase();
+        const attributes = match[2];
+
+        // Check if it's an input type="hidden"
+        if (tagName === 'input' && /type=["']hidden["']/i.test(attributes)) {
+          return true;
+        }
+
+        // Check if element is disabled
+        if (/\bdisabled\b/i.test(attributes)) {
+          return true;
+        }
+
+        // Check if element has aria-hidden="true"
+        if (/aria-hidden=["']true["']/i.test(attributes)) {
+          return true;
+        }
+
+        // Check if non-focusable element (span, div, etc.) with tabindex="-1"
+        const nonInteractiveElements = ['span', 'div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        if (nonInteractiveElements.includes(tagName) && /tabindex=["']-1["']/i.test(attributes)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
 
     /**
      * Check if the dialog content or surrounding context has focus management.
@@ -16,6 +55,11 @@ module.exports = {
      * cdkFocusInitial provides better control and is recommended for complex dialogs.
      */
     function hasFocusManagement(dialogArea) {
+      // First check if cdkFocusInitial is on an unfocusable element
+      if (hasFocusOnUnfocusableElement(dialogArea)) {
+        return false;
+      }
+
       // cdkFocusInitial - explicit focus target
       const hasFocusInitial = /cdkFocusInitial/i.test(dialogArea);
       // cdkTrapFocusAutoCapture - auto-focus with trap
@@ -24,8 +68,12 @@ module.exports = {
       const hasBoundFocusInitial = /\[cdkFocusInitial\]/i.test(dialogArea);
       // autofocus attribute (native HTML, less recommended but valid)
       const hasAutofocus = /\bautofocus\b/i.test(dialogArea);
+      // Custom focus directives (e.g., appAutoFocus, autoFocus, focusOnInit, initialFocus)
+      const hasCustomFocusDirective = /app[A-Z]\w*[Ff]ocus|autoFocus|focusOnInit|initialFocus/i.test(dialogArea);
+      // Dialog with role="dialog" and aria-modal="true" (native dialog behavior handles focus)
+      const hasAriaModalDialog = /role=["']dialog["'][^>]*aria-modal=["']true["']|aria-modal=["']true["'][^>]*role=["']dialog["']/i.test(dialogArea);
 
-      return hasFocusInitial || hasAutoCapture || hasBoundFocusInitial || hasAutofocus;
+      return hasFocusInitial || hasAutoCapture || hasBoundFocusInitial || hasAutofocus || hasCustomFocusDirective || hasAriaModalDialog;
     }
 
     /**
@@ -59,6 +107,7 @@ module.exports = {
 
     // Check <mat-dialog-content> elements
     while ((match = dialogContentRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const dialogContent = match[2] || '';
 
@@ -75,6 +124,7 @@ module.exports = {
 
     // Check elements with [mat-dialog-content] attribute
     while ((match = divDialogContentRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const dialogContent = match[1] || fullMatch;
 
@@ -87,7 +137,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

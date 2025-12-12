@@ -58,3 +58,55 @@
   <h1>Inaccessible content</h1>
 </body>
 </html>
+
+<!-- @a11y-false-positive -->
+<!-- Body with aria-hidden="false" is valid and should not be flagged -->
+<!DOCTYPE html>
+<html lang="en">
+<body aria-hidden="false">
+  <main>Accessible content</main>
+</body>
+</html>
+
+<!-- Body with bound aria-hidden that may be false at runtime -->
+<!DOCTYPE html>
+<html lang="en">
+<body [attr.aria-hidden]="isModalOpen">
+  <main>Content</main>
+</body>
+</html>
+
+<!-- Comment mentioning aria-hidden should not trigger -->
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <!-- Do not add aria-hidden="true" to body -->
+  <main>Safe content</main>
+</body>
+</html>
+
+<!-- @a11y-false-negative -->
+<!-- aria-hidden on html element (equally problematic but not body) -->
+<!DOCTYPE html>
+<html lang="en" aria-hidden="true">
+<body>
+  <main>Hidden from AT at html level</main>
+</body>
+</html>
+
+<!-- aria-hidden dynamically added via JavaScript (not detectable statically) -->
+<!DOCTYPE html>
+<html lang="en">
+<body id="app-body">
+  <!-- JS: document.body.setAttribute('aria-hidden', 'true') -->
+  <main>Seems fine but JS hides it</main>
+</body>
+</html>
+
+<!-- Inert attribute on body (similar effect to aria-hidden) -->
+<!DOCTYPE html>
+<html lang="en">
+<body inert>
+  <main>Inert body content</main>
+</body>
+</html>

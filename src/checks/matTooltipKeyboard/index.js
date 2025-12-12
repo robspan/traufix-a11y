@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // List of naturally focusable elements
     const focusableElements = ['a', 'button', 'input', 'select', 'textarea', 'area'];
@@ -19,6 +20,7 @@ module.exports = {
 
     let match;
     while ((match = tooltipRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tagName = match[1].toLowerCase();
       const beforeAttr = match[2] || '';
@@ -47,7 +49,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

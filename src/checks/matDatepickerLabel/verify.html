@@ -51,3 +51,51 @@
   <mat-datepicker-toggle matSuffix [for]="pickerFail4"></mat-datepicker-toggle>
   <mat-datepicker #pickerFail4></mat-datepicker>
 </mat-form-field>
+
+<!-- @a11y-false-positive -->
+<!-- Datepicker input with wrapping label element -->
+<label>
+  Departure date
+  <input matInput [matDatepicker]="wrappedPicker">
+</label>
+<mat-datepicker-toggle [for]="wrappedPicker" aria-label="Open departure date calendar"></mat-datepicker-toggle>
+<mat-datepicker #wrappedPicker></mat-datepicker>
+
+<!-- Datepicker input with title attribute as fallback -->
+<input matInput [matDatepicker]="titlePicker" title="Select reservation date">
+<mat-datepicker-toggle [for]="titlePicker" title="Open calendar"></mat-datepicker-toggle>
+<mat-datepicker #titlePicker></mat-datepicker>
+
+<!-- Datepicker input with explicit for/id label association -->
+<label for="explicit-date-input">Return date</label>
+<input id="explicit-date-input" matInput [matDatepicker]="explicitPicker">
+<mat-datepicker-toggle [for]="explicitPicker" aria-label="Open return date calendar"></mat-datepicker-toggle>
+<mat-datepicker #explicitPicker></mat-datepicker>
+
+<!-- mat-datepicker-toggle with text content providing accessible name -->
+<mat-datepicker-toggle [for]="textTogglePicker">Open Calendar</mat-datepicker-toggle>
+<mat-datepicker #textTogglePicker></mat-datepicker>
+
+<!-- @a11y-false-negative -->
+<!-- Datepicker input with empty aria-label -->
+<input matInput [matDatepicker]="emptyLabelPicker" aria-label="">
+<mat-datepicker #emptyLabelPicker></mat-datepicker>
+
+<!-- Datepicker input with aria-labelledby pointing to non-existent element -->
+<input matInput [matDatepicker]="missingRefPicker" aria-labelledby="non-existent-date-label">
+<mat-datepicker #missingRefPicker></mat-datepicker>
+
+<!-- mat-form-field with mat-label containing only whitespace -->
+<mat-form-field>
+  <mat-label>   </mat-label>
+  <input matInput [matDatepicker]="whitespacePicker">
+  <mat-datepicker #whitespacePicker></mat-datepicker>
+</mat-form-field>
+
+<!-- mat-datepicker-toggle with empty aria-label -->
+<mat-form-field>
+  <mat-label>End Date</mat-label>
+  <input matInput [matDatepicker]="emptyTogglePicker">
+  <mat-datepicker-toggle matSuffix [for]="emptyTogglePicker" aria-label=""></mat-datepicker-toggle>
+  <mat-datepicker #emptyTogglePicker></mat-datepicker>
+</mat-form-field>

@@ -128,12 +128,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match async pipe usage in interpolations
     const asyncPipePattern = /\{\{\s*([^}|]+)\s*\|\s*async\s*\}\}/gi;
 
     let match;
     while ((match = asyncPipePattern.exec(content)) !== null) {
+      elementsFound++;
       const asyncExpression = match[1].trim();
       const matchIndex = match.index;
       const lineNumber = getLineNumber(content, matchIndex);
@@ -155,6 +157,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

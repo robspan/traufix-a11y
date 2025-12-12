@@ -66,3 +66,53 @@
   <mat-button-toggle value="1">Option 1</mat-button-toggle>
   <mat-button-toggle value="2">Option 2</mat-button-toggle>
 </mat-button-toggle-group>
+
+<!-- @a11y-false-positive -->
+<!-- Toggle group wrapped in fieldset with legend providing group label -->
+<fieldset>
+  <legend>Text formatting</legend>
+  <mat-button-toggle-group>
+    <mat-button-toggle value="bold">Bold</mat-button-toggle>
+    <mat-button-toggle value="italic">Italic</mat-button-toggle>
+  </mat-button-toggle-group>
+</fieldset>
+
+<!-- Toggle group with role="group" and aria-label on parent container -->
+<div role="group" aria-label="View options">
+  <mat-button-toggle-group>
+    <mat-button-toggle value="list">List</mat-button-toggle>
+    <mat-button-toggle value="grid">Grid</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<!-- Toggle group with title attribute as fallback accessible name -->
+<mat-button-toggle-group title="Sort direction">
+  <mat-button-toggle value="asc">Ascending</mat-button-toggle>
+  <mat-button-toggle value="desc">Descending</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- @a11y-false-negative -->
+<!-- Toggle group with empty aria-label -->
+<mat-button-toggle-group aria-label="">
+  <mat-button-toggle value="yes">Yes</mat-button-toggle>
+  <mat-button-toggle value="no">No</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Toggle group with aria-labelledby pointing to non-existent element -->
+<mat-button-toggle-group aria-labelledby="missing-label-id">
+  <mat-button-toggle value="a">A</mat-button-toggle>
+  <mat-button-toggle value="b">B</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Toggle group with aria-labelledby pointing to empty element -->
+<span id="empty-toggle-label"></span>
+<mat-button-toggle-group aria-labelledby="empty-toggle-label">
+  <mat-button-toggle value="x">X</mat-button-toggle>
+  <mat-button-toggle value="y">Y</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Toggle group with aria-label containing only whitespace -->
+<mat-button-toggle-group aria-label="   ">
+  <mat-button-toggle value="1">1</mat-button-toggle>
+  <mat-button-toggle value="2">2</mat-button-toggle>
+</mat-button-toggle-group>

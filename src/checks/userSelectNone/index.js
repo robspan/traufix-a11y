@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Acceptable selectors for user-select: none (interactive elements where it makes sense)
     const acceptableSelectors = [
@@ -57,6 +58,7 @@ module.exports = {
 
       let match;
       while ((match = selectorPattern.exec(content)) !== null) {
+        elementsFound++;
         const ruleBlock = match[1];
 
         // Check for user-select: none (with or without vendor prefix)
@@ -80,7 +82,8 @@ module.exports = {
 
     return {
       pass: uniqueIssues.length === 0,
-      issues: uniqueIssues
+      issues: uniqueIssues,
+      elementsFound
     };
   }
 };

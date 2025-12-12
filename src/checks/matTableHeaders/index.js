@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match mat-table elements
     const matTableElementRegex = /<mat-table([^>]*)>([\s\S]*?)<\/mat-table>/gi;
@@ -21,6 +22,7 @@ module.exports = {
 
     // Check <mat-table> elements
     while ((match = matTableElementRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tableContent = match[2] || '';
 
@@ -36,6 +38,7 @@ module.exports = {
 
     // Check <table mat-table> elements
     while ((match = matTableAttrRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tableContent = match[1] || '';
 
@@ -52,7 +55,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Also check for injection of MatSnackBar to confirm it's being used
     const hasMatSnackBarImport = /import\s*\{[^}]*MatSnackBar[^}]*\}\s*from\s*['"]@angular\/material\/snack-bar['"]/i.test(content);
@@ -16,7 +17,7 @@ module.exports = {
 
     if (!hasMatSnackBarImport && !hasMatSnackBarInjection) {
       // No MatSnackBar usage detected
-      return { pass: true, issues: [] };
+      return { pass: true, issues: [], elementsFound: 0 };
     }
 
     const callsWithoutExplicitPoliteness = [];
@@ -60,6 +61,7 @@ module.exports = {
       }
 
       const fullCall = content.substring(startIndex, endIndex + 1);
+      elementsFound++;
 
       // Check if the call includes politeness configuration
       const hasPolitenessConfig = /politeness\s*:/i.test(fullCall);
@@ -80,7 +82,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -92,3 +92,89 @@
   <p>This page allows zooming up to 2x which is acceptable.</p>
 </body>
 </html>
+
+<!-- @a11y-false-positive -->
+<!-- Viewport with user-scalable=yes explicitly allowing scaling -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>Explicit user-scalable yes</title>
+</head>
+<body>
+  <p>Explicitly allows user scaling.</p>
+</body>
+</html>
+
+<!-- Viewport with user-scalable=1 (truthy value) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+  <title>user-scalable=1</title>
+</head>
+<body>
+  <p>Uses 1 as truthy value for scaling.</p>
+</body>
+</html>
+
+<!-- Viewport with very high maximum-scale -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10">
+  <title>High max scale</title>
+</head>
+<body>
+  <p>Allows zooming up to 10x.</p>
+</body>
+</html>
+
+<!-- @a11y-false-negative -->
+<!-- Viewport with maximum-scale=1.1 (technically allows zoom but useless) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.1">
+  <title>Effectively no zoom</title>
+</head>
+<body>
+  <p>1.1x zoom is practically useless for accessibility.</p>
+</body>
+</html>
+
+<!-- Viewport with both user-scalable and conflicting maximum-scale -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=1">
+  <title>Conflicting viewport values</title>
+</head>
+<body>
+  <p>Says scalable but max-scale=1 prevents it.</p>
+</body>
+</html>
+
+<!-- Viewport with minimum-scale equal to maximum-scale -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <title>Locked scale</title>
+</head>
+<body>
+  <p>Min and max both 1 locks the scale.</p>
+</body>
+</html>
+
+<!-- Viewport with unusual casing that might be missed -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="VIEWPORT" content="width=device-width, initial-scale=1, User-Scalable=No">
+  <title>Mixed case viewport</title>
+</head>
+<body>
+  <p>Mixed case might bypass detection.</p>
+</body>
+</html>

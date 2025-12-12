@@ -30,3 +30,55 @@
   overflow: hidden;
   max-height: 100px;
 }
+
+// @a11y-false-positive
+// Overflow hidden on decorative element container
+.background-decoration {
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+// Overflow hidden for aspect ratio box technique
+.aspect-ratio-box {
+  overflow: hidden;
+  position: relative;
+  padding-top: 56.25%;
+}
+
+// Overflow hidden on print-only styles
+@media print {
+  .print-container {
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+}
+
+// @a11y-false-negative
+// Uses clip instead of hidden but same problem
+.clipped-text {
+  overflow: clip;
+  white-space: nowrap;
+}
+
+// Overflow visible but max-height still cuts content
+.scrollable-but-cut {
+  overflow: visible;
+  max-height: 50px;
+  position: relative;
+}
+
+// Text truncation without ellipsis indicator
+.hidden-overflow-text {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100px;
+  // missing text-overflow: ellipsis
+}
+
+// Overflow on both axes when only one is problematic
+.mixed-overflow {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 200px;
+}

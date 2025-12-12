@@ -14,7 +14,11 @@
       "Bash(cat:*)",
       "Bash(node -c:*)",
       "Bash(npm view:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(npm test:*)",
+      "Bash(git stash:*)",
+      "Bash(node:*)",
+      "Bash(npm test)"
     ]
   }
 }

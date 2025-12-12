@@ -27,3 +27,51 @@ input {
 .btn {
   pointer-events: none;
 }
+
+/* @a11y-false-positive */
+/* Decorative overlay that should not receive clicks - passes through to element below */
+.decorative-overlay {
+  pointer-events: none;
+  position: absolute;
+  background: linear-gradient(transparent, rgba(0,0,0,0.1));
+}
+
+/* Icon inside button - icon shouldn't capture events, button should */
+.btn-with-icon .icon {
+  pointer-events: none;
+}
+
+/* Loading spinner overlay - while loading, prevent double-clicks */
+.loading-overlay {
+  pointer-events: none;
+}
+
+/* Pseudo-element-like decorative layer */
+.card::after {
+  pointer-events: none;
+}
+
+/* @a11y-false-negative */
+/* Conditional pointer-events based on disabled state but missing disabled attribute */
+.pseudo-disabled-btn {
+  pointer-events: none;
+  opacity: 0.5;
+  /* Missing proper disabled attribute - keyboard users can still focus */
+}
+
+/* Interactive element hidden from mouse but still keyboard accessible - confusing UX */
+.confusing-link {
+  pointer-events: none;
+  /* Can still be tabbed to but can't be clicked */
+}
+
+/* Button that looks clickable but isn't - missing visual disabled state */
+.silent-disabled {
+  pointer-events: none;
+  /* No visual indication that it's disabled */
+}
+
+/* Select element disabled via CSS only - screen readers won't announce as disabled */
+select.css-disabled {
+  pointer-events: none;
+}

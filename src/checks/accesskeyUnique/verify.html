@@ -30,3 +30,30 @@
 <!-- Case-insensitive duplicate -->
 <a href="/about" accesskey="A">About</a>
 <a href="/account" accesskey="a">Account</a>
+
+<!-- @a11y-false-positive -->
+<!-- Accesskey in ng-template not rendered yet (may be flagged but is actually fine) -->
+<ng-template #menu>
+  <button accesskey="x">Action X</button>
+</ng-template>
+<button accesskey="x">Main Action</button>
+
+<!-- Accesskey in conditionally exclusive elements (only one shows at a time) -->
+<button *ngIf="isLoggedIn" accesskey="l">Logout</button>
+<button *ngIf="!isLoggedIn" accesskey="l">Login</button>
+
+<!-- Accesskey on element that will be removed from DOM via router outlet -->
+<a routerLink="/page1" accesskey="p">Page 1</a>
+<!-- Different page: <a routerLink="/page2" accesskey="p">Page 2</a> -->
+
+<!-- @a11y-false-negative -->
+<!-- Dynamically generated duplicate accesskeys via ngFor -->
+<button *ngFor="let item of items" accesskey="i">{{ item.name }}</button>
+
+<!-- Accesskey conflict across different components (not visible in single file) -->
+<!-- Component A: <button accesskey="s">Save</button> -->
+<!-- Component B: <button accesskey="s">Search</button> -->
+
+<!-- Accesskey set via attribute binding (harder to detect statically) -->
+<button [attr.accesskey]="'d'">Delete</button>
+<button [attr.accesskey]="deleteKey">Remove</button>

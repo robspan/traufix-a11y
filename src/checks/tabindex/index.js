@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const tabindexRegex = /tabindex=["'](\d+)["']/gi;
     let match;
 
     while ((match = tabindexRegex.exec(content)) !== null) {
+      elementsFound++;
       const value = parseInt(match[1]);
       if (value > 0) {
         issues.push(format('TABINDEX_POSITIVE', {
@@ -23,6 +25,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

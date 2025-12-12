@@ -57,3 +57,51 @@
   <article>Modal content</article>
   <footer><button>Dismiss</button></footer>
 </section>
+
+<!-- @a11y-false-positive -->
+<!-- Non-modal dialog that doesn't require focus trap -->
+<div role="dialog" aria-modal="false" class="inline-dialog">
+  <h3>Inline Help</h3>
+  <p>This is a non-modal dialog that allows interaction with the page.</p>
+  <button>Got it</button>
+</div>
+
+<!-- Native HTML dialog element with built-in focus management -->
+<dialog open>
+  <h2>Native Dialog</h2>
+  <p>Browser handles focus trapping automatically.</p>
+  <button>Close</button>
+</dialog>
+
+<!-- Tooltip/popover with role="dialog" but not a true modal -->
+<div role="dialog" class="popover" aria-label="More info">
+  <p>Additional information tooltip</p>
+</div>
+
+<!-- @a11y-false-negative -->
+<!-- cdkTrapFocus on wrong element (not the dialog itself) -->
+<div role="dialog" class="modal">
+  <div cdkTrapFocus class="inner-wrapper">
+    <button>Close</button>
+  </div>
+</div>
+
+<!-- Focus trap without aria-modal="true" allowing escape key issues -->
+<div role="dialog" cdkTrapFocus class="modal-no-aria-modal">
+  <h2>Missing aria-modal</h2>
+  <button>Close</button>
+</div>
+
+<!-- Dialog with cdkTrapFocus but no focusable elements inside -->
+<div role="dialog" cdkTrapFocus aria-label="Empty dialog">
+  <p>This dialog has no interactive elements to trap.</p>
+</div>
+
+<!-- Nested dialogs where only outer has focus trap -->
+<div role="dialog" cdkTrapFocus class="outer-dialog">
+  <h2>Outer Dialog</h2>
+  <div role="dialog" class="inner-dialog">
+    <h3>Inner Dialog</h3>
+    <button>Inner Close</button>
+  </div>
+</div>

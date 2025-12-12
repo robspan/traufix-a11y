@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match <mat-icon> elements (both self-closing and with content)
     // Captures the full tag including attributes
@@ -22,6 +23,7 @@ module.exports = {
 
     // Check <mat-icon> elements
     while ((match = matIconElementRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const attributes = match[1] || match[3] || '';
 
@@ -36,6 +38,7 @@ module.exports = {
 
     // Check elements with matIcon attribute
     while ((match = matIconAttrRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
 
       const hasAriaHidden = /aria-hidden\s*=\s*["']true["']/i.test(fullMatch);
@@ -49,7 +52,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

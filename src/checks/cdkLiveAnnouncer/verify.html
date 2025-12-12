@@ -75,3 +75,47 @@
 <div *ngIf="alertVisible" class="alert-box">
   Important notification here
 </div>
+
+<!-- @a11y-false-positive -->
+<!-- Decorative animation state change (doesn't need announcement) -->
+<div *ngIf="isAnimating" class="loading-animation">
+  <span class="spinner-icon"></span>
+</div>
+
+<!-- Content that's always visible, not a dynamic update -->
+<div class="static-banner">
+  Welcome to our application
+</div>
+
+<!-- Visual-only indicator alongside an announced message -->
+<div *ngIf="showProgress" class="progress-visual">
+  <div class="progress-bar" [style.width.%]="progress"></div>
+</div>
+
+<!-- Form validation message shown inline next to input (not a status) -->
+<span *ngIf="emailInvalid" class="inline-hint">
+  Please enter a valid email format
+</span>
+
+<!-- @a11y-false-negative -->
+<!-- Live region with aria-live="off" -->
+<div *ngIf="hasUpdate" aria-live="off" class="update-message">
+  New data available
+</div>
+
+<!-- role="alert" inside hidden container -->
+<div style="display:none">
+  <div *ngIf="criticalError" role="alert">Critical system error</div>
+</div>
+
+<!-- Empty live region that gets content dynamically -->
+<div role="status" aria-live="polite"></div>
+
+<!-- aria-live on parent but content changes in deeply nested child -->
+<div aria-live="polite">
+  <div class="wrapper">
+    <div class="inner">
+      <span *ngIf="statusChange">{{ statusChange }}</span>
+    </div>
+  </div>
+</div>

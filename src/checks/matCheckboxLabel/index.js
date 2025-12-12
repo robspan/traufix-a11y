@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find line number for a match position
     const getLineNumber = (pos) => {
@@ -22,6 +23,7 @@ module.exports = {
 
     let match;
     while ((match = matCheckboxRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const attrs = match[1] || '';
       const innerContent = match[2] || '';
@@ -69,7 +71,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

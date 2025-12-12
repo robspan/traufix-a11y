@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find line number for a match position
     const getLineNumber = (pos) => {
@@ -67,6 +68,7 @@ module.exports = {
     // Check pattern 1: *ngIf with status-related classes
     let match;
     while ((match = ngIfWithStatusClassPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       const lineNumber = getLineNumber(match.index);
 
@@ -84,6 +86,7 @@ module.exports = {
 
     // Check pattern 2: *ngIf condition contains status keywords
     while ((match = ngIfStatusConditionPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       const lineNumber = getLineNumber(match.index);
 
@@ -101,7 +104,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

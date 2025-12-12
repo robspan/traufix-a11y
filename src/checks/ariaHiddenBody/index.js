@@ -10,11 +10,13 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     if (/<body[^>]*aria-hidden=["']true["']/i.test(content)) {
+      elementsFound++;
       issues.push(format('ARIA_HIDDEN_BODY', { element: '<body aria-hidden="true">' }));
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

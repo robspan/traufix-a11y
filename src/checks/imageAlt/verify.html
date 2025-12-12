@@ -20,3 +20,34 @@
 
 <!-- Image with other attributes but no alt -->
 <img src="couple.jpg" width="600" height="400" loading="lazy">
+
+<!-- @a11y-false-positive -->
+<!-- Image with role="presentation" (decorative, no alt needed) -->
+<img src="decorative-swirl.png" role="presentation">
+
+<!-- Image with aria-hidden="true" (hidden from assistive tech) -->
+<img src="background-pattern.jpg" aria-hidden="true">
+
+<!-- Image inside a figure with figcaption -->
+<figure>
+  <img src="venue-exterior.jpg">
+  <figcaption>The Grand Ballroom exterior view</figcaption>
+</figure>
+
+<!-- SVG image element (different accessibility approach) -->
+<svg role="img" aria-label="Company logo">
+  <image href="logo.png" />
+</svg>
+
+<!-- @a11y-false-negative -->
+<!-- Image with empty alt that should have description -->
+<img src="important-chart.jpg" alt="">
+
+<!-- Image with generic/non-descriptive alt text -->
+<img src="wedding-photo.jpg" alt="image">
+
+<!-- Image with filename as alt text -->
+<img src="DSC_0042.jpg" alt="DSC_0042.jpg">
+
+<!-- Image with alt containing only special characters -->
+<img src="venue.jpg" alt="***">

@@ -10,11 +10,13 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const accesskeyRegex = /accesskey=["']([^"']+)["']/gi;
     const keys = [];
     let match;
 
     while ((match = accesskeyRegex.exec(content)) !== null) {
+      elementsFound++;
       keys.push(match[1].toLowerCase());
     }
 
@@ -29,6 +31,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

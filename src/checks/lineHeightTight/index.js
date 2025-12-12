@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find line-height declarations with their selectors
     const lineHeightPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{[^}]*line-height\s*:\s*([^;}\n]+)/gi;
@@ -31,6 +32,7 @@ module.exports = {
     let match;
 
     while ((match = lineHeightPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
       const lineHeight = match[2].trim();
 
@@ -76,7 +78,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

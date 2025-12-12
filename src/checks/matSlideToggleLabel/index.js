@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find line number for a match position
     const getLineNumber = (pos) => {
@@ -49,6 +50,7 @@ module.exports = {
 
     for (const matchInfo of allMatches) {
       toggleIndex++;
+      elementsFound++;
       const fullMatch = matchInfo.fullMatch;
       const toggleAttrs = matchInfo.attrs;
       const toggleContent = matchInfo.content;
@@ -75,7 +77,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

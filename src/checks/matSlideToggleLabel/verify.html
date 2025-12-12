@@ -42,3 +42,37 @@
 
 <!-- mat-slide-toggle with attributes but no label -->
 <mat-slide-toggle [(ngModel)]="isChecked" color="primary"></mat-slide-toggle>
+
+<!-- @a11y-false-positive -->
+<!-- mat-slide-toggle inside labeled container -->
+<div role="group" aria-labelledby="toggle-group-label">
+  <span id="toggle-group-label">Auto-save settings</span>
+  <mat-slide-toggle></mat-slide-toggle>
+</div>
+
+<!-- mat-slide-toggle with adjacent label element using for attribute -->
+<label for="dark-mode-toggle">Enable dark mode</label>
+<mat-slide-toggle id="dark-mode-toggle"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with custom directive providing label -->
+<mat-slide-toggle [appToggleA11y]="toggleConfig"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with title attribute (fallback) -->
+<mat-slide-toggle title="Toggle feature on or off"></mat-slide-toggle>
+
+<!-- @a11y-false-negative -->
+<!-- mat-slide-toggle with empty aria-label -->
+<mat-slide-toggle aria-label=""></mat-slide-toggle>
+
+<!-- mat-slide-toggle with aria-labelledby pointing to non-existent element -->
+<mat-slide-toggle aria-labelledby="nonexistent-toggle-label"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with aria-labelledby pointing to empty element -->
+<span id="empty-toggle-label"></span>
+<mat-slide-toggle aria-labelledby="empty-toggle-label"></mat-slide-toggle>
+
+<!-- mat-slide-toggle with only HTML comment as content -->
+<mat-slide-toggle><!-- Label goes here --></mat-slide-toggle>
+
+<!-- mat-slide-toggle with whitespace-only aria-label -->
+<mat-slide-toggle aria-label="   "></mat-slide-toggle>

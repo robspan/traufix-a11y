@@ -34,7 +34,9 @@ function parseArgs(args) {
     listChecks: false,
     verified: false,    // --verified or combined --full-verified
     workers: null,      // --workers <n|auto>
-    selfTest: false     // --self-test
+    selfTest: false,    // --self-test
+    jsonReport: false,  // --json: write mat-a11y-report.json
+    htmlReport: false   // --html: write mat-a11y-report.html
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -59,6 +61,8 @@ function parseArgs(args) {
       options.workers = val === 'auto' ? 'auto' : parseInt(val, 10);
     }
     else if (arg === '--self-test') options.selfTest = true;
+    else if (arg === '--json') options.jsonReport = true;
+    else if (arg === '--html') options.htmlReport = true;
     else if (!arg.startsWith('-')) options.files.push(arg);
   }
 
@@ -91,11 +95,13 @@ ${c.cyan}OPTIONS:${c.reset}
   -v, --version         Show version
   -V, --verbose         Verbose output
   -t, --tier <tier>     Set tier: basic, material, full
-  -f, --format <type>   Output: console, json, html
-  -o, --output <file>   Write to file
   -i, --ignore <path>   Ignore pattern (can repeat)
   -c, --check <name>    Run only a single specific check
   -l, --list-checks     List all available checks
+
+${c.cyan}REPORTS:${c.reset}
+  --json                Write mat-a11y-report.json (for CI/CD pipelines)
+  --html                Write mat-a11y-report.html (for stakeholders)
 
 ${c.cyan}VERIFICATION:${c.reset}
   --verified            Verify checks work before running (self-test)
@@ -107,26 +113,29 @@ ${c.cyan}PARALLELIZATION:${c.reset}
                         Use 'auto' for CPU count, or a number
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Default: Material mode${c.reset}
+  ${c.dim}# Run accessibility check${c.reset}
   mat-a11y ./src/app
 
   ${c.dim}# Quick basic check${c.reset}
   mat-a11y ./src --basic
 
-  ${c.dim}# Full audit for production${c.reset}
+  ${c.dim}# Full audit${c.reset}
   mat-a11y ./src --full
 
-  ${c.dim}# JSON output for CI${c.reset}
-  mat-a11y ./src -f json -o report.json
+  ${c.dim}# Generate JSON report for CI/CD${c.reset}
+  mat-a11y ./src --json
 
-  ${c.dim}# Run only a single check${c.reset}
+  ${c.dim}# Generate HTML report for stakeholders${c.reset}
+  mat-a11y ./src --html
+
+  ${c.dim}# Both reports${c.reset}
+  mat-a11y ./src --json --html
+
+  ${c.dim}# Run single check${c.reset}
   mat-a11y ./src --check matFormFieldLabel
 
-  ${c.dim}# Self-test before running${c.reset}
-  mat-a11y ./src --full-verified
-
-  ${c.dim}# Parallel execution${c.reset}
-  mat-a11y ./src --workers auto
+  ${c.dim}# Verified full audit (recommended for CI)${c.reset}
+  mat-a11y ./src --full-verified --json
 
 ${c.cyan}TIERS EXPLAINED:${c.reset}
   ${c.bold}BASIC (~${basicCount} checks)${c.reset}
@@ -170,8 +179,11 @@ function formatJSON(results) {
 // HTML format
 function formatHTML(results) {
   const s = results.summary;
-  const passRate = ((s.passed / s.totalChecks) * 100).toFixed(1);
-  const color = s.failed === 0 ? '#22c55e' : '#ef4444';
+  const passRate = s.elementsChecked > 0
+    ? ((s.elementsPassed / s.elementsChecked) * 100).toFixed(1)
+    : '100.0';
+  const hasIssues = s.issues.length > 0;
+  const color = hasIssues ? '#ef4444' : '#22c55e';
 
   let issuesHtml = '';
   if (s.issues.length === 0) {
@@ -186,18 +198,20 @@ function formatHTML(results) {
     '<style>body{font-family:system-ui;max-width:900px;margin:2rem auto;padding:1rem}' +
     '.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0}' +
     '.stat{background:#f5f5f5;padding:1rem;border-radius:8px;text-align:center}' +
-    '.stat-value{font-size:2rem;font-weight:bold;color:' + color + '}' +
+    '.stat-value{font-size:2rem;font-weight:bold}' +
+    '.stat-label{font-size:0.875rem;color:#666;margin-top:0.25rem}' +
+    '.pass{color:#22c55e}.fail{color:#ef4444}' +
     '.issue{background:#fef2f2;border-left:3px solid #ef4444;padding:0.75rem;margin:0.5rem 0;border-radius:0 4px 4px 0}' +
     '.success{background:#f0fdf4;border-left:3px solid #22c55e;padding:1rem;border-radius:4px}' +
     '.disclaimer{background:#fffbeb;border:1px solid #f59e0b;padding:1rem;margin-top:2rem;border-radius:4px;font-size:0.875rem}' +
     '</style></head><body>' +
     '<h1>mat-a11y Report</h1><p>Tier: ' + (results.tier || 'material').toUpperCase() + '</p>' +
     '<div class="summary">' +
-    '<div class="stat"><div class="stat-value">' + s.totalFiles + '</div>Files</div>' +
-    '<div class="stat"><div class="stat-value">' + s.totalChecks + '</div>Checks</div>' +
-    '<div class="stat"><div class="stat-value" style="color:#22c55e">' + s.passed + '</div>Passed</div>' +
-    '<div class="stat"><div class="stat-value">' + passRate + '%</div>Rate</div>' +
-    '</div><h2>' + (s.failed === 0 ? 'Alles OK!' : s.failed + ' Probleme gefunden') + '</h2>' +
+    '<div class="stat"><div class="stat-value">' + s.totalFiles + '</div><div class="stat-label">Files</div></div>' +
+    '<div class="stat"><div class="stat-value">' + s.elementsChecked + '</div><div class="stat-label">Elements</div></div>' +
+    '<div class="stat"><div class="stat-value class="pass">' + s.elementsPassed + '</div><div class="stat-label">Passed</div></div>' +
+    '<div class="stat"><div class="stat-value" style="color:' + color + '">' + passRate + '%</div><div class="stat-label">Pass Rate</div></div>' +
+    '</div><h2>' + (hasIssues ? s.elementsFailed + ' Issues Found' : 'All Clear!') + '</h2>' +
     issuesHtml +
     '<div class="disclaimer"><strong>Haftungsausschluss:</strong> Diese Analyse wird ohne Gewähr bereitgestellt. ' +
     'Keine Garantie für Vollständigkeit, Richtigkeit oder Eignung. Nutzung auf eigene Verantwortung.<br>' +
@@ -297,21 +311,24 @@ async function main() {
     console.log('\n' + c.bold + 'Single Check Mode: ' + opts.check + c.reset + '\n');
   }
 
-  // Format output
-  let output;
-  if (opts.format === 'json') output = formatJSON(results);
-  else if (opts.format === 'html') output = formatHTML(results);
-  else output = formatConsoleOutput(results);
+  // Always output to console
+  console.log(formatConsoleOutput(results));
 
-  // Write or print
-  if (opts.output) {
-    fs.writeFileSync(opts.output, output);
-    console.log(c.green + 'Report: ' + opts.output + c.reset);
-  } else {
-    console.log(output);
+  // Write JSON report if requested
+  if (opts.jsonReport) {
+    const jsonPath = 'mat-a11y-report.json';
+    fs.writeFileSync(jsonPath, formatJSON(results));
+    console.log(c.green + 'JSON report: ' + jsonPath + c.reset);
   }
 
-  process.exit(results.summary.failed > 0 ? 1 : 0);
+  // Write HTML report if requested
+  if (opts.htmlReport) {
+    const htmlPath = 'mat-a11y-report.html';
+    fs.writeFileSync(htmlPath, formatHTML(results));
+    console.log(c.green + 'HTML report: ' + htmlPath + c.reset);
+  }
+
+  process.exit(results.summary.issues.length > 0 ? 1 : 0);
 }
 
 // Make main async

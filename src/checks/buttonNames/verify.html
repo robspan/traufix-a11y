@@ -85,3 +85,54 @@
 <button>
   <i class="fas fa-trash"></i>
 </button>
+
+<!-- @a11y-false-positive -->
+<!-- Button with aria-label set via directive -->
+<button appAccessibleLabel="Delete item">
+  <mat-icon>delete</mat-icon>
+</button>
+
+<!-- Button in custom component that adds accessible name -->
+<app-icon-button icon="save" label="Save changes"></app-icon-button>
+
+<!-- Button with accessible name from CSS content (rare but valid) -->
+<button class="icon-btn icon-close"></button>
+<!-- CSS: .icon-close::before { content: "Close"; } with screen-reader-only styling -->
+
+<!-- Button with text in nested custom element -->
+<button>
+  <app-icon name="edit"></app-icon>
+  <app-text>Edit profile</app-text>
+</button>
+
+<!-- @a11y-false-negative -->
+<!-- Button with aria-label that is empty or whitespace -->
+<button aria-label="   ">
+  <mat-icon>settings</mat-icon>
+</button>
+
+<!-- Button with aria-labelledby pointing to empty element -->
+<span id="empty-label"></span>
+<button aria-labelledby="empty-label">
+  <mat-icon>help</mat-icon>
+</button>
+
+<!-- Button with aria-label that duplicates icon name (not helpful) -->
+<button aria-label="icon">
+  <mat-icon>icon</mat-icon>
+</button>
+
+<!-- Button with only whitespace text content -->
+<button>   </button>
+
+<!-- Button with text that is visually hidden incorrectly -->
+<button>
+  <span style="display: none;">Hidden text</span>
+  <mat-icon>star</mat-icon>
+</button>
+
+<!-- Button with aria-hidden on the accessible name -->
+<button>
+  <span aria-hidden="true">Click here</span>
+  <mat-icon>arrow_forward</mat-icon>
+</button>

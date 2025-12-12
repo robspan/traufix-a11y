@@ -7,6 +7,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find rule blocks with overflow: hidden
     // We need to capture the full block to check for text-overflow
@@ -15,6 +16,7 @@ module.exports = {
     let match;
 
     while ((match = ruleBlockPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
       const declarations = match[2];
 
@@ -59,7 +61,8 @@ module.exports = {
 
     return {
       pass: issues.filter(i => i.startsWith('[Warning]')).length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

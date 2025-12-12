@@ -58,3 +58,93 @@
   <p>This page refreshes every 30 seconds.</p>
 </body>
 </html>
+
+<!-- @a11y-false-positive -->
+<!-- Refresh after 20+ hours for session security (WCAG allows refresh > 20 hours) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content="72001">
+  <title>Session timeout refresh</title>
+</head>
+<body>
+  <p>Session refreshes after 20 hours for security.</p>
+</body>
+</html>
+
+<!-- Server-controlled redirect using meta refresh with very long delay -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content="86400;url=/new-page">
+  <title>Scheduled migration redirect</title>
+</head>
+<body>
+  <p>Page will redirect tomorrow. Please update bookmarks.</p>
+</body>
+</html>
+
+<!-- Meta refresh in noscript fallback for JavaScript redirect -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>JS redirect with fallback</title>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=/no-js-version">
+  </noscript>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
+
+<!-- @a11y-false-negative -->
+<!-- Refresh with very short time disguised in complex content attribute -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content=" 3 ">
+  <title>Whitespace padded refresh</title>
+</head>
+<body>
+  <p>Refresh time has whitespace padding.</p>
+</body>
+</html>
+
+<!-- Refresh using 0 seconds (immediate) which disrupts users -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content="0">
+  <title>Immediate refresh loop</title>
+</head>
+<body>
+  <p>This creates an infinite refresh loop.</p>
+</body>
+</html>
+
+<!-- Refresh with case variation in http-equiv -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta HTTP-EQUIV="REFRESH" content="5">
+  <title>Uppercase refresh</title>
+</head>
+<body>
+  <p>Case variation might be missed.</p>
+</body>
+</html>
+
+<!-- Refresh inside conditional comment (IE specific, but still problematic) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--[if IE]>
+  <meta http-equiv="refresh" content="10">
+  <![endif]-->
+  <title>Conditional refresh</title>
+</head>
+<body>
+  <p>Hidden in conditional comment.</p>
+</body>
+</html>

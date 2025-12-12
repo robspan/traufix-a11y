@@ -32,3 +32,66 @@ body {
 .print-tiny {
   font-size: 8pt;
 }
+
+/* @a11y-false-positive */
+/* Small font for legal disclaimer with zoom support and high contrast */
+.legal-disclaimer {
+  font-size: 10px;
+  /* But page supports 200% zoom and text remains readable */
+}
+
+/* Small font for icon labels in toolbar - supplementary to icon meaning */
+.icon-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Small superscript/subscript for mathematical notation */
+.math-notation sup,
+.math-notation sub {
+  font-size: 0.6em;
+}
+
+/* Print stylesheet with small page numbers */
+@media print {
+  .page-number {
+    font-size: 8pt;
+  }
+}
+
+/* @a11y-false-negative */
+/* Font size is above threshold but letter-spacing makes it unreadable */
+.cramped-text {
+  font-size: 12px;
+  letter-spacing: -2px;
+}
+
+/* Font size is acceptable but line-height is too tight */
+.tight-lines {
+  font-size: 14px;
+  line-height: 0.8;
+}
+
+/* Font size okay but low contrast color combination */
+.low-contrast {
+  font-size: 12px;
+  color: #999999;
+  background-color: #cccccc;
+}
+
+/* Font uses thin weight making it hard to read despite adequate size */
+.thin-font {
+  font-size: 14px;
+  font-weight: 100;
+}
+
+/* Font size set via calc that results in tiny text */
+.calc-tiny {
+  font-size: calc(100vw / 200); /* Could be very small on narrow screens */
+}
+
+/* clamp() with minimum that's too small */
+.clamp-small {
+  font-size: clamp(6px, 2vw, 16px);
+}

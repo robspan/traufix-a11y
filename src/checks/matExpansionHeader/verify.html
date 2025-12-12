@@ -76,3 +76,62 @@
   </mat-expansion-panel-header>
   <p>Content with icon-only header</p>
 </mat-expansion-panel>
+
+<!-- @a11y-false-positive -->
+<!-- Expansion panel with icon and visually-hidden text -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-icon>notifications</mat-icon>
+    <span class="cdk-visually-hidden">Notification settings</span>
+  </mat-expansion-panel-header>
+  <p>Notification preferences</p>
+</mat-expansion-panel>
+
+<!-- Expansion panel with aria-describedby providing context -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header aria-describedby="section-desc">
+    <mat-panel-title>Advanced</mat-panel-title>
+  </mat-expansion-panel-header>
+  <p>Advanced settings</p>
+</mat-expansion-panel>
+
+<!-- Expansion panel with mat-icon that has aria-label -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-icon aria-label="Security settings">security</mat-icon>
+  </mat-expansion-panel-header>
+  <p>Security content</p>
+</mat-expansion-panel>
+
+<!-- @a11y-false-negative -->
+<!-- Expansion panel with whitespace-only header text -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+
+  </mat-expansion-panel-header>
+  <p>Content with whitespace header</p>
+</mat-expansion-panel>
+
+<!-- Expansion panel with aria-label set to empty string -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header aria-label="">
+    <mat-icon>folder</mat-icon>
+  </mat-expansion-panel-header>
+  <p>Folder content</p>
+</mat-expansion-panel>
+
+<!-- Expansion panel with aria-labelledby pointing to non-existent ID -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header aria-labelledby="nonexistent-id">
+    <mat-icon>cloud</mat-icon>
+  </mat-expansion-panel-header>
+  <p>Cloud settings</p>
+</mat-expansion-panel>
+
+<!-- Expansion panel with mat-panel-title containing only whitespace -->
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>   </mat-panel-title>
+  </mat-expansion-panel-header>
+  <p>Empty title content</p>
+</mat-expansion-panel>

@@ -60,3 +60,55 @@ button.too-small {
   height: 18px;
   width: 18px;
 }
+
+// @a11y-false-positive
+// Small visual size but adequate touch target via padding
+button.small-visual-large-target {
+  font-size: 12px;
+  padding: 16px;
+  // Visual is small but touch target is 44px+
+}
+
+// Inline link in text (exempt per WCAG 2.5.8)
+p a.inline-link {
+  // Size determined by text, exempt from target size
+}
+
+// Small button only visible on desktop (not touch)
+@media (hover: hover) and (pointer: fine) {
+  .desktop-only-btn {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+// Touch target achieved via spacing not element size
+.spaced-buttons button {
+  height: 20px;
+  margin: 12px; // Creates 44px touch target with spacing
+}
+
+// @a11y-false-negative
+// Uses calc that results in small size
+button.calc-small {
+  height: calc(50px - 32px); // Results in 18px
+  width: calc(100% / 5); // Could be small on narrow screens
+}
+
+// Percentage-based size that can become too small
+.responsive-btn {
+  height: 5vh; // Could be < 24px on short viewports
+  width: 5vw; // Could be < 24px on narrow viewports
+}
+
+// Size set in em that depends on font-size context
+.em-button {
+  height: 1.5em; // If font-size is 12px, this is only 18px
+  width: 1.5em;
+}
+
+// Max-height limiting the touch target
+.constrained-btn {
+  min-height: 44px;
+  max-height: 20px; // Max-height wins, target is too small
+}

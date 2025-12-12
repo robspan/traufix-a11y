@@ -73,3 +73,95 @@
     <td>June 15</td>
   </tr>
 </table>
+
+<!-- @a11y-false-positive -->
+<!-- Single-cell table used as container (not data) -->
+<table class="layout-wrapper">
+  <tr>
+    <td>Single cell content wrapper</td>
+  </tr>
+</table>
+
+<!-- Table with aria-hidden (decorative or duplicate info) -->
+<table aria-hidden="true">
+  <tr>
+    <td>Visual decoration only</td>
+  </tr>
+</table>
+
+<!-- Empty table placeholder (will be filled dynamically) -->
+<table id="dynamic-table">
+  <tbody></tbody>
+</table>
+
+<!-- Table with role="none" explicitly removing table semantics -->
+<table role="none">
+  <tr>
+    <td>Layout only</td>
+    <td>Not data</td>
+  </tr>
+</table>
+
+<!-- @a11y-false-negative -->
+<!-- th elements exist but have no text content -->
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td>Data 1</td>
+    <td>Data 2</td>
+    <td>Data 3</td>
+  </tr>
+</table>
+
+<!-- th only contains icon/image without accessible name -->
+<table>
+  <tr>
+    <th><i class="icon-user"></i></th>
+    <th><i class="icon-date"></i></th>
+  </tr>
+  <tr>
+    <td>John</td>
+    <td>2024-01-15</td>
+  </tr>
+</table>
+
+<!-- Headers exist but missing scope attribute for complex table -->
+<table>
+  <tr>
+    <th>Q1</th>
+    <th>Q2</th>
+  </tr>
+  <tr>
+    <th>Sales</th>
+    <td>100</td>
+    <td>150</td>
+  </tr>
+  <tr>
+    <th>Returns</th>
+    <td>5</td>
+    <td>3</td>
+  </tr>
+</table>
+
+<!-- Nested table has no headers but outer table does -->
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td>Products</td>
+    <td>
+      <table>
+        <tr>
+          <td>Item A</td>
+          <td>$10</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

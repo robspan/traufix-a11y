@@ -58,3 +58,36 @@
 <!-- @a11y-fail -->
 <!-- mat-checkbox with only empty nested elements -->
 <mat-checkbox><span></span></mat-checkbox>
+
+<!-- @a11y-false-positive -->
+<!-- mat-checkbox wrapped in label element (implicit association) -->
+<label>
+  <mat-checkbox></mat-checkbox>
+  Remember me
+</label>
+
+<!-- mat-checkbox with title attribute as fallback accessible name -->
+<mat-checkbox title="Accept privacy policy"></mat-checkbox>
+
+<!-- mat-checkbox with visually hidden label using CSS class -->
+<mat-checkbox>
+  <span class="sr-only visually-hidden">Enable dark mode</span>
+</mat-checkbox>
+
+<!-- mat-checkbox with aria-describedby providing additional context -->
+<mat-checkbox aria-describedby="checkbox-desc"></mat-checkbox>
+<span id="checkbox-desc">This enables automatic updates</span>
+
+<!-- @a11y-false-negative -->
+<!-- mat-checkbox with empty aria-label -->
+<mat-checkbox aria-label=""></mat-checkbox>
+
+<!-- mat-checkbox with aria-label containing only whitespace -->
+<mat-checkbox aria-label="   "></mat-checkbox>
+
+<!-- mat-checkbox with aria-labelledby pointing to non-existent element -->
+<mat-checkbox aria-labelledby="non-existent-checkbox-label"></mat-checkbox>
+
+<!-- mat-checkbox with aria-labelledby pointing to empty element -->
+<span id="empty-checkbox-label"></span>
+<mat-checkbox aria-labelledby="empty-checkbox-label"></mat-checkbox>

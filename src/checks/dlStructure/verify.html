@@ -42,3 +42,57 @@
   Some random text here
   <dd>Description</dd>
 </dl>
+
+<!-- @a11y-false-positive -->
+<!-- Empty dl that will be populated dynamically (valid structure) -->
+<dl id="dynamic-list">
+  <!-- Angular will populate this -->
+</dl>
+
+<!-- dl with whitespace/comments only between valid elements -->
+<dl>
+  <dt>Term One</dt>
+  <!-- This is a comment -->
+  <dd>Description One</dd>
+
+  <dt>Term Two</dt>
+  <dd>Description Two</dd>
+</dl>
+
+<!-- dt/dd wrapped in Angular structural directive container -->
+<dl>
+  <ng-container *ngFor="let item of items">
+    <dt>{{ item.term }}</dt>
+    <dd>{{ item.definition }}</dd>
+  </ng-container>
+</dl>
+
+<!-- @a11y-false-negative -->
+<!-- dt without corresponding dd -->
+<dl>
+  <dt>Orphan Term</dt>
+  <dt>Another Orphan Term</dt>
+</dl>
+
+<!-- dd without preceding dt -->
+<dl>
+  <dd>Definition without a term</dd>
+  <dt>Proper Term</dt>
+  <dd>Proper Definition</dd>
+</dl>
+
+<!-- Empty dt element -->
+<dl>
+  <dt></dt>
+  <dd>Definition for empty term</dd>
+</dl>
+
+<!-- div wrapper missing around dt/dd pair (inconsistent grouping) -->
+<dl>
+  <div>
+    <dt>Grouped Term</dt>
+    <dd>Grouped Definition</dd>
+  </div>
+  <dt>Ungrouped Term</dt>
+  <dd>Ungrouped Definition</dd>
+</dl>

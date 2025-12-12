@@ -10,12 +10,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match video and audio elements with autoplay
     const mediaRegex = /<(video|audio)\s+[^>]*autoplay[^>]*>/gi;
     let mediaMatch;
 
     while ((mediaMatch = mediaRegex.exec(content)) !== null) {
+      elementsFound++;
       const mediaTag = mediaMatch[0];
       const mediaType = mediaMatch[1].toLowerCase();
 
@@ -29,7 +31,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

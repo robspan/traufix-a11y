@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find line number for a match position
     const getLineNumber = (pos) => {
@@ -40,6 +41,7 @@ module.exports = {
 
     let match;
     while ((match = complexWidgetPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       const lineNumber = getLineNumber(match.index);
 
@@ -51,7 +53,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -10,12 +10,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find all form elements with their positions
     const inputRegex = /<(input|select|textarea)([^>]*)>/gi;
     let match;
 
     while ((match = inputRegex.exec(content)) !== null) {
+      elementsFound++;
       const tagName = match[1].toLowerCase();
       const attributes = match[2];
       const position = match.index;
@@ -93,6 +95,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

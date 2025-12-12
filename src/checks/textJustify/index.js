@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find text-align: justify declarations
     const justifyPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{[^}]*text-align\s*:\s*justify/gi;
@@ -16,6 +17,7 @@ module.exports = {
     let match;
 
     while ((match = justifyPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
 
       issues.push(format('TEXT_JUSTIFY', {
@@ -25,7 +27,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

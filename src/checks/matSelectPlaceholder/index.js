@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find all mat-form-field elements containing mat-select
     const matFormFieldRegex = /<mat-form-field([^>]*)>([\s\S]*?)<\/mat-form-field>/gi;
@@ -26,6 +27,7 @@ module.exports = {
       // Check if this form-field contains a mat-select
       const selectMatch = /<mat-select([^>]*)>/i.exec(fieldContent);
       if (selectMatch) {
+        elementsFound++;
         const selectAttributes = selectMatch[1] || '';
         const hasPlaceholder = /\bplaceholder\s*=\s*["'][^"']+["']/i.test(selectAttributes);
         const hasMatLabel = /<mat-label[^>]*>/i.test(fieldContent);
@@ -58,6 +60,7 @@ module.exports = {
         continue;
       }
 
+      elementsFound++;
       const hasPlaceholder = /\bplaceholder\s*=\s*["'][^"']+["']/i.test(attributes);
       const hasAriaLabel = /aria-label\s*=\s*["'][^"']+["']/i.test(attributes);
       const hasAriaLabelledby = /aria-labelledby\s*=\s*["'][^"']+["']/i.test(attributes);
@@ -70,7 +73,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

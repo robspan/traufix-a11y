@@ -10,11 +10,13 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const headingRegex = /<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi;
     const levels = [];
     let match;
 
     while ((match = headingRegex.exec(content)) !== null) {
+      elementsFound++;
       const level = parseInt(match[1]);
       const headingContent = match[3];
 
@@ -39,6 +41,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

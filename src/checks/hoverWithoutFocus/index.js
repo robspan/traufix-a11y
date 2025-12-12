@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find :hover pseudo-class with its selector
     // Captures the selector before :hover
@@ -20,6 +21,7 @@ module.exports = {
     let match;
 
     while ((match = hoverPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
       // Skip if it's already a combined hover/focus rule
       if (!match[0].includes(':focus')) {
@@ -69,7 +71,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -94,3 +94,52 @@
     </tr>
   </tbody>
 </table>
+
+<!-- @a11y-false-positive -->
+<!-- Custom element with scope attribute for non-table purpose (e.g., Angular scope) -->
+<my-component scope="local"></my-component>
+
+<!-- Scope attribute on custom web component - not HTML table scope -->
+<data-grid scope="module">
+  <grid-row>
+    <grid-cell>Value</grid-cell>
+  </grid-row>
+</data-grid>
+
+<!-- Vue/Angular scoped attribute that looks like scope -->
+<style scoped>
+  .table { border: 1px solid; }
+</style>
+
+<!-- @a11y-false-negative -->
+<!-- th with scope but scope value is invalid -->
+<table>
+  <tr>
+    <th scope="column">Name</th> <!-- Should be "col" not "column" -->
+    <td>Value</td>
+  </tr>
+</table>
+
+<!-- th with scope that doesn't match its actual function -->
+<table>
+  <tr>
+    <th scope="col">Row Header</th> <!-- Actually a row header but marked as col -->
+  </tr>
+  <tr>
+    <td>Data</td>
+  </tr>
+</table>
+
+<!-- th with empty scope attribute -->
+<table>
+  <tr>
+    <th scope="">Name</th>
+    <td>Value</td>
+  </tr>
+</table>
+
+<!-- th with scope but table lacks proper structure -->
+<table>
+  <th scope="col">Header</th>
+  <td>Data with no tr wrapper</td>
+</table>

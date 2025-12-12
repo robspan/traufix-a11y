@@ -24,3 +24,30 @@
   <marquee behavior="alternate">Bouncing text</marquee>
   <marquee behavior="scroll">Another scrolling text</marquee>
 </div>
+
+<!-- @a11y-false-positive -->
+<!-- Element with class name "marquee" but not the marquee element -->
+<div class="marquee">CSS-animated scrolling text</div>
+
+<!-- Component selector containing "marquee" -->
+<app-marquee-banner>Accessible animated banner</app-marquee-banner>
+
+<!-- Marquee in a template string or comment (not rendered) -->
+<!-- Example: <marquee>This is just documentation</marquee> -->
+
+<!-- @a11y-false-negative -->
+<!-- CSS animation mimicking marquee behavior without accessibility -->
+<div class="scroll-animation" style="animation: scroll-left 10s linear infinite;">
+  Scrolling text without pause controls
+</div>
+
+<!-- JavaScript-driven text scroll without accessibility -->
+<div id="ticker" class="news-ticker">Auto-scrolling news without controls</div>
+
+<!-- Overflow with auto-scroll behavior -->
+<div style="overflow: hidden; white-space: nowrap;">
+  <span class="sliding-text">Continuous sliding content</span>
+</div>
+
+<!-- Third-party carousel without proper controls -->
+<ngx-marquee>Content scrolling via third-party component</ngx-marquee>

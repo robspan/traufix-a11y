@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     /**
      * Helper to check if an input element has a valid accessible label
@@ -65,6 +66,7 @@ module.exports = {
     let match;
 
     while ((match = autocompleteInputRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const attributes = match[1] || '';
       const inputIndex = match.index;
@@ -80,7 +82,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

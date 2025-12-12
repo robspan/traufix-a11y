@@ -35,3 +35,88 @@ class MyComponent {
   }
 }
 </script>
+
+<!-- @a11y-false-positive -->
+<script>
+import { MatSnackBar } from '@angular/material/snack-bar';
+class MyComponent {
+  constructor(private snackBar: MatSnackBar) {}
+
+  showMessage() {
+    // Politeness set via shared config object defined elsewhere
+    const config = this.getSnackBarConfig();
+    this.snackBar.open('Message', 'OK', config);
+  }
+
+  showWithOpenFromComponent() {
+    // openFromComponent may have politeness configured in component
+    this.snackBar.openFromComponent(CustomSnackComponent, { data: { message: 'Hello' } });
+  }
+
+  showWithOpenFromTemplate() {
+    // openFromTemplate with template-defined accessibility
+    this.snackBar.openFromTemplate(this.snackTemplate, { politeness: 'polite' });
+  }
+}
+</script>
+
+<script>
+import { MatSnackBar, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+// Module with default politeness configured via provider
+@NgModule({
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { politeness: 'polite' } }
+  ]
+})
+class AppModule {}
+</script>
+
+<!-- @a11y-false-negative -->
+<script>
+import { MatSnackBar } from '@angular/material/snack-bar';
+class MyComponent {
+  constructor(private snackBar: MatSnackBar) {}
+
+  showMessage() {
+    // politeness set to 'off' which disables announcements
+    this.snackBar.open('Important message', 'OK', { politeness: 'off' });
+  }
+}
+</script>
+
+<script>
+import { MatSnackBar } from '@angular/material/snack-bar';
+class MyComponent {
+  constructor(private snackBar: MatSnackBar) {}
+
+  showMessage() {
+    // Empty string politeness value
+    this.snackBar.open('Notification', 'Dismiss', { politeness: '' });
+  }
+}
+</script>
+
+<script>
+import { MatSnackBar } from '@angular/material/snack-bar';
+class MyComponent {
+  constructor(private snackBar: MatSnackBar) {}
+
+  showMessage() {
+    // politeness is present but may be undefined at runtime
+    this.snackBar.open('Alert', 'Close', { duration: 3000, politeness: this.getPolitenessSetting() });
+  }
+}
+</script>
+
+<script>
+import { MatSnackBar } from '@angular/material/snack-bar';
+class MyComponent {
+  constructor(private snackBar: MatSnackBar) {}
+
+  showMessage() {
+    // Using spread operator that might not include politeness
+    const baseConfig = { duration: 5000 };
+    this.snackBar.open('Warning', 'OK', { ...baseConfig });
+  }
+}
+</script>

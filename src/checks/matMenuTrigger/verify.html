@@ -34,3 +34,43 @@
 <button mat-button matMenuTriggerFor="menu">
   <mat-icon>expand_more</mat-icon>
 </button>
+
+<!-- @a11y-false-positive -->
+<!-- Menu trigger with icon and visually hidden text -->
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>more_horiz</mat-icon>
+  <span class="cdk-visually-hidden">More actions</span>
+</button>
+
+<!-- Menu trigger with aria-describedby for additional context -->
+<button mat-button [matMenuTriggerFor]="menu" aria-describedby="menu-desc">
+  <mat-icon>settings</mat-icon>
+</button>
+<span id="menu-desc" class="sr-only">Opens settings menu</span>
+
+<!-- Menu trigger with icon that has its own aria-label -->
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon aria-label="Open user menu">person</mat-icon>
+</button>
+
+<!-- @a11y-false-negative -->
+<!-- Menu trigger with empty aria-label -->
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="">
+  <mat-icon>filter_list</mat-icon>
+</button>
+
+<!-- Menu trigger with aria-label containing only whitespace -->
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="   ">
+  <mat-icon>sort</mat-icon>
+</button>
+
+<!-- Menu trigger with aria-labelledby pointing to empty element -->
+<span id="empty-menu-label"></span>
+<button mat-button [matMenuTriggerFor]="menu" aria-labelledby="empty-menu-label">
+  <mat-icon>tune</mat-icon>
+</button>
+
+<!-- Menu trigger with title but title should not be relied upon for accessibility -->
+<button mat-icon-button [matMenuTriggerFor]="menu" title="Actions">
+  <mat-icon>apps</mat-icon>
+</button>

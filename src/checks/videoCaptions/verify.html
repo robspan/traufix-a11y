@@ -36,3 +36,48 @@
   <source src="reception.mp4" type="video/mp4">
   <track kind="descriptions" src="descriptions.vtt" srclang="en">
 </video>
+
+<!-- @a11y-false-positive -->
+<!-- Video with muted attribute and no audio content (decorative/ambient) -->
+<video autoplay muted loop playsinline>
+  <source src="background-animation.mp4" type="video/mp4">
+</video>
+
+<!-- Video that is purely visual with no spoken content -->
+<video controls aria-label="Silent timelapse of sunset">
+  <source src="timelapse-no-audio.mp4" type="video/mp4">
+  <!-- No captions needed - no audio content -->
+</video>
+
+<!-- Video with sign language as primary content -->
+<video controls>
+  <source src="sign-language-message.mp4" type="video/mp4">
+  <track kind="captions" src="sign-translation.vtt" srclang="en" label="English translation">
+</video>
+
+<!-- Video element used for camera preview (live, not recorded) -->
+<video id="camera-preview" autoplay muted></video>
+
+<!-- @a11y-false-negative -->
+<!-- Video with captions track but file is empty/missing -->
+<video controls>
+  <source src="interview.mp4" type="video/mp4">
+  <track kind="captions" src="nonexistent-captions.vtt" srclang="en">
+</video>
+
+<!-- Video with auto-generated captions (may be inaccurate) -->
+<video controls data-auto-captions="true">
+  <source src="lecture.mp4" type="video/mp4">
+  <track kind="captions" src="auto-generated.vtt" srclang="en" label="Auto-generated">
+</video>
+
+<!-- Video with captions in wrong language (mismatch) -->
+<video controls lang="en">
+  <source src="english-speech.mp4" type="video/mp4">
+  <track kind="captions" src="spanish-captions.vtt" srclang="es" label="Spanish" default>
+</video>
+
+<!-- Dynamically loaded video without captions -->
+<video controls [src]="videoUrl">
+  <!-- Captions track may or may not be added dynamically -->
+</video>

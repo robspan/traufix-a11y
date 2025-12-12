@@ -49,3 +49,43 @@
 <mat-stepper>
   <mat-step [stepControl]="formGroup">Missing label</mat-step>
 </mat-stepper>
+
+<!-- @a11y-false-positive -->
+<!-- mat-step with label set programmatically via component input -->
+<mat-stepper>
+  <mat-step [label]="getStepLabel()">Content set via method</mat-step>
+</mat-stepper>
+
+<!-- mat-step with conditional label that resolves at runtime -->
+<mat-stepper>
+  <mat-step [label]="isComplete ? 'Completed' : 'In Progress'">Content</mat-step>
+</mat-stepper>
+
+<!-- mat-step with async pipe label (may appear empty in static analysis) -->
+<mat-stepper>
+  <mat-step [label]="stepLabel$ | async">Content from observable</mat-step>
+</mat-stepper>
+
+<!-- @a11y-false-negative -->
+<!-- mat-step with empty string label -->
+<mat-stepper>
+  <mat-step label="">Empty label string</mat-step>
+</mat-stepper>
+
+<!-- mat-step with whitespace-only label -->
+<mat-stepper>
+  <mat-step label="   ">Whitespace only label</mat-step>
+</mat-stepper>
+
+<!-- mat-step with matStepLabel containing only whitespace -->
+<mat-stepper>
+  <mat-step>
+    <ng-template matStepLabel>   </ng-template>
+    Content with empty template label
+  </mat-step>
+</mat-stepper>
+
+<!-- mat-step with aria-label that is empty -->
+<mat-stepper>
+  <mat-step aria-label="">Empty aria-label</mat-step>
+</mat-stepper>

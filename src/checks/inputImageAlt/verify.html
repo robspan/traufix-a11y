@@ -38,3 +38,41 @@
 <form>
   <input type="image" src="button.gif" alt="   ">
 </form>
+
+<!-- @a11y-false-positive -->
+<!-- Input image with title attribute as fallback -->
+<form>
+  <input type="image" src="submit.png" title="Submit form">
+</form>
+
+<!-- Input image with aria-describedby for additional context -->
+<form>
+  <span id="submit-desc" class="sr-only">Submit your registration</span>
+  <input type="image" src="go.png" aria-describedby="submit-desc">
+</form>
+
+<!-- Input image with dynamic alt from i18n -->
+<form>
+  <input type="image" src="search.png" [alt]="'SEARCH_BUTTON' | translate">
+</form>
+
+<!-- @a11y-false-negative -->
+<!-- Input image with redundant alt text -->
+<form>
+  <input type="image" src="submit-button.png" alt="button">
+</form>
+
+<!-- Input image with alt matching filename -->
+<form>
+  <input type="image" src="search.png" alt="search.png">
+</form>
+
+<!-- Input image with uninformative alt -->
+<form>
+  <input type="image" src="arrow-right.png" alt="image">
+</form>
+
+<!-- Input image with alt text in wrong language -->
+<form>
+  <input type="image" src="send.png" alt="Enviar" lang="es">
+</form>

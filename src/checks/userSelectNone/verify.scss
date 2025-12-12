@@ -29,3 +29,66 @@ main {
 * {
   user-select: none;
 }
+
+// @a11y-false-positive
+// user-select: none on drag-and-drop interface elements
+.sortable-item {
+  user-select: none;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+// user-select: none on game or canvas UI controls
+.game-controls button {
+  user-select: none;
+  touch-action: manipulation;
+}
+
+// user-select: none on custom number input spinner buttons
+.number-spinner-btn {
+  user-select: none;
+}
+
+// user-select: none only on icon portion, text remains selectable
+.button-with-icon {
+  .icon {
+    user-select: none;
+  }
+  .label {
+    user-select: auto;
+  }
+}
+
+// @a11y-false-negative
+// user-select: none via CSS variable (harder to detect)
+.sneaky-no-select {
+  --select-mode: none;
+  user-select: var(--select-mode);
+}
+
+// user-select: none applied in media query for touch (affects many users)
+@media (pointer: coarse) {
+  .touch-content {
+    user-select: none;
+  }
+}
+
+// user-select: none with vendor prefixes only (still affects users)
+.vendor-prefixed {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  // Missing unprefixed, but still works in most browsers
+}
+
+// Inherited user-select: none from parent with text content
+.app-header {
+  user-select: none;
+
+  h1, .tagline {
+    // Text content inherits user-select: none
+  }
+}

@@ -64,3 +64,54 @@
   <mat-radio-button value="1">First</mat-radio-button>
   <mat-radio-button value="2">Second</mat-radio-button>
 </mat-radio-group>
+
+<!-- @a11y-false-positive -->
+<!-- mat-radio-group inside fieldset with legend (proper native HTML labeling) -->
+<fieldset>
+  <legend>Select your plan</legend>
+  <mat-radio-group>
+    <mat-radio-button value="basic">Basic</mat-radio-button>
+    <mat-radio-button value="premium">Premium</mat-radio-button>
+  </mat-radio-group>
+</fieldset>
+
+<!-- mat-radio-group with role="radiogroup" implied by element and labeled by parent heading -->
+<section aria-labelledby="preferences-heading">
+  <h3 id="preferences-heading">Notification Preferences</h3>
+  <mat-radio-group>
+    <mat-radio-button value="all">All notifications</mat-radio-button>
+    <mat-radio-button value="important">Important only</mat-radio-button>
+  </mat-radio-group>
+</section>
+
+<!-- mat-radio-group with custom directive providing accessibility -->
+<mat-radio-group [a11yGroupLabel]="groupLabelConfig">
+  <mat-radio-button value="opt1">Option 1</mat-radio-button>
+  <mat-radio-button value="opt2">Option 2</mat-radio-button>
+</mat-radio-group>
+
+<!-- @a11y-false-negative -->
+<!-- mat-radio-group with empty aria-label -->
+<mat-radio-group aria-label="">
+  <mat-radio-button value="a">A</mat-radio-button>
+  <mat-radio-button value="b">B</mat-radio-button>
+</mat-radio-group>
+
+<!-- mat-radio-group with aria-labelledby pointing to non-existent element -->
+<mat-radio-group aria-labelledby="missing-label-id">
+  <mat-radio-button value="x">X</mat-radio-button>
+  <mat-radio-button value="y">Y</mat-radio-button>
+</mat-radio-group>
+
+<!-- mat-radio-group with aria-labelledby pointing to empty element -->
+<span id="empty-label"></span>
+<mat-radio-group aria-labelledby="empty-label">
+  <mat-radio-button value="1">One</mat-radio-button>
+  <mat-radio-button value="2">Two</mat-radio-button>
+</mat-radio-group>
+
+<!-- mat-radio-group with whitespace-only aria-label -->
+<mat-radio-group aria-label="   ">
+  <mat-radio-button value="foo">Foo</mat-radio-button>
+  <mat-radio-button value="bar">Bar</mat-radio-button>
+</mat-radio-group>

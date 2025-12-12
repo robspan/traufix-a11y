@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find visibility: hidden
     const visibilityHiddenPattern = /visibility\s*:\s*hidden/gi;
@@ -16,6 +17,7 @@ module.exports = {
     const matches = content.match(visibilityHiddenPattern);
 
     if (matches && matches.length > 0) {
+      elementsFound += matches.length;
       // Find the selectors using visibility: hidden
       const selectorPattern = /([^{}]+)\{[^}]*visibility\s*:\s*hidden[^}]*\}/gi;
       const selectorMatches = content.match(selectorPattern);
@@ -44,13 +46,15 @@ module.exports = {
     const collapseMatches = content.match(visibilityCollapsePattern);
 
     if (collapseMatches && collapseMatches.length > 0) {
+      elementsFound += collapseMatches.length;
       const element = `visibility: collapse (${collapseMatches.length} instance(s))`;
       issues.push(format('VISIBILITY_HIDDEN_FOCUS', { element }));
     }
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

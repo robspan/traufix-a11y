@@ -82,3 +82,42 @@
   <input type="checkbox" id="agree">
   <label for="agree">I agree</label>
 </form>
+
+<!-- @a11y-false-positive -->
+<!-- Input with name via data attribute that gets processed by framework -->
+<form data-ajax="true">
+  <input type="text" data-name="dynamicField" id="dynamic1">
+</form>
+
+<!-- Vue.js v-model which generates name at runtime -->
+<form>
+  <input type="text" v-model="username">
+  <input type="email" v-model="email">
+</form>
+
+<!-- FormData API will use id as fallback in some implementations -->
+<form id="api-form">
+  <input type="text" id="field-with-only-id">
+</form>
+
+<!-- @a11y-false-negative -->
+<!-- Input with duplicate name attribute (second value is empty) -->
+<form>
+  <input type="text" name="username" name="">
+</form>
+
+<!-- Name attribute with only whitespace -->
+<form>
+  <input type="text" name="   ">
+  <input type="submit" value="Go">
+</form>
+
+<!-- Name exists but is set to placeholder value that won't work server-side -->
+<form>
+  <input type="email" name="FIELD_NAME_HERE">
+</form>
+
+<!-- Name contains invalid characters that may cause issues -->
+<form>
+  <input type="text" name="user<script>name">
+</form>

@@ -10,17 +10,39 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
-    // Check for <li> elements
-    if (/<li[^>]*>/i.test(content)) {
-      const hasProperList = /<(ul|ol|menu)[^>]*>[\s\S]*<li/i.test(content);
-      const hasRoleList = /role=["']list["'][\s\S]*<li|role=["']listitem["']/i.test(content);
+    // Find all <li> elements
+    const liRegex = /<li[^>]*>/gi;
+    let match;
 
-      if (!hasProperList && !hasRoleList) {
+    while ((match = liRegex.exec(content)) !== null) {
+      elementsFound++;
+      const liPosition = match.index;
+      const beforeLi = content.substring(0, liPosition);
+
+      // Check if <li> is inside a proper list container (ul, ol, menu)
+      // by counting open and close tags before this position
+      const ulOlMenuOpens = (beforeLi.match(/<(ul|ol|menu)(?:\s[^>]*)?>/gi) || []).length;
+      const ulOlMenuCloses = (beforeLi.match(/<\/(ul|ol|menu)>/gi) || []).length;
+      const inProperList = ulOlMenuOpens > ulOlMenuCloses;
+
+      // Check if <li> is inside a custom component (web components or Angular components)
+      // These are tags containing a hyphen like app-*, mat-*, ng-*, or any custom-element
+      const customComponentOpens = (beforeLi.match(/<[a-z]+-[a-z][a-z0-9-]*(?:\s[^>]*)?>/gi) || []).length;
+      const customComponentCloses = (beforeLi.match(/<\/[a-z]+-[a-z][a-z0-9-]*>/gi) || []).length;
+      const inCustomComponent = customComponentOpens > customComponentCloses;
+
+      // Check if element has role="listitem" or is inside role="list"
+      const hasListitemRole = /role=["']listitem["']/i.test(match[0]);
+      const roleListOpens = (beforeLi.match(/role=["']list["']/gi) || []).length;
+      const inRoleList = roleListOpens > 0;
+
+      if (!inProperList && !inCustomComponent && !hasListitemRole && !inRoleList) {
         issues.push(format('LIST_INVALID_CHILD', { parent: 'ul/ol', element: '<li>' }));
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

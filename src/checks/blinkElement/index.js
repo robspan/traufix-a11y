@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const lines = content.split('\n');
 
     // Match blink elements (opening tag, including self-closing)
@@ -20,6 +21,7 @@ module.exports = {
 
       if (matches) {
         matches.forEach(match => {
+          elementsFound++;
           issues.push(format('MOTION_BLINK', { element: match, line: lineNumber }));
         });
       }
@@ -27,7 +29,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -35,3 +35,40 @@
   <option>USA</option>
   <option>Canada</option>
 </select>
+
+<!-- @a11y-false-positive -->
+<!-- Autofocus in dialog that opens on user action (appropriate use) -->
+<dialog>
+  <h2>Confirm Action</h2>
+  <input type="text" autofocus placeholder="Enter reason">
+  <button>Confirm</button>
+</dialog>
+
+<!-- Autofocus in modal component (focus management is expected) -->
+<app-modal>
+  <input autofocus type="text" name="modal-input">
+</app-modal>
+
+<!-- Autofocus on page that is explicitly a single-purpose form -->
+<main role="main" aria-label="Login form">
+  <form>
+    <input type="text" autofocus name="username" aria-label="Username">
+  </form>
+</main>
+
+<!-- @a11y-false-negative -->
+<!-- cdkFocusInitial from Angular CDK (similar to autofocus) -->
+<input type="text" cdkFocusInitial name="search">
+
+<!-- Focus set via directive that mimics autofocus -->
+<input type="text" appAutoFocus name="query">
+
+<!-- Focus set via template reference and ViewChild -->
+<input type="text" #focusTarget name="target">
+
+<!-- [autofocus] attribute binding -->
+<input type="text" [autofocus]="shouldFocus" name="dynamic">
+
+<!-- JavaScript-based autofocus not detectable in template -->
+<input type="text" id="js-focus" name="jsFocused">
+<!-- JS: document.getElementById('js-focus').focus() -->

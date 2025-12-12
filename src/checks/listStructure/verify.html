@@ -36,3 +36,45 @@
   <li>First item</li>
   <li>Second item</li>
 </div>
+
+<!-- @a11y-false-positive -->
+<!-- Custom component that renders proper list internally -->
+<app-custom-list>
+  <li>Item rendered inside ul by component</li>
+</app-custom-list>
+
+<!-- List items inside Angular template that will be placed in ul -->
+<ul>
+  <ng-container *ngFor="let item of items">
+    <li>{{ item.name }}</li>
+  </ng-container>
+</ul>
+
+<!-- CSS list-style applied to non-list elements (visual only) -->
+<div class="styled-as-list" style="list-style: disc;">
+  <p>First paragraph styled as list item</p>
+  <p>Second paragraph styled as list item</p>
+</div>
+
+<!-- @a11y-false-negative -->
+<!-- Div with list role but non-semantic children -->
+<div role="list">
+  <div>Item without listitem role</div>
+  <div>Another item without role</div>
+</div>
+
+<!-- Nested lists with improper structure -->
+<ul>
+  <ul>
+    <li>Nested list directly inside ul (should be inside li)</li>
+  </ul>
+</ul>
+
+<!-- Description list with wrong nesting -->
+<dl>
+  <dd>Definition without a term</dd>
+  <dt>Term</dt>
+</dl>
+
+<!-- Empty list (may cause accessibility issues) -->
+<ul></ul>

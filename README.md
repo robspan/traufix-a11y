@@ -1,580 +1,184 @@
 # mat-a11y
 
-Angular Material accessibility linter. Static analysis for mat-* components, Angular templates & SCSS.
+Angular Material accessibility linter. 82 checks.
 
-**82 checks** | **3 tiers** | **100% Angular Material coverage** | **WCAG 2.1 contrast calculation**
-
-## Compatibility
-
-| Environment | Version | Notes |
-|-------------|---------|-------|
-| **Node.js** | >= 16.0.0 | Runtime environment |
-| **Angular Material** | >= 12 | Target project |
-| **Angular** | >= 12 | Target project |
-
-**Why Angular Material 12+?**
-- `sortActionDescription` on `mat-sort-header` requires v12+
-- Consistent ARIA attribute handling across components
-- All checked patterns work reliably from v12+
-- Earlier versions have quirks that may cause false positives
-
-**Angular Material 15+ Support:**
-The tool auto-detects and supports the new `mat-slider` API (`<input matSliderThumb>`) introduced in v15.
-
-## Quick Start
+## Usage
 
 ```bash
-# Install
 npm install mat-a11y
-
-# Run on your project (default: material mode)
-npx mat-a11y ./src/app
+npx mat-a11y ./src
 ```
 
-## ⚠️ False Positives & Configuration Guide
-
-Static analysis cannot always determine runtime behavior. Some checks may flag code that is actually accessible. **Review warnings before fixing** - not all flagged issues are problems.
-
-### Severity Levels
-
-| Level | Count | Meaning | Action |
-|-------|-------|---------|--------|
-| **Error** | 60 | Definite accessibility barrier | Must fix |
-| **Warning** | 18 | Potential issue, context-dependent | Review first |
-| **Info** | 4 | Informational only | Usually safe to ignore |
-
-### Common False Positives by Check
-
-#### Info-Level (Usually Safe to Ignore)
-
-| Check | Why It's Flagged | When It's Fine |
-|-------|------------------|----------------|
-| `ngForTrackBy` | Missing trackBy function | Small/static lists don't benefit |
-| `matSnackbarPoliteness` | Default politeness used | Default "polite" is usually correct |
-| `matIconDecorative` | Icon without aria-hidden | Parent element has aria-label |
-
-#### Warning-Level (Review Before Fixing)
-
-| Check | Why It's Flagged | When It's Fine |
-|-------|------------------|----------------|
-| `autofocusUsage` | autofocus attribute found | Intentional in dialogs/modals |
-| `skipLink` | No skip navigation link | Single-page apps, minimal nav |
-| `innerHtmlUsage` | [innerHTML] detected | Sanitized content, intentional |
-| `textJustify` | text-align: justify | Design requirement, short blocks |
-| `smallFontSize` | Font < 12px | Labels, captions, legal text |
-| `lineHeightTight` | line-height < 1.2 | Headings, single-line elements |
-| `userSelectNone` | user-select: none | UI controls (buttons, sliders) |
-| `prefersReducedMotion` | Animation without @media query | Non-essential micro-animations |
-| `cdkLiveAnnouncer` | Dynamic content without announcer | Visual-only updates (counters) |
-| `matTooltipKeyboard` | Tooltip on non-focusable element | Parent is focusable |
-
-#### SCSS Checks (Static Analysis Limitations)
-
-| Check | Limitation |
-|-------|------------|
-| `colorContrast` | Can't resolve CSS variables, computed values, or theme colors |
-| `touchTargets` | Can't calculate actual rendered sizes with padding/margin |
-| `focusStyles` | Custom focus styles may be in global stylesheet or theme |
-| `hoverWithoutFocus` | Focus styles may be defined separately |
-
-### Recommended Tier by Project Type
-
-| Project Type | Recommended Tier | Why |
-|--------------|------------------|-----|
-| **New Angular Material app** | `--material` (default) | All mat-* checks, balanced coverage |
-| **Quick CI/pre-commit** | `--basic` | Fast feedback, core issues only |
-| **Production audit** | `--full` | Maximum coverage, review warnings |
-| **Component library** | `--basic` | Fewer false positives on isolated components |
-| **Legacy app migration** | `--material` + `-i "legacy"` | Ignore legacy code directories |
-
-### Debugging Specific Checks
-
-```bash
-# Run single check to investigate
-mat-a11y ./src --check colorContrast
-
-# List all available checks
-mat-a11y --list-checks
-
-# See what a check does
-mat-a11y --list-checks | grep matIcon
-```
-
-### Suppressing Warnings in CI
-
-```bash
-# Exit 0 only on errors (ignore warnings/info)
-mat-a11y ./src -f json | jq '.issues | map(select(.severity == "error")) | length'
-```
-
-## Simple One-Liner API
-
-```javascript
-const { basic, material, full } = require('mat-a11y');
-
-// Quick lint (~15 checks)
-const results = basic('./src/app');
-
-// Material mode - all mat-* components (~45 checks) [default]
-const results = material('./src/app');
-
-// Full audit (82 checks)
-const results = full('./src/app');
-```
-
-## Architecture
-
-### Modular Check Structure
-
-Each accessibility check is a self-contained module in its own folder:
+## Output
 
 ```
-src/checks/
-├── buttonNames/
-│   ├── index.js      # Check module with name, description, tier, type, and check function
-│   └── verify.html   # Test file with @a11y-pass and @a11y-fail sections
-├── colorContrast/
-│   ├── index.js
-│   └── verify.scss
-├── matIconAccessibility/
-│   ├── index.js
-│   └── verify.html
-└── ...
+========================================
+  MAT-A11Y ACCESSIBILITY REPORT
+========================================
+
+Tier: MATERIAL
+Files analyzed: 12
+
+Elements checked: 284
+  Passed: 281 (98.9%)
+  Failed: 3
+
+ISSUES FOUND:
+----------------------------------------
+
+src/app/dialog/dialog.component.html:
+  [matDialogFocus] [Error] mat-dialog should manage focus. Focus should move to dialog and return on close
+  How to fix:
+    - Use cdkFocusInitial for custom initial focus
+    - Ensure focusable element exists in dialog
+  WCAG 2.4.3: Focus Order
+  Found: <mat-dialog-content>... (line 15)
+
+src/app/shared/icon-button.component.html:
+  [buttonNames] [Error] Button missing accessible name. Screen readers cannot announce the button purpose
+  How to fix:
+    - Add aria-label="description"
+    - Add visually-hidden text
+  WCAG 4.1.2: Name, Role, Value
+  Found: <button><mat-icon>close</mat-icon></button> (line 8)
+
+========================================
 ```
 
-### Verify Files
-
-Each check has a verify file (`verify.html` or `verify.scss`) containing:
-
-- `@a11y-pass` section: Code that should pass the check (no issues)
-- `@a11y-fail` section: Code that should fail the check (has issues)
-
-Example verify file:
-
-```html
-<!-- @a11y-pass -->
-<button>Click me</button>
-<button aria-label="Close dialog">X</button>
-
-<!-- @a11y-fail -->
-<button></button>
-<button>   </button>
-```
-
-### Parallel Execution
-
-For large codebases, mat-a11y supports parallel execution using worker threads:
-
-- Automatically determines optimal worker count based on CPU cores
-- Distributes checks across workers for faster analysis
-- Falls back to single-threaded execution if workers fail
-
-### Core Modules
-
-```
-src/core/
-├── errors.js    # Centralized error catalog (82 error codes, 3 output formats)
-├── loader.js    # Dynamically loads check modules from folders
-├── parser.js    # Parses verify files for testing
-├── runner.js    # Executes checks with parallel support
-├── verifier.js  # Self-tests checks against verify files
-└── worker.js    # Worker thread for parallel execution
-```
+The report shows:
+- **Elements checked**: Total HTML elements and CSS rules evaluated
+- **Passed**: Elements without accessibility issues
+- **Failed**: Elements with issues (each issue includes file path and line number)
 
 ## Tiers
 
-| Tier | Checks | Best For |
+```bash
+mat-a11y ./src --basic      # 15 checks  - fast CI
+mat-a11y ./src              # 45 checks  - default (material)
+mat-a11y ./src --full       # 82 checks  - thorough audit
+```
+
+| Tier | Checks | Use Case |
 |------|--------|----------|
-| **basic** | ~15 | Quick CI checks, fast feedback |
-| **material** | ~45 | Angular Material apps (default) |
-| **full** | 82 | Production audits, maximum coverage |
+| `--basic` | 15 | Pre-commit, quick feedback |
+| `--material` | 45 | Daily development (default) |
+| `--full` | 82 | Production audits, PR reviews |
 
-### Basic (~15 checks)
-Quick lint for CI pipelines:
-- HTML: buttons, images, forms, ARIA, headings, links
-- SCSS: color contrast, focus styles
-- Material: mat-form-field, mat-icon (essentials)
+## CI Integration
 
-### Material (~45 checks) [default]
-All Angular Material components + Angular patterns:
-- All mat-* components: forms, buttons, tables, dialogs, tabs, menus...
-- Angular: `(click)` handlers, `routerLink`, `*ngFor` trackBy
-- CDK: focus trapping, aria describer, live announcer
-- Core HTML & SCSS checks
+```yaml
+# .github/workflows/a11y.yml
+- name: Accessibility Check
+  run: npx mat-a11y ./src --full
 
-### Full (82 checks)
-Complete audit with deep HTML/SCSS analysis:
-- Everything from Material tier
-- Extra HTML: meta tags, skip links, autoplay media, tables
-- Extra SCSS: animations, font sizes, line heights, text-align
+# With JSON report
+- name: Accessibility Audit
+  run: npx mat-a11y ./src --full --json
 
-## CLI Usage
+- uses: actions/upload-artifact@v3
+  with:
+    name: a11y-report
+    path: mat-a11y-report.json
+```
+
+Exit codes: `0` = passed, `1` = issues found, `2` = error
+
+## CLI Reference
 
 ```bash
-# Default: Material mode (~45 checks)
-mat-a11y ./src/app
+# Tiers
+mat-a11y ./src --basic        # Fast CI checks
+mat-a11y ./src --material     # All Material components (default)
+mat-a11y ./src --full         # Everything
 
-# Quick basic check
-mat-a11y ./src --basic
+# Reports
+mat-a11y ./src --json         # Write mat-a11y-report.json
+mat-a11y ./src --html         # Write mat-a11y-report.html
+mat-a11y ./src --json --html  # Both
 
-# Full audit
-mat-a11y ./src --full
+# Options
+mat-a11y ./src -i "test"      # Ignore pattern
+mat-a11y ./src --check buttonNames  # Single check
+mat-a11y --list-checks        # List all checks
+mat-a11y --self-test          # Verify checks work
 
-# JSON output for CI
-mat-a11y ./src -f json -o report.json
-
-# HTML report
-mat-a11y ./src -f html -o report.html
-
-# Ignore additional paths
-mat-a11y ./src -i "test" -i "mock"
-
-# Run with self-test verification first
-mat-a11y ./src --full-verified
-
-# Parallel execution
-mat-a11y ./src --workers auto
-
-# Self-test only (verify all checks work)
-mat-a11y --self-test
+# Verification
+mat-a11y ./src --full-verified  # Self-test before running
+mat-a11y ./src --workers auto   # Parallel execution
 ```
 
-### CLI Options
+## Checks Overview
 
-```
--b, --basic           Basic tier (~15 checks)
--m, --material        Material tier (~45 checks) [default]
--F, --full            Full tier (82 checks)
--f, --format          Output: console, json, html
--o, --output          Write to file
--i, --ignore          Ignore pattern (repeatable)
--c, --check           Run only a single specific check
--l, --list-checks     List all available checks
--V, --verbose         Verbose output
--v, --version         Show version
--h, --help            Show help
-    --full-verified   Run full tier with self-test verification first
-    --workers <n>     Parallel execution (number or 'auto')
-    --self-test       Run only self-test verification on all checks
-```
+**82 checks** across 5 categories:
 
-### Single Check Mode
+| Category | Count | Examples |
+|----------|-------|----------|
+| HTML | 29 | buttonNames, imageAlt, formLabels, headingOrder |
+| Angular Material | 29 | matFormFieldLabel, matDialogFocus, matIconAccessibility |
+| SCSS | 14 | colorContrast, focusStyles, touchTargets |
+| Angular | 7 | clickWithoutKeyboard, routerLinkNames, ngForTrackBy |
+| CDK | 3 | cdkTrapFocusDialog, cdkLiveAnnouncer |
 
-Test individual checks in isolation:
-
-```bash
-# Run only the buttonNames check
-mat-a11y ./src --check buttonNames
-
-# Run only the matIconAccessibility check
-mat-a11y ./src --check matIconAccessibility
-
-# List all available checks by name
-mat-a11y --list-checks
-```
-
-This is useful for:
-- Debugging specific accessibility issues
-- Running focused audits
-- Testing your own fixes
+Full list: [Checks Reference](#checks-reference)
 
 ## Programmatic API
 
 ```javascript
-const { analyze, checkHTML, checkSCSS, formatConsoleOutput } = require('mat-a11y');
+const { analyze, basic, material, full } = require('mat-a11y');
 
-// Analyze directory (default: material tier)
-const results = analyze('./src/app', {
-  tier: 'material',
-  ignore: ['node_modules', 'dist', 'test']
-});
+// One-liners
+const results = basic('./src');     // 15 checks
+const results = material('./src');  // 45 checks
+const results = full('./src');      // 82 checks
 
-console.log(formatConsoleOutput(results));
-
-// Run a single check only
-const buttonResults = analyze('./src/app', {
+// With options
+const results = analyze('./src', {
   tier: 'full',
-  check: 'matFormFieldLabel'
+  ignore: ['test', 'mock'],
+  check: 'matFormFieldLabel'  // single check
 });
 
-// Check HTML string directly
-const htmlResults = checkHTML('<mat-form-field></mat-form-field>', 'material');
-
-// Check SCSS string directly
-const scssResults = checkSCSS('button { outline: none; }', 'full');
-
-// Verified mode (self-test all checks before running)
-const results = await analyze('./src', { tier: 'full', verified: true });
-
-// Parallel execution
-const results = await analyze('./src', { workers: 'auto' });
-
-// Get info about a specific check
-const { getCheckInfo } = require('mat-a11y');
-const info = getCheckInfo('matFormFieldLabel');
-console.log(info.description);
-console.log(info.tier);
-
-// Verify checks work correctly
-const { verifyChecks } = require('mat-a11y');
-const verifyResults = await verifyChecks('full');
-console.log(verifyResults.summary);
+// Check strings directly
+const { checkHTML, checkSCSS } = require('mat-a11y');
+const htmlIssues = checkHTML('<button></button>');
+const scssIssues = checkSCSS('button { outline: none; }');
 ```
 
-## Default Ignores
+## Configuration
 
-These paths are ignored by default:
-- `node_modules`
-- `.git`
-- `dist`
-- `build`
-- `.angular`
-- `coverage`
-
-## Exit Codes
-
-| Code | Meaning |
-|------|---------|
-| 0 | All checks passed |
-| 1 | Accessibility issues found |
-| 2 | Error during analysis |
-
-## CI Integration
-
-### GitHub Actions
-
-```yaml
-- name: Accessibility Check
-  run: npx mat-a11y ./src/app
-
-# With verification
-- name: Verified Accessibility Check
-  run: npx mat-a11y ./src --full-verified
-
-# Parallel execution for faster CI
-- name: Fast Accessibility Check
-  run: npx mat-a11y ./src --full --workers auto
-```
-
-### Pre-commit Hook
-
-```json
-{
-  "scripts": {
-    "a11y": "mat-a11y ./src",
-    "precommit": "npm run a11y"
-  }
-}
-```
-
-## Testing
-
-The library uses a self-testing verification system. Each check module has its own verify file that tests the check works correctly.
+**Default ignores:** `node_modules`, `.git`, `dist`, `build`, `.angular`, `coverage`
 
 ```bash
-# Run the verification suite
-node tests/run-tests.js
+# Add more ignores
+mat-a11y ./src -i "test" -i "e2e" -i "*.spec.ts"
 
-# Or use CLI self-test
-mat-a11y --self-test
+# Run single check
+mat-a11y ./src --check colorContrast
+
+# List available checks
+mat-a11y --list-checks
 ```
 
-### How Verification Works
+## False Positives
 
-1. Each check folder contains a `verify.html` or `verify.scss` file
-2. The file has two sections marked with comments:
-   - `@a11y-pass`: Code that should NOT trigger issues
-   - `@a11y-fail`: Code that SHOULD trigger issues
-3. The verifier runs the check on both sections
-4. Verification passes if:
-   - Pass section has 0 issues
-   - Fail section has >0 issues
+Static analysis has limits. Some checks may flag accessible code.
 
-### Verification Output
+**Review before fixing** - not all warnings are problems.
 
-```
-============================================================
-VERIFICATION RESULTS
-============================================================
+| Severity | Count | Action |
+|----------|-------|--------|
+| Error | 60 | Fix these |
+| Warning | 18 | Review first |
+| Info | 4 | Usually fine |
 
-Total checks: 82
-  Verified:   82
-  Failed:     0
-  Skipped:    0
+Common false positives:
+- `colorContrast` - Can't resolve CSS variables or theme colors
+- `ngForTrackBy` - Small static lists don't need trackBy
+- `matTooltipKeyboard` - Parent element may be focusable
 
-----------------------------------------
-VERIFIED CHECKS:
-  [PASS] buttonNames
-  [PASS] colorContrast
-  [PASS] imageAlt
-  ...
-```
+---
 
-## Contributing
-
-Contributions welcome! Here's how to add a new check:
-
-### Adding a New Check
-
-1. **Create the check folder:**
-   ```bash
-   mkdir src/checks/myNewCheck
-   ```
-
-2. **Create index.js with check module:**
-   ```javascript
-   const { format } = require('../../core/errors');
-
-   module.exports = {
-     name: 'myNewCheck',
-     description: 'Description of what this check does',
-     tier: 'material', // 'basic', 'material', or 'full'
-     type: 'html',     // 'html' or 'scss'
-     wcag: '4.1.2',    // WCAG criterion (optional)
-     check: function(content) {
-       const issues = [];
-       // Your check logic here
-       // Use error codes from src/core/errors.js
-       if (problem) {
-         issues.push(format('ERROR_CODE', { element: snippet, line: lineNum }));
-       }
-       return { pass: issues.length === 0, issues };
-     }
-   };
-   ```
-
-   **Note:** Add your error code to `src/core/errors.js` first. See existing codes for format.
-
-3. **Create verify file (verify.html or verify.scss):**
-   ```html
-   <!-- @a11y-pass -->
-   <!-- Good code that should NOT trigger issues -->
-   <button>Click me</button>
-
-   <!-- @a11y-fail -->
-   <!-- Bad code that SHOULD trigger issues -->
-   <button></button>
-   ```
-
-4. **Run self-test to verify your check works:**
-   ```bash
-   mat-a11y --self-test
-   ```
-
-5. **Test on a real codebase:**
-   ```bash
-   mat-a11y ./src --check myNewCheck
-   ```
-
-### Check Module Structure
-
-```javascript
-const { format } = require('../../core/errors');
-
-module.exports = {
-  // Required: Unique identifier for the check
-  name: 'checkName',
-
-  // Required: Human-readable description
-  description: 'What this check does',
-
-  // Required: Which tier includes this check
-  tier: 'basic' | 'material' | 'full',
-
-  // Required: File type this check analyzes
-  type: 'html' | 'scss',
-
-  // Optional: WCAG criterion
-  wcag: '4.1.2',
-
-  // Required: The check function
-  check: function(content) {
-    const issues = [];
-    // Analyze content and report using error catalog
-    if (problem) {
-      issues.push(format('ERROR_CODE', { element, line }));
-    }
-    return { pass: issues.length === 0, issues };
-  }
-};
-```
-
-### Guidelines for Checks
-
-- Keep checks focused on one specific issue
-- Use clear issue messages with line numbers when possible
-- Test both positive and negative cases
-- Follow existing naming conventions (camelCase)
-- Document any WCAG criteria the check addresses
-
-## Understanding Issues
-
-When mat-a11y finds accessibility issues, it provides structured output that's both human-readable and machine-parseable.
-
-### Issue Format
-
-```
-[Severity] What's wrong. Why it matters for accessibility
-  How to fix:
-    - Option 1
-    - Option 2
-  WCAG X.X.X: Criterion Name | See: documentation-url
-  Found: <the offending code>
-```
-
-### Severity Levels
-
-See [False Positives & Configuration Guide](#️-false-positives--configuration-guide) for details on severity levels and common false positives.
-
-### Error Codes
-
-All errors have unique codes for programmatic handling (e.g., `BTN_MISSING_NAME`, `IMG_MISSING_ALT`).
-
-Categories: `IMG`, `BTN`, `LINK`, `FORM`, `ARIA`, `FOCUS`, `COLOR`, `MAT`, `CDK`, and more.
-
-### Programmatic Parsing
-
-The error catalog provides multiple output formats:
-
-```javascript
-const { format, compact, toJSON, parse, filterBySeverity } = require('mat-a11y/src/core/errors');
-
-// Human-readable format (default)
-format('BTN_MISSING_NAME', { element: '<button></button>' });
-// [Error] Button missing accessible name. Screen readers cannot...
-//   How to fix:
-//     - Add text content inside <button>
-//   WCAG 4.1.2: Name, Role, Value
-//   Found: <button></button>
-
-// Compact JSON (fast for CI/CD pipelines)
-compact('BTN_MISSING_NAME', { element: '<button></button>' });
-// {"code":"BTN_MISSING_NAME","severity":"error","message":"Button missing accessible name","wcag":"4.1.2","element":"<button></button>","line":null}
-
-// Full JSON object (programmatic use)
-toJSON('BTN_MISSING_NAME', { element: '<button></button>' });
-// { code, severity, message, why, fix[], wcag: { code, name }, link, element, line }
-
-// Parse issue string back to object
-const parsed = parse(issueString);
-console.log(parsed.severity);  // 'error' | 'warning' | 'info'
-console.log(parsed.message);   // What's wrong
-console.log(parsed.wcag);      // WCAG criterion code
-
-// Filter by severity
-const errorsOnly = filterBySeverity(issues, 'error');    // Only errors
-const noInfo = filterBySeverity(issues, 'warning');      // Errors + warnings
-```
-
-### WCAG References
-
-Each issue references the relevant WCAG 2.1 Success Criterion:
-- **1.x.x** = Perceivable (images, media, structure)
-- **2.x.x** = Operable (keyboard, timing, navigation)
-- **3.x.x** = Understandable (language, predictable, input)
-- **4.x.x** = Robust (parsing, name/role/value)
-
-Learn more: [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)
+# Reference
 
 ## Checks Reference
 
@@ -586,6 +190,7 @@ Learn more: [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)
 | ariaAttributes | 4.1.2 | ARIA attributes must have valid values |
 | ariaHiddenBody | 4.1.2 | Body cannot have aria-hidden |
 | ariaRoles | 4.1.2 | ARIA roles must be valid |
+| autofocusUsage | 2.4.3 | Autofocus can disrupt screen readers |
 | autoplayMedia | 1.4.2 | Autoplay media must be muted with controls |
 | blinkElement | 2.2.2 | Blink element not allowed |
 | buttonNames | 4.1.2 | Buttons must have accessible names |
@@ -612,102 +217,220 @@ Learn more: [WCAG 2.1 Quick Reference](https://www.w3.org/WAI/WCAG21/quickref/)
 | uniqueIds | 4.1.1 | IDs must be unique |
 | videoCaptions | 1.2.2 | Videos should have captions |
 
+### Angular Material Checks (29)
+
+| Check | WCAG | Description |
+|-------|------|-------------|
+| matAutocompleteLabel | 4.1.2 | mat-autocomplete input needs aria-label |
+| matBadgeDescription | 1.1.1 | matBadge needs matBadgeDescription |
+| matBottomSheetA11y | 2.4.3 | mat-bottom-sheet needs heading |
+| matButtonToggleLabel | 4.1.2 | mat-button-toggle-group needs label |
+| matButtonType | 4.1.2 | mat-button only on button/a elements |
+| matCheckboxLabel | 4.1.2 | mat-checkbox needs label |
+| matChipListLabel | 4.1.2 | mat-chip-list needs aria-label |
+| matDatepickerLabel | 4.1.2 | mat-datepicker input needs label |
+| matDialogFocus | 2.4.3 | mat-dialog needs focus management |
+| matExpansionHeader | 4.1.2 | Expansion panel needs header |
+| matFormFieldLabel | 1.3.1 | mat-form-field needs mat-label |
+| matIconAccessibility | 1.1.1 | mat-icon needs aria-hidden or aria-label |
+| matListSelectionLabel | 4.1.2 | mat-selection-list needs label |
+| matMenuTrigger | 4.1.2 | Menu trigger needs accessible name |
+| matPaginatorLabel | 4.1.2 | mat-paginator needs aria-label |
+| matProgressBarLabel | 1.1.1 | mat-progress-bar needs aria-label |
+| matProgressSpinnerLabel | 1.1.1 | mat-progress-spinner needs aria-label |
+| matRadioGroupLabel | 1.3.1 | mat-radio-group needs group label |
+| matSelectPlaceholder | 1.3.1 | mat-select needs label, not just placeholder |
+| matSidenavA11y | 4.1.2 | mat-sidenav needs role or label |
+| matSlideToggleLabel | 4.1.2 | mat-slide-toggle needs label |
+| matSliderLabel | 4.1.2 | mat-slider needs label |
+| matSnackbarPoliteness | 4.1.3 | Snackbar politeness setting |
+| matSortHeaderAnnounce | 4.1.2 | mat-sort-header needs sortActionDescription |
+| matStepLabel | 4.1.2 | mat-step needs label |
+| matTabLabel | 4.1.2 | mat-tab needs label |
+| matTableHeaders | 1.3.1 | mat-table needs header row |
+| matTooltipKeyboard | 2.1.1 | matTooltip needs focusable host |
+| matTreeA11y | 4.1.2 | mat-tree needs aria-label |
+
 ### Angular Checks (7)
 
 | Check | WCAG | Description |
 |-------|------|-------------|
 | asyncPipeAria | 4.1.3 | Async pipe content needs aria-live |
-| autofocusUsage | 2.4.3 | Autofocus can disrupt screen readers |
 | clickWithoutKeyboard | 2.1.1 | (click) needs keyboard handler |
 | clickWithoutRole | 4.1.2 | (click) needs role and tabindex |
 | innerHtmlUsage | - | [innerHTML] usage warning |
-| ngForTrackBy | - | *ngFor should have trackBy (performance) |
+| ngForTrackBy | - | *ngFor should have trackBy |
 | routerLinkNames | 2.4.4 | routerLink needs accessible name |
-
-### Angular Material Checks (29)
-
-| Check | WCAG | Description |
-|-------|------|-------------|
-| matFormFieldLabel | 1.3.1 | mat-form-field needs mat-label |
-| matSelectPlaceholder | 1.3.1 | mat-select needs label, not just placeholder |
-| matAutocompleteLabel | 4.1.2 | mat-autocomplete input needs aria-label |
-| matDatepickerLabel | 4.1.2 | mat-datepicker input needs label |
-| matRadioGroupLabel | 1.3.1 | mat-radio-group needs group label |
-| matSlideToggleLabel | 4.1.2 | mat-slide-toggle needs label |
-| matCheckboxLabel | 4.1.2 | mat-checkbox needs label |
-| matChipListLabel | 4.1.2 | mat-chip-list needs aria-label |
-| matSliderLabel | 4.1.2 | mat-slider needs label |
-| matButtonType | 4.1.2 | mat-button only on button/a elements |
-| matIconAccessibility | 1.1.1 | mat-icon needs aria-hidden or aria-label |
-| matButtonToggleLabel | 4.1.2 | mat-button-toggle-group needs label |
-| matProgressBarLabel | 1.1.1 | mat-progress-bar needs aria-label |
-| matProgressSpinnerLabel | 1.1.1 | mat-progress-spinner needs aria-label |
-| matBadgeDescription | 1.1.1 | matBadge needs matBadgeDescription |
-| matMenuTrigger | 4.1.2 | Menu trigger needs accessible name |
-| matSidenavA11y | 4.1.2 | mat-sidenav needs role or label |
-| matTabLabel | 4.1.2 | mat-tab needs label |
-| matStepLabel | 4.1.2 | mat-step needs label |
-| matExpansionHeader | 4.1.2 | Expansion panel needs header |
-| matTreeA11y | 4.1.2 | mat-tree needs aria-label |
-| matListSelectionLabel | 4.1.2 | mat-selection-list needs label |
-| matTableHeaders | 1.3.1 | mat-table needs header row |
-| matPaginatorLabel | 4.1.2 | mat-paginator needs aria-label |
-| matSortHeaderAnnounce | 4.1.2 | mat-sort-header needs sortActionDescription |
-| matDialogFocus | 2.4.3 | mat-dialog needs focus management |
-| matBottomSheetA11y | 2.4.3 | mat-bottom-sheet needs heading |
-| matTooltipKeyboard | 2.1.1 | matTooltip needs focusable host |
-| matSnackbarPoliteness | 4.1.3 | Snackbar politeness setting |
 
 ### CDK Checks (3)
 
 | Check | WCAG | Description |
 |-------|------|-------------|
-| cdkTrapFocusDialog | 2.4.3 | Dialogs should trap focus |
 | cdkAriaDescriber | 4.1.2 | Complex widgets may need descriptions |
 | cdkLiveAnnouncer | 4.1.3 | Dynamic content may need announcements |
+| cdkTrapFocusDialog | 2.4.3 | Dialogs should trap focus |
 
 ### SCSS Checks (14)
 
 | Check | WCAG | Description |
 |-------|------|-------------|
 | colorContrast | 1.4.3 | WCAG 2.1 AA color contrast (4.5:1) |
+| contentOverflow | 1.4.4 | overflow:hidden may hide content |
 | focusStyles | 2.4.7 | Interactive elements need focus indicators |
-| touchTargets | 2.5.5 | Minimum 44x44px touch targets |
-| outlineNoneWithoutAlt | 2.4.7 | outline:none needs alternative focus |
-| prefersReducedMotion | 2.3.3 | Animations should respect motion preference |
-| userSelectNone | - | user-select:none warning |
-| pointerEventsNone | 2.1.1 | pointer-events:none on interactive elements |
-| visibilityHiddenUsage | - | visibility:hidden usage info |
 | focusWithinSupport | 2.4.7 | Complex components may need :focus-within |
 | hoverWithoutFocus | 2.1.1 | :hover should have matching :focus |
-| contentOverflow | 1.4.4 | overflow:hidden may hide content |
-| smallFontSize | 1.4.4 | Font sizes below 12px warning |
 | lineHeightTight | 1.4.12 | line-height below 1.2 warning |
+| outlineNoneWithoutAlt | 2.4.7 | outline:none needs alternative focus |
+| pointerEventsNone | 2.1.1 | pointer-events:none on interactive elements |
+| prefersReducedMotion | 2.3.3 | Animations should respect motion preference |
+| smallFontSize | 1.4.4 | Font sizes below 12px warning |
 | textJustify | 1.4.8 | text-align:justify readability warning |
+| touchTargets | 2.5.5 | Minimum 44x44px touch targets |
+| userSelectNone | - | user-select:none warning |
+| visibilityHiddenUsage | - | visibility:hidden usage info |
 
----
+## Architecture
 
-## Haftungsausschluss / Disclaimer
+### Project Structure
 
-**DEUTSCH:**
+```
+src/
+├── checks/              # 82 check modules
+│   ├── buttonNames/
+│   │   ├── index.js     # Check implementation
+│   │   └── verify.html  # Test cases
+│   └── ...
+├── core/
+│   ├── errors.js        # Error catalog (82 codes)
+│   ├── loader.js        # Dynamic check loader
+│   ├── runner.js        # Parallel execution
+│   ├── verifier.js      # Self-test system
+│   └── verifyStructure.js  # 4-section validation
+└── index.js             # Public API
+```
 
-Diese Software wird "wie besehen" ohne jegliche Gewahrleistung bereitgestellt.
-Keine Garantie fur Vollstandigkeit, Richtigkeit oder Eignung fur bestimmte Zwecke.
-Die Nutzung erfolgt auf eigenes Risiko.
+### Self-Testing System
 
-Diese Software ersetzt keine professionelle Barrierefreiheits-Prufung und garantiert
-keine Konformitat mit WCAG, BITV 2.0 oder anderen Standards.
+Every check has a verify file with **4 required sections**:
 
-**ENGLISH:**
+```html
+<!-- @a11y-pass -->
+<!-- Accessible code - must produce 0 issues -->
+<button>Click me</button>
 
-This software is provided "as is" without warranty of any kind.
-No guarantee of completeness, accuracy, or fitness for any purpose.
-Use at your own risk.
+<!-- @a11y-fail -->
+<!-- Inaccessible code - must produce issues -->
+<button></button>
 
-This software does not replace professional accessibility audits and does not
-guarantee compliance with WCAG, BITV 2.0, or other standards.
+<!-- @a11y-false-positive -->
+<!-- Tricky accessible code that naive checks might flag -->
+<div aria-label="Action"><button></button></div>
 
----
+<!-- @a11y-false-negative -->
+<!-- Tricky inaccessible code that naive checks might miss -->
+<button aria-label="">Submit</button>
+```
+
+Run verification:
+
+```bash
+npm test                  # Structure check + self-test
+mat-a11y --self-test      # Self-test only
+```
+
+### Error Catalog
+
+All errors are defined in `src/core/errors.js`:
+
+```javascript
+const { format, toJSON, parse } = require('mat-a11y/src/core/errors');
+
+// Human-readable
+format('BTN_MISSING_NAME', { element: '<button></button>', line: 15 });
+
+// JSON
+toJSON('BTN_MISSING_NAME', { element: '<button></button>' });
+// { code, severity, message, why, fix[], wcag, element, line }
+
+// Parse back
+const parsed = parse(issueString);
+```
+
+## Contributing
+
+### Adding a New Check
+
+1. **Create folder:**
+   ```bash
+   mkdir src/checks/myCheck
+   ```
+
+2. **Create index.js:**
+   ```javascript
+   const { format } = require('../../core/errors');
+
+   module.exports = {
+     name: 'myCheck',
+     description: 'What this check does',
+     tier: 'material',  // basic | material | full
+     type: 'html',      // html | scss
+     wcag: '4.1.2',     // optional
+
+     check(content) {
+       const issues = [];
+       let elementsFound = 0;
+
+       // Your logic here - count elements evaluated
+       while ((match = pattern.exec(content)) !== null) {
+         elementsFound++;
+         if (problem) {
+           issues.push(format('ERROR_CODE', { element, line }));
+         }
+       }
+
+       return { pass: issues.length === 0, issues, elementsFound };
+     }
+   };
+   ```
+
+3. **Add error code to `src/core/errors.js`**
+
+4. **Create verify.html with all 4 sections:**
+   ```html
+   <!-- @a11y-pass -->
+   <!-- good code -->
+
+   <!-- @a11y-fail -->
+   <!-- bad code -->
+
+   <!-- @a11y-false-positive -->
+   <!-- tricky good code -->
+
+   <!-- @a11y-false-negative -->
+   <!-- tricky bad code -->
+   ```
+
+5. **Test:**
+   ```bash
+   npm test
+   mat-a11y ./src --check myCheck
+   ```
+
+## Compatibility
+
+| Environment | Version |
+|-------------|---------|
+| Node.js | >= 16.0.0 |
+| Angular Material | >= 12 |
+| Angular | >= 12 |
+
+**Angular Material 15+:** Auto-detects new `mat-slider` API (`<input matSliderThumb>`).
+
+## Disclaimer
+
+This software is provided "as is" without warranty of any kind. No guarantee of completeness, accuracy, or fitness for any purpose. Use at your own risk.
+
+This tool does not replace professional accessibility audits and does not guarantee compliance with WCAG, BITV 2.0, or other standards.
 
 ## License
 
@@ -715,8 +438,4 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-Made with care by **Robin Spanier** - Freelance Web Developer
-
-- [Traufix](https://traufix.de) - Website Builder for Bridal Couples
-- [robspan.de](https://robspan.de) - Freelance Services
-- Contact: robin.spanier@robspan.de
+**Robin Spanier** - [robspan.de](https://robspan.de) - robin.spanier@robspan.de

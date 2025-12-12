@@ -33,3 +33,33 @@
 
 <!-- mat-progress-bar with only other attributes, no label -->
 <mat-progress-bar mode="determinate" value="100" color="primary"></mat-progress-bar>
+
+<!-- @a11y-false-positive -->
+<!-- Progress bar inside a labeled region -->
+<div role="region" aria-label="File upload status">
+  <mat-progress-bar mode="determinate" value="60"></mat-progress-bar>
+</div>
+
+<!-- Progress bar with aria-describedby providing context -->
+<mat-progress-bar mode="indeterminate" aria-describedby="progress-desc"></mat-progress-bar>
+<span id="progress-desc" class="sr-only">Loading user data from server</span>
+
+<!-- Progress bar inside fieldset with legend -->
+<fieldset>
+  <legend>Download Progress</legend>
+  <mat-progress-bar mode="buffer" value="45"></mat-progress-bar>
+</fieldset>
+
+<!-- @a11y-false-negative -->
+<!-- Progress bar with empty aria-labelledby reference -->
+<span id="empty-progress-label"></span>
+<mat-progress-bar mode="determinate" value="30" aria-labelledby="empty-progress-label"></mat-progress-bar>
+
+<!-- Progress bar with aria-labelledby pointing to non-existent element -->
+<mat-progress-bar mode="query" aria-labelledby="nonexistent-progress-label"></mat-progress-bar>
+
+<!-- Progress bar with aria-label bound to undefined -->
+<mat-progress-bar mode="indeterminate" [aria-label]="undefinedProgressLabel"></mat-progress-bar>
+
+<!-- Progress bar with whitespace-only aria-label -->
+<mat-progress-bar mode="determinate" value="80" aria-label="   "></mat-progress-bar>

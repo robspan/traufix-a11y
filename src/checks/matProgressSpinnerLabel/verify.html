@@ -44,3 +44,34 @@
 
 <!-- mat-spinner with other attributes but no label -->
 <mat-spinner color="accent" strokeWidth="3"></mat-spinner>
+
+<!-- @a11y-false-positive -->
+<!-- mat-spinner inside element with aria-busy and aria-live that provides context -->
+<div aria-busy="true" aria-live="polite" aria-label="Loading content">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- mat-progress-spinner with programmatically set label via directive -->
+<mat-progress-spinner mode="indeterminate" [appA11yLabel]="spinnerDescription"></mat-progress-spinner>
+
+<!-- mat-spinner with title attribute (some screen readers use title as fallback) -->
+<mat-spinner title="Loading data"></mat-spinner>
+
+<!-- mat-spinner inside figure with figcaption providing context -->
+<figure role="status" aria-label="Processing">
+  <mat-spinner></mat-spinner>
+  <figcaption class="cdk-visually-hidden">Please wait while loading</figcaption>
+</figure>
+
+<!-- @a11y-false-negative -->
+<!-- mat-spinner with empty aria-label -->
+<mat-spinner aria-label=""></mat-spinner>
+
+<!-- mat-progress-spinner with aria-labelledby pointing to non-existent element -->
+<mat-progress-spinner mode="indeterminate" aria-labelledby="nonexistent-id"></mat-progress-spinner>
+
+<!-- mat-spinner with whitespace-only aria-label -->
+<mat-spinner aria-label="   "></mat-spinner>
+
+<!-- mat-progress-spinner with aria-hidden="true" but no label for when visible -->
+<mat-progress-spinner mode="determinate" [value]="progress" [attr.aria-hidden]="!isLoading"></mat-progress-spinner>

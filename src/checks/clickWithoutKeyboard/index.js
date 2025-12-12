@@ -29,6 +29,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Regex to match opening tags of non-interactive elements with attributes
     const tagPattern = new RegExp(
@@ -38,6 +39,7 @@ module.exports = {
 
     let match;
     while ((match = tagPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementName = match[1].toLowerCase();
       const attributes = match[2];
 
@@ -60,6 +62,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

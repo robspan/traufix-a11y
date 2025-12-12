@@ -8,6 +8,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // WCAG 2.5.5 (AA) requires 24x24px minimum
     // WCAG 2.5.8 (AAA) recommends 44x44px
@@ -58,6 +59,7 @@ module.exports = {
 
     let match;
     while ((match = selectorPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].replace(/\\/g, '');
       const ruleBlock = match[2];
 
@@ -124,6 +126,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find <form> elements and their content
     const formPattern = /<form[^>]*>([\s\S]*?)<\/form>/gi;
@@ -22,6 +23,7 @@ module.exports = {
       let inputMatch;
 
       while ((inputMatch = inputPattern.exec(formContent)) !== null) {
+        elementsFound++;
         const attributes = inputMatch[1];
 
         // Extract type attribute
@@ -55,6 +57,7 @@ module.exports = {
       let selectMatch;
 
       while ((selectMatch = selectPattern.exec(formContent)) !== null) {
+        elementsFound++;
         const attributes = selectMatch[1];
         const hasName = /\sname\s*=\s*["'][^"']+["']/i.test(attributes) ||
                         /\[name\]/i.test(attributes) ||
@@ -76,6 +79,7 @@ module.exports = {
       let textareaMatch;
 
       while ((textareaMatch = textareaPattern.exec(formContent)) !== null) {
+        elementsFound++;
         const attributes = textareaMatch[1];
         const hasName = /\sname\s*=\s*["'][^"']+["']/i.test(attributes) ||
                         /\[name\]/i.test(attributes) ||
@@ -95,7 +99,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

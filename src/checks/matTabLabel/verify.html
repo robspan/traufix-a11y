@@ -8,3 +8,51 @@
 <mat-tab-group>
   <mat-tab>No label here</mat-tab>
 </mat-tab-group>
+
+<!-- @a11y-false-positive -->
+<!-- mat-tab with dynamically bound label -->
+<mat-tab-group>
+  <mat-tab [label]="getTabLabel()">Content with method-bound label</mat-tab>
+</mat-tab-group>
+
+<!-- mat-tab with ng-template matTabLabel for custom content -->
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>thumb_up</mat-icon>
+      Custom Tab
+    </ng-template>
+    Content with custom template label
+  </mat-tab>
+</mat-tab-group>
+
+<!-- mat-tab with async pipe label -->
+<mat-tab-group>
+  <mat-tab [label]="tabLabel$ | async">Content from observable</mat-tab>
+</mat-tab-group>
+
+<!-- @a11y-false-negative -->
+<!-- mat-tab with empty string label -->
+<mat-tab-group>
+  <mat-tab label="">Empty label string</mat-tab>
+</mat-tab-group>
+
+<!-- mat-tab with whitespace-only label -->
+<mat-tab-group>
+  <mat-tab label="   ">Whitespace only</mat-tab>
+</mat-tab-group>
+
+<!-- mat-tab with mat-tab-label containing only icon (no text alternative) -->
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>settings</mat-icon>
+    </ng-template>
+    Icon-only label without text alternative
+  </mat-tab>
+</mat-tab-group>
+
+<!-- mat-tab with aria-label that is empty -->
+<mat-tab-group>
+  <mat-tab aria-label="">Empty aria-label</mat-tab>
+</mat-tab-group>

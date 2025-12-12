@@ -56,3 +56,53 @@ a:focus-visible {
 :focus {
   outline: none;
 }
+
+// @a11y-false-positive
+// Uses outline:none but has custom focus indicator via filter
+.image-button:focus {
+  outline: none;
+  filter: drop-shadow(0 0 4px #0066cc);
+}
+
+// Uses outline:none with transform-based focus indicator
+.zoom-button:focus {
+  outline: none;
+  transform: scale(1.05);
+  border: 2px solid #0066cc;
+}
+
+// Has outline:none inside a media query for print only - focus still works on screen
+@media print {
+  button:focus {
+    outline: none;
+  }
+}
+
+// Uses outline:transparent which allows custom styles while keeping focus ring space
+.subtle-link:focus {
+  outline: 2px solid transparent;
+  background-color: #e6f0ff;
+}
+
+// @a11y-false-negative
+// Removes focus via visibility - not using outline:none but still removes focus
+.sneaky-button:focus {
+  visibility: hidden;
+}
+
+// Uses opacity to hide focus indicator - technically has outline but invisible
+.opacity-trick:focus {
+  outline: 2px solid rgba(0, 0, 0, 0);
+}
+
+// Outline color matches background - focus exists but not visible
+.same-color-focus:focus {
+  outline: 2px solid white;
+  background-color: white;
+}
+
+// Uses clip-path to hide the focus outline
+.clip-focus:focus {
+  outline: 2px solid blue;
+  clip-path: inset(0);
+}

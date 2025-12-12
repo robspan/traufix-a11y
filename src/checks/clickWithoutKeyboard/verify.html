@@ -33,3 +33,40 @@
 
 <!-- Table row with click but no keyboard handler -->
 <tr (click)="selectRow()">Clickable row</tr>
+
+<!-- @a11y-false-positive -->
+<!-- Click used for analytics/tracking only, not interactive -->
+<div (click)="trackImpression()" class="ad-container">
+  <img src="ad.jpg" alt="Advertisement">
+</div>
+
+<!-- Element inside a button (click bubbles from interactive parent) -->
+<button (click)="action()">
+  <span class="icon-wrapper" (click)="action()">Icon</span>
+</button>
+
+<!-- Click on element with directive that adds keyboard handling -->
+<div (click)="doAction()" appKeyboardAccessible class="custom-control">
+  Directive adds keyboard support
+</div>
+
+<!-- @a11y-false-negative -->
+<!-- Has keydown.enter but missing keydown.space for button-like behavior -->
+<div (click)="action()" (keydown.enter)="action()" tabindex="0" role="button">
+  Missing space key handler
+</div>
+
+<!-- Keyboard handler calls different function than click -->
+<div (click)="primaryAction()" (keydown.enter)="secondaryAction()" tabindex="0" role="button">
+  Inconsistent behavior
+</div>
+
+<!-- Keyboard handler has typo/wrong event -->
+<div (click)="submit()" (keydown.ente)="submit()" tabindex="0" role="button">
+  Typo in keydown event
+</div>
+
+<!-- Click handler on element with negative tabindex (unreachable) -->
+<div (click)="action()" (keydown.enter)="action()" tabindex="-1" role="button">
+  Not keyboard reachable
+</div>

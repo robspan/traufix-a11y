@@ -76,3 +76,57 @@
 
 <!-- Self-closing mat-tree without label -->
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl"/>
+
+<!-- @a11y-false-positive -->
+<!-- mat-tree with aria-label set via directive or host binding -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" myTreeLabelDirective>
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
+<!-- mat-tree inside labeled region that provides context -->
+<section aria-label="File Navigation">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node">
+      {{node.name}}
+    </mat-tree-node>
+  </mat-tree>
+</section>
+
+<!-- mat-tree with title attribute (provides accessible name in some contexts) -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" title="Project structure">
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
+<!-- @a11y-false-negative -->
+<!-- mat-tree with empty aria-label -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" aria-label="">
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
+<!-- mat-tree with whitespace-only aria-label -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" aria-label="   ">
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
+<!-- mat-tree with aria-labelledby pointing to non-existent element -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" aria-labelledby="missing-element-id">
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
+<!-- mat-tree with aria-labelledby pointing to empty element -->
+<span id="empty-label"></span>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" aria-labelledby="empty-label">
+  <mat-tree-node *matTreeNodeDef="let node">
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>

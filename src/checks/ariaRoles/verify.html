@@ -28,3 +28,37 @@
 
 <!-- Invalid role: non-existent -->
 <section role="content">Main content</section>
+
+<!-- @a11y-false-positive -->
+<!-- Custom element with role attribute (may be valid web component) -->
+<custom-slider role="slider" aria-valuenow="50">50%</custom-slider>
+
+<!-- Role in Angular template binding (valid at runtime) -->
+<div [attr.role]="dynamicRole">Dynamic role content</div>
+
+<!-- Presentation role to remove semantics intentionally -->
+<table role="presentation">
+  <tr><td>Layout cell</td></tr>
+</table>
+
+<!-- None role (synonym for presentation) -->
+<img role="none" src="decorative.png">
+
+<!-- @a11y-false-negative -->
+<!-- Abstract role that should not be used directly -->
+<div role="widget">Abstract widget role</div>
+<div role="landmark">Abstract landmark role</div>
+<div role="section">Abstract section role</div>
+
+<!-- Role on wrong element type (valid role, wrong context) -->
+<span role="heading">Not a real heading</span>
+<a role="button">Link styled as button</a>
+
+<!-- Role without required children -->
+<ul role="listbox">
+  <li>Missing option role</li>
+</ul>
+
+<!-- Role without required ARIA attributes -->
+<div role="slider">Missing aria-valuenow, valuemin, valuemax</div>
+<div role="combobox">Missing aria-expanded</div>

@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const iframeRegex = /<iframe[^>]*>/gi;
     let match;
 
     while ((match = iframeRegex.exec(content)) !== null) {
+      elementsFound++;
       const iframe = match[0];
       const hasTitle = /\btitle=/i.test(iframe) || /\[title\]=/i.test(iframe);
       const hasAriaLabel = /aria-label=/i.test(iframe);
@@ -24,6 +26,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

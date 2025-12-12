@@ -47,3 +47,66 @@
 .bad-link:focus {
   outline: 0;
 }
+
+/* @a11y-false-positive */
+/* Outline removed on element that has custom focus ring via border change */
+.custom-focus-input {
+  outline: none;
+  border: 2px solid transparent;
+}
+
+.custom-focus-input:focus {
+  border-color: #0066cc;
+  background-color: #f0f8ff;
+}
+
+/* Outline removed but parent container shows focus */
+.focus-within-container:focus-within {
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.5);
+}
+
+.focus-within-container input {
+  outline: none;
+}
+
+/* Outline removed only on non-keyboard interaction */
+.smart-focus:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* @a11y-false-negative */
+/* Has focus rule but the box-shadow is invisible (transparent) */
+.invisible-focus {
+  outline: none;
+}
+
+.invisible-focus:focus {
+  box-shadow: 0 0 0 3px transparent;
+}
+
+/* Has alternative focus style but contrast is too low */
+.low-contrast-focus {
+  outline: none;
+}
+
+.low-contrast-focus:focus {
+  box-shadow: 0 0 0 2px #f5f5f5; /* Nearly invisible on white background */
+}
+
+/* Focus style exists but is overridden by !important elsewhere */
+.overridden-focus {
+  outline: none !important;
+}
+
+.overridden-focus:focus {
+  box-shadow: 0 0 0 3px blue;
+}
+
+/* Focus indicator too thin to be visible */
+.thin-focus {
+  outline: none;
+}
+
+.thin-focus:focus {
+  border: 1px solid #cccccc;
+}

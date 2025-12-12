@@ -30,3 +30,35 @@
 <!-- Mixing positive tabindex with normal elements creates confusing order -->
 <div tabindex="3">This will focus before the buttons below</div>
 <button>This will focus last despite being first in DOM</button>
+
+<!-- @a11y-false-positive -->
+<!-- tabindex="0" on custom interactive widgets is correct and necessary -->
+<div role="slider" tabindex="0" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Custom slider</div>
+
+<!-- tabindex="0" on clickable cards for keyboard accessibility -->
+<article class="clickable-card" tabindex="0" onclick="navigateToDetail()">
+  <h3>Product Name</h3>
+  <p>Product description</p>
+</article>
+
+<!-- tabindex="-1" for skip link targets (allows programmatic focus) -->
+<main id="main-content" tabindex="-1">
+  <h1>Page Title</h1>
+</main>
+
+<!-- tabindex="0" on custom dropdown trigger -->
+<div role="combobox" tabindex="0" aria-expanded="false" aria-haspopup="listbox">Select an option</div>
+
+<!-- @a11y-false-negative -->
+<!-- Very high tabindex still disrupts tab order but might be missed -->
+<input type="text" tabindex="999" placeholder="Skipped by simple checks">
+
+<!-- Dynamic tabindex via binding (actual value could be positive) -->
+<button [attr.tabindex]="dynamicTabIndex">Dynamic tab</button>
+
+<!-- tabindex on non-interactive element without role (keyboard trap) -->
+<span tabindex="0">Focusable but no interaction defined</span>
+
+<!-- Redundant tabindex="0" on native interactive elements (code smell) -->
+<button tabindex="0">Already focusable</button>
+<a href="/page" tabindex="0">Already focusable link</a>

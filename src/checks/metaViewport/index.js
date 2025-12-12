@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match meta viewport tag - handle both name="viewport" and name='viewport'
     // Also handle cases where name attribute comes after content
@@ -18,10 +19,11 @@ module.exports = {
 
     if (!viewportMatches) {
       // No viewport meta tag - not necessarily an error for this check
-      return { pass: true, issues: [] };
+      return { pass: true, issues: [], elementsFound };
     }
 
     for (const viewportTag of viewportMatches) {
+      elementsFound++;
       // Extract content attribute value
       const contentRegex = /content\s*=\s*["']([^"']*)["']/i;
       const contentMatch = viewportTag.match(contentRegex);
@@ -51,7 +53,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -44,3 +44,53 @@
 
 <!-- Empty object element -->
 <object data="diagram.svg" type="image/svg+xml"></object>
+
+<!-- @a11y-false-positive -->
+<!-- Decorative object with role="presentation" - no alt needed -->
+<object
+  data="decorative-border.svg"
+  type="image/svg+xml"
+  role="presentation">
+</object>
+
+<!-- Object used purely for layout/decoration with aria-hidden -->
+<object
+  data="background-pattern.svg"
+  type="image/svg+xml"
+  aria-hidden="true">
+</object>
+
+<!-- Object with accessible name via aria-labelledby pointing to external description -->
+<p id="chart-desc">Interactive sales data visualization showing quarterly results</p>
+<object
+  data="sales-chart.svg"
+  type="image/svg+xml"
+  aria-labelledby="chart-desc">
+</object>
+
+<!-- @a11y-false-negative -->
+<!-- Object with title attribute but title is empty -->
+<object
+  data="important-chart.pdf"
+  type="application/pdf"
+  title="">
+</object>
+
+<!-- Object with whitespace-only title -->
+<object
+  data="report.pdf"
+  type="application/pdf"
+  title="   ">
+</object>
+
+<!-- Object with fallback but fallback is not descriptive -->
+<object data="complex-diagram.svg" type="image/svg+xml">
+  <p></p>
+</object>
+
+<!-- Object with aria-label pointing to non-existent element -->
+<object
+  data="floor-plan.svg"
+  type="image/svg+xml"
+  aria-labelledby="non-existent-id">
+</object>

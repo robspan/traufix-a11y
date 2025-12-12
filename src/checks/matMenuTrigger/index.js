@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match elements with matMenuTriggerFor or [matMenuTriggerFor]
     // This regex captures the entire element including its content
@@ -17,6 +18,7 @@ module.exports = {
 
     let match;
     while ((match = menuTriggerRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tagName = match[1] || match[3];
       const innerContent = match[2] || '';
@@ -52,7 +54,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

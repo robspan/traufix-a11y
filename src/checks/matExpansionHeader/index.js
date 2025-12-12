@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     /**
      * Check if an element has an accessible label via aria attributes
@@ -64,6 +65,7 @@ module.exports = {
 
     while ((match = panelRegex.exec(content)) !== null) {
       panelIndex++;
+      elementsFound++;
       const panelAttributes = match[1] || '';
       const panelContent = match[2];
 
@@ -96,7 +98,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

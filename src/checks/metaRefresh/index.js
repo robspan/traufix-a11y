@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match <meta http-equiv="refresh" ...>
     // Handles various quote styles and attribute ordering
@@ -18,13 +19,15 @@ module.exports = {
 
     if (matches) {
       matches.forEach((match) => {
+        elementsFound++;
         issues.push(format('META_REFRESH', { element: match }));
       });
     }
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

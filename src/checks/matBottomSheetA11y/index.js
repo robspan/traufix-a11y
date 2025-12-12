@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Helper to extract a snippet for reporting
     const getSnippet = (match) => {
@@ -98,6 +99,7 @@ module.exports = {
     // Check ng-template bottom sheet patterns
     let match;
     while ((match = bottomSheetTemplatePattern.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const sheetContent = match[1] || '';
       const templateRefMatch = fullMatch.match(/#(\w+)/);
@@ -109,6 +111,7 @@ module.exports = {
 
     // Check mat-bottom-sheet-container elements
     while ((match = matBottomSheetContainerPattern.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const sheetContent = match[1] || '';
 
@@ -120,6 +123,7 @@ module.exports = {
     // Look for elements with matBottomSheetRef or similar patterns
     const bottomSheetComponentPattern = /<(\w+[-\w]*)[^>]*\bmat-bottom-sheet\b[^>]*>([\s\S]*?)<\/\1>/gi;
     while ((match = bottomSheetComponentPattern.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const sheetContent = match[2] || '';
       const tagName = match[1];
@@ -130,7 +134,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

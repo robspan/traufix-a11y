@@ -29,3 +29,40 @@
 
 <!-- Table cell with click but missing both -->
 <td (click)="cellClick()">Clickable cell</td>
+
+<!-- @a11y-false-positive -->
+<!-- Click used purely for tracking/analytics, not interaction -->
+<div (click)="logAnalytics()" class="tracking-pixel">
+  <p>Regular content, click is for tracking only</p>
+</div>
+
+<!-- Click handler for drag-and-drop initialization -->
+<div (click)="initDrag()" cdkDrag class="draggable">
+  Drag handle (role comes from cdkDrag)
+</div>
+
+<!-- Click on a landmark region for debugging purposes -->
+<main (click)="debugClick($event)" role="main">
+  <p>Main content area</p>
+</main>
+
+<!-- @a11y-false-negative -->
+<!-- Has role but wrong role for the action -->
+<div (click)="submitForm()" role="presentation" tabindex="0">
+  Wrong role for interactive element
+</div>
+
+<!-- Role is empty string -->
+<div (click)="action()" role="" tabindex="0">
+  Empty role attribute
+</div>
+
+<!-- Role dynamically bound but evaluates to undefined -->
+<div (click)="toggle()" [attr.role]="undefinedRole" tabindex="0">
+  Undefined role binding
+</div>
+
+<!-- Has tabindex but it's a string that won't work -->
+<div (click)="action()" role="button" tabindex="zero">
+  Invalid tabindex value
+</div>

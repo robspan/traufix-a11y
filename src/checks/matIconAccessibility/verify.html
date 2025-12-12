@@ -11,3 +11,34 @@
 <mat-icon>settings</mat-icon>
 <mat-icon class="large-icon">warning</mat-icon>
 <span matIcon>star</span>
+
+<!-- @a11y-false-positive -->
+<!-- Icon inside a link with descriptive text -->
+<a href="/home">
+  <mat-icon>home</mat-icon>
+  <span class="cdk-visually-hidden">Go to home page</span>
+</a>
+
+<!-- Icon with role="img" and aria-label -->
+<mat-icon role="img" aria-label="Warning indicator">warning</mat-icon>
+
+<!-- Icon with title attribute as accessible name -->
+<mat-icon title="Download file">download</mat-icon>
+
+<!-- Icon inside labeled parent element -->
+<button aria-label="Delete item">
+  <mat-icon>delete</mat-icon>
+</button>
+
+<!-- @a11y-false-negative -->
+<!-- Icon with empty aria-label -->
+<mat-icon aria-label="">error</mat-icon>
+
+<!-- Icon with aria-hidden="false" but no actual label -->
+<mat-icon aria-hidden="false">info</mat-icon>
+
+<!-- Icon with aria-labelledby pointing to non-existent element -->
+<mat-icon aria-labelledby="nonexistent-id">help</mat-icon>
+
+<!-- Icon with whitespace-only aria-label -->
+<mat-icon aria-label="   ">account_circle</mat-icon>

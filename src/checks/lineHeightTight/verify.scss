@@ -37,3 +37,52 @@ p {
 .description {
   line-height: 0.9;
 }
+
+// @a11y-false-positive
+// Tight line-height on single-line elements where it's acceptable
+.single-line-button {
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Tight line-height on headings (often intentional for design)
+h1.hero-title {
+  line-height: 1.1;
+  font-size: 4rem;
+}
+
+// Icon-only elements where line-height controls vertical centering
+.icon-container {
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+// @a11y-false-negative
+// Line-height set via shorthand font property
+.hidden-tight {
+  font: 16px/1.0 Arial, sans-serif;
+}
+
+// Line-height using CSS custom property that evaluates to tight value
+.variable-line-height {
+  --tight-lh: 1.1;
+  line-height: var(--tight-lh);
+}
+
+// Line-height inherited from parent with tight value
+.parent-tight {
+  line-height: 1.0;
+  .child-text {
+    // Inherits tight line-height
+  }
+}
+
+// Line-height overridden at specific breakpoint
+.responsive-text {
+  line-height: 1.5;
+  @media (max-width: 480px) {
+    line-height: 1.1;
+  }
+}

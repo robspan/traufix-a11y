@@ -57,3 +57,51 @@
     <div role="gridcell">Item 1</div>
   </div>
 </div>
+
+<!-- @a11y-false-positive -->
+<!-- Grid with clear, self-explanatory label that doesn't need extra description -->
+<table role="grid" aria-label="Simple 3x3 checkbox grid">
+  <tr role="row">
+    <td role="gridcell"><input type="checkbox"></td>
+    <td role="gridcell"><input type="checkbox"></td>
+  </tr>
+</table>
+
+<!-- Listbox with aria-description attribute instead of aria-describedby -->
+<ul role="listbox" aria-label="Select color" aria-description="Use arrow keys to navigate">
+  <li role="option">Red</li>
+  <li role="option">Blue</li>
+</ul>
+
+<!-- Tree inside a section with preceding instructions visible to screen readers -->
+<section aria-label="Navigation section">
+  <p>Use arrow keys to navigate the tree below.</p>
+  <div role="tree" aria-label="Site navigation">
+    <div role="treeitem">Home</div>
+    <div role="treeitem">About</div>
+  </div>
+</section>
+
+<!-- @a11y-false-negative -->
+<!-- aria-describedby pointing to empty element -->
+<p id="empty-desc"></p>
+<ul role="listbox" aria-describedby="empty-desc" aria-label="Empty description listbox">
+  <li role="option">Option A</li>
+</ul>
+
+<!-- aria-describedby pointing to hidden element -->
+<span id="hidden-instructions" hidden>Use arrow keys</span>
+<div role="tree" aria-describedby="hidden-instructions" aria-label="Tree with hidden desc">
+  <div role="treeitem">Item</div>
+</div>
+
+<!-- aria-describedby with non-existent ID (typo) -->
+<div role="grid" aria-describedby="gird-instructions" aria-label="Grid with typo">
+  <div role="row"><div role="gridcell">Cell</div></div>
+</div>
+
+<!-- aria-describedby with display:none content -->
+<p id="invisible-help" style="display:none">Instructions here</p>
+<div role="treegrid" aria-describedby="invisible-help" aria-label="Treegrid invisible desc">
+  <div role="row"><div role="gridcell">Data</div></div>
+</div>

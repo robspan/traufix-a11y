@@ -37,3 +37,39 @@
 <video autoplay controls src="video.mp4">
   Missing muted attribute.
 </video>
+
+<!-- @a11y-false-positive -->
+<!-- Autoplay with playsinline for mobile (often muted by browser policy) -->
+<video autoplay playsinline src="hero.mp4">
+  Background video likely muted by browser.
+</video>
+
+<!-- Video with autoplay bound conditionally -->
+<video [autoplay]="userPreference" muted controls src="video.mp4">
+  Conditional autoplay based on user preference.
+</video>
+
+<!-- Audio element that is programmatically controlled -->
+<audio #audioPlayer src="notification.mp3">
+  No autoplay attribute, controlled via JS.
+</audio>
+
+<!-- @a11y-false-negative -->
+<!-- Video with autoplay via JavaScript not detectable -->
+<video id="js-video" src="video.mp4">
+  <!-- JS: document.getElementById('js-video').play() -->
+</video>
+
+<!-- Embedded iframe with autoplay parameter in URL -->
+<iframe src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1"></iframe>
+
+<!-- Object/embed tag with autoplay Flash/media -->
+<embed src="media.swf" autostart="true">
+<object data="media.swf">
+  <param name="autoplay" value="true">
+</object>
+
+<!-- Web Audio API autoplay (not detectable in HTML) -->
+<div id="audio-visualizer">
+  <!-- const audioContext = new AudioContext(); -->
+</div>

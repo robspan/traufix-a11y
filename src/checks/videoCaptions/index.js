@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const videoRegex = /<video[^>]*>[\s\S]*?<\/video>/gi;
     let match;
 
     while ((match = videoRegex.exec(content)) !== null) {
+      elementsFound++;
       const video = match[0];
       const hasTrack = /<track[^>]*kind=["']captions["']/i.test(video);
       if (!hasTrack) {
@@ -23,6 +25,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

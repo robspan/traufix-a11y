@@ -63,3 +63,82 @@
   <p>This page has an invalid lang attribute value.</p>
 </body>
 </html>
+
+<!-- @a11y-false-positive -->
+<!-- Valid but less common language codes that might be flagged -->
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <title>Simplified Chinese</title>
+</head>
+<body>
+  <p>This uses a valid extended language subtag.</p>
+</body>
+</html>
+
+<!-- Valid private use subtag -->
+<!DOCTYPE html>
+<html lang="en-x-custom">
+<head>
+  <title>Custom private subtag</title>
+</head>
+<body>
+  <p>Private use subtags are valid per BCP 47.</p>
+</body>
+</html>
+
+<!-- Valid grandfathered language tag -->
+<!DOCTYPE html>
+<html lang="i-klingon">
+<head>
+  <title>Grandfathered tag</title>
+</head>
+<body>
+  <p>Some grandfathered tags are still valid.</p>
+</body>
+</html>
+
+<!-- @a11y-false-negative -->
+<!-- Lang attribute with wrong case sensitivity handling -->
+<!DOCTYPE html>
+<html LANG="en">
+<head>
+  <title>Uppercase attribute name</title>
+</head>
+<body>
+  <p>HTML is case-insensitive but some parsers might miss this.</p>
+</body>
+</html>
+
+<!-- Lang on wrong element (body instead of html) -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lang on body only</title>
+</head>
+<body lang="en">
+  <p>Lang should be on html element, not body.</p>
+</body>
+</html>
+
+<!-- xml:lang without lang attribute -->
+<!DOCTYPE html>
+<html xml:lang="en">
+<head>
+  <title>Only xml:lang</title>
+</head>
+<body>
+  <p>XHTML used xml:lang but HTML5 needs lang attribute.</p>
+</body>
+</html>
+
+<!-- Lang with leading/trailing whitespace -->
+<!DOCTYPE html>
+<html lang=" en ">
+<head>
+  <title>Whitespace in lang</title>
+</head>
+<body>
+  <p>Whitespace around language code may cause issues.</p>
+</body>
+</html>

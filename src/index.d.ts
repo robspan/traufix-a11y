@@ -55,12 +55,12 @@ export interface Issue {
 export interface AnalysisSummary {
   /** Total files analyzed */
   totalFiles: number;
-  /** Total checks run */
-  totalChecks: number;
-  /** Number of passed checks */
-  passed: number;
-  /** Number of failed checks */
-  failed: number;
+  /** Total elements (HTML elements, CSS rules) evaluated */
+  elementsChecked: number;
+  /** Number of elements that passed (no issues) */
+  elementsPassed: number;
+  /** Number of elements that failed (have issues) */
+  elementsFailed: number;
   /** Array of all issues found */
   issues: Issue[];
 }
@@ -96,8 +96,10 @@ export class CheckResult {
   issues: string[];
   /** Number of issues */
   count: number;
+  /** Number of elements evaluated by this check */
+  elementsFound: number;
 
-  constructor(name: string, passed: boolean, issues?: string[]);
+  constructor(name: string, passed: boolean, issues?: string[], elementsFound?: number);
 }
 
 export interface CheckInfo {
@@ -160,6 +162,7 @@ export interface FileWithContent {
 export interface RunnerCheckResult {
   pass: boolean;
   issues: string[];
+  elementsFound: number;
 }
 
 export interface RunnerFileResult {

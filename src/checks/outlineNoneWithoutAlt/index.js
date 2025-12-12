@@ -18,6 +18,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // VALID PATTERN: :focus:not(:focus-visible) with outline:none
     // This is the progressive enhancement approach:
@@ -50,7 +51,7 @@ module.exports = {
 
       // If using :focus-visible pattern with visible indicator, file is compliant
       if (hasVisibleFocusIndicator) {
-        return { pass: true, issues: [] };
+        return { pass: true, issues: [], elementsFound };
       }
     }
 
@@ -60,6 +61,7 @@ module.exports = {
 
     let match;
     while ((match = plainFocusRulePattern.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const ruleContent = match[1];
       const lineNumber = getLineNumber(content, match.index);
@@ -92,7 +94,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

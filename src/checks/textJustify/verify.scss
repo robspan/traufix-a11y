@@ -28,3 +28,52 @@ p {
 body {
   text-align: justify;
 }
+
+// @a11y-false-positive
+// Justified text in print stylesheet (acceptable for print media)
+@media print {
+  .article {
+    text-align: justify;
+  }
+}
+
+// Justified text on element with hyphens (mitigates spacing issues)
+.hyphenated-content {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+// Justified text only at very wide viewport (long lines benefit)
+@media (min-width: 1400px) {
+  .wide-content {
+    text-align: justify;
+    max-width: 80ch;
+  }
+}
+
+// @a11y-false-negative
+// Using justify-all (still causes same readability issues)
+.sneaky-justify {
+  text-align: justify-all;
+}
+
+// Justify applied via CSS variable (harder to detect)
+.variable-aligned {
+  --text-alignment: justify;
+  text-align: var(--text-alignment);
+}
+
+// Justify in shorthand or inherited context
+.parent-justified {
+  text-align: justify;
+
+  p, span, div {
+    // Inherits justify but not explicitly set
+  }
+}
+
+// text-align-last: justify on paragraphs
+.last-line-justified {
+  text-align-last: justify;
+}

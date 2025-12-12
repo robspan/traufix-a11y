@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Find line number for a match position
     const getLineNumber = (pos) => {
@@ -20,6 +21,7 @@ module.exports = {
     let match;
 
     while ((match = buttonRegex.exec(content)) !== null) {
+      elementsFound++;
       const button = match[0];
       const lineNumber = getLineNumber(match.index);
 
@@ -33,6 +35,7 @@ module.exports = {
     const inputButtonRegex = /<input\b[^>]*type\s*=\s*["']?(button|submit|reset|image)["']?[^>]*\/?>/gi;
 
     while ((match = inputButtonRegex.exec(content)) !== null) {
+      elementsFound++;
       const input = match[0];
       const lineNumber = getLineNumber(match.index);
       const inputType = match[1].toLowerCase();
@@ -43,7 +46,7 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };
 

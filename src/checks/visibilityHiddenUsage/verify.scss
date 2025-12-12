@@ -25,3 +25,66 @@
 .collapsed-row {
   visibility: collapse;
 }
+
+// @a11y-false-positive
+// visibility: hidden for off-screen content revealed on focus (skip links)
+.skip-link {
+  position: absolute;
+  left: -10000px;
+  visibility: hidden;
+
+  &:focus {
+    left: 0;
+    visibility: visible;
+  }
+}
+
+// visibility: hidden during CSS transition (temporary state)
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 0.3s;
+
+  &.is-open {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+// visibility: hidden for preloaded content
+.preload-container {
+  visibility: hidden;
+  position: absolute;
+  // Content is being preloaded for performance
+}
+
+// visibility: hidden combined with aria-hidden for true hiding
+.truly-hidden {
+  visibility: hidden;
+  // aria-hidden="true" in HTML ensures AT also ignores it
+}
+
+// @a11y-false-negative
+// Only hiding visually but still in accessibility tree
+.visually-hidden-but-accessible {
+  opacity: 0;
+  // Element is invisible but still announced by screen readers
+}
+
+// Using transform to hide (still accessible to AT)
+.transform-hidden {
+  transform: scale(0);
+  // Screen readers may still announce this content
+}
+
+// Hiding via clip-path but not from AT
+.clip-hidden {
+  clip-path: inset(100%);
+  // Still in accessibility tree
+}
+
+// visibility: hidden only in hover state (confusing behavior)
+.hide-on-hover:hover {
+  visibility: hidden;
+  // Creates confusing interaction
+}

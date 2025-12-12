@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match elements with mat-sort-header attribute
     // Pattern matches: <th mat-sort-header ...> or <element mat-sort-header="columnName" ...>
@@ -17,6 +18,7 @@ module.exports = {
 
     let match;
     while ((match = matSortHeaderRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tagName = match[1];
 
@@ -37,7 +39,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

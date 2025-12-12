@@ -56,3 +56,49 @@
 <mat-selection-list multiple="true" color="primary">
   <mat-list-option>No A11y Label</mat-list-option>
 </mat-selection-list>
+
+<!-- @a11y-false-positive -->
+<!-- Selection list inside fieldset with legend -->
+<fieldset>
+  <legend>Select your preferences</legend>
+  <mat-selection-list>
+    <mat-list-option>Preference 1</mat-list-option>
+    <mat-list-option>Preference 2</mat-list-option>
+  </mat-selection-list>
+</fieldset>
+
+<!-- Selection list with role and aria-label on wrapper -->
+<div role="group" aria-label="Available options">
+  <mat-selection-list>
+    <mat-list-option>Option A</mat-list-option>
+    <mat-list-option>Option B</mat-list-option>
+  </mat-selection-list>
+</div>
+
+<!-- Selection list with title attribute -->
+<mat-selection-list title="Choose items from the list">
+  <mat-list-option>Item 1</mat-list-option>
+  <mat-list-option>Item 2</mat-list-option>
+</mat-selection-list>
+
+<!-- @a11y-false-negative -->
+<!-- Selection list with aria-label containing only whitespace -->
+<mat-selection-list aria-label="   ">
+  <mat-list-option>Whitespace Label Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Selection list with aria-labelledby pointing to empty element -->
+<span id="empty-label"></span>
+<mat-selection-list aria-labelledby="empty-label">
+  <mat-list-option>Empty Ref Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Selection list with aria-labelledby pointing to non-existent ID -->
+<mat-selection-list aria-labelledby="does-not-exist">
+  <mat-list-option>Missing Ref Option</mat-list-option>
+</mat-selection-list>
+
+<!-- Selection list with bound aria-label that may be undefined -->
+<mat-selection-list [aria-label]="undefinedLabel">
+  <mat-list-option>Undefined Label Option</mat-list-option>
+</mat-selection-list>

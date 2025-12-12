@@ -268,11 +268,12 @@ function getCheckInfo(name) {
  * Result structure
  */
 class CheckResult {
-  constructor(name, passed, issues = []) {
+  constructor(name, passed, issues = [], elementsFound = 0) {
     this.name = name;
     this.passed = passed;
     this.issues = issues;
     this.count = issues.length;
+    this.elementsFound = elementsFound;
   }
 }
 
@@ -286,14 +287,15 @@ class CheckResult {
 function runCheck(name, content, filePath) {
   const checkFn = getCheckFunction(name);
   if (!checkFn) {
-    return new CheckResult(name, true, []); // Skip unknown checks
+    return new CheckResult(name, true, [], 0); // Skip unknown checks
   }
 
   try {
     const result = checkFn(content);
-    return new CheckResult(name, result.pass, result.issues || []);
+    const elementsFound = result.elementsFound || 0;
+    return new CheckResult(name, result.pass, result.issues || [], elementsFound);
   } catch (error) {
-    return new CheckResult(name, true, []); // Skip on error
+    return new CheckResult(name, true, [], 0); // Skip on error
   }
 }
 
@@ -440,9 +442,9 @@ function analyzeSync(targetPath, options = {}) {
     files: {},
     summary: {
       totalFiles: 0,
-      totalChecks: 0,
-      passed: 0,
-      failed: 0,
+      elementsChecked: 0,  // Total elements evaluated
+      elementsPassed: 0,   // Elements without issues
+      elementsFailed: 0,   // Elements with issues (= issues.length)
       issues: []
     }
   };
@@ -457,11 +459,18 @@ function analyzeSync(targetPath, options = {}) {
     allResults.summary.totalFiles++;
 
     for (const result of results) {
-      allResults.summary.totalChecks++;
-      if (result.passed) {
-        allResults.summary.passed++;
-      } else {
-        allResults.summary.failed++;
+      // Only count checks that found elements to evaluate
+      if (result.elementsFound > 0) {
+        const issueCount = result.issues.length;
+        const passedCount = result.elementsFound - issueCount;
+
+        allResults.summary.elementsChecked += result.elementsFound;
+        allResults.summary.elementsPassed += passedCount;
+        allResults.summary.elementsFailed += issueCount;
+      }
+
+      // Always collect issues for reporting
+      if (result.issues.length > 0) {
         allResults.summary.issues.push(...result.issues.map(issue => {
           const issueObj = typeof issue === 'string' ? { message: issue } : issue;
           return {
@@ -537,10 +546,10 @@ async function analyzeAsync(targetPath, config) {
 }
 
 /**
- * Convert runner results to legacy analyze() format
+ * Convert runner results to analyze() format
  * @param {object} runnerResults - Results from CheckRunner
  * @param {object} config - Configuration
- * @returns {object} Legacy format results
+ * @returns {object} Results in new format
  */
 function convertRunnerResults(runnerResults, config) {
   const allResults = {
@@ -549,23 +558,32 @@ function convertRunnerResults(runnerResults, config) {
     files: {},
     summary: {
       totalFiles: runnerResults.summary.totalFiles,
-      totalChecks: runnerResults.summary.totalChecks,
-      passed: runnerResults.summary.passed,
-      failed: runnerResults.summary.failed,
+      elementsChecked: 0,
+      elementsPassed: 0,
+      elementsFailed: 0,
       issues: runnerResults.summary.issues
     },
     timing: runnerResults.timing
   };
 
-  // Convert Map to object for backwards compatibility
+  // Convert Map to object and calculate element-level metrics
   for (const [filePath, fileResult] of runnerResults.files) {
     const checkResults = [];
     for (const [checkName, checkResult] of fileResult.checks) {
+      const elementsFound = checkResult.elementsFound || 0;
       checkResults.push(new CheckResult(
         checkName,
         checkResult.pass,
-        checkResult.issues || []
+        checkResult.issues || [],
+        elementsFound
       ));
+
+      if (elementsFound > 0) {
+        const issueCount = (checkResult.issues || []).length;
+        allResults.summary.elementsChecked += elementsFound;
+        allResults.summary.elementsPassed += (elementsFound - issueCount);
+        allResults.summary.elementsFailed += issueCount;
+      }
     }
     allResults.files[filePath] = checkResults;
   }
@@ -702,13 +720,17 @@ function formatConsoleOutput(results) {
 
   lines.push('Tier: ' + (tier || 'material').toUpperCase());
   lines.push('Files analyzed: ' + summary.totalFiles);
-  lines.push('Total checks: ' + summary.totalChecks);
 
-  const passPercent = summary.totalChecks > 0
-    ? ((summary.passed / summary.totalChecks) * 100).toFixed(1)
-    : '0.0';
-  lines.push('Passed: ' + summary.passed + ' (' + passPercent + '%)');
-  lines.push('Failed: ' + summary.failed);
+  // Element-level metrics
+  if (summary.elementsChecked > 0) {
+    const passPercent = ((summary.elementsPassed / summary.elementsChecked) * 100).toFixed(1);
+    lines.push('');
+    lines.push('Elements checked: ' + summary.elementsChecked);
+    lines.push('  Passed: ' + summary.elementsPassed + ' (' + passPercent + '%)');
+    lines.push('  Failed: ' + summary.elementsFailed);
+  } else {
+    lines.push('Elements checked: 0');
+  }
 
   // Show timing if available (from parallel runner)
   if (results.timing && results.timing.duration) {
@@ -738,9 +760,7 @@ function formatConsoleOutput(results) {
     lines.push('No accessibility issues found!');
   }
 
-  lines.push('\n========================================');
-  lines.push('HINWEIS: Keine Gewaehr fuer Vollstaendigkeit.');
-  lines.push('========================================\n');
+  lines.push('\n========================================\n');
 
   return lines.join('\n');
 }

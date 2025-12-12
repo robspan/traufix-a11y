@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match mat-slider elements (both self-closing and with content)
     // Angular Material slider can be <mat-slider> with <input matSliderThumb> inside
@@ -18,6 +19,7 @@ module.exports = {
     let sliderIndex = 0;
     while ((match = matSliderRegex.exec(content)) !== null) {
       sliderIndex++;
+      elementsFound++;
       const fullMatch = match[0];
       const sliderAttrs = match[1] || '';
       const sliderContent = match[2] || '';
@@ -56,7 +58,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

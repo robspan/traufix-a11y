@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match mat-tree elements (both self-closing and with content)
     // Capture the full element for context analysis
@@ -18,6 +19,7 @@ module.exports = {
     let treeIndex = 0;
 
     while ((match = matTreeRegex.exec(content)) !== null) {
+      elementsFound++;
       treeIndex++;
       const fullMatch = match[0];
       const attributes = match[1] || '';
@@ -46,7 +48,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

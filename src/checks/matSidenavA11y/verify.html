@@ -85,3 +85,69 @@
   </mat-sidenav>
   <mat-sidenav-content>Content with end sidenav</mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- @a11y-false-positive -->
+<!-- mat-sidenav inside landmark element that provides context -->
+<mat-sidenav-container>
+  <aside>
+    <mat-sidenav>
+      <a routerLink="/docs">Documentation</a>
+      <a routerLink="/api">API Reference</a>
+    </mat-sidenav>
+  </aside>
+  <mat-sidenav-content>Main content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with mat-nav-list that has its own aria-label -->
+<mat-sidenav-container>
+  <mat-sidenav>
+    <mat-nav-list aria-label="Main navigation">
+      <a mat-list-item routerLink="/home">Home</a>
+      <a mat-list-item routerLink="/about">About</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with custom directive that adds accessibility attributes -->
+<mat-sidenav-container>
+  <mat-sidenav [appSidenavA11y]="navConfig">
+    <a routerLink="/settings">Settings</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content area</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- @a11y-false-negative -->
+<!-- mat-sidenav with empty aria-label -->
+<mat-sidenav-container>
+  <mat-sidenav aria-label="">
+    <a routerLink="/home">Home</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with aria-labelledby pointing to non-existent element -->
+<mat-sidenav-container>
+  <mat-sidenav aria-labelledby="nonexistent-sidenav-label">
+    <a routerLink="/dashboard">Dashboard</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav with role="navigation" but aria-label is whitespace only -->
+<mat-sidenav-container>
+  <mat-sidenav role="navigation" aria-label="   ">
+    <a routerLink="/products">Products</a>
+  </mat-sidenav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- mat-sidenav inside nav but nav has no label -->
+<mat-sidenav-container>
+  <nav>
+    <mat-sidenav>
+      <a routerLink="/unlabeled">Unlabeled nav context</a>
+    </mat-sidenav>
+  </nav>
+  <mat-sidenav-content>Content</mat-sidenav-content>
+</mat-sidenav-container>

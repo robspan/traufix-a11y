@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match mat-sidenav elements (not mat-sidenav-container or mat-sidenav-content)
     // Capture the full element including content for context analysis
@@ -19,6 +20,7 @@ module.exports = {
 
     while ((match = sidenavRegex.exec(content)) !== null) {
       sidenavIndex++;
+      elementsFound++;
       const fullMatch = match[0];
       const attributes = match[1] || match[3] || '';
 
@@ -58,7 +60,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

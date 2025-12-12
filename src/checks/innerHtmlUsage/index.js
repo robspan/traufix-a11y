@@ -58,12 +58,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match [innerHTML] bindings
     const innerHtmlPattern = /\[innerHTML\]\s*=\s*["']([^"']+)["']/gi;
 
     let match;
     while ((match = innerHtmlPattern.exec(content)) !== null) {
+      elementsFound++;
       const boundExpression = match[1];
       const lineNumber = getLineNumber(content, match.index);
       const isSanitized = isSanitizedExpression(boundExpression);
@@ -85,12 +87,13 @@ module.exports = {
     const outerHtmlPattern = /\[outerHTML\]\s*=\s*["']([^"']+)["']/gi;
 
     while ((match = outerHtmlPattern.exec(content)) !== null) {
+      elementsFound++;
       const boundExpression = match[1];
       const lineNumber = getLineNumber(content, match.index);
 
       issues.push(format('INNER_HTML_USAGE', { element: `[outerHTML]="${boundExpression}"`, line: lineNumber }));
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

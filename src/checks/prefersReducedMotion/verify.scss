@@ -15,6 +15,29 @@
   }
 }
 
+/* Safe: Opacity-only transition - doesn't cause vestibular issues */
+.fade-element {
+  transition: opacity 0.2s ease;
+}
+
+/* Safe: Color transitions don't cause motion sickness */
+.color-change {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Safe: Very short duration animation - imperceptible motion */
+.micro-animation {
+  animation: subtle-pulse 0.1s ease;
+}
+
+/* Safe: Short duration transform - at threshold */
+.scale-feedback {
+  transition: transform 0.15s ease;
+}
+.scale-feedback:active {
+  transform: scale(0.98);
+}
+
 /* @a11y-fail */
 /* Bad: animation without motion preference handling */
 .slide-in {
@@ -29,4 +52,77 @@
 /* Bad: transition without motion preference handling */
 .hover-effect {
   transition: transform 0.3s ease;
+}
+
+// @a11y-false-positive
+// Safe: Opacity-only transition - doesn't cause vestibular issues
+.fade-only {
+  transition: opacity 0.5s ease;
+}
+
+// Safe: Color-only transitions - no motion involved
+.color-only {
+  transition: color 0.3s, background-color 0.3s, border-color 0.2s;
+}
+
+// Safe: Very short duration transform (at threshold) - imperceptible
+.micro-motion {
+  transition: transform 0.15s ease;
+}
+
+// Safe: Short animation under threshold
+.quick-flash {
+  animation: flash 0.1s ease;
+}
+@keyframes flash {
+  from { transform: scale(0.95); }
+  to { transform: scale(1); }
+}
+
+// Safe: Box-shadow only transition (visual, not motion)
+.shadow-effect {
+  transition: box-shadow 0.4s ease;
+}
+
+// @a11y-false-negative
+// Bad: Has prefers-reduced-motion but only uses no-preference (wrong value)
+.wrong-media-value {
+  animation: bounce 1s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wrong-media-value {
+    animation: bounce 1s infinite;
+  }
+}
+
+// Bad: Has media query but doesn't actually disable animation
+.fake-reduced-motion {
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fake-reduced-motion {
+    animation-duration: 4s;
+  }
+}
+
+// Bad: Uses reduced motion but keeps animation running
+.still-animated {
+  animation: pulse 0.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .still-animated {
+    animation-iteration-count: 1;
+  }
 }

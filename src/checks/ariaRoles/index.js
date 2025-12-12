@@ -27,17 +27,19 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const roleRegex = /role=["']([^"']+)["']/gi;
     let match;
 
     while ((match = roleRegex.exec(content)) !== null) {
+      elementsFound++;
       const role = match[1].toLowerCase();
       if (!VALID_ARIA_ROLES.includes(role)) {
         issues.push(format('ARIA_INVALID_ROLE', { role, element: `role="${role}"` }));
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   },
 
   VALID_ARIA_ROLES

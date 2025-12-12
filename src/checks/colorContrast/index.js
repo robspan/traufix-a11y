@@ -10,12 +10,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find rule blocks with both color and background
     const ruleBlockPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
 
     let match;
     while ((match = ruleBlockPattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
       const declarations = match[2];
 
@@ -106,7 +108,8 @@ module.exports = {
 
     return {
       pass: errorCount === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Interactive elements that should not have pointer-events: none
     const interactiveElements = [
@@ -34,6 +35,7 @@ module.exports = {
 
       const matches = content.match(pattern);
       if (matches) {
+        elementsFound += matches.length;
         matches.forEach((match) => {
           // Extract selector
           const selectorMatch = match.match(/^([^{]+)\{/);
@@ -49,6 +51,7 @@ module.exports = {
     const stateMatches = content.match(interactiveStatePattern);
 
     if (stateMatches) {
+      elementsFound += stateMatches.length;
       stateMatches.forEach((match) => {
         const selectorMatch = match.match(/^([^{]+)\{/);
         const selector = selectorMatch ? selectorMatch[1].trim() : 'element with interactive state';
@@ -63,7 +66,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

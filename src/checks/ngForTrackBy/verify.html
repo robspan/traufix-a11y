@@ -7,6 +7,16 @@
   {{ i }}: {{ item.name }}
 </li>
 
+<!-- *ngFor with function call containing quotes and trackBy -->
+<div *ngFor="let item of getItemsByPriority('essential'); trackBy: trackByItemId">
+  {{ item.name }}
+</div>
+
+<!-- *ngFor with method call and trackBy -->
+<span *ngFor="let obj of service.getItems('category'); trackBy: trackByKey">
+  {{ obj.value }}
+</span>
+
 <!-- Angular 17+ @for with track -->
 @for (item of items; track item.id) {
   <div>{{ item.name }}</div>
@@ -44,4 +54,40 @@
 <!-- @for with other expressions but no track -->
 @for (item of items; let idx = $index) {
   <span>{{ idx }}: {{ item.name }}</span>
+}
+
+<!-- @a11y-false-positive -->
+<!-- *ngFor on static content that never changes -->
+<div *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']">{{ day }}</div>
+
+<!-- *ngFor inside OnPush component where data is immutable -->
+<li *ngFor="let item of immutableItems">{{ item.name }}</li>
+
+<!-- *ngFor with very small fixed-size array -->
+<span *ngFor="let rating of [1, 2, 3, 4, 5]">
+  <mat-icon>star</mat-icon>
+</span>
+
+<!-- @for on static enum values -->
+@for (status of statusOptions) {
+  <option>{{ status }}</option>
+}
+
+<!-- @a11y-false-negative -->
+<!-- *ngFor with trackBy that always returns same value (useless) -->
+<div *ngFor="let item of items; trackBy: trackByConstant">{{ item.name }}</div>
+
+<!-- *ngFor with trackBy using index only (problematic for reordering) -->
+<li *ngFor="let item of items; let i = index; trackBy: trackByIdx">
+  {{ item.name }}
+</li>
+
+<!-- @for with track using non-unique property -->
+@for (item of items; track item.category) {
+  <div>{{ item.name }}</div>
+}
+
+<!-- @for with track $index on frequently reordered list -->
+@for (item of sortableItems; track $index) {
+  <div draggable="true">{{ item.name }}</div>
 }

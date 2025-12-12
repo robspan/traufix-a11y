@@ -21,21 +21,82 @@
   border-color: blue;
 }
 
-/* @a11y-fail */
-/* Bad: navigation without focus-within */
+/* Good: Container with child :focus styles (alternative to :focus-within) */
 .menu {
   background: white;
 }
 
-.menu a {
-  padding: 0.5rem;
+.menu a:focus {
+  outline: 2px solid blue;
+  background-color: #e6f0ff;
 }
 
-/* Bad: dropdown without focus-within */
+/* @a11y-fail */
+/* Bad: dropdown without focus-within or child focus styles */
 .dropdown {
   position: relative;
 }
 
 .dropdown-item {
   display: block;
+}
+
+// @a11y-false-positive
+// Non-interactive decorative container - should not require focus-within
+.decorative-container {
+  background: white;
+}
+
+.decorative-container a {
+  color: blue;
+}
+
+// Text-block container - explicitly non-interactive
+.text-block {
+  padding: 1rem;
+}
+
+.text-block a {
+  color: blue;
+}
+
+// Static content wrapper - not an interactive container pattern
+.static-wrapper {
+  border: 1px solid gray;
+}
+
+.static-wrapper button {
+  padding: 0.5rem;
+}
+
+// @a11y-false-negative
+// Has :focus-within but with transparent/invisible outline
+.bad-nav {
+  background: white;
+}
+
+.bad-nav:focus-within {
+  outline: 2px solid transparent;
+}
+
+.bad-nav a {
+  padding: 0.5rem;
+}
+
+// Has :focus-within but outline matches background (invisible)
+.bad-card {
+  background-color: #ffffff;
+}
+
+.bad-card:focus-within {
+  outline-color: #ffffff;
+}
+
+// Has :focus-within but uses rgba with 0 alpha (invisible)
+.bad-dropdown {
+  position: relative;
+}
+
+.bad-dropdown:focus-within {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0);
 }

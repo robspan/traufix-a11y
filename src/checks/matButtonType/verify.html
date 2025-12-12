@@ -17,3 +17,30 @@
 <span mat-icon-button>Icon</span>
 <div mat-fab>Add</div>
 <p mat-mini-fab>Edit</p>
+
+<!-- @a11y-false-positive -->
+<!-- div with mat-button but also has role="button" making it interactive -->
+<div mat-button role="button" tabindex="0">Accessible div button</div>
+
+<!-- span with mat-raised-button, role="button" and keyboard handling -->
+<span mat-raised-button role="button" tabindex="0" (keydown.enter)="submit()">Submit</span>
+
+<!-- Custom element that extends button behavior with mat-button directive -->
+<custom-button mat-flat-button role="button">Custom Action</custom-button>
+
+<!-- @a11y-false-negative -->
+<!-- button element but missing type attribute (defaults to submit in forms) -->
+<form>
+  <button mat-button>Submit without type</button>
+</form>
+
+<!-- anchor without href using mat-button (not keyboard accessible) -->
+<a mat-raised-button>Link without href</a>
+
+<!-- button with mat-icon-button but disabled without aria-disabled -->
+<button mat-icon-button disabled>
+  <mat-icon>delete</mat-icon>
+</button>
+
+<!-- anchor with empty href using mat-button -->
+<a mat-stroked-button href="">Empty href link</a>

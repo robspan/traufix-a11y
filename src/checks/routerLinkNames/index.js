@@ -19,6 +19,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match elements with routerLink attribute (static or bound)
     // Captures: element name, attributes, inner content (for self-closing detection)
@@ -26,6 +27,7 @@ module.exports = {
 
     let match;
     while ((match = routerLinkPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementName = match[1] || match[4];
       const attributes = match[2] || match[5];
       const innerContent = match[3] || '';
@@ -62,6 +64,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

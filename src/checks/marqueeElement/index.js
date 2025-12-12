@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match marquee elements (opening tag)
     const marqueeRegex = /<marquee\b[^>]*>/gi;
@@ -16,13 +17,15 @@ module.exports = {
 
     if (marqueeMatches && marqueeMatches.length > 0) {
       for (const match of marqueeMatches) {
+        elementsFound++;
         issues.push(format('MOTION_MARQUEE', { element: match }));
       }
     }
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -52,3 +52,33 @@
   [pageSize]="10"
   showFirstLastButtons>
 </mat-paginator>
+
+<!-- @a11y-false-positive -->
+<!-- Paginator inside a labeled region -->
+<nav aria-label="Results navigation">
+  <mat-paginator [pageSize]="10" [length]="100"></mat-paginator>
+</nav>
+
+<!-- Paginator with aria-describedby providing context -->
+<mat-paginator [pageSize]="10" aria-describedby="paginator-desc"></mat-paginator>
+<span id="paginator-desc" class="sr-only">Use to navigate through user records</span>
+
+<!-- Paginator inside fieldset with legend -->
+<fieldset>
+  <legend>Page Controls</legend>
+  <mat-paginator [pageSize]="25"></mat-paginator>
+</fieldset>
+
+<!-- @a11y-false-negative -->
+<!-- Paginator with aria-label bound to undefined/null -->
+<mat-paginator [aria-label]="undefinedLabel" [pageSize]="10"></mat-paginator>
+
+<!-- Paginator with aria-label containing only whitespace -->
+<mat-paginator aria-label="   " [pageSize]="10"></mat-paginator>
+
+<!-- Paginator with aria-labelledby pointing to non-existent element -->
+<mat-paginator aria-labelledby="nonexistent-paginator-label" [pageSize]="10"></mat-paginator>
+
+<!-- Paginator with aria-labelledby pointing to empty element -->
+<span id="empty-paginator-label"></span>
+<mat-paginator aria-labelledby="empty-paginator-label" [pageSize]="10"></mat-paginator>

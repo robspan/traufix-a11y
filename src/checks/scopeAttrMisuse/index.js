@@ -7,6 +7,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const seenElements = new Set();
 
     // Pattern to find any opening tag with scope attribute
@@ -15,6 +16,7 @@ module.exports = {
     let match;
 
     while ((match = tagWithScopePattern.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const tagName = match[1].toLowerCase();
       const scopeValue = match[2];
@@ -52,6 +54,7 @@ module.exports = {
     const scopeFirstPattern = /<(\w+)\s+scope\s*=\s*["']([^"']*)["']/gi;
 
     while ((match = scopeFirstPattern.exec(content)) !== null) {
+      elementsFound++;
       const tagName = match[1].toLowerCase();
       const scopeValue = match[2];
 
@@ -76,7 +79,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

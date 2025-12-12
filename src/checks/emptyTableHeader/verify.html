@@ -67,3 +67,53 @@
     </tr>
   </thead>
 </table>
+
+<!-- @a11y-false-positive -->
+<!-- TH with only an icon that has aria-label - accessible but might be flagged -->
+<table>
+  <tr>
+    <th><svg aria-label="Status indicator" role="img"><use href="#icon-status"></use></svg></th>
+    <th>Name</th>
+  </tr>
+</table>
+
+<!-- TH with CSS-generated content via ::before that provides text - accessible but no visible text in HTML -->
+<table>
+  <tr>
+    <th class="expand-column" aria-label="Expand/Collapse"></th>
+    <th>Details</th>
+  </tr>
+</table>
+
+<!-- TH with abbr attribute providing accessible name -->
+<table>
+  <tr>
+    <th abbr="Select"></th>
+    <th>Product</th>
+  </tr>
+</table>
+
+<!-- @a11y-false-negative -->
+<!-- TH with only non-breaking spaces - appears to have content but is effectively empty -->
+<table>
+  <tr>
+    <th>&nbsp;&nbsp;&nbsp;</th>
+    <th>Name</th>
+  </tr>
+</table>
+
+<!-- TH with zero-width characters - has "content" but no accessible text -->
+<table>
+  <tr>
+    <th>&#8203;&#8203;</th>
+    <th>Value</th>
+  </tr>
+</table>
+
+<!-- TH with hidden content that doesn't provide accessible name -->
+<table>
+  <tr>
+    <th><span aria-hidden="true">X</span></th>
+    <th>Item</th>
+  </tr>
+</table>

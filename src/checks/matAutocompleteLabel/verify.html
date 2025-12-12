@@ -89,3 +89,64 @@
     <mat-option value="val">Value</mat-option>
   </mat-autocomplete>
 </mat-form-field>
+
+<!-- @a11y-false-positive -->
+<!-- Input with matAutocomplete labeled via wrapping <label> element (implicit association) -->
+<label>
+  Search products
+  <input type="text" [matAutocomplete]="wrappedLabelAuto">
+</label>
+<mat-autocomplete #wrappedLabelAuto="matAutocomplete">
+  <mat-option value="product">Product</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete and title attribute (fallback accessible name) -->
+<input type="text" [matAutocomplete]="titleAuto" title="Search for employees">
+<mat-autocomplete #titleAuto="matAutocomplete">
+  <mat-option value="emp">Employee</mat-option>
+</mat-autocomplete>
+
+<!-- Input with matAutocomplete inside mat-form-field with floatLabel="always" and mat-label -->
+<mat-form-field floatLabel="always">
+  <mat-label>Search locations</mat-label>
+  <input matInput [matAutocomplete]="floatLabelAuto">
+  <mat-autocomplete #floatLabelAuto="matAutocomplete">
+    <mat-option value="loc">Location</mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- Input with explicit for/id association via label element -->
+<label for="explicit-autocomplete-input">Customer search</label>
+<input id="explicit-autocomplete-input" type="text" [matAutocomplete]="explicitLabelAuto">
+<mat-autocomplete #explicitLabelAuto="matAutocomplete">
+  <mat-option value="cust">Customer</mat-option>
+</mat-autocomplete>
+
+<!-- @a11y-false-negative -->
+<!-- Input with empty aria-label (looks like it has a label but provides no text) -->
+<input type="text" [matAutocomplete]="emptyAriaAuto" aria-label="">
+<mat-autocomplete #emptyAriaAuto="matAutocomplete">
+  <mat-option value="empty">Empty</mat-option>
+</mat-autocomplete>
+
+<!-- Input with aria-labelledby pointing to non-existent element -->
+<input type="text" [matAutocomplete]="missingRefAuto" aria-labelledby="non-existent-label-id">
+<mat-autocomplete #missingRefAuto="matAutocomplete">
+  <mat-option value="missing">Missing</mat-option>
+</mat-autocomplete>
+
+<!-- Input with aria-labelledby pointing to empty element -->
+<span id="empty-label-element"></span>
+<input type="text" [matAutocomplete]="emptyRefAuto" aria-labelledby="empty-label-element">
+<mat-autocomplete #emptyRefAuto="matAutocomplete">
+  <mat-option value="emptyref">Empty Ref</mat-option>
+</mat-autocomplete>
+
+<!-- Input inside mat-form-field with mat-label that only contains whitespace -->
+<mat-form-field>
+  <mat-label>   </mat-label>
+  <input matInput [matAutocomplete]="whitespaceAuto">
+  <mat-autocomplete #whitespaceAuto="matAutocomplete">
+    <mat-option value="ws">Whitespace</mat-option>
+  </mat-autocomplete>
+</mat-form-field>

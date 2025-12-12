@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const objectRegex = /<object[^>]*>[\s\S]*?<\/object>/gi;
 
     let match;
     while ((match = objectRegex.exec(content)) !== null) {
+      elementsFound++;
       const obj = match[0];
 
       const hasTitle = /\btitle\s*=\s*["'][^"']+["']/i.test(obj);
@@ -32,6 +34,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

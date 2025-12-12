@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match elements with matBadge attribute (both static and bound)
     // Matches: matBadge="5", [matBadge]="count", matBadge (boolean)
@@ -16,6 +17,7 @@ module.exports = {
 
     let match;
     while ((match = matBadgeRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
 
       // Check if badge is hidden (matBadgeHidden="true" or [matBadgeHidden]="true" or [matBadgeHidden]="someVar")
@@ -43,7 +45,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

@@ -31,3 +31,57 @@
   </ng-container>
   <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 </table>
+
+<!-- @a11y-false-positive -->
+<!-- mat-table with header cells added dynamically via *ngFor -->
+<mat-table [dataSource]="dataSource">
+  <ng-container *ngFor="let col of dynamicColumns" [matColumnDef]="col.key">
+    <mat-header-cell *matHeaderCellDef>{{col.header}}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element[col.key]}}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="columnKeys"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnKeys;"></mat-row>
+</mat-table>
+
+<!-- mat-table inside ngIf that may not be visible to static analysis -->
+<ng-container *ngIf="showTable">
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let el">{{el.name}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="['name']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['name'];"></mat-row>
+  </mat-table>
+</ng-container>
+
+<!-- @a11y-false-negative -->
+<!-- mat-table with empty header cell text -->
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<!-- mat-table with header cell containing only whitespace -->
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>   </mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="['id']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['id'];"></mat-row>
+</mat-table>
+
+<!-- mat-table with header containing only non-text icon -->
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef><mat-icon>settings</mat-icon></mat-header-cell>
+    <mat-cell *matCellDef="let element"><button>Edit</button></mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="['actions']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['actions'];"></mat-row>
+</mat-table>

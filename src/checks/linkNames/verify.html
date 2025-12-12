@@ -34,3 +34,38 @@
 <a href="/edit">
   <mat-icon>edit</mat-icon>
 </a>
+
+<!-- @a11y-false-positive -->
+<!-- Link with visually hidden text for screen readers -->
+<a href="/settings">
+  <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9..."/></svg>
+  <span class="sr-only">Settings</span>
+</a>
+
+<!-- Link wrapping an image with alt text -->
+<a href="/gallery">
+  <img src="photo-gallery.png" alt="View photo gallery">
+</a>
+
+<!-- Link with CSS-generated content providing name -->
+<a href="/next" class="next-link"></a>
+
+<!-- Link with accessible name via child element -->
+<a href="/profile">
+  <span class="icon" aria-hidden="true"></span>
+  <span class="label">User Profile</span>
+</a>
+
+<!-- @a11y-false-negative -->
+<!-- Link with generic text -->
+<a href="/important-document.pdf">Click here</a>
+
+<!-- Link with only "Read more" text -->
+<a href="/article/123">Read more</a>
+
+<!-- Link with ambiguous text that doesn't describe destination -->
+<a href="/terms">Learn more</a>
+
+<!-- Multiple links with identical text pointing to different destinations -->
+<a href="/product/1">View details</a>
+<a href="/product/2">View details</a>

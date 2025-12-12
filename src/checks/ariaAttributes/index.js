@@ -19,10 +19,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const ariaRegex = /aria-([a-z]+)=["']([^"']*)["']/gi;
     let match;
 
     while ((match = ariaRegex.exec(content)) !== null) {
+      elementsFound++;
       const attr = match[1].toLowerCase();
       const value = match[2].toLowerCase();
 
@@ -74,7 +76,7 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   },
 
   ARIA_BOOLEAN_ATTRS,

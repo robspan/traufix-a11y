@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // List of mat-button directive variants
     const buttonDirectives = [
@@ -46,6 +47,7 @@ module.exports = {
 
       // If a button directive was found, verify it's on a valid element
       if (foundDirective) {
+        elementsFound++;
         const validElements = ['button', 'a'];
         if (!validElements.includes(tagName)) {
           issues.push(format('MAT_BUTTON_MISSING_TYPE', { element: fullMatch }));
@@ -55,7 +57,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

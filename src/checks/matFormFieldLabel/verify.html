@@ -27,3 +27,52 @@
 <mat-form-field>
   <textarea matInput placeholder="Comments"></textarea>
 </mat-form-field>
+
+<!-- @a11y-false-positive -->
+<!-- Form field with aria-label on input instead of mat-label -->
+<mat-form-field>
+  <input matInput aria-label="Search query" placeholder="Search...">
+</mat-form-field>
+
+<!-- Form field with aria-labelledby pointing to external label -->
+<span id="external-label">Phone Number</span>
+<mat-form-field>
+  <input matInput aria-labelledby="external-label" type="tel">
+</mat-form-field>
+
+<!-- Form field with input having bound aria-label -->
+<mat-form-field>
+  <input matInput [attr.aria-label]="fieldLabel" type="text">
+</mat-form-field>
+
+<!-- Form field wrapped in fieldset with legend -->
+<fieldset>
+  <legend>Contact Information</legend>
+  <mat-form-field>
+    <input matInput type="email">
+  </mat-form-field>
+</fieldset>
+
+<!-- @a11y-false-negative -->
+<!-- Form field with empty mat-label -->
+<mat-form-field>
+  <mat-label></mat-label>
+  <input matInput type="text">
+</mat-form-field>
+
+<!-- Form field with mat-label containing only whitespace -->
+<mat-form-field>
+  <mat-label>   </mat-label>
+  <input matInput type="text">
+</mat-form-field>
+
+<!-- Form field with aria-labelledby pointing to non-existent element -->
+<mat-form-field>
+  <input matInput aria-labelledby="missing-label-id" type="text">
+</mat-form-field>
+
+<!-- Form field with mat-label bound to empty variable -->
+<mat-form-field>
+  <mat-label>{{ emptyLabelVar }}</mat-label>
+  <input matInput type="text">
+</mat-form-field>

@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const imgRegex = /<img[^>]*>/gi;
     let match;
 
     while ((match = imgRegex.exec(content)) !== null) {
+      elementsFound++;
       const img = match[0];
       const hasAlt = /\balt=/i.test(img) || /\[alt\]=/i.test(img) || /\[attr\.alt\]=/i.test(img);
 
@@ -22,6 +24,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

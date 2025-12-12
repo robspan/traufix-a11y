@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find font-size declarations
     const fontSizePattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{[^}]*font-size\s*:\s*([^;}\n]+)/gi;
@@ -16,6 +17,7 @@ module.exports = {
     let match;
 
     while ((match = fontSizePattern.exec(content)) !== null) {
+      elementsFound++;
       const selector = match[1].trim();
       const fontSize = match[2].trim();
 
@@ -72,7 +74,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

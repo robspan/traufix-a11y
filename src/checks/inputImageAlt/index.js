@@ -18,12 +18,14 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match input elements with type="image" (including Angular binding [type]="'image'")
     const inputImageRegex = /<input\s+[^>]*(?:type\s*=\s*["']image["']|\[type\]\s*=\s*["']'image'["'])[^>]*>/gi;
     let inputMatch;
 
     while ((inputMatch = inputImageRegex.exec(content)) !== null) {
+      elementsFound++;
       const inputTag = inputMatch[0];
       const lineNumber = getLineNumber(content, inputMatch.index);
 
@@ -54,7 +56,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

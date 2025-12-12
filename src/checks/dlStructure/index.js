@@ -10,10 +10,12 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const dlMatch = content.match(/<dl[^>]*>([\s\S]*?)<\/dl>/gi);
 
     if (dlMatch) {
       for (const dl of dlMatch) {
+        elementsFound++;
         // Get inner content of dl
         const inner = dl.replace(/<\/?dl[^>]*>/gi, '');
 
@@ -34,6 +36,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

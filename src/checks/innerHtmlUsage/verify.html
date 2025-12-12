@@ -45,3 +45,26 @@
 
 <!-- innerHTML with user message - high severity -->
 <div [innerHTML]="userMessage"></div>
+
+<!-- @a11y-false-positive -->
+<!-- innerHTML with guaranteed accessible content from trusted source -->
+<div [innerHTML]="accessibleRichTextFromCMS"></div>
+
+<!-- innerHTML used for syntax-highlighted code blocks (read-only) -->
+<pre><code [innerHTML]="highlightedCodeSnippet"></code></pre>
+
+<!-- innerHTML with static translated content from i18n -->
+<span [innerHTML]="'WELCOME_MESSAGE' | translate"></span>
+
+<!-- @a11y-false-negative -->
+<!-- textContent binding that injects HTML entities incorrectly -->
+<div [textContent]="htmlWithEntities"></div>
+
+<!-- Using template literal that constructs HTML dynamically -->
+<div>{{ constructHtmlString() }}</div>
+
+<!-- Content injected via ElementRef.nativeElement -->
+<div #dynamicContent></div>
+
+<!-- Using Renderer2 to inject HTML bypassing template -->
+<div appInjectHtml></div>

@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     /**
      * Helper to check if an element has a valid accessible label
@@ -39,6 +40,7 @@ module.exports = {
     for (const { name, regex } of spinnerComponents) {
       let match;
       while ((match = regex.exec(content)) !== null) {
+        elementsFound++;
         const fullMatch = match[0];
         const attributes = match[1] || '';
 
@@ -50,7 +52,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

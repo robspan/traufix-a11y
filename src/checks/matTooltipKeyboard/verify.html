@@ -29,3 +29,33 @@
 
 <!-- Tooltip on non-focusable element with click handler (should be a button) -->
 <div matTooltip="Click action" (click)="doSomething()">Click me</div>
+
+<!-- @a11y-false-positive -->
+<!-- Tooltip on element with tabindex set via Angular binding -->
+<span matTooltip="Info text" [attr.tabindex]="0">Info</span>
+
+<!-- Tooltip on custom component that renders as focusable -->
+<my-button matTooltip="Custom button tooltip">Click</my-button>
+
+<!-- Tooltip on div that gets role="button" and tabindex dynamically -->
+<div matTooltip="Expandable section" [attr.role]="'button'" [attr.tabindex]="0">Expand</div>
+
+<!-- Tooltip on element inside a focusable parent -->
+<button>
+  <span matTooltip="Icon meaning">
+    <mat-icon>info</mat-icon>
+  </span>
+</button>
+
+<!-- @a11y-false-negative -->
+<!-- Tooltip on element with tabindex="-1" (not keyboard accessible) -->
+<span matTooltip="Not keyboard reachable" tabindex="-1">Info</span>
+
+<!-- Tooltip on disabled button (cannot receive focus) -->
+<button matTooltip="Disabled button info" disabled>Disabled</button>
+
+<!-- Tooltip on element with tabindex via binding that resolves to -1 -->
+<div matTooltip="Conditionally focusable" [tabindex]="isAccessible ? 0 : -1">Maybe accessible</div>
+
+<!-- Tooltip on inert element (inert attribute prevents focus) -->
+<div matTooltip="Inert content" tabindex="0" inert>Inert element</div>

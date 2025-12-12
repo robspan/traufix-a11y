@@ -32,3 +32,57 @@
   <mat-option value="active">Active</mat-option>
   <mat-option value="inactive">Inactive</mat-option>
 </mat-select>
+
+<!-- @a11y-false-positive -->
+<!-- mat-select with placeholder inside mat-form-field with floatLabel="always" providing persistent label -->
+<mat-form-field floatLabel="always">
+  <mat-label>Country</mat-label>
+  <mat-select placeholder="Select a country">
+    <mat-option value="us">United States</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- mat-select with placeholder but also has aria-describedby for additional context -->
+<mat-select placeholder="Choose option" aria-describedby="select-hint" aria-label="Configuration setting">
+  <mat-option value="1">Option 1</mat-option>
+</mat-select>
+<mat-hint id="select-hint">Select your preferred configuration</mat-hint>
+
+<!-- mat-select standalone with placeholder but wrapped in labeled container -->
+<div role="group" aria-labelledby="filter-label">
+  <span id="filter-label">Filter by status</span>
+  <mat-select placeholder="All statuses">
+    <mat-option value="all">All</mat-option>
+    <mat-option value="active">Active</mat-option>
+  </mat-select>
+</div>
+
+<!-- @a11y-false-negative -->
+<!-- mat-form-field with mat-label but label is empty -->
+<mat-form-field>
+  <mat-label></mat-label>
+  <mat-select>
+    <mat-option value="a">A</mat-option>
+    <mat-option value="b">B</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- mat-form-field with mat-label that contains only whitespace -->
+<mat-form-field>
+  <mat-label>   </mat-label>
+  <mat-select>
+    <mat-option value="x">X</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- mat-select with aria-label that is empty -->
+<mat-select aria-label="">
+  <mat-option value="1">One</mat-option>
+  <mat-option value="2">Two</mat-option>
+</mat-select>
+
+<!-- mat-select with aria-labelledby pointing to hidden element -->
+<span id="hidden-label" style="display: none;">Hidden label</span>
+<mat-select aria-labelledby="hidden-label">
+  <mat-option value="val">Value</mat-option>
+</mat-select>

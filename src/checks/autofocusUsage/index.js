@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match elements with autofocus attribute
     // Handles both autofocus="autofocus", autofocus="true", and standalone autofocus
@@ -16,6 +17,7 @@ module.exports = {
     let match;
 
     while ((match = autofocusPattern.exec(content)) !== null) {
+      elementsFound++;
       const tagName = match[1].toLowerCase();
 
       // Try to extract identifying information about the element
@@ -40,6 +42,7 @@ module.exports = {
     const standalonePattern = /<(\w+)\s+autofocus(?:\s|>|\/)/gi;
 
     while ((match = standalonePattern.exec(content)) !== null) {
+      elementsFound++;
       const tagName = match[1].toLowerCase();
 
       // Check if already reported (avoid duplicates)
@@ -54,7 +57,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

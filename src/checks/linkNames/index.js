@@ -10,8 +10,11 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
     const linkRegex = /<a[^>]*>[\s\S]*?<\/a>/gi;
     const links = content.match(linkRegex) || [];
+
+    elementsFound = links.length;
 
     // Generic text patterns to check for
     const genericTexts = [
@@ -47,6 +50,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

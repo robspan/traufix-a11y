@@ -39,3 +39,46 @@
 
 <!-- ID starting with number -->
 <div id="123-item">Numeric ID</div>
+
+<!-- @a11y-false-positive -->
+<!-- IDs in ng-template (only one instance rendered at a time) -->
+<ng-template #itemTemplate>
+  <div id="template-item">Template content</div>
+</ng-template>
+
+<!-- IDs in mutually exclusive *ngIf blocks -->
+<div *ngIf="showOptionA" id="exclusive-content">Option A content</div>
+<div *ngIf="!showOptionA" id="exclusive-content">Option B content</div>
+
+<!-- IDs in Angular structural directive (component-scoped) -->
+<app-modal>
+  <div id="modal-title">Title</div>
+</app-modal>
+
+<!-- ID in SVG symbol definition (referenced but not duplicate) -->
+<svg>
+  <symbol id="icon-check">
+    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+  </symbol>
+</svg>
+
+<!-- @a11y-false-negative -->
+<!-- Same ID in different Angular components (runtime conflict) -->
+<!-- Component A template: -->
+<div id="user-profile">Profile A</div>
+<!-- Component B template (separate file, same ID): -->
+<!-- <div id="user-profile">Profile B</div> -->
+
+<!-- ID generated with index that could repeat -->
+<div *ngFor="let item of items" [id]="'item-' + item.type">
+  <!-- If multiple items have same type, IDs will collide -->
+</div>
+
+<!-- Duplicate ID via string concatenation -->
+<input id="field-name" type="text">
+<label id="field-" for="field-name">Name</label>
+<!-- If label id becomes "field-name" via JS, duplicate -->
+
+<!-- ID in lazy-loaded content that duplicates existing ID -->
+<div id="notification-area">Main notifications</div>
+<!-- Lazy loaded module also has: <div id="notification-area"> -->

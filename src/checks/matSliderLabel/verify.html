@@ -46,3 +46,55 @@
   <input matSliderStartThumb>
   <input matSliderEndThumb>
 </mat-slider>
+
+<!-- @a11y-false-positive -->
+<!-- mat-slider inside labeled container with implicit association -->
+<div role="group" aria-labelledby="volume-group-label">
+  <span id="volume-group-label">Volume Control</span>
+  <mat-slider>
+    <input matSliderThumb>
+  </mat-slider>
+</div>
+
+<!-- Legacy mat-slider with title attribute (fallback for some screen readers) -->
+<mat-slider title="Adjust brightness level"></mat-slider>
+
+<!-- mat-slider with custom directive providing accessibility -->
+<mat-slider [appSliderA11y]="sliderConfig">
+  <input matSliderThumb>
+</mat-slider>
+
+<!-- mat-slider inside figure with accessible description -->
+<figure>
+  <mat-slider>
+    <input matSliderThumb aria-describedby="slider-desc">
+  </mat-slider>
+  <figcaption id="slider-desc">Use slider to adjust value from 0 to 100</figcaption>
+</figure>
+
+<!-- @a11y-false-negative -->
+<!-- mat-slider with empty aria-label -->
+<mat-slider aria-label="">
+  <input matSliderThumb>
+</mat-slider>
+
+<!-- mat-slider input with empty aria-label -->
+<mat-slider>
+  <input matSliderThumb aria-label="">
+</mat-slider>
+
+<!-- mat-slider with aria-labelledby pointing to non-existent element -->
+<mat-slider aria-labelledby="missing-slider-label">
+  <input matSliderThumb>
+</mat-slider>
+
+<!-- Range slider with one thumb labeled and one not -->
+<mat-slider>
+  <input matSliderStartThumb aria-label="Minimum">
+  <input matSliderEndThumb aria-label="">
+</mat-slider>
+
+<!-- mat-slider with whitespace-only aria-label -->
+<mat-slider>
+  <input matSliderThumb aria-label="   ">
+</mat-slider>

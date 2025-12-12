@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // First, collect all IDs defined in the document
     const idPattern = /\sid\s*=\s*["']([^"']+)["']/gi;
@@ -17,6 +18,7 @@ module.exports = {
     let idMatch;
 
     while ((idMatch = idPattern.exec(content)) !== null) {
+      elementsFound++;
       const id = idMatch[1];
       definedIds.add(id);
       idCounts.set(id, (idCounts.get(id) || 0) + 1);
@@ -65,7 +67,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

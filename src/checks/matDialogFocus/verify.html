@@ -58,3 +58,55 @@
   <p>Some content</p>
   <button>Submit</button>
 </div>
+
+<!-- @a11y-false-positive -->
+<!-- Dialog with custom focus directive like appAutoFocus -->
+<mat-dialog-content>
+  <h2>Custom Focus</h2>
+  <input appAutoFocus type="text" placeholder="Name">
+</mat-dialog-content>
+
+<!-- Dialog with role="dialog" aria-modal="true" (handles focus natively) -->
+<mat-dialog-content role="dialog" aria-modal="true">
+  <h2>Native Dialog Focus</h2>
+  <button>OK</button>
+</mat-dialog-content>
+
+<!-- Dialog with focusOnInit custom directive -->
+<mat-dialog-content>
+  <input focusOnInit type="text">
+</mat-dialog-content>
+
+<!-- Dialog with initialFocus custom directive -->
+<mat-dialog-content>
+  <button initialFocus>Confirm</button>
+</mat-dialog-content>
+
+<!-- @a11y-false-negative -->
+<!-- Dialog with cdkFocusInitial on a type="hidden" input (can't be focused) -->
+<mat-dialog-content>
+  <h2>Hidden Input Focus</h2>
+  <input cdkFocusInitial type="hidden" name="token">
+  <button>Submit</button>
+</mat-dialog-content>
+
+<!-- Dialog with cdkFocusInitial on a disabled element -->
+<mat-dialog-content>
+  <h2>Disabled Focus Target</h2>
+  <input cdkFocusInitial disabled type="text" placeholder="Disabled">
+  <button>OK</button>
+</mat-dialog-content>
+
+<!-- Dialog with cdkFocusInitial on element with aria-hidden="true" -->
+<mat-dialog-content>
+  <h2>Hidden from AT</h2>
+  <button cdkFocusInitial aria-hidden="true">Hidden Button</button>
+  <button>Visible Button</button>
+</mat-dialog-content>
+
+<!-- Dialog with cdkFocusInitial on tabindex="-1" non-focusable element -->
+<mat-dialog-content>
+  <h2>Negative Tabindex</h2>
+  <span cdkFocusInitial tabindex="-1">Not focusable span</span>
+  <button>Action</button>
+</mat-dialog-content>

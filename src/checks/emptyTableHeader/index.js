@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match <th> elements and capture their content
     // Handles attributes and nested content
@@ -16,6 +17,7 @@ module.exports = {
     let match;
 
     while ((match = thPattern.exec(content)) !== null) {
+      elementsFound++;
       const attributes = match[1] || '';
       const thContent = match[2] || '';
 
@@ -39,7 +41,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

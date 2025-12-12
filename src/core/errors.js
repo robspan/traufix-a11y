@@ -956,6 +956,42 @@ const ERRORS = {
     wcag: '2.4.1',
     link: null
   },
+  SKIP_LINK_HIDDEN: {
+    severity: 'error',
+    message: 'Skip link is permanently hidden with display:none',
+    why: 'Hidden skip links cannot be activated by keyboard users',
+    fix: [
+      'Use visually-hidden CSS instead of display:none',
+      'Example: position: absolute; left: -10000px;',
+      'Show skip link on focus with :focus styles'
+    ],
+    wcag: '2.4.1',
+    link: null
+  },
+  SKIP_LINK_BROKEN_TARGET: {
+    severity: 'error',
+    message: 'Skip link target ID does not exist',
+    why: 'Skip link points to an element that cannot be found',
+    fix: [
+      'Verify the target ID exists in the document',
+      'Add id attribute to main content area',
+      'Example: <main id="main">...</main>'
+    ],
+    wcag: '2.4.1',
+    link: null
+  },
+  SKIP_LINK_AFTER_NAV: {
+    severity: 'warning',
+    message: 'Skip link appears after navigation',
+    why: 'Skip link should be first focusable element to skip navigation',
+    fix: [
+      'Move skip link before the navigation',
+      'Place as first child of <body>',
+      'Can be visually hidden but must be first in tab order'
+    ],
+    wcag: '2.4.1',
+    link: null
+  },
   USER_SELECT_NONE: {
     severity: 'warning',
     message: 'user-select: none prevents text selection',

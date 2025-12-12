@@ -23,3 +23,31 @@
 
 <!-- mat-sort-header with value but missing description -->
 <th mat-sort-header="quantity" ariaLabel="Quantity column">Quantity</th>
+
+<!-- @a11y-false-positive -->
+<!-- mat-sort-header with description provided by parent table's aria-describedby -->
+<table mat-table aria-describedby="table-sort-instructions">
+  <tr>
+    <th mat-sort-header="name">Name</th>
+  </tr>
+</table>
+<span id="table-sort-instructions" class="cdk-visually-hidden">Click column headers to sort</span>
+
+<!-- mat-sort-header with custom directive providing sort announcement -->
+<th mat-sort-header="date" [appSortAnnounce]="sortConfig">Date</th>
+
+<!-- mat-sort-header where sortActionDescription is set via component input binding -->
+<th mat-sort-header="price" [sortActionDescription]="getSortDescription('price')">Price</th>
+
+<!-- @a11y-false-negative -->
+<!-- mat-sort-header with empty sortActionDescription -->
+<th mat-sort-header="name" sortActionDescription="">Name</th>
+
+<!-- mat-sort-header with whitespace-only sortActionDescription -->
+<th mat-sort-header="date" sortActionDescription="   ">Date</th>
+
+<!-- mat-sort-header with sortActionDescription binding that could be undefined -->
+<th mat-sort-header="status" [sortActionDescription]="undefinedDescription">Status</th>
+
+<!-- mat-sort-header with ariaLabel but that doesn't describe the sort action -->
+<th mat-sort-header="amount" aria-label="Amount column">Amount</th>

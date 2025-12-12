@@ -61,3 +61,51 @@
 <mat-chip-grid>
   <mat-chip-row>Keyword</mat-chip-row>
 </mat-chip-grid>
+
+<!-- @a11y-false-positive -->
+<!-- mat-chip-list wrapped in fieldset with legend providing label -->
+<fieldset>
+  <legend>Selected filters</legend>
+  <mat-chip-list>
+    <mat-chip>Filter 1</mat-chip>
+    <mat-chip>Filter 2</mat-chip>
+  </mat-chip-list>
+</fieldset>
+
+<!-- mat-chip-listbox inside element with role="group" and aria-label -->
+<div role="group" aria-label="Color choices">
+  <mat-chip-listbox>
+    <mat-chip-option>Red</mat-chip-option>
+    <mat-chip-option>Green</mat-chip-option>
+  </mat-chip-listbox>
+</div>
+
+<!-- mat-chip-set with title attribute as fallback -->
+<mat-chip-set title="Available tags">
+  <mat-chip>Tag A</mat-chip>
+  <mat-chip>Tag B</mat-chip>
+</mat-chip-set>
+
+<!-- @a11y-false-negative -->
+<!-- mat-chip-list with empty aria-label -->
+<mat-chip-list aria-label="">
+  <mat-chip>Item 1</mat-chip>
+  <mat-chip>Item 2</mat-chip>
+</mat-chip-list>
+
+<!-- mat-chip-listbox with aria-label containing only whitespace -->
+<mat-chip-listbox aria-label="   ">
+  <mat-chip-option>Option A</mat-chip-option>
+  <mat-chip-option>Option B</mat-chip-option>
+</mat-chip-listbox>
+
+<!-- mat-chip-set with aria-labelledby pointing to non-existent element -->
+<mat-chip-set aria-labelledby="missing-chips-label">
+  <mat-chip>Chip 1</mat-chip>
+</mat-chip-set>
+
+<!-- mat-chip-grid with aria-labelledby pointing to empty element -->
+<span id="empty-chips-label"></span>
+<mat-chip-grid aria-labelledby="empty-chips-label">
+  <mat-chip-row>Row 1</mat-chip-row>
+</mat-chip-grid>

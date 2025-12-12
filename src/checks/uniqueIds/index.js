@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match id attributes, excluding Angular/template syntax with {{ }}
     // Also handle unquoted IDs and various quote styles
@@ -25,6 +26,7 @@ module.exports = {
       pattern.lastIndex = 0; // Reset regex state
 
       while ((match = pattern.exec(content)) !== null) {
+        elementsFound++;
         const id = match[1].trim();
 
         // Skip empty IDs
@@ -79,6 +81,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

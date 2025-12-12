@@ -111,3 +111,147 @@
   </main>
 </body>
 </html>
+
+<!-- @a11y-false-positive -->
+<!-- Skip link visually hidden until focused - valid pattern, shouldn't flag -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with visually hidden skip link</title>
+  <style>
+    .skip-link {
+      position: absolute;
+      left: -10000px;
+    }
+    .skip-link:focus {
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <main id="main">
+    <p>Main content here.</p>
+  </main>
+</body>
+</html>
+
+<!-- Skip link is second element but first is a non-interactive banner - still valid -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with announcement banner before skip link</title>
+</head>
+<body>
+  <div role="alert" aria-live="polite">Site maintenance scheduled for tonight</div>
+  <a href="#main">Skip to main content</a>
+  <nav>
+    <a href="/">Home</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <main id="main">
+    <p>Main content here.</p>
+  </main>
+</body>
+</html>
+
+<!-- Skip link with transform/clip for hiding - still accessible when focused -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with sr-only skip link</title>
+  <style>
+    .sr-only:not(:focus) {
+      clip: rect(0, 0, 0, 0);
+      position: absolute;
+      width: 1px;
+      height: 1px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#content" class="sr-only">Skip navigation</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <main id="content">
+    <p>Content here.</p>
+  </main>
+</body>
+</html>
+
+<!-- @a11y-false-negative -->
+<!-- Skip link with broken target ID - target doesn't exist -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with broken skip link target</title>
+</head>
+<body>
+  <a href="#nonexistent-main">Skip to main content</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <main id="main">
+    <p>Target ID is "main" but skip link points to "nonexistent-main".</p>
+  </main>
+</body>
+</html>
+
+<!-- Skip link permanently hidden with display:none - inaccessible -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with hidden skip link</title>
+  <style>
+    .hidden-skip { display: none; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="hidden-skip" style="display:none">Skip to main content</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <main id="main">
+    <p>Skip link exists but is always hidden.</p>
+  </main>
+</body>
+</html>
+
+<!-- Skip link placed AFTER navigation - too late to be useful -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page with skip link after nav</title>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/products">Products</a>
+    <a href="/services">Services</a>
+    <a href="/blog">Blog</a>
+    <a href="/careers">Careers</a>
+    <a href="/support">Support</a>
+    <a href="/docs">Docs</a>
+    <a href="/pricing">Pricing</a>
+  </nav>
+  <a href="#main">Skip to main content</a>
+  <router-outlet></router-outlet>
+  <main id="main">
+    <p>Skip link appears after navigation, defeating its purpose.</p>
+  </main>
+</body>
+</html>

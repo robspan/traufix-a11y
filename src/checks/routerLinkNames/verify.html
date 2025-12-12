@@ -54,3 +54,48 @@
 
 <!-- Link with only HTML comments -->
 <a routerLink="/comments"><!-- Navigation link --></a>
+
+<!-- @a11y-false-positive -->
+<!-- Link gets accessible name from ng-content projection -->
+<a routerLink="/projected">
+  <ng-content></ng-content>
+</a>
+
+<!-- Link with dynamic text binding that will be populated -->
+<a routerLink="/dynamic">{{ dynamicLabel }}</a>
+
+<!-- Link with title attribute providing accessible name (though aria-label preferred) -->
+<a routerLink="/titled" title="View documentation">
+  <mat-icon>description</mat-icon>
+</a>
+
+<!-- Link with nested component that provides accessible name -->
+<a routerLink="/nested">
+  <app-icon-with-label icon="settings" label="Settings"></app-icon-with-label>
+</a>
+
+<!-- @a11y-false-negative -->
+<!-- Link has aria-label but it's empty -->
+<a routerLink="/empty-label" aria-label="">
+  <mat-icon>home</mat-icon>
+</a>
+
+<!-- Link has aria-labelledby pointing to hidden element -->
+<span id="hidden-label" style="display:none">Hidden Label</span>
+<a routerLink="/hidden-ref" aria-labelledby="hidden-label">
+  <mat-icon>settings</mat-icon>
+</a>
+
+<!-- Link with image that has empty alt -->
+<a routerLink="/empty-alt">
+  <img src="icon.png" alt="">
+</a>
+
+<!-- Link with sr-only span but span is empty -->
+<a routerLink="/empty-sr">
+  <mat-icon>account_circle</mat-icon>
+  <span class="sr-only"></span>
+</a>
+
+<!-- Link text is only punctuation/symbols -->
+<a routerLink="/symbols">...</a>

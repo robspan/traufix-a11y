@@ -18,13 +18,38 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Check for *ngFor without trackBy
-    // Match *ngFor="let item of items" but not *ngFor="let item of items; trackBy: ..."
-    const ngForPattern = /\*ngFor\s*=\s*["']([^"']+)["']/gi;
+    // We need to handle nested quotes properly, e.g.:
+    // *ngFor="let item of getItemsByPriority('essential'); trackBy: trackByItemId"
+    // The regex [^"']+ would stop at the inner single quote, so we use separate patterns
+    // for double-quoted and single-quoted attributes
+
+    // Pattern for double-quoted *ngFor (can contain single quotes inside)
+    const ngForDoubleQuotePattern = /\*ngFor\s*=\s*"([^"]*)"/gi;
+    // Pattern for single-quoted *ngFor (can contain double quotes inside)
+    const ngForSingleQuotePattern = /\*ngFor\s*=\s*'([^']*)'/gi;
 
     let match;
-    while ((match = ngForPattern.exec(content)) !== null) {
+
+    // Check double-quoted ngFor expressions
+    while ((match = ngForDoubleQuotePattern.exec(content)) !== null) {
+      elementsFound++;
+      const ngForExpression = match[1];
+
+      // Check if trackBy is present in the expression
+      const hasTrackBy = /trackBy\s*:/i.test(ngForExpression);
+
+      if (!hasTrackBy) {
+        const lineNumber = getLineNumber(content, match.index);
+        issues.push(format('NG_FOR_TRACK_BY', { element: ngForExpression, line: lineNumber }));
+      }
+    }
+
+    // Check single-quoted ngFor expressions
+    while ((match = ngForSingleQuotePattern.exec(content)) !== null) {
+      elementsFound++;
       const ngForExpression = match[1];
 
       // Check if trackBy is present in the expression
@@ -41,6 +66,7 @@ module.exports = {
     const atForPattern = /@for\s*\(([^)]+)\)\s*\{/gi;
 
     while ((match = atForPattern.exec(content)) !== null) {
+      elementsFound++;
       const forExpression = match[1];
 
       // Check if track is present in the expression
@@ -53,6 +79,6 @@ module.exports = {
       }
     }
 
-    return { pass: issues.length === 0, issues };
+    return { pass: issues.length === 0, issues, elementsFound };
   }
 };

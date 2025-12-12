@@ -53,3 +53,41 @@
     <p>{{ content$ | async }}</p>
   </section>
 </article>
+
+<!-- @a11y-false-positive -->
+<!-- Async pipe for one-time data load (does not need live region) -->
+<h1>{{ pageTitle$ | async }}</h1>
+<img [src]="imageUrl$ | async" alt="Profile picture">
+
+<!-- Async pipe inside aria-live ancestor (nested valid) -->
+<div aria-live="polite">
+  <div class="wrapper">
+    <span>{{ nestedStatus$ | async }}</span>
+  </div>
+</div>
+
+<!-- Async pipe used for structural data, not dynamic updates -->
+<nav>
+  <a *ngFor="let link of navLinks$ | async" [href]="link.url">{{ link.title }}</a>
+</nav>
+
+<!-- @a11y-false-negative -->
+<!-- Live region with aria-live="off" (effectively disabled) -->
+<div aria-live="off">
+  {{ silentUpdate$ | async }}
+</div>
+
+<!-- Async pipe with aria-hidden="true" parent (not announced) -->
+<div aria-hidden="true">
+  <span aria-live="polite">{{ hiddenMessage$ | async }}</span>
+</div>
+
+<!-- Live region that gets added dynamically after content loads -->
+<div [attr.aria-live]="isLoaded ? 'polite' : null">
+  {{ lateBinding$ | async }}
+</div>
+
+<!-- Async pipe in element removed from accessibility tree -->
+<div role="presentation" aria-live="polite">
+  {{ strippedContent$ | async }}
+</div>

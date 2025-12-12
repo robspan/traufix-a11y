@@ -39,3 +39,30 @@
 
 <!-- Bound matBadge with position but no description -->
 <span [matBadge]="count" matBadgePosition="below before">Items</span>
+
+<!-- @a11y-false-positive -->
+<!-- Badge with aria-describedby on parent element providing context -->
+<span matBadge="5" aria-describedby="badge-context">Inbox</span>
+<span id="badge-context" class="visually-hidden">5 unread messages</span>
+
+<!-- Badge where host element text sufficiently describes the badge meaning -->
+<span matBadge="3">3 items in cart</span>
+
+<!-- Hidden badge with bound condition - description not needed when hidden -->
+<span matBadge="10" [matBadgeHidden]="hideBadge">Notifications</span>
+
+<!-- Badge on element with comprehensive aria-label covering the badge -->
+<button mat-button matBadge="7" aria-label="Messages, 7 unread">Messages</button>
+
+<!-- @a11y-false-negative -->
+<!-- Badge with empty matBadgeDescription -->
+<span matBadge="5" matBadgeDescription="">Inbox</span>
+
+<!-- Badge with matBadgeDescription containing only whitespace -->
+<span matBadge="3" matBadgeDescription="   ">Cart</span>
+
+<!-- Badge with matBadgeDescription that doesn't describe the badge value -->
+<span matBadge="99" matBadgeDescription="badge">Alerts</span>
+
+<!-- Badge visible (matBadgeHidden="false") but no description -->
+<span matBadge="8" matBadgeHidden="false">Updates</span>

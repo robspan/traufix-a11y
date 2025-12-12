@@ -33,3 +33,45 @@
 <!-- Skipping from h2 to h5 -->
 <h2>Timeline</h2>
 <h5>Week-by-week plan</h5>
+
+<!-- @a11y-false-positive -->
+<!-- Headings inside sectioning elements can restart hierarchy per ARIA spec -->
+<article>
+  <h1>Article Title</h1>
+  <section>
+    <h1>Section Title</h1>
+    <p>Content...</p>
+  </section>
+</article>
+
+<!-- Heading in modal/dialog has its own context -->
+<div role="dialog" aria-modal="true">
+  <h2>Modal Title</h2>
+  <p>Modal content...</p>
+</div>
+
+<!-- Hidden headings used for screen reader navigation landmarks -->
+<h2 class="sr-only">Main Navigation</h2>
+<nav>...</nav>
+<h2>Page Content</h2>
+
+<!-- @a11y-false-negative -->
+<!-- Role="heading" without aria-level creates ambiguous hierarchy -->
+<h1>Main Title</h1>
+<div role="heading">Subsection</div>
+<h3>Detail</h3>
+
+<!-- Headings styled to look like different levels than they are -->
+<h1>Title</h1>
+<h2 class="looks-like-h4">Visually small but semantically h2</h2>
+<h4>This h4 looks bigger than the h2 above</h4>
+
+<!-- Empty heading that breaks document outline -->
+<h1>Wedding Guide</h1>
+<h2></h2>
+<h3>Details</h3>
+
+<!-- Heading with only whitespace -->
+<h1>Title</h1>
+<h2>   </h2>
+<h3>Content</h3>

@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match mat-tab elements (use negative lookahead to not match mat-tab-group, mat-tab-label, mat-tab-nav-bar, etc.)
     const tabRegex = /<mat-tab(?![a-z-])([^>]*)>([\s\S]*?)<\/mat-tab>|<mat-tab(?![a-z-])([^>]*)\/>/gi;
@@ -16,6 +17,7 @@ module.exports = {
     let match;
     let tabIndex = 0;
     while ((match = tabRegex.exec(content)) !== null) {
+      elementsFound++;
       tabIndex++;
       const attributes = match[1] || match[3] || '';
       const tabContent = match[2] || '';
@@ -43,7 +45,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

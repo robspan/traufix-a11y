@@ -31,3 +31,29 @@
 
 <!-- Invalid aria-current value -->
 <a href="/about" aria-current="active">Invalid</a>
+
+<!-- @a11y-false-positive -->
+<!-- Empty string is valid for some ARIA attributes (removes the attribute semantically) -->
+<button aria-expanded="">Toggle</button>
+
+<!-- Bound ARIA attribute with valid value at runtime -->
+<div [attr.aria-live]="liveRegionType">Dynamic content</div>
+
+<!-- ARIA attribute on custom component that handles it internally -->
+<app-dropdown aria-haspopup="listbox">Options</app-dropdown>
+
+<!-- @a11y-false-negative -->
+<!-- Misspelled attribute name (not caught as invalid value check) -->
+<button aria-expandd="true">Expand</button>
+
+<!-- Deprecated ARIA attribute value -->
+<div aria-dropeffect="copy">Drop here</div>
+
+<!-- Valid syntax but semantically wrong (number where integer expected) -->
+<div aria-setsize="3.5">Item</div>
+
+<!-- Empty ID reference (valid syntax but broken reference) -->
+<button aria-describedby="">No description</button>
+
+<!-- ID reference to non-existent element -->
+<button aria-labelledby="nonexistent-id">Mystery button</button>

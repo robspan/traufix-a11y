@@ -34,3 +34,52 @@
 .bad-white-on-white {
   color: #fff;
 }
+
+// @a11y-false-positive
+// Decorative text that is also provided in accessible form elsewhere
+.decorative-watermark {
+  color: rgba(200, 200, 200, 0.1);
+}
+
+// Disabled state where low contrast is intentional and expected
+.disabled-button {
+  color: #999;
+  background-color: #ccc;
+}
+
+// Large text (18pt+) has lower contrast requirements (3:1 vs 4.5:1)
+.large-heading {
+  font-size: 24px;
+  font-weight: bold;
+  color: #767676;
+  background-color: #ffffff;
+}
+
+// @a11y-false-negative
+// Contrast appears okay but fails on actual background (inherited/layered)
+.inherited-background {
+  color: #666666;
+  // background comes from parent, could be light gray
+}
+
+// Using CSS custom property that resolves to low contrast value
+.variable-contrast {
+  color: var(--text-color-light);
+  background-color: var(--bg-color-light);
+}
+
+// Hover/focus state has poor contrast but base state is fine
+.hover-problem {
+  color: #333333;
+  background-color: #ffffff;
+
+  &:hover {
+    color: #cccccc;
+  }
+}
+
+// Gradient background makes contrast vary across the text
+.gradient-bg {
+  color: #333333;
+  background: linear-gradient(to right, #ffffff, #333333);
+}

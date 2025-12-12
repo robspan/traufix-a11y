@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Match the <html> opening tag
     const htmlTagRegex = /<html\b([^>]*)>/i;
@@ -17,8 +18,10 @@ module.exports = {
 
     if (!htmlMatch) {
       // No <html> tag found - might be a fragment, skip check
-      return { pass: true, issues: [] };
+      return { pass: true, issues: [], elementsFound };
     }
+
+    elementsFound++;
 
     const htmlAttributes = htmlMatch[1];
     const htmlTag = htmlMatch[0];
@@ -29,14 +32,14 @@ module.exports = {
 
     if (!langMatch) {
       issues.push(format('HTML_MISSING_LANG', { element: htmlTag }));
-      return { pass: false, issues };
+      return { pass: false, issues, elementsFound };
     }
 
     const langValue = langMatch[1].trim();
 
     if (!langValue) {
       issues.push(format('HTML_MISSING_LANG', { element: htmlTag }));
-      return { pass: false, issues };
+      return { pass: false, issues, elementsFound };
     }
 
     // Validate lang value format (basic check for BCP 47 format)
@@ -44,9 +47,9 @@ module.exports = {
     const validLangRegex = /^[a-z]{2,3}(-[A-Za-z]{2,4})?(-[A-Za-z]{2})?$/;
     if (!validLangRegex.test(langValue)) {
       issues.push(format('HTML_MISSING_LANG', { element: htmlTag }));
-      return { pass: false, issues };
+      return { pass: false, issues, elementsFound };
     }
 
-    return { pass: true, issues: [] };
+    return { pass: true, issues: [], elementsFound };
   }
 };

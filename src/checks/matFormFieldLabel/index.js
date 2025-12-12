@@ -10,6 +10,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to match mat-form-field elements with their content
     // Uses a non-greedy match to capture content between opening and closing tags
@@ -18,6 +19,7 @@ module.exports = {
     let match;
 
     while ((match = matFormFieldRegex.exec(content)) !== null) {
+      elementsFound++;
       const fullMatch = match[0];
       const fieldContent = match[2] || '';
 
@@ -31,7 +33,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

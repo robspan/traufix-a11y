@@ -42,3 +42,32 @@
   frameborder="0"
   allowfullscreen>
 </iframe>
+
+<!-- @a11y-false-positive -->
+<!-- Hidden iframe used for tracking/analytics - doesn't need title -->
+<iframe src="https://analytics.example.com/track" hidden aria-hidden="true"></iframe>
+
+<!-- Iframe with title via ng-attr binding (Angular 1.x style) -->
+<iframe src="https://example.com/content" ng-attr-title="{{frameTitle}}"></iframe>
+
+<!-- Iframe with programmatically set title via directive -->
+<iframe src="https://example.com/map" appDynamicTitle></iframe>
+
+<!-- Iframe inside a figure with figcaption providing context -->
+<figure>
+  <iframe src="https://youtube.com/embed/abc"></iframe>
+  <figcaption id="video-caption">Wedding ceremony highlights</figcaption>
+</figure>
+
+<!-- @a11y-false-negative -->
+<!-- Iframe with empty title attribute -->
+<iframe src="https://maps.google.com/embed" title=""></iframe>
+
+<!-- Iframe with whitespace-only title -->
+<iframe src="https://example.com/form" title="   "></iframe>
+
+<!-- Iframe with generic/non-descriptive title -->
+<iframe src="https://youtube.com/embed/video" title="iframe"></iframe>
+
+<!-- Iframe with title that doesn't describe content -->
+<iframe src="https://example.com/checkout" title="content"></iframe>

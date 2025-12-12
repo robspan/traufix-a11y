@@ -36,3 +36,38 @@
 
 <!-- Textarea without label -->
 <textarea name="notes" rows="4"></textarea>
+
+<!-- @a11y-false-positive -->
+<!-- Input with aria-labelledby pointing to visible text -->
+<span id="search-label">Search venues:</span>
+<input type="search" aria-labelledby="search-label">
+
+<!-- Input with aria-describedby providing context (not label, but accessible) -->
+<input type="text" name="code" aria-label="Discount code" aria-describedby="code-help">
+<span id="code-help">Enter your 6-digit code</span>
+
+<!-- Fieldset/legend providing group label for radio buttons -->
+<fieldset>
+  <legend>Select venue type</legend>
+  <input type="radio" name="venue" value="indoor"> Indoor
+  <input type="radio" name="venue" value="outdoor"> Outdoor
+</fieldset>
+
+<!-- Input with placeholder that also has programmatic label via aria -->
+<input type="text" placeholder="Enter name" aria-label="Guest name">
+
+<!-- @a11y-false-negative -->
+<!-- Label exists but for attribute doesn't match any input id -->
+<label for="wrong-id">Email Address</label>
+<input type="email" id="email-field" name="email">
+
+<!-- Label wraps input but is empty -->
+<label>
+  <input type="text" name="field1">
+</label>
+
+<!-- aria-label is empty string -->
+<input type="text" aria-label="" name="username">
+
+<!-- aria-labelledby points to non-existent element -->
+<input type="text" aria-labelledby="nonexistent-label" name="data">

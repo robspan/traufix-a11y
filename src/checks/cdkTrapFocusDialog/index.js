@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Pattern to find elements with role="dialog"
     // Matches: <div role="dialog" ...> or <any-element role="dialog" ...>
@@ -35,6 +36,7 @@ module.exports = {
     // Check role="dialog" elements
     let match;
     while ((match = roleDialogPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         const snippet = getSnippet(elementString);
@@ -44,6 +46,7 @@ module.exports = {
 
     // Check mat-dialog-container elements
     while ((match = matDialogPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         const snippet = getSnippet(elementString);
@@ -53,6 +56,7 @@ module.exports = {
 
     // Check cdk-dialog-container elements
     while ((match = cdkDialogPattern.exec(content)) !== null) {
+      elementsFound++;
       const elementString = match[0];
       if (!hasFocusTrap(elementString)) {
         const snippet = getSnippet(elementString);
@@ -62,7 +66,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };

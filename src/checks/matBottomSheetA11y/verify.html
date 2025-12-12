@@ -99,3 +99,66 @@
     <span>No heading here</span>
   </div>
 </ng-template>
+
+<!-- @a11y-false-positive -->
+<!-- Bottom sheet with heading injected via structural directive -->
+<ng-template #dynamicHeadingSheet>
+  <ng-container *ngIf="showHeading">
+    <h2>{{ sheetTitle }}</h2>
+  </ng-container>
+  <p>Content here</p>
+</ng-template>
+
+<!-- Bottom sheet with aria-labelledby pointing to title element -->
+<ng-template #ariaLabelledBySheet>
+  <div role="dialog" aria-labelledby="sheet-title">
+    <span id="sheet-title">Sheet Options</span>
+    <button mat-button>Option 1</button>
+  </div>
+</ng-template>
+
+<!-- Bottom sheet with visually hidden heading for screen readers -->
+<ng-template #srOnlyHeadingSheet>
+  <h2 class="sr-only visually-hidden">Settings Menu</h2>
+  <mat-nav-list>
+    <a mat-list-item>Setting 1</a>
+    <a mat-list-item>Setting 2</a>
+  </mat-nav-list>
+</ng-template>
+
+<!-- Close button with aria-label via binding -->
+<ng-template #boundAriaLabelSheet>
+  <h3>Actions</h3>
+  <button mat-icon-button [attr.aria-label]="closeButtonLabel">
+    <mat-icon>close</mat-icon>
+  </button>
+</ng-template>
+
+<!-- @a11y-false-negative -->
+<!-- Bottom sheet with empty heading -->
+<ng-template #emptyHeadingSheet>
+  <h2></h2>
+  <p>Content without meaningful heading</p>
+</ng-template>
+
+<!-- Bottom sheet with heading containing only whitespace -->
+<ng-template #whitespaceHeadingSheet>
+  <h2>   </h2>
+  <mat-list>
+    <mat-list-item>Item</mat-list-item>
+  </mat-list>
+</ng-template>
+
+<!-- Close button with empty aria-label -->
+<ng-template #emptyAriaLabelCloseSheet>
+  <h2>Share</h2>
+  <button mat-icon-button aria-label="">
+    <mat-icon>close</mat-icon>
+  </button>
+</ng-template>
+
+<!-- Heading hidden with display:none or aria-hidden -->
+<ng-template #hiddenHeadingSheet>
+  <h2 aria-hidden="true" style="display:none">Hidden Title</h2>
+  <p>Visible content but heading is hidden from AT</p>
+</ng-template>

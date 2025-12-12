@@ -30,3 +30,30 @@
 
 <!-- @a11y-fail: Blink with Angular *ngIf -->
 <blink *ngIf="showBlink">Conditional blink</blink>
+
+<!-- @a11y-false-positive -->
+<!-- Custom component named "blink" that is not the HTML blink element -->
+<app-blink [speed]="fast">Status indicator</app-blink>
+
+<!-- Element with "blink" in ID or data attribute -->
+<span id="status-blink-indicator" data-blink="false">Status</span>
+
+<!-- SVG animation named blink (not the problematic HTML element) -->
+<svg>
+  <text id="blink-text">SVG Text</text>
+</svg>
+
+<!-- @a11y-false-negative -->
+<!-- CSS animation that creates blinking effect -->
+<span style="animation: blink 1s infinite;">Blinking via CSS</span>
+<span class="blink-animation">CSS class blink</span>
+
+<!-- Text-decoration: blink (deprecated but may still work) -->
+<span style="text-decoration: blink;">Blink decoration</span>
+
+<!-- JavaScript-based blinking -->
+<span id="js-blink">JS toggles visibility</span>
+<!-- setInterval(() => el.style.visibility = el.style.visibility === 'hidden' ? 'visible' : 'hidden', 500) -->
+
+<!-- Marquee element (similar accessibility concerns) -->
+<marquee>Scrolling text is also problematic</marquee>

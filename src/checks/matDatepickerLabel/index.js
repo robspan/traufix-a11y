@@ -9,6 +9,7 @@ module.exports = {
 
   check(content) {
     const issues = [];
+    let elementsFound = 0;
 
     // Check 1: Find input elements with [matDatepicker] binding
     // The input should have aria-label OR be inside mat-form-field with mat-label
@@ -18,6 +19,7 @@ module.exports = {
     let inputIndex = 0;
     while ((inputMatch = datepickerInputRegex.exec(content)) !== null) {
       inputIndex++;
+      elementsFound++;
       const inputElement = inputMatch[0];
 
       // Check if input has aria-label or aria-labelledby
@@ -67,6 +69,7 @@ module.exports = {
     let toggleIndex = 0;
     while ((toggleMatch = toggleRegex.exec(content)) !== null) {
       toggleIndex++;
+      elementsFound++;
       const toggleElement = toggleMatch[0];
 
       // Check if toggle has aria-label or aria-labelledby
@@ -80,7 +83,8 @@ module.exports = {
 
     return {
       pass: issues.length === 0,
-      issues
+      issues,
+      elementsFound
     };
   }
 };
