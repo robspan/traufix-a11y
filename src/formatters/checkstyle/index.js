@@ -1,0 +1,137 @@
+'use strict';
+
+/**
+ * Checkstyle XML Format
+ *
+ * Generates reports in Checkstyle XML format, widely supported by IDEs,
+ * build tools, and CI/CD systems. This format enables accessibility
+ * issues to be displayed inline in editors and integrated into existing
+ * code quality workflows.
+ *
+ * @see https://checkstyle.org/
+ * @module formatters/checkstyle
+ */
+
+/**
+ * Escape special XML characters
+ * @param {string} str - String to escape
+ * @returns {string} XML-safe string
+ */
+function escapeXml(str) {
+  return String(str).replace(/[<>&"']/g, char => ({
+    '<': '&lt;',
+    '>': '&gt;',
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&apos;'
+  }[char]));
+}
+
+/**
+ * Get severity level from issue message
+ * @param {string} message - Issue message
+ * @returns {string} Checkstyle severity (error, warning, info, ignore)
+ */
+function getSeverity(message) {
+  if (message.startsWith('[Error]')) return 'error';
+  if (message.startsWith('[Warning]')) return 'warning';
+  if (message.startsWith('[Info]')) return 'info';
+  return 'error';
+}
+
+/**
+ * Clean issue message by removing severity prefix
+ * @param {string} message - Raw issue message
+ * @returns {string} Cleaned message
+ */
+function cleanMessage(message) {
+  return String(message).replace(/^\[(Error|Warning|Info)\]\s*/, '');
+}
+
+/**
+ * Format accessibility results as Checkstyle XML
+ *
+ * @param {object} results - Analysis results object
+ * @param {object[]} results.urls - Array of URL result objects
+ * @param {object} results.distribution - Pass/warn/fail distribution
+ * @param {string} results.tier - Accessibility tier (A, AA, AAA)
+ * @param {number} results.urlCount - Total number of URLs analyzed
+ * @param {object} [options={}] - Formatter options
+ * @param {string} [options.version='4.3'] - Checkstyle version attribute
+ * @param {boolean} [options.includeColumn=true] - Include column attribute
+ * @returns {string} XML string in Checkstyle format
+ */
+function format(results, options = {}) {
+  const {
+    version = '4.3',
+    includeColumn = true
+  } = options;
+
+  // Combine sitemap URLs + internal routes
+  const urls = results.urls || [];
+  const internalRoutes = (results.internal && results.internal.routes) || [];
+  const allUrls = [...urls, ...internalRoutes];
+
+  // Group issues by file
+  const fileGroups = new Map();
+
+  for (const url of allUrls) {
+    for (const issue of (url.issues || [])) {
+      const filePath = issue.file || url.path || 'unknown';
+
+      if (!fileGroups.has(filePath)) {
+        fileGroups.set(filePath, []);
+      }
+
+      fileGroups.get(filePath).push({
+        line: issue.line || 1,
+        column: 1,
+        severity: getSeverity(issue.message),
+        message: cleanMessage(issue.message),
+        source: `mat-a11y.${issue.check}`
+      });
+    }
+  }
+
+  // Build XML output
+  const lines = [];
+  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
+  lines.push(`<checkstyle version="${escapeXml(version)}">`);
+
+  // Sort files for consistent output
+  const sortedFiles = Array.from(fileGroups.keys()).sort();
+
+  for (const filePath of sortedFiles) {
+    const issues = fileGroups.get(filePath);
+    lines.push(`  <file name="${escapeXml(filePath)}">`);
+
+    // Sort issues by line number
+    issues.sort((a, b) => a.line - b.line);
+
+    for (const issue of issues) {
+      const columnAttr = includeColumn ? ` column="${issue.column}"` : '';
+      lines.push(
+        `    <error line="${issue.line}"${columnAttr} ` +
+        `severity="${issue.severity}" ` +
+        `message="${escapeXml(issue.message)}" ` +
+        `source="${escapeXml(issue.source)}"/>`
+      );
+    }
+
+    lines.push('  </file>');
+  }
+
+  lines.push('</checkstyle>');
+
+  return lines.join('\n');
+}
+
+module.exports = {
+  name: 'checkstyle',
+  description: 'Checkstyle XML format for IDE integrations and build tools',
+  category: 'code-quality',
+  output: 'xml',
+  fileExtension: '.xml',
+  mimeType: 'application/xml',
+  format
+};

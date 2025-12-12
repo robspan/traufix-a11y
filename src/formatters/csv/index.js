@@ -1,0 +1,141 @@
+'use strict';
+
+/**
+ * CSV Formatter
+ *
+ * Generates CSV output for spreadsheets and BI tools like Excel,
+ * Google Sheets, Tableau, and Power BI.
+ *
+ * @module formatters/csv
+ */
+
+/**
+ * Get status label based on score
+ * @param {number} score - Audit score (0-100)
+ * @returns {string} Status label
+ */
+function getStatusLabel(score) {
+  if (score >= 90) return 'passing';
+  if (score >= 50) return 'warning';
+  return 'failing';
+}
+
+/**
+ * Escape a value for CSV output
+ * Handles quotes, commas, and newlines according to RFC 4180
+ *
+ * @param {*} value - Value to escape
+ * @returns {string} CSV-safe string
+ */
+function escapeCSV(value) {
+  if (value === null || value === undefined) {
+    return '';
+  }
+
+  const str = String(value);
+
+  // If the value contains quotes, commas, or newlines, wrap in quotes and escape internal quotes
+  if (str.includes('"') || str.includes(',') || str.includes('\n') || str.includes('\r')) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+
+  return str;
+}
+
+/**
+ * Get the top issue check name from a URL's issues
+ * @param {object} url - URL result object
+ * @returns {string} Top issue check name or empty string
+ */
+function getTopIssue(url) {
+  if (!url.issues || url.issues.length === 0) {
+    return '';
+  }
+
+  // Count issues by check type to find the most common
+  const counts = {};
+  for (const issue of url.issues) {
+    const check = issue.check || 'unknown';
+    counts[check] = (counts[check] || 0) + 1;
+  }
+
+  // Find the check with the highest count
+  let topCheck = '';
+  let maxCount = 0;
+  for (const [check, count] of Object.entries(counts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      topCheck = check;
+    }
+  }
+
+  return topCheck;
+}
+
+/**
+ * Format the results into CSV
+ *
+ * @param {object} results - Analysis results
+ * @param {Array} results.urls - Array of URL results
+ * @param {object} results.distribution - Score distribution {passing, warning, failing}
+ * @param {string} results.tier - Analysis tier
+ * @param {number} results.urlCount - Total URL count
+ * @param {object} [options={}] - Formatter options
+ * @param {string} [options.delimiter=','] - Field delimiter
+ * @param {string} [options.lineEnding='\n'] - Line ending character(s)
+ * @param {boolean} [options.includeHeader=true] - Include header row
+ * @param {boolean} [options.includeBOM=false] - Include UTF-8 BOM for Excel
+ * @returns {string} CSV formatted output
+ */
+function format(results, options = {}) {
+  const {
+    delimiter = ',',
+    lineEnding = '\n',
+    includeHeader = true,
+    includeBOM = false
+  } = options;
+
+  const urls = results.urls || [];
+  const lines = [];
+
+  // UTF-8 BOM for Excel compatibility (optional)
+  let output = includeBOM ? '\uFEFF' : '';
+
+  // Header row
+  if (includeHeader) {
+    const headers = ['URL', 'Score', 'Status', 'IssueCount', 'TopIssue'];
+    lines.push(headers.join(delimiter));
+  }
+
+  // Data rows
+  for (const url of urls) {
+    const score = url.auditScore ?? 0;
+    const status = getStatusLabel(score);
+    const issueCount = url.issues ? url.issues.length : 0;
+    const topIssue = getTopIssue(url);
+
+    const row = [
+      escapeCSV(url.path || ''),
+      score,
+      status,
+      issueCount,
+      escapeCSV(topIssue)
+    ];
+
+    lines.push(row.join(delimiter));
+  }
+
+  output += lines.join(lineEnding);
+
+  return output;
+}
+
+module.exports = {
+  name: 'csv',
+  description: 'CSV format for spreadsheets and BI tools (Excel, Tableau, Power BI)',
+  category: 'docs',
+  output: 'text',
+  fileExtension: '.csv',
+  mimeType: 'text/csv',
+  format
+};

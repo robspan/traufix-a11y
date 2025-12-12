@@ -1,0 +1,2112 @@
+{
+  "series": [
+    {
+      "metric": "mat_a11y.urls.total",
+      "points": [
+        [
+          1765573558,
+          67
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.urls.passing",
+      "points": [
+        [
+          1765573558,
+          61
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.urls.warning",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.urls.failing",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.pass_rate",
+      "points": [
+        [
+          1765573558,
+          91.04477611940298
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ],
+      "unit": "percent"
+    },
+    {
+      "metric": "mat_a11y.score.average",
+      "points": [
+        [
+          1765573558,
+          98.43283582089552
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.total",
+      "points": [
+        [
+          1765573558,
+          106
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/agb"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/agb"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/datenschutz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/datenschutz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/impressum"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/impressum"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/cookies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/cookies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/widerrufsrecht"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/widerrufsrecht"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          87
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          65
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dj-band-buchen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dj-band-buchen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dresscode-kommunizieren"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dresscode-kommunizieren"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaesteliste-erstellen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaesteliste-erstellen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitseinladung-gestalten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitseinladung-gestalten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfarben-waehlen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfarben-waehlen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-ablauf-planen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-ablauf-planen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitswebsite-erstellen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitswebsite-erstellen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/notfallkoffer-packen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/notfallkoffer-packen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/tischdeko-gestalten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/tischdeko-gestalten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/traubogen-bauen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/traubogen-bauen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/brautkleid-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/brautkleid-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dienstleister-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dienstleister-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaesteliste-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaesteliste-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfotos-must-haves"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfotos-must-haves"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitslocation-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitslocation-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/honeymoon-planung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/honeymoon-planung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/notfallkoffer-braut"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/notfallkoffer-braut"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/standesamt-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/standesamt-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/trauzeugen-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/trauzeugen-checkliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/danksagung-vorlage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/danksagung-vorlage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dresscode-nachricht"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dresscode-nachricht"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/eheversprechen-editor"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/eheversprechen-editor"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/einladungstext-generator"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/einladungstext-generator"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaestebuch-spiel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/gaestebuch-spiel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsquiz-fragen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsquiz-fragen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsrede-assistent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsrede-assistent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/save-the-date-texte"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/save-the-date-texte"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/verkuendung-varianten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/verkuendung-varianten"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/zeremonien-ablauf"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/zeremonien-ablauf"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/boho-hochzeit-ideen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/boho-hochzeit-ideen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/farbkonzept-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/farbkonzept-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsdeko-trends"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsdeko-trends"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfrisuren-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsfrisuren-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitskleid-stile"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitskleid-stile"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitspapeterie-designs"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitspapeterie-designs"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsstil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsstil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/saisonale-hochzeitsblumen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/saisonale-hochzeitsblumen"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/tischdeko-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/tischdeko-inspiration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/traubogen-designs"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/traubogen-designs"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/12-monate-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/12-monate-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-planung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-planung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dienstleister-koordination"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/dienstleister-koordination"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/getting-ready-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/getting-ready-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-koordination"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-koordination"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitstag-zeitplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/musik-wunschliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/musik-wunschliste"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/rsvp-tracking"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/rsvp-tracking"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/sitzplan-erstellung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/sitzplan-erstellung"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/zeremonie-ablaufplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/zeremonie-ablaufplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-schwerpunkte-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/budget-schwerpunkte-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/entscheidungs-stil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/entscheidungs-stil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/feier-typ-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/feier-typ-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeits-vorlieben-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeits-vorlieben-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeits-wissen-test"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeits-wissen-test"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsstil-finder"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/hochzeitsstil-finder"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/paar-harmonie-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/paar-harmonie-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/planungs-profil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/planungs-profil-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/prioritaeten-ranking-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/prioritaeten-ranking-quiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765573558,
+          100
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/schnell-check-hochzeit"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765573558,
+          0
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:/guide/schnell-check-hochzeit"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          65
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:maticonaccessibility"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          10
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matprogressspinnerlabel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:prefersreducedmotion"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:colorcontrast"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:contentoverflow"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:lineheighttight"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:pointereventsnone"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:smallfontsize"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:duplicateidaria"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765573558,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:focuswithinsupport"
+      ]
+    }
+  ]
+}

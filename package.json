@@ -10,6 +10,7 @@
   "scripts": {
     "test": "npm run verify-structure && npm run self-test",
     "verify-structure": "node src/core/verifyStructure.js",
+    "verify-formatters": "node src/formatters/verifyFormatters.js",
     "self-test": "node bin/cli.js --full --self-test"
   },
   "keywords": [

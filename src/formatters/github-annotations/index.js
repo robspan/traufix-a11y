@@ -1,0 +1,135 @@
+'use strict';
+
+/**
+ * GitHub Actions Annotations Formatter
+ *
+ * Generates GitHub Actions workflow annotations for accessibility issues.
+ * Shows inline errors directly on PR diffs.
+ *
+ * @see https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+ * @module formatters/github-annotations
+ */
+
+/**
+ * Format results as GitHub Actions workflow annotations
+ *
+ * @param {object} results - Analysis results
+ * @param {Array} results.urls - Array of analyzed URLs
+ * @param {object} results.distribution - Distribution of passing/warning/failing
+ * @param {string} results.tier - Accessibility tier
+ * @param {number} results.urlCount - Number of URLs analyzed
+ * @param {object} [options={}] - Formatter options
+ * @param {boolean} [options.includeNotice=true] - Include summary notice annotation
+ * @param {number} [options.maxAnnotations=50] - Maximum number of annotations (GitHub limits to 10 per command)
+ * @returns {string} GitHub Actions annotation commands
+ */
+function format(results, options = {}) {
+  const {
+    includeNotice = true,
+    maxAnnotations = 50
+  } = options;
+
+  // Combine sitemap URLs + internal routes
+  const urls = results.urls || [];
+  const internalRoutes = (results.internal && results.internal.routes) || [];
+  const allUrls = [...urls, ...internalRoutes];
+
+  const lines = [];
+  let annotationCount = 0;
+
+  // Process each URL and its issues
+  for (const url of allUrls) {
+    for (const issue of (url.issues || [])) {
+      if (annotationCount >= maxAnnotations) {
+        break;
+      }
+
+      // Determine severity level based on message prefix
+      const level = determineLevel(issue.message);
+
+      // Clean the message (remove severity prefix)
+      const message = cleanMessage(issue.message);
+
+      // Get file and line info
+      const file = issue.file || '';
+      const line = issue.line || 1;
+
+      // Escape special characters for GitHub Actions
+      const escapedMessage = escapeAnnotation(message);
+      const escapedCheck = escapeAnnotation(issue.check);
+      const escapedUrl = escapeAnnotation(url.path);
+
+      // Format: ::error file={name},line={line},title={title}::{message}
+      lines.push(
+        `::${level} file=${file},line=${line},title=${escapedCheck}::${escapedMessage} (${escapedUrl})`
+      );
+
+      annotationCount++;
+    }
+
+    if (annotationCount >= maxAnnotations) {
+      break;
+    }
+  }
+
+  // Add summary notice annotation
+  if (includeNotice) {
+    const d = results.distribution || { passing: 0, warning: 0, failing: 0 };
+    const summary = `Analyzed ${results.urlCount || 0} URLs - Passing: ${d.passing}, Warning: ${d.warning}, Failing: ${d.failing}`;
+    lines.push(`::notice title=mat-a11y Summary::${escapeAnnotation(summary)}`);
+  }
+
+  return lines.join('\n');
+}
+
+/**
+ * Determine the annotation level based on message content
+ *
+ * @param {string} message - The issue message
+ * @returns {string} 'error', 'warning', or 'notice'
+ */
+function determineLevel(message) {
+  if (message.startsWith('[Warning]')) {
+    return 'warning';
+  }
+  if (message.startsWith('[Info]')) {
+    return 'notice';
+  }
+  return 'error';
+}
+
+/**
+ * Clean the message by removing severity prefix
+ *
+ * @param {string} message - The issue message
+ * @returns {string} Cleaned message
+ */
+function cleanMessage(message) {
+  return message.replace(/^\[(Error|Warning|Info)\]\s*/, '');
+}
+
+/**
+ * Escape special characters for GitHub Actions annotations
+ * GitHub Actions uses % encoding for special characters
+ *
+ * @param {string} str - String to escape
+ * @returns {string} Escaped string
+ */
+function escapeAnnotation(str) {
+  return String(str)
+    .replace(/%/g, '%25')
+    .replace(/\r/g, '%0D')
+    .replace(/\n/g, '%0A')
+    .replace(/:/g, '%3A')
+    .replace(/,/g, '%2C');
+}
+
+module.exports = {
+  name: 'github-annotations',
+  description: 'GitHub Actions workflow annotations for inline PR feedback',
+  category: 'cicd',
+  output: 'text',
+  fileExtension: '.txt',
+  mimeType: 'text/plain',
+  format
+};

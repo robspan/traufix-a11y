@@ -9,7 +9,7 @@
 // CORE TYPES
 // ============================================
 
-export type Tier = 'basic' | 'material' | 'full';
+export type Tier = 'basic' | 'material' | 'angular' | 'full';
 export type FileType = 'html' | 'scss';
 export type Severity = 'error' | 'warning' | 'info';
 export type ContrastRating = 'fail' | 'AA-large' | 'AA' | 'AAA' | 'unknown';
@@ -230,6 +230,7 @@ export interface TierConfig {
 export interface TiersConfig {
   basic: TierConfig;
   material: TierConfig;
+  angular: TierConfig;
   full: TierConfig;
 }
 
@@ -282,17 +283,24 @@ export interface ColorUtils {
 // ============================================
 
 /**
- * Quick check with basic tier (~15 checks, fastest)
+ * Quick wins check - highest value/effort ratio across all categories
  * @param targetPath - Directory or file to analyze
  */
 export function basic(targetPath: string): AnalysisResult;
 
 /**
- * Material-focused check (~45 checks, recommended default)
- * All mat-* components + Angular patterns + core HTML
+ * Material-only check (29 checks)
+ * ONLY mat-* component accessibility checks
  * @param targetPath - Directory or file to analyze
  */
 export function material(targetPath: string): AnalysisResult;
+
+/**
+ * Angular-only check (10 checks)
+ * ONLY Angular template + CDK accessibility checks
+ * @param targetPath - Directory or file to analyze
+ */
+export function angular(targetPath: string): AnalysisResult;
 
 /**
  * Full audit with all 82 checks (most thorough)
@@ -370,3 +378,386 @@ export const WEIGHTS: Record<string, number>;
 
 /** Color utilities for contrast calculations */
 export const colors: ColorUtils;
+
+// ============================================
+// SITEMAP-BASED ANALYSIS (SEO Focus)
+// ============================================
+
+export interface SitemapUrl {
+  /** Full URL from sitemap */
+  url: string;
+  /** URL path (e.g., /guide/my-page) */
+  path: string;
+  /** Sitemap priority (0-1) */
+  priority: number;
+}
+
+export interface UrlAudit {
+  /** Check name */
+  name: string;
+  /** Lighthouse-style weight */
+  weight: number;
+  /** Whether audit passed (0 errors) */
+  passed: boolean;
+  /** Number of elements found */
+  elementsFound: number;
+  /** Number of errors (issues starting with [Error]) */
+  errors: number;
+  /** Number of warnings (issues starting with [Warning]) */
+  warnings: number;
+  /** Total number of issues (errors + warnings) */
+  issues: number;
+}
+
+export interface UrlIssue {
+  /** Error message */
+  message: string;
+  /** File path */
+  file: string;
+  /** Check name */
+  check: string;
+}
+
+export interface UrlResult {
+  /** Full URL */
+  url: string;
+  /** URL path */
+  path: string;
+  /** Sitemap priority */
+  priority: number;
+  /** Component name if resolved */
+  component: string | null;
+  /** Files analyzed */
+  files: string[];
+  /** Lighthouse-style score (0-100) */
+  auditScore: number;
+  /** Total audits run */
+  auditsTotal: number;
+  /** Passing audits */
+  auditsPassed: number;
+  /** Failing audits */
+  auditsFailed: number;
+  /** All issues found */
+  issues: UrlIssue[];
+  /** Detailed audit results */
+  audits: UrlAudit[];
+  /** Error if component couldn't be resolved */
+  error?: string;
+}
+
+export interface WorstUrl {
+  /** Full URL */
+  url: string;
+  /** URL path */
+  path: string;
+  /** Score (0-100) */
+  score: number;
+  /** Top issues by check */
+  topIssues: Array<{ check: string; count: number }>;
+}
+
+export interface InternalPagesResult {
+  /** Total internal routes found */
+  count: number;
+  /** Routes analyzed (may be limited) */
+  analyzed: number;
+  /** Score distribution */
+  distribution: { passing: number; warning: number; failing: number };
+  /** Route results sorted by score */
+  routes: UrlResult[];
+}
+
+export interface SitemapAnalysisResult {
+  /** Tier used */
+  tier: Tier;
+  /** Path to sitemap.xml */
+  sitemapPath: string;
+  /** Total URLs in sitemap */
+  urlCount: number;
+  /** URLs successfully resolved to components */
+  resolved: number;
+  /** URLs that couldn't be resolved */
+  unresolved: number;
+  /** Score distribution */
+  distribution: { passing: number; warning: number; failing: number };
+  /** All URL results sorted by score (worst first) */
+  urls: UrlResult[];
+  /** Top 5 worst URLs with issue details */
+  worstUrls: WorstUrl[];
+  /** Internal pages not in sitemap */
+  internal: InternalPagesResult;
+  /** Error message if analysis failed */
+  error?: string;
+}
+
+export interface SitemapAnalyzeOptions {
+  /** Tier level */
+  tier?: Tier;
+  /** Custom sitemap path */
+  sitemap?: string;
+}
+
+/**
+ * Analyze using sitemap.xml as source of truth
+ * @param projectDir - Angular project directory
+ * @param options - Analysis options
+ * @returns Sitemap analysis results
+ *
+ * @example
+ * const results = analyzeBySitemap('./my-app', { tier: 'material' });
+ * console.log(`${results.urlCount} URLs analyzed`);
+ * console.log(`Passing: ${results.distribution.passing}`);
+ */
+export function analyzeBySitemap(
+  projectDir: string,
+  options?: SitemapAnalyzeOptions
+): SitemapAnalysisResult;
+
+/**
+ * Format sitemap results for console output
+ * @param results - Sitemap analysis results
+ * @returns Formatted string
+ */
+export function formatSitemapResults(results: SitemapAnalysisResult): string;
+
+/**
+ * Find sitemap.xml in a project
+ * @param projectDir - Project directory
+ * @returns Path to sitemap.xml or null
+ *
+ * Searches in order:
+ * - dist/*\/browser/sitemap.xml
+ * - public/sitemap.xml
+ * - src/sitemap.xml
+ * - sitemap.xml
+ * - dist/sitemap.xml
+ */
+export function findSitemap(projectDir: string): string | null;
+
+// ============================================
+// ROUTE-BASED ANALYSIS
+// ============================================
+
+export interface RouteResult {
+  /** Route path */
+  path: string;
+  /** Component name */
+  component: string | null;
+  /** Files analyzed */
+  files: string[];
+  /** Lighthouse-style score (0-100) */
+  auditScore: number;
+  /** Total audits run */
+  auditsTotal: number;
+  /** Passing audits */
+  auditsPassed: number;
+  /** Failing audits */
+  auditsFailed: number;
+  /** Elements checked */
+  elementsChecked: number;
+  /** Elements passed */
+  elementsPassed: number;
+  /** Elements failed */
+  elementsFailed: number;
+  /** All issues found */
+  issues: UrlIssue[];
+  /** Detailed audit results */
+  audits: UrlAudit[];
+}
+
+export interface RouteAnalysisResult {
+  /** Tier used */
+  tier: Tier;
+  /** Total routes found */
+  routeCount: number;
+  /** Routes successfully resolved */
+  resolvedCount: number;
+  /** Routes that couldn't be resolved */
+  unresolvedCount: number;
+  /** Score distribution */
+  distribution: { passing: number; warning: number; failing: number };
+  /** All route results sorted by score (worst first) */
+  routes: RouteResult[];
+}
+
+export interface RouteAnalyzeOptions {
+  /** Tier level */
+  tier?: Tier;
+}
+
+/**
+ * Analyze by Angular routes (per-route scores)
+ * @param projectDir - Angular project directory
+ * @param options - Analysis options
+ * @returns Route analysis results
+ *
+ * @example
+ * const results = analyzeByRoute('./my-app', { tier: 'full' });
+ * for (const route of results.routes) {
+ *   console.log(`${route.path}: ${route.auditScore}%`);
+ * }
+ */
+export function analyzeByRoute(
+  projectDir: string,
+  options?: RouteAnalyzeOptions
+): RouteAnalysisResult;
+
+/**
+ * Format route results for console output
+ * @param results - Route analysis results
+ * @returns Formatted string
+ */
+export function formatRouteResults(results: RouteAnalysisResult): string;
+
+// ============================================
+// OUTPUT FORMATTERS
+// ============================================
+
+export type FormatterCategory =
+  | 'cicd'
+  | 'code-quality'
+  | 'docs'
+  | 'monitoring'
+  | 'notifications'
+  | 'test-frameworks'
+  | 'ide'
+  | 'a11y-standards'
+  | 'data';
+
+export type FormatterOutput = 'json' | 'xml' | 'text' | 'html' | 'binary';
+
+export interface Formatter {
+  /** Unique formatter name */
+  name: string;
+  /** Human-readable description */
+  description: string;
+  /** Formatter category */
+  category: FormatterCategory;
+  /** Output type */
+  output: FormatterOutput;
+  /** Suggested file extension (e.g., '.json', '.xml') */
+  fileExtension?: string;
+  /** MIME type for the output */
+  mimeType?: string;
+  /**
+   * Format results to output string
+   * @param results - Analysis results (SitemapAnalysisResult, RouteAnalysisResult, or AnalysisResult)
+   * @param options - Formatter-specific options
+   */
+  format(results: SitemapAnalysisResult | RouteAnalysisResult | AnalysisResult, options?: Record<string, unknown>): string;
+}
+
+export interface FormatterInfo {
+  /** Formatter name */
+  name: string;
+  /** Description */
+  description: string;
+  /** Category */
+  category: FormatterCategory;
+  /** Output type */
+  output: FormatterOutput;
+  /** File extension */
+  fileExtension?: string;
+  /** MIME type */
+  mimeType?: string;
+}
+
+export interface Formatters {
+  /**
+   * Load all available formatters
+   * @param forceReload - Force reload from disk
+   * @returns Map of formatter name to formatter module
+   */
+  loadAllFormatters(forceReload?: boolean): Map<string, Formatter>;
+
+  /**
+   * Get formatters by category
+   * @param category - Formatter category
+   * @returns Map of formatter name to formatter module
+   */
+  getFormattersByCategory(category: FormatterCategory): Map<string, Formatter>;
+
+  /**
+   * Get formatters by output type
+   * @param outputType - Output type (json, xml, text, html, binary)
+   * @returns Map of formatter name to formatter module
+   */
+  getFormattersByOutput(outputType: FormatterOutput): Map<string, Formatter>;
+
+  /**
+   * Get a specific formatter by name
+   * @param name - Formatter name
+   * @returns Formatter module or null
+   */
+  getFormatter(name: string): Formatter | null;
+
+  /**
+   * Format results using a named formatter
+   * @param formatterName - Name of the formatter to use
+   * @param results - Analysis results
+   * @param options - Formatter-specific options
+   * @returns Formatted output string
+   *
+   * @example
+   * const sarif = formatters.format('sarif', sitemapResults);
+   * const junit = formatters.format('junit', sitemapResults, { failThreshold: 80 });
+   */
+  format(
+    formatterName: string,
+    results: SitemapAnalysisResult | RouteAnalysisResult | AnalysisResult,
+    options?: Record<string, unknown>
+  ): string;
+
+  /**
+   * List all available formatter names
+   * @returns Array of formatter names
+   */
+  listFormatters(): string[];
+
+  /**
+   * List all formatters with their info
+   * @returns Array of formatter info objects
+   */
+  listFormattersWithInfo(): FormatterInfo[];
+
+  /** Valid formatter categories */
+  VALID_CATEGORIES: readonly FormatterCategory[];
+
+  /** Valid output types */
+  VALID_OUTPUTS: readonly FormatterOutput[];
+}
+
+/**
+ * Output formatters for various CI/CD, monitoring, and documentation systems.
+ *
+ * Available formatters:
+ * - sarif: SARIF 2.1.0 for GitHub Security tab
+ * - junit: JUnit XML for CI/CD systems
+ * - github-annotations: GitHub Actions annotations
+ * - gitlab-codequality: GitLab Code Quality reports
+ * - markdown: Markdown reports for PRs/docs
+ * - csv: CSV for spreadsheets
+ * - prometheus: Prometheus metrics
+ * - grafana-json: Grafana JSON datasource
+ * - slack: Slack webhook messages
+ * - discord: Discord webhook messages
+ * - teams: Microsoft Teams Adaptive Cards
+ * - datadog: DataDog metrics
+ * - sonarqube: SonarQube generic issue format
+ * - checkstyle: Checkstyle XML format
+ *
+ * @example
+ * import { formatters, analyzeBySitemap } from 'mat-a11y';
+ *
+ * const results = analyzeBySitemap('./my-app');
+ *
+ * // Generate SARIF for GitHub Security tab
+ * const sarif = formatters.format('sarif', results);
+ *
+ * // Generate JUnit for CI/CD
+ * const junit = formatters.format('junit', results, { failThreshold: 80 });
+ *
+ * // Generate Slack message
+ * const slack = formatters.format('slack', results);
+ */
+export const formatters: Formatters;

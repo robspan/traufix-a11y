@@ -152,7 +152,11 @@ function getWeight(checkName) {
 
 /**
  * Calculate Lighthouse-style audit score
- * @param {Object} checkResults - Map of check name to { elementsFound, issues }
+ *
+ * Only ERRORS count toward audit pass/fail (like Lighthouse).
+ * Warnings and info are tracked but don't fail audits.
+ *
+ * @param {Object} checkResults - Map of check name to { elementsFound, issues, errors }
  * @returns {Object} { score, earned, total, passed, failed, audits }
  */
 function calculateAuditScore(checkResults) {
@@ -165,7 +169,10 @@ function calculateAuditScore(checkResults) {
     if (stats.elementsFound > 0) {
       const weight = getWeight(name);
       totalWeight += weight;
-      const passed = stats.issues === 0;
+      // Only ERRORS fail an audit (not warnings/info)
+      // Fall back to issues count for backwards compatibility
+      const errorCount = stats.errors !== undefined ? stats.errors : stats.issues;
+      const passed = errorCount === 0;
       if (passed) earnedWeight += weight;
 
       audits.push({
@@ -173,7 +180,9 @@ function calculateAuditScore(checkResults) {
         weight,
         passed,
         elementsFound: stats.elementsFound,
-        issues: stats.issues
+        errors: errorCount,
+        warnings: stats.warnings || 0,
+        issues: stats.issues  // Total issues (errors + warnings + info)
       });
     }
   }

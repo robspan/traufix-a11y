@@ -1,0 +1,93 @@
+# HELP mat_a11y_urls_total Total number of URLs analyzed
+# TYPE mat_a11y_urls_total gauge
+mat_a11y_urls_total{tier="full"} 67
+# HELP mat_a11y_urls_passing Number of passing URLs (score >= 90)
+# TYPE mat_a11y_urls_passing gauge
+mat_a11y_urls_passing{tier="full"} 61
+# HELP mat_a11y_urls_failing Number of failing URLs (score < 50)
+# TYPE mat_a11y_urls_failing gauge
+mat_a11y_urls_failing{tier="full"} 0
+# HELP mat_a11y_url_score Accessibility score per URL (0-100)
+# TYPE mat_a11y_url_score gauge
+mat_a11y_url_score{url="/agb",tier="full"} 83
+mat_a11y_url_score{url="/datenschutz",tier="full"} 83
+mat_a11y_url_score{url="/impressum",tier="full"} 83
+mat_a11y_url_score{url="/cookies",tier="full"} 83
+mat_a11y_url_score{url="/widerrufsrecht",tier="full"} 83
+mat_a11y_url_score{url="/",tier="full"} 87
+mat_a11y_url_score{url="/guide",tier="full"} 93
+mat_a11y_url_score{url="/guide/dj-band-buchen",tier="full"} 100
+mat_a11y_url_score{url="/guide/dresscode-kommunizieren",tier="full"} 100
+mat_a11y_url_score{url="/guide/gaesteliste-erstellen",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitseinladung-gestalten",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsfarben-waehlen",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitstag-ablauf-planen",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitswebsite-erstellen",tier="full"} 100
+mat_a11y_url_score{url="/guide/notfallkoffer-packen",tier="full"} 100
+mat_a11y_url_score{url="/guide/tischdeko-gestalten",tier="full"} 100
+mat_a11y_url_score{url="/guide/traubogen-bauen",tier="full"} 100
+mat_a11y_url_score{url="/guide/brautkleid-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/budget-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/dienstleister-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/gaesteliste-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsfotos-must-haves",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitslocation-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/honeymoon-planung",tier="full"} 100
+mat_a11y_url_score{url="/guide/notfallkoffer-braut",tier="full"} 100
+mat_a11y_url_score{url="/guide/standesamt-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/trauzeugen-checkliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/danksagung-vorlage",tier="full"} 100
+mat_a11y_url_score{url="/guide/dresscode-nachricht",tier="full"} 100
+mat_a11y_url_score{url="/guide/eheversprechen-editor",tier="full"} 100
+mat_a11y_url_score{url="/guide/einladungstext-generator",tier="full"} 100
+mat_a11y_url_score{url="/guide/gaestebuch-spiel",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsquiz-fragen",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsrede-assistent",tier="full"} 100
+mat_a11y_url_score{url="/guide/save-the-date-texte",tier="full"} 100
+mat_a11y_url_score{url="/guide/verkuendung-varianten",tier="full"} 100
+mat_a11y_url_score{url="/guide/zeremonien-ablauf",tier="full"} 100
+mat_a11y_url_score{url="/guide/boho-hochzeit-ideen",tier="full"} 100
+mat_a11y_url_score{url="/guide/farbkonzept-inspiration",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsdeko-trends",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsfrisuren-inspiration",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitskleid-stile",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitspapeterie-designs",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsstil-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/saisonale-hochzeitsblumen",tier="full"} 100
+mat_a11y_url_score{url="/guide/tischdeko-inspiration",tier="full"} 100
+mat_a11y_url_score{url="/guide/traubogen-designs",tier="full"} 100
+mat_a11y_url_score{url="/guide/12-monate-zeitplan",tier="full"} 100
+mat_a11y_url_score{url="/guide/budget-planung",tier="full"} 100
+mat_a11y_url_score{url="/guide/dienstleister-koordination",tier="full"} 100
+mat_a11y_url_score{url="/guide/getting-ready-zeitplan",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitstag-koordination",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitstag-zeitplan",tier="full"} 100
+mat_a11y_url_score{url="/guide/musik-wunschliste",tier="full"} 100
+mat_a11y_url_score{url="/guide/rsvp-tracking",tier="full"} 100
+mat_a11y_url_score{url="/guide/sitzplan-erstellung",tier="full"} 100
+mat_a11y_url_score{url="/guide/zeremonie-ablaufplan",tier="full"} 100
+mat_a11y_url_score{url="/guide/budget-schwerpunkte-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/entscheidungs-stil-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/feier-typ-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeits-vorlieben-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeits-wissen-test",tier="full"} 100
+mat_a11y_url_score{url="/guide/hochzeitsstil-finder",tier="full"} 100
+mat_a11y_url_score{url="/guide/paar-harmonie-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/planungs-profil-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/prioritaeten-ranking-quiz",tier="full"} 100
+mat_a11y_url_score{url="/guide/schnell-check-hochzeit",tier="full"} 100
+# HELP mat_a11y_issues_by_check Number of issues per accessibility check
+# TYPE mat_a11y_issues_by_check gauge
+mat_a11y_issues_by_check{check="matIconAccessibility",tier="full"} 65
+mat_a11y_issues_by_check{check="matProgressSpinnerLabel",tier="full"} 10
+mat_a11y_issues_by_check{check="prefersReducedMotion",tier="full"} 9
+mat_a11y_issues_by_check{check="colorContrast",tier="full"} 4
+mat_a11y_issues_by_check{check="contentOverflow",tier="full"} 8
+mat_a11y_issues_by_check{check="lineHeightTight",tier="full"} 2
+mat_a11y_issues_by_check{check="pointerEventsNone",tier="full"} 1
+mat_a11y_issues_by_check{check="smallFontSize",tier="full"} 4
+mat_a11y_issues_by_check{check="duplicateIdAria",tier="full"} 2
+mat_a11y_issues_by_check{check="focusWithinSupport",tier="full"} 1
+# HELP mat_a11y_pass_rate Percentage of passing URLs (0.0-1.0)
+# TYPE mat_a11y_pass_rate gauge
+mat_a11y_pass_rate{tier="full"} 0.9104

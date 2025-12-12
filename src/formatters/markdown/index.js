@@ -1,0 +1,232 @@
+'use strict';
+
+/**
+ * Markdown Formatter
+ *
+ * Generates markdown reports suitable for PR comments, documentation,
+ * and GitHub/GitLab wiki pages.
+ *
+ * @module formatters/markdown
+ */
+
+/**
+ * Get status icon based on score
+ * @param {number} score - Audit score (0-100)
+ * @returns {string} Status icon
+ */
+function getStatusIcon(score) {
+  if (score >= 90) return 'PASS';
+  if (score >= 50) return 'WARN';
+  return 'FAIL';
+}
+
+/**
+ * Get status label based on score
+ * @param {number} score - Audit score (0-100)
+ * @returns {string} Status label
+ */
+function getStatusLabel(score) {
+  if (score >= 90) return 'passing';
+  if (score >= 50) return 'warning';
+  return 'failing';
+}
+
+/**
+ * Escape pipe characters for markdown tables
+ * @param {string} str - String to escape
+ * @returns {string} Escaped string
+ */
+function escapeMarkdown(str) {
+  if (!str) return '';
+  return String(str).replace(/\|/g, '\\|').replace(/\n/g, ' ');
+}
+
+/**
+ * Generate ASCII bar chart
+ * @param {number} value - Current value
+ * @param {number} total - Total value
+ * @param {number} width - Bar width in characters
+ * @returns {string} ASCII bar
+ */
+function generateBar(value, total, width = 20) {
+  if (total === 0) return '';
+  const filled = Math.round((value / total) * width);
+  return '#'.repeat(filled) + '-'.repeat(width - filled);
+}
+
+/**
+ * Format the results into a markdown report
+ *
+ * @param {object} results - Analysis results
+ * @param {Array} results.urls - Array of URL results
+ * @param {object} results.distribution - Score distribution {passing, warning, failing}
+ * @param {string} results.tier - Analysis tier
+ * @param {number} results.urlCount - Total URL count
+ * @param {Array} [results.worstUrls] - Array of worst performing URLs
+ * @param {object} [options={}] - Formatter options
+ * @param {string} [options.title] - Report title
+ * @param {boolean} [options.includeTimestamp=true] - Include generation timestamp
+ * @param {boolean} [options.includeSummary=true] - Include summary section
+ * @param {boolean} [options.includeDistribution=true] - Include distribution chart
+ * @param {boolean} [options.includeWorstUrls=true] - Include worst URLs section
+ * @param {boolean} [options.includeAllUrls=true] - Include all URLs table
+ * @param {number} [options.worstUrlsLimit=10] - Maximum worst URLs to show
+ * @returns {string} Formatted markdown report
+ */
+function format(results, options = {}) {
+  const {
+    title = 'mat-a11y Accessibility Report',
+    includeTimestamp = true,
+    includeSummary = true,
+    includeDistribution = true,
+    includeWorstUrls = true,
+    includeAllUrls = true,
+    worstUrlsLimit = 10
+  } = options;
+
+  const lines = [];
+  const urls = results.urls || [];
+  const distribution = results.distribution || { passing: 0, warning: 0, failing: 0 };
+  const urlCount = results.urlCount || urls.length;
+
+  // Header
+  lines.push(`# ${title}`);
+  lines.push('');
+
+  // Metadata
+  lines.push(`**Tier:** ${results.tier || 'standard'}`);
+  if (results.sitemapPath) {
+    lines.push(`**Sitemap:** ${results.sitemapPath}`);
+  }
+  if (includeTimestamp) {
+    lines.push(`**Generated:** ${new Date().toISOString()}`);
+  }
+  lines.push('');
+
+  // Summary table
+  if (includeSummary) {
+    lines.push('## Summary');
+    lines.push('');
+    lines.push('| Metric | Value |');
+    lines.push('|--------|-------|');
+    lines.push(`| URLs Analyzed | ${urlCount} |`);
+    lines.push(`| Passing (90-100%) | ${distribution.passing} |`);
+    lines.push(`| Warning (50-89%) | ${distribution.warning} |`);
+    lines.push(`| Failing (<50%) | ${distribution.failing} |`);
+    lines.push('');
+  }
+
+  // Distribution chart
+  if (includeDistribution && urlCount > 0) {
+    lines.push('## Distribution');
+    lines.push('');
+    lines.push('```');
+    lines.push(`Passing: [${generateBar(distribution.passing, urlCount)}] ${distribution.passing} (${Math.round((distribution.passing / urlCount) * 100)}%)`);
+    lines.push(`Warning: [${generateBar(distribution.warning, urlCount)}] ${distribution.warning} (${Math.round((distribution.warning / urlCount) * 100)}%)`);
+    lines.push(`Failing: [${generateBar(distribution.failing, urlCount)}] ${distribution.failing} (${Math.round((distribution.failing / urlCount) * 100)}%)`);
+    lines.push('```');
+    lines.push('');
+  }
+
+  // Worst URLs section
+  if (includeWorstUrls) {
+    const worstUrls = results.worstUrls || urls
+      .filter(u => u.auditScore < 90)
+      .sort((a, b) => a.auditScore - b.auditScore)
+      .slice(0, worstUrlsLimit);
+
+    if (worstUrls.length > 0) {
+      lines.push('## Priority Fixes');
+      lines.push('');
+      lines.push('URLs that need the most attention:');
+      lines.push('');
+
+      for (const url of worstUrls.slice(0, worstUrlsLimit)) {
+        const score = url.score ?? url.auditScore ?? 0;
+        if (score >= 90) continue;
+
+        lines.push(`### ${escapeMarkdown(url.path)} (${score}%)`);
+        lines.push('');
+
+        // Get top issues for this URL
+        const topIssues = url.topIssues || getTopIssues(url);
+        if (topIssues.length > 0) {
+          lines.push('| Check | Count |');
+          lines.push('|-------|-------|');
+          for (const issue of topIssues.slice(0, 5)) {
+            lines.push(`| \`${escapeMarkdown(issue.check)}\` | ${issue.count} |`);
+          }
+          lines.push('');
+        }
+      }
+    }
+  }
+
+  // All URLs table
+  if (includeAllUrls && urls.length > 0) {
+    lines.push('## All URLs');
+    lines.push('');
+    lines.push('| URL | Score | Status | Issues |');
+    lines.push('|-----|-------|--------|--------|');
+
+    for (const url of urls) {
+      const score = url.auditScore ?? 0;
+      const status = getStatusIcon(score);
+      const issueCount = url.issues ? url.issues.length : 0;
+      lines.push(`| ${escapeMarkdown(url.path)} | ${score}% | ${status} | ${issueCount} |`);
+    }
+    lines.push('');
+  }
+
+  // Internal pages section (if present)
+  if (results.internal && results.internal.count > 0) {
+    lines.push('## Internal Pages');
+    lines.push('');
+    lines.push(`*${results.internal.count} routes not in sitemap*`);
+    lines.push('');
+    const id = results.internal.distribution || { passing: 0, warning: 0, failing: 0 };
+    lines.push('| Passing | Warning | Failing |');
+    lines.push('|---------|---------|---------|');
+    lines.push(`| ${id.passing} | ${id.warning} | ${id.failing} |`);
+    lines.push('');
+  }
+
+  // Footer
+  lines.push('---');
+  lines.push('*Generated by [mat-a11y](https://github.com/nicobrinkkemper/mat-a11y)*');
+
+  return lines.join('\n');
+}
+
+/**
+ * Extract top issues from a URL result
+ * @param {object} url - URL result object
+ * @returns {Array} Array of {check, count} objects
+ */
+function getTopIssues(url) {
+  if (!url.issues || url.issues.length === 0) {
+    return [];
+  }
+
+  // Count issues by check type
+  const counts = {};
+  for (const issue of url.issues) {
+    const check = issue.check || 'unknown';
+    counts[check] = (counts[check] || 0) + 1;
+  }
+
+  // Convert to array and sort by count
+  return Object.entries(counts)
+    .map(([check, count]) => ({ check, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+module.exports = {
+  name: 'markdown',
+  description: 'Markdown report for PR comments, documentation, and wiki pages',
+  category: 'docs',
+  output: 'text',
+  fileExtension: '.md',
+  mimeType: 'text/markdown',
+  format
+};

@@ -19,7 +19,13 @@
       "Bash(git stash:*)",
       "Bash(node:*)",
       "Bash(npm test)",
-      "WebFetch(domain:developer.chrome.com)"
+      "WebFetch(domain:developer.chrome.com)",
+      "Bash(echo:*)",
+      "Bash(wc:*)",
+      "WebFetch(domain:docs.sonarqube.org)",
+      "WebFetch(domain:checkstyle.org)",
+      "WebFetch(domain:docs.sonarsource.com)",
+      "Bash(ls:*)"
     ]
   }
 }

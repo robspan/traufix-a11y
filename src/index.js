@@ -23,6 +23,15 @@ const { verifyByTier, getVerifySummary } = require('./core/verifier');
 const { CheckRunner, createRunner } = require('./core/runner');
 const { WEIGHTS, getWeight, calculateAuditScore } = require('./core/weights');
 
+// Import route-based analysis
+const { analyzeByRoute, formatRouteResults } = require('./core/routeAnalyzer');
+
+// Import sitemap-based analysis
+const { analyzeBySitemap, formatSitemapResults, findSitemap } = require('./core/sitemapAnalyzer');
+
+// Import output formatters
+const formatters = require('./formatters');
+
 // ============================================
 // CHECK REGISTRY (New Modular System)
 // ============================================
@@ -105,45 +114,57 @@ function generateTiersFromRegistry() {
 /**
  * TIERS Configuration
  *
- * - basic: Quick lint (~15 checks) - CI/CD friendly
- * - material: Default mode (~45 checks) - All Material + Angular + core HTML
+ * - basic: Quick wins, best value/effort across all categories (~20 checks)
+ * - material: ONLY mat-* component checks (29 checks)
+ * - angular: ONLY Angular + CDK checks (10 checks)
  * - full: Everything (82 checks) - Complete audit
  */
 const STATIC_TIERS = {
+  // Quick wins - highest value/effort ratio across all categories
   basic: {
     html: [
       'buttonNames', 'imageAlt', 'formLabels', 'linkNames',
       'ariaRoles', 'ariaAttributes', 'uniqueIds', 'headingOrder'
     ],
     scss: ['colorContrast', 'focusStyles'],
-    angular: [],
-    material: ['matFormFieldLabel', 'matIconAccessibility'],
-    cdk: []
+    angular: ['clickWithoutKeyboard'],
+    material: ['matFormFieldLabel', 'matIconAccessibility', 'matDialogFocus'],
+    cdk: ['cdkTrapFocusDialog']
   },
 
+  // ONLY Angular Material component checks
   material: {
-    html: [
-      'buttonNames', 'imageAlt', 'formLabels', 'ariaRoles', 'ariaAttributes',
-      'uniqueIds', 'headingOrder', 'linkNames', 'tableHeaders', 'iframeTitles'
-    ],
-    scss: ['colorContrast', 'focusStyles', 'touchTargets', 'outlineNoneWithoutAlt', 'hoverWithoutFocus'],
-    angular: ['clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames', 'ngForTrackBy'],
+    html: [],
+    scss: [],
+    angular: [],
     material: [
-      // Material - Form Controls
+      // Form Controls
       'matFormFieldLabel', 'matSelectPlaceholder', 'matAutocompleteLabel',
       'matDatepickerLabel', 'matRadioGroupLabel', 'matSlideToggleLabel',
       'matCheckboxLabel', 'matChipListLabel', 'matSliderLabel',
-      // Material - Buttons & Indicators
+      // Buttons & Indicators
       'matButtonType', 'matIconAccessibility', 'matButtonToggleLabel',
       'matProgressBarLabel', 'matProgressSpinnerLabel', 'matBadgeDescription',
-      // Material - Navigation & Layout
+      // Navigation & Layout
       'matMenuTrigger', 'matSidenavA11y', 'matTabLabel', 'matStepLabel',
       'matExpansionHeader', 'matTreeA11y', 'matListSelectionLabel',
-      // Material - Data Table
+      // Data Table
       'matTableHeaders', 'matPaginatorLabel', 'matSortHeaderAnnounce',
-      // Material - Popups & Modals
+      // Popups & Modals
       'matDialogFocus', 'matBottomSheetA11y', 'matTooltipKeyboard', 'matSnackbarPoliteness'
     ],
+    cdk: []
+  },
+
+  // ONLY Angular template + CDK checks
+  angular: {
+    html: [],
+    scss: [],
+    angular: [
+      'clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames',
+      'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria', 'autofocusUsage'
+    ],
+    material: [],
     cdk: ['cdkTrapFocusDialog', 'cdkAriaDescriber', 'cdkLiveAnnouncer']
   },
 
@@ -156,7 +177,7 @@ const STATIC_TIERS = {
       'htmlHasLang', 'metaViewport', 'skipLink', 'inputImageAlt',
       'autoplayMedia', 'marqueeElement', 'blinkElement',
       'metaRefresh', 'duplicateIdAria', 'emptyTableHeader',
-      'scopeAttrMisuse', 'autofocusUsage', 'formFieldName'
+      'scopeAttrMisuse', 'formFieldName'
     ],
     scss: [
       'colorContrast', 'focusStyles', 'touchTargets',
@@ -167,7 +188,7 @@ const STATIC_TIERS = {
     ],
     angular: [
       'clickWithoutKeyboard', 'clickWithoutRole', 'routerLinkNames',
-      'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria'
+      'ngForTrackBy', 'innerHtmlUsage', 'asyncPipeAria', 'autofocusUsage'
     ],
     material: [
       'matFormFieldLabel', 'matSelectPlaceholder', 'matAutocompleteLabel',
@@ -186,14 +207,12 @@ const STATIC_TIERS = {
 };
 
 /**
- * Get effective TIERS configuration from registry
+ * Get effective TIERS configuration
+ * Uses STATIC_TIERS which has the correct tier assignments
+ * (dynamic generation was broken because check modules have inconsistent tier properties)
  */
 function getTiers() {
-  try {
-    return generateTiersFromRegistry();
-  } catch (e) {
-    return STATIC_TIERS;
-  }
+  return STATIC_TIERS;
 }
 
 // Export TIERS - use getter to allow dynamic updates
@@ -461,6 +480,16 @@ function analyzeSync(targetPath, options = {}) {
   // Aggregate check results across all files for audit scoring
   const checkAggregates = {};
 
+  // Helper to count errors from issues (issues start with [Error], [Warning], or [Info])
+  const countErrors = (issues) => {
+    let errors = 0;
+    for (const issue of issues) {
+      const msg = typeof issue === 'string' ? issue : issue.message || '';
+      if (msg.startsWith('[Error]')) errors++;
+    }
+    return errors;
+  };
+
   for (const filePath of files) {
     const results = analyzeFile(filePath, tier, singleCheck);
 
@@ -473,10 +502,14 @@ function analyzeSync(targetPath, options = {}) {
     for (const result of results) {
       // Aggregate for audit scoring
       if (!checkAggregates[result.name]) {
-        checkAggregates[result.name] = { elementsFound: 0, issues: 0 };
+        checkAggregates[result.name] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
       }
       checkAggregates[result.name].elementsFound += result.elementsFound || 0;
       checkAggregates[result.name].issues += result.issues.length;
+      // Count only errors for audit pass/fail (not warnings/info)
+      const errorCount = countErrors(result.issues);
+      checkAggregates[result.name].errors += errorCount;
+      checkAggregates[result.name].warnings += (result.issues.length - errorCount);
 
       // Only count checks that found elements to evaluate
       if (result.elementsFound > 0) {
@@ -601,24 +634,39 @@ function convertRunnerResults(runnerResults, config) {
   // Aggregate check results for audit scoring
   const checkAggregates = {};
 
+  // Helper to count errors from issues
+  const countErrors = (issues) => {
+    let errors = 0;
+    for (const issue of issues) {
+      const msg = typeof issue === 'string' ? issue : issue.message || '';
+      if (msg.startsWith('[Error]')) errors++;
+    }
+    return errors;
+  };
+
   // Convert Map to object and calculate element-level metrics
   for (const [filePath, fileResult] of runnerResults.files) {
     const checkResults = [];
     for (const [checkName, checkResult] of fileResult.checks) {
       const elementsFound = checkResult.elementsFound || 0;
+      const issues = checkResult.issues || [];
       checkResults.push(new CheckResult(
         checkName,
         checkResult.pass,
-        checkResult.issues || [],
+        issues,
         elementsFound
       ));
 
       // Aggregate for audit scoring
       if (!checkAggregates[checkName]) {
-        checkAggregates[checkName] = { elementsFound: 0, issues: 0 };
+        checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
       }
       checkAggregates[checkName].elementsFound += elementsFound;
-      checkAggregates[checkName].issues += (checkResult.issues || []).length;
+      checkAggregates[checkName].issues += issues.length;
+      // Count only errors for audit pass/fail (not warnings/info)
+      const errorCount = countErrors(issues);
+      checkAggregates[checkName].errors += errorCount;
+      checkAggregates[checkName].warnings += (issues.length - errorCount);
 
       if (elementsFound > 0) {
         const issueCount = (checkResult.issues || []).length;
@@ -686,8 +734,8 @@ function basic(targetPath) {
 }
 
 /**
- * Material-focused check (~45 checks, recommended default)
- * All mat-* components + Angular patterns + core HTML
+ * Material-only check (29 checks)
+ * ONLY mat-* component accessibility checks
  * @param {string} targetPath - Directory or file to analyze
  * @returns {object} Analysis results
  *
@@ -697,6 +745,20 @@ function basic(targetPath) {
  */
 function material(targetPath) {
   return analyze(targetPath, { tier: 'material' });
+}
+
+/**
+ * Angular-only check (10 checks)
+ * ONLY Angular template + CDK accessibility checks
+ * @param {string} targetPath - Directory or file to analyze
+ * @returns {object} Analysis results
+ *
+ * @example
+ * const { angular } = require('mat-a11y');
+ * const results = angular('./src/app');
+ */
+function angular(targetPath) {
+  return analyze(targetPath, { tier: 'angular' });
 }
 
 /**
@@ -839,12 +901,22 @@ module.exports = {
   // Simple one-liner API
   basic,
   material,
+  angular,
   full,
 
   // Flexible API
   analyze,
   checkHTML,
   checkSCSS,
+
+  // Route-based analysis (Lighthouse-style per-page)
+  analyzeByRoute,
+  formatRouteResults,
+
+  // Sitemap-based analysis (what Google crawls)
+  analyzeBySitemap,
+  formatSitemapResults,
+  findSitemap,
 
   // New modular API
   verifyChecks,
@@ -860,6 +932,9 @@ module.exports = {
   TIERS,
   DEFAULT_CONFIG,
   WEIGHTS,
+
+  // Output formatters
+  formatters,
 
   // Re-exports
   colors,

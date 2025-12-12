@@ -1,0 +1,1860 @@
+{
+  "meta": {
+    "tier": "full",
+    "urlCount": 67,
+    "passRate": 91.04,
+    "timestamp": 1765573558789,
+    "generatedAt": "2025-12-12T21:05:58.789Z"
+  },
+  "timeseries": [
+    {
+      "target": "urls_total",
+      "datapoints": [
+        [
+          67,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "urls_passing",
+      "datapoints": [
+        [
+          61,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "urls_warning",
+      "datapoints": [
+        [
+          6,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "urls_failing",
+      "datapoints": [
+        [
+          0,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "pass_rate",
+      "datapoints": [
+        [
+          91.04,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__agb",
+      "datapoints": [
+        [
+          83,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__datenschutz",
+      "datapoints": [
+        [
+          83,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__impressum",
+      "datapoints": [
+        [
+          83,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__cookies",
+      "datapoints": [
+        [
+          83,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__widerrufsrecht",
+      "datapoints": [
+        [
+          83,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__",
+      "datapoints": [
+        [
+          87,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide",
+      "datapoints": [
+        [
+          93,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_dj_band_buchen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_dresscode_kommunizieren",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_gaesteliste_erstellen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitseinladung_gestalten",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsfarben_waehlen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitstag_ablauf_planen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitswebsite_erstellen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_notfallkoffer_packen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_tischdeko_gestalten",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_traubogen_bauen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_brautkleid_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_budget_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_dienstleister_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_gaesteliste_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsfotos_must_haves",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitslocation_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_honeymoon_planung",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_notfallkoffer_braut",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_standesamt_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_trauzeugen_checkliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_danksagung_vorlage",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_dresscode_nachricht",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_eheversprechen_editor",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_einladungstext_generator",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_gaestebuch_spiel",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsquiz_fragen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsrede_assistent",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_save_the_date_texte",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_verkuendung_varianten",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_zeremonien_ablauf",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_boho_hochzeit_ideen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_farbkonzept_inspiration",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsdeko_trends",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsfrisuren_inspiration",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitskleid_stile",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitspapeterie_designs",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsstil_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_saisonale_hochzeitsblumen",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_tischdeko_inspiration",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_traubogen_designs",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_12_monate_zeitplan",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_budget_planung",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_dienstleister_koordination",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_getting_ready_zeitplan",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitstag_koordination",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitstag_zeitplan",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_musik_wunschliste",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_rsvp_tracking",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_sitzplan_erstellung",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_zeremonie_ablaufplan",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_budget_schwerpunkte_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_entscheidungs_stil_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_feier_typ_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeits_vorlieben_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeits_wissen_test",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_hochzeitsstil_finder",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_paar_harmonie_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_planungs_profil_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_prioritaeten_ranking_quiz",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    },
+    {
+      "target": "score__guide_schnell_check_hochzeit",
+      "datapoints": [
+        [
+          100,
+          1765573558789
+        ]
+      ]
+    }
+  ],
+  "distribution": {
+    "passing": 61,
+    "warning": 6,
+    "failing": 0
+  },
+  "tables": {
+    "urls": {
+      "columns": [
+        {
+          "text": "URL",
+          "type": "string"
+        },
+        {
+          "text": "Score",
+          "type": "number"
+        },
+        {
+          "text": "Status",
+          "type": "string"
+        },
+        {
+          "text": "Issues",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "/agb",
+          83,
+          "warning",
+          6
+        ],
+        [
+          "/datenschutz",
+          83,
+          "warning",
+          6
+        ],
+        [
+          "/impressum",
+          83,
+          "warning",
+          6
+        ],
+        [
+          "/cookies",
+          83,
+          "warning",
+          6
+        ],
+        [
+          "/widerrufsrecht",
+          83,
+          "warning",
+          6
+        ],
+        [
+          "/",
+          87,
+          "warning",
+          65
+        ],
+        [
+          "/guide",
+          93,
+          "passing",
+          9
+        ],
+        [
+          "/guide/dj-band-buchen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/dresscode-kommunizieren",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/gaesteliste-erstellen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitseinladung-gestalten",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsfarben-waehlen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitstag-ablauf-planen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitswebsite-erstellen",
+          100,
+          "passing",
+          1
+        ],
+        [
+          "/guide/notfallkoffer-packen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/tischdeko-gestalten",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/traubogen-bauen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/brautkleid-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/budget-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/dienstleister-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/gaesteliste-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsfotos-must-haves",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitslocation-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/honeymoon-planung",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/notfallkoffer-braut",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/standesamt-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/trauzeugen-checkliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/danksagung-vorlage",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/dresscode-nachricht",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/eheversprechen-editor",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/einladungstext-generator",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/gaestebuch-spiel",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsquiz-fragen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsrede-assistent",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/save-the-date-texte",
+          100,
+          "passing",
+          1
+        ],
+        [
+          "/guide/verkuendung-varianten",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/zeremonien-ablauf",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/boho-hochzeit-ideen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/farbkonzept-inspiration",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsdeko-trends",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsfrisuren-inspiration",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitskleid-stile",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitspapeterie-designs",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsstil-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/saisonale-hochzeitsblumen",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/tischdeko-inspiration",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/traubogen-designs",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/12-monate-zeitplan",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/budget-planung",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/dienstleister-koordination",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/getting-ready-zeitplan",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitstag-koordination",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitstag-zeitplan",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/musik-wunschliste",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/rsvp-tracking",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/sitzplan-erstellung",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/zeremonie-ablaufplan",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/budget-schwerpunkte-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/entscheidungs-stil-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/feier-typ-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeits-vorlieben-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeits-wissen-test",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/hochzeitsstil-finder",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/paar-harmonie-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/planungs-profil-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/prioritaeten-ranking-quiz",
+          100,
+          "passing",
+          0
+        ],
+        [
+          "/guide/schnell-check-hochzeit",
+          100,
+          "passing",
+          0
+        ]
+      ],
+      "type": "table"
+    },
+    "issues": {
+      "columns": [
+        {
+          "text": "URL",
+          "type": "string"
+        },
+        {
+          "text": "Check",
+          "type": "string"
+        },
+        {
+          "text": "Message",
+          "type": "string"
+        },
+        {
+          "text": "File",
+          "type": "string"
+        },
+        {
+          "text": "Line",
+          "type": "number"
+        }
+      ],
+      "rows": [
+        [
+          "/agb",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>close</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/agb",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"no-components-icon\">web</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/agb",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/agb",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/agb",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/agb",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+          0
+        ],
+        [
+          "/datenschutz",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>close</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/datenschutz",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"no-components-icon\">web</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/datenschutz",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/datenschutz",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/datenschutz",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/datenschutz",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+          0
+        ],
+        [
+          "/impressum",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>close</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/impressum",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"no-components-icon\">web</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/impressum",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/impressum",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/impressum",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/impressum",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+          0
+        ],
+        [
+          "/cookies",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>close</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/cookies",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"no-components-icon\">web</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/cookies",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/cookies",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/cookies",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/cookies",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>close</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"no-components-icon\">web</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "matProgressSpinnerLabel",
+          "[Error] mat-progress-bar/spinner missing accessible label. Screen readers cannot identify what is loading\n  How to fix:\n    - Add aria-label=\"Loading description\"\n    - Add aria-labelledby referencing status text\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/progress-bar/overview#accessibility\n  Found: <mat-spinner diameter=\"60\">",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.html",
+          0
+        ],
+        [
+          "/widerrufsrecht",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>info_outline</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>local_offer</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon class=\"spinning\">hourglass_empty</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>check_circle</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>check_circle</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>check_circle</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>keyboard_arrow_down</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>bolt</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>shield</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>devices</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>support_agent</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>timeline</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>touch_app</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>edit</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>celebration</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>category</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>auto_awesome</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>dashboard_customize</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>palette</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>widgets</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>swap_vert</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>visibility</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>{{ preset.icon }}</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>visibility</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>expand_more</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>add_circle_outline</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>star</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>event_available</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>photo_library</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>schedule</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>qr_code_2</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>cake</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>palette</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>photo_library</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>upload</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>zoom_in</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>auto_awesome</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>verified</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>language</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>check_circle</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>speed</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>devices</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>palette</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>support_agent</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>favorite</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>auto_awesome</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>rocket_launch</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>verified_user</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>lock</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "matIconAccessibility",
+          "[Error] mat-icon used as interactive without accessible label. Screen readers cannot announce icon-only buttons\n  How to fix:\n    - Add aria-label to parent button\n    - Add visually-hidden text\n    - Add aria-hidden=\"true\" if purely decorative\n  WCAG 4.1.2: Name, Role, Value | See: https://material.angular.io/components/icon/overview#accessibility\n  Found: <mat-icon>support_agent</mat-icon>",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.html",
+          0
+        ],
+        [
+          "/",
+          "colorContrast",
+          "[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-primary, 0.2)\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "colorContrast",
+          "[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-primary, 0.15)\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "colorContrast",
+          "[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-green, 0.15)\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "colorContrast",
+          "[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-primary-dark, 0.12)\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"============================================================================\r\n\r\n.hero-section\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"============================================================================\r\n\r\n.power-strip\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"============================================================================\r\n\r\n.cta-banner-inline\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"============================================================================\r\n\r\n.mega-cta-section\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \".gallery-preview-wrapper\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "lineHeightTight",
+          "[Warning] Line height too tight for readability. Tight line spacing is difficult for users with dyslexia\n  How to fix:\n    - Use line-height: 1.5 minimum for body text\n    - Use line-height: 1.2 minimum for headings\n  WCAG 1.4.12: Text Spacing\n  Found: .cta-banner-text { line-height: 1.1; }",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "lineHeightTight",
+          "[Warning] Line height too tight for readability. Tight line spacing is difficult for users with dyslexia\n  How to fix:\n    - Use line-height: 1.5 minimum for body text\n    - Use line-height: 1.2 minimum for headings\n  WCAG 1.4.12: Text Spacing\n  Found: .cta-title { line-height: 1.1; }",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "pointerEventsNone",
+          "[Warning] pointer-events: none may hide interactive element. Users cannot interact with elements that have pointer-events disabled\n  How to fix:\n    - Ensure element is not intended to be interactive\n    - Use disabled attribute instead for form elements\n  WCAG 2.1.1: Keyboard\n  Found: button styling } } } .gallery-preview-overlay",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu...",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "smallFontSize",
+          "[Warning] Font size 0.625rem (approximately 10px) may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \".beta-badge\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/",
+          "smallFontSize",
+          "[Warning] Font size 10px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \"include phone\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+          0
+        ],
+        [
+          "/guide",
+          "duplicateIdAria",
+          "[Error] aria-controls references non-existent id \"hidden-categories\". Broken ARIA reference provides no accessibility benefit\n  How to fix:\n    - Add element with matching id\n    - Correct the id reference\n    - Remove the broken reference\n  WCAG 4.1.1: Parsing\n  Found: aria-controls=\"hidden-categories\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html",
+          0
+        ],
+        [
+          "/guide",
+          "duplicateIdAria",
+          "[Error] aria-controls references non-existent id \"hidden-categories\". Broken ARIA reference provides no accessibility benefit\n  How to fix:\n    - Add element with matching id\n    - Correct the id reference\n    - Remove the broken reference\n  WCAG 4.1.1: Parsing\n  Found: aria-controls=\"hidden-categories\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html",
+          0
+        ],
+        [
+          "/guide",
+          "contentOverflow",
+          "[Warning] Content may be hidden without visual indication in \"Visually hidden utility for screen reader only content\r\n.visually-hidden\". Text content may be cut off and inaccessible to users.\n  How to fix:\n    - Add \"text-overflow: ellipsis\" to show truncation indicator (...)\n    - Or remove \"overflow: hidden\" to allow text to wrap naturally\n    - Or ensure content is accessible through other means (tooltips, expand buttons)\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"h3\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "contentOverflow",
+          "[Info] Potential content overflow detected in \"p\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "focusWithinSupport",
+          "[Info] Complex interactive containers without :focus-within. Keyboard users may not see clear visual indication when navigating nested focusable elements.\n  How to fix:\n    - Add :focus-within pseudo-class to container selectors\n    - Or ensure child elements (a, button, input) have visible :focus styles\n    - Apply visual styles (border, background, shadow) when children are focused\n    - Example: .container:focus-within { outline: 2px solid blue; }\n    - Test with keyboard navigation to ensure focus is always visible\n  WCAG 2.4.7: Focus Visible\n  Found: Complex containers (.card-arrow)",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "smallFontSize",
+          "[Warning] Font size 11px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \".chip-count\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide",
+          "smallFontSize",
+          "[Warning] Font size 11px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \".coming-soon-badge\"",
+          "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+          0
+        ],
+        [
+          "/guide/hochzeitswebsite-erstellen",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce",
+          "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\anleitung\\hochzeitswebsite-erstellen\\hochzeitswebsite-erstellen.scss",
+          0
+        ],
+        [
+          "/guide/save-the-date-texte",
+          "prefersReducedMotion",
+          "[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce",
+          "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\generator\\save-the-date-texte\\save-the-date-texte.scss",
+          0
+        ]
+      ],
+      "type": "table"
+    }
+  }
+}
