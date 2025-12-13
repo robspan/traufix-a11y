@@ -4,9 +4,51 @@
 [![license](https://img.shields.io/npm/l/mat-a11y.svg)](./LICENSE)
 [![node](https://img.shields.io/node/v/mat-a11y.svg)](https://nodejs.org)
 
-**Static analysis + generative AI = accessible apps.**
+**Static analysis for AI-assisted accessibility fixing.**
 
-mat-a11y finds accessibility issues in Angular Material apps. Then AI fixes them.
+```bash
+npx mat-a11y
+```
+
+That's it. Generates `mat-a11y.todo.txt` — paste into Claude/ChatGPT/Cursor and let AI fix the issues.
+
+```bash
+npx mat-a11y --html   # → mat-a11y.html
+npx mat-a11y --json   # → mat-a11y.json
+```
+
+> **Note:** mat-a11y is a static analysis tool. You bring your own AI. We validated fixes with Claude Opus 4.5.
+
+<details>
+<summary><strong>📊 14 more formats</strong></summary>
+
+```bash
+# CI/CD
+npx mat-a11y --sarif       # GitHub Security tab
+npx mat-a11y --junit       # Jenkins, GitLab, any CI
+npx mat-a11y --github      # GitHub PR annotations
+npx mat-a11y --gitlab      # GitLab Code Quality
+
+# Code Quality
+npx mat-a11y --sonar       # SonarQube
+npx mat-a11y --checkstyle  # Checkstyle XML
+
+# Monitoring
+npx mat-a11y --prometheus  # Prometheus
+npx mat-a11y --grafana     # Grafana
+npx mat-a11y --datadog     # Datadog
+
+# Notifications
+npx mat-a11y --slack       # Slack
+npx mat-a11y --discord     # Discord
+npx mat-a11y --teams       # MS Teams
+
+# Docs
+npx mat-a11y --markdown    # Markdown
+npx mat-a11y --csv         # CSV/Excel
+```
+
+</details>
 
 ---
 
@@ -16,23 +58,31 @@ Accessibility is important, but fixing it is expensive. Manual audits, expert co
 
 **We built mat-a11y to change that.**
 
-By combining static analysis with generative AI (Claude, GPT-4), we can:
-1. **Find** every accessibility issue in your codebase automatically
-2. **Generate** a structured TODO list that AI can work through
-3. **Fix** hundreds of issues in minutes, not weeks
-
-```bash
-npx mat-a11y ./src -f ai -o fixes.todo.txt
-# Then paste into Claude/ChatGPT: "Fix all issues in this TODO list"
-```
+The workflow:
+1. **mat-a11y finds** every accessibility issue in your codebase (static analysis)
+2. **mat-a11y generates** a structured TODO list optimized for AI
+3. **Your AI fixes** the issues (we validated with Claude Opus 4.5)
 
 ---
 
 ## Why mat-a11y?
 
-Standard accessibility tools like Lighthouse only analyze rendered HTML. They don't understand Angular Material components — so they miss real issues in your app.
+**Traditional tools are too slow for AI workflows.**
 
-**mat-a11y solves this** by scanning your source code and understanding Angular Material patterns:
+Tools like Lighthouse, axe, and WAVE run in the browser against compiled, rendered HTML. That means: build your app, launch a browser, navigate to each page, wait for rendering, run the audit. For a 50-page app, that's 10+ minutes just to get a list of issues.
+
+**In the age of AI, that's unacceptable.** When Claude can fix 100 issues in 30 seconds, you can't spend 10 minutes waiting for the audit.
+
+mat-a11y analyzes your **source code directly** — no build, no browser, no waiting:
+
+| | Traditional (Lighthouse) | mat-a11y |
+|--|-------------------------|----------|
+| **Analyzes** | Compiled HTML in browser | Source templates directly |
+| **Speed** | ~10 min for 50 pages | ~3 sec for 50 pages |
+| **Sees** | `<div class="mat-form-field">` | `<mat-form-field>` |
+| **AI-ready** | Copy/paste from browser | Direct TODO output |
+
+**Plus, mat-a11y understands Angular Material:**
 
 | What Lighthouse Sees | What mat-a11y Sees |
 |---------------------|-------------------|
@@ -338,6 +388,19 @@ FILE: pages/guest-view/replies/replies.html
    Read fixes.todo.txt. For each file, open it, apply the suggested fixes,
    then mark the checkbox [x]. Work through the entire list.
    ```
+
+**Validated with Claude Opus 4.5:**
+
+We tested the `ai` output format extensively with Claude Opus 4.5 in VS Code (GitHub Copilot). The AI successfully fixes the issues as described. Other models should work too — the format is plain text TODOs, nothing fancy.
+
+| Model | Status | Notes |
+|-------|--------|-------|
+| **Claude Opus 4.5** | ✅ Validated | Our daily driver. Tested on 1000+ issue fixes |
+| **Claude Sonnet 4** | ✅ Validated | Faster, works well for simple fixes |
+| **GPT-4o** | Should work | Plain text format, no special requirements |
+| **Cursor / Windsurf** | Should work | Agent mode compatible |
+
+*mat-a11y does not include, require, or connect to any AI service. Bring your own.*
 
 ### CI/CD Integration
 

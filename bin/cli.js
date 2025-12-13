@@ -25,12 +25,12 @@ const c = {
 function parseArgs(args) {
   const options = {
     files: [],
-    tier: 'material',
-    format: 'console',
+    tier: 'full',           // Default to full scan
+    format: 'ai',           // Default to AI output
     verbose: false,
     help: false,
     version: false,
-    output: null,
+    output: 'mat-a11y.todo.txt',  // Default AI output file
     ignore: [],
     check: null,  // Single check mode
     listChecks: false,
@@ -60,6 +60,27 @@ function parseArgs(args) {
     else if (arg === '--list-checks' || arg === '-l') options.listChecks = true;
     else if (arg === '--verified') options.verified = true;
     else if (arg === '--full-verified') { options.tier = 'full'; options.verified = true; }
+    // === FORMAT SHORTCUTS (all do full scan on src, auto output filename) ===
+    // CI/CD
+    else if (arg === '--sarif') { options.format = 'sarif'; options.output = options.output || 'mat-a11y.sarif.json'; }
+    else if (arg === '--junit') { options.format = 'junit'; options.output = options.output || 'mat-a11y.junit.xml'; }
+    else if (arg === '--github') { options.format = 'github-annotations'; options.output = options.output || 'mat-a11y.github.txt'; }
+    else if (arg === '--gitlab') { options.format = 'gitlab-codequality'; options.output = options.output || 'mat-a11y.gitlab.json'; }
+    // Code Quality
+    else if (arg === '--sonar') { options.format = 'sonarqube'; options.output = options.output || 'mat-a11y.sonar.json'; }
+    else if (arg === '--checkstyle') { options.format = 'checkstyle'; options.output = options.output || 'mat-a11y.checkstyle.xml'; }
+    // Monitoring
+    else if (arg === '--prometheus') { options.format = 'prometheus'; options.output = options.output || 'mat-a11y.prom'; }
+    else if (arg === '--grafana') { options.format = 'grafana-json'; options.output = options.output || 'mat-a11y.grafana.json'; }
+    else if (arg === '--datadog') { options.format = 'datadog'; options.output = options.output || 'mat-a11y.datadog.json'; }
+    // Notifications
+    else if (arg === '--slack') { options.format = 'slack'; options.output = options.output || 'mat-a11y.slack.json'; }
+    else if (arg === '--discord') { options.format = 'discord'; options.output = options.output || 'mat-a11y.discord.json'; }
+    else if (arg === '--teams') { options.format = 'teams'; options.output = options.output || 'mat-a11y.teams.json'; }
+    // Docs
+    else if (arg === '--markdown' || arg === '--md') { options.format = 'markdown'; options.output = options.output || 'mat-a11y.md'; }
+    else if (arg === '--csv') { options.format = 'csv'; options.output = options.output || 'mat-a11y.csv'; }
+    // === END FORMAT SHORTCUTS ===
     else if (arg === '--workers' || arg === '-w') {
       const val = args[++i];
       if (val === 'auto' || val === 'sync') {
@@ -69,10 +90,15 @@ function parseArgs(args) {
       }
     }
     else if (arg === '--self-test') options.selfTest = true;
-    else if (arg === '--json') options.jsonReport = true;
-    else if (arg === '--html') options.htmlReport = true;
+    else if (arg === '--json') { options.format = 'json'; options.output = options.output || 'mat-a11y.json'; }
+    else if (arg === '--html') { options.format = 'html'; options.output = options.output || 'mat-a11y.html'; }
     else if (arg === '--file-based') options.fileBased = true;
     else if (!arg.startsWith('-')) options.files.push(arg);
+  }
+
+  // Default to src directory if no files specified (Angular convention)
+  if (options.files.length === 0 && !options.help && !options.version && !options.listChecks && !options.selfTest) {
+    options.files.push('src');
   }
 
   return options;
@@ -91,13 +117,23 @@ function showHelp() {
 ${c.bold}mat-a11y${c.reset} - Angular Material Accessibility Linter
 
 ${c.cyan}USAGE:${c.reset}
-  mat-a11y [options] <directory|file>
+  ${c.green}npx mat-a11y${c.reset}           ${c.dim}# → mat-a11y.todo.txt (AI format)${c.reset}
+  ${c.green}npx mat-a11y --html${c.reset}    ${c.dim}# → mat-a11y.html${c.reset}
+  ${c.green}npx mat-a11y --json${c.reset}    ${c.dim}# → mat-a11y.json${c.reset}
+
+${c.cyan}ALL 17 FORMATS:${c.reset}
+  ${c.dim}(default)${c.reset}       AI TODO list   ${c.green}--html${c.reset}        HTML report    ${c.green}--json${c.reset}        JSON data
+  ${c.green}--sarif${c.reset}         GitHub         ${c.green}--junit${c.reset}       Jenkins/CI     ${c.green}--gitlab${c.reset}      GitLab
+  ${c.green}--sonar${c.reset}         SonarQube      ${c.green}--checkstyle${c.reset}  Checkstyle     ${c.green}--github${c.reset}      GH Annotations
+  ${c.green}--prometheus${c.reset}    Prometheus     ${c.green}--grafana${c.reset}     Grafana        ${c.green}--datadog${c.reset}     Datadog
+  ${c.green}--slack${c.reset}         Slack          ${c.green}--discord${c.reset}     Discord        ${c.green}--teams${c.reset}       MS Teams
+  ${c.green}--markdown${c.reset}      Markdown       ${c.green}--csv${c.reset}         CSV/Excel
 
 ${c.cyan}TIERS:${c.reset}
-  ${c.green}-b, --basic${c.reset}      Quick wins across all categories (${basicCount} checks) ${c.dim}[default]${c.reset}
+  ${c.green}-b, --basic${c.reset}      Quick wins across all categories (${basicCount} checks)
   ${c.green}-m, --material${c.reset}   ONLY mat-* component checks (${materialCount} checks)
   ${c.green}-a, --angular${c.reset}    ONLY Angular + CDK checks (${angularCount} checks)
-  ${c.green}-F, --full${c.reset}       Everything (${fullCount} checks)
+  ${c.green}-F, --full${c.reset}       Everything (${fullCount} checks) ${c.dim}[default]${c.reset}
 
 ${c.cyan}OPTIONS:${c.reset}
   -h, --help            Show this help
@@ -107,12 +143,7 @@ ${c.cyan}OPTIONS:${c.reset}
   -i, --ignore <path>   Ignore pattern (can repeat)
   -c, --check <name>    Run only a single specific check
   -l, --list-checks     List all available checks
-
-${c.cyan}REPORTS:${c.reset}
-  --json                Write mat-a11y-report.json (for CI/CD pipelines)
-  --html                Write mat-a11y-report.html (for stakeholders)
-  -f, --format <name>   Output format: sarif, junit, checkstyle, csv, etc.
-  -o, --output <path>   Custom output path (default: mat-a11y-report.*)
+  -o, --output <path>   Custom output path
 
 ${c.cyan}ANALYSIS MODE:${c.reset}
   ${c.dim}Default: Sitemap-based (exactly what Google crawls)${c.reset}
@@ -132,52 +163,33 @@ ${c.cyan}PARALLELIZATION:${c.reset}
   -w, --workers <mode>  sync (default), auto, or number of workers
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Quick wins check (default)${c.reset}
-  mat-a11y ./src/app
+  ${c.dim}# Default: AI TODO list (scans ./src)${c.reset}
+  mat-a11y
 
-  ${c.dim}# Only Material component checks${c.reset}
-  mat-a11y ./src --material
+  ${c.dim}# Other formats${c.reset}
+  mat-a11y --html
+  mat-a11y --json
+  mat-a11y --sarif
+  mat-a11y --junit
 
-  ${c.dim}# Only Angular/CDK checks${c.reset}
-  mat-a11y ./src --angular
+  ${c.dim}# Custom path${c.reset}
+  mat-a11y ./my-app/src
 
-  ${c.dim}# Full audit${c.reset}
-  mat-a11y ./src --full
+  ${c.dim}# Custom output filename${c.reset}
+  mat-a11y -o my-report.todo.txt
 
-  ${c.dim}# Generate JSON report for CI/CD${c.reset}
-  mat-a11y ./src --json
+  ${c.dim}# Fewer checks (faster)${c.reset}
+  mat-a11y --basic
+  mat-a11y --material
 
-  ${c.dim}# Run single check${c.reset}
-  mat-a11y ./src --check matFormFieldLabel
+  ${c.dim}# Single check${c.reset}
+  mat-a11y -c matIconAccessibility
 
-  ${c.dim}# Verified full audit (recommended for CI)${c.reset}
-  mat-a11y ./src --full-verified --json
-
-  ${c.dim}# Output as SARIF for GitHub Security tab${c.reset}
-  mat-a11y ./src --format sarif -o results.sarif
-
-  ${c.dim}# Output as JUnit for CI/CD${c.reset}
-  mat-a11y ./src --format junit -o test-results.xml
-
-  ${c.dim}# Custom output path for JSON${c.reset}
-  mat-a11y ./src --json -o reports/a11y.json
-
-${c.cyan}TIERS EXPLAINED:${c.reset}
-  ${c.bold}BASIC (${basicCount} checks)${c.reset} ${c.green}[default]${c.reset}
-    Quick wins - highest value/effort ratio across all categories.
-    Best checks from HTML, SCSS, Angular, Material, and CDK.
-
-  ${c.bold}MATERIAL (${materialCount} checks)${c.reset}
-    ONLY Angular Material component checks.
-    mat-form-field, mat-icon, mat-dialog, mat-table, etc.
-
-  ${c.bold}ANGULAR (${angularCount} checks)${c.reset}
-    ONLY Angular template + CDK accessibility checks.
-    Click handlers, routerLink, focus trapping, live announcer.
-
-  ${c.bold}FULL (${fullCount} checks)${c.reset}
-    Complete audit - all 82 checks.
-    HTML, SCSS, Angular, Material, and CDK.
+${c.cyan}DEFAULTS:${c.reset}
+  Path:    ./src (Angular convention)
+  Tier:    --full (82 checks)
+  Format:  AI TODO list
+  Output:  mat-a11y.todo.txt
 
 ${c.cyan}DEFAULT IGNORES:${c.reset}
   ${DEFAULT_CONFIG.ignore.join(', ')}
