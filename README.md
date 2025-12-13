@@ -91,7 +91,7 @@ mat-a11y analyzes your **source code directly** — no build, no browser, no wai
 
 **Key features:**
 - **82 accessibility checks** across HTML, SCSS, Angular, Material, and CDK
-- **Lighthouse-style 0-100 scoring** per page from your sitemap
+- **Component-level analysis** — each component scored independently for efficient fixing
 - **AI-optimized output** — designed for Claude Opus 4.5, GPT-4, and other LLMs to fix automatically
 
 ---

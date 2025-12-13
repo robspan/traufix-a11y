@@ -5,13 +5,24 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.2.1] - 2025-12-13
+
+### Changed
+- **Console output terminology updated** for clarity:
+  - Header: `SITEMAP ANALYSIS` → `COMPONENT ANALYSIS` / `PAGE ANALYSIS` (based on mode)
+  - Scores: `URL SCORES` → `ROUTE SCORES` / `PAGE SCORES`
+  - Lists: `URLS:` → `ROUTES:`
+  - Internal: `INTERNAL PAGES` → `INTERNAL ROUTES`
+- **HTML report** - Title and labels now reflect analysis mode
+- **Route analyzer** - Now shows mode information like sitemap analyzer
+
 ## [5.2.0] - 2025-12-13
 
 ### Changed
 - **Component-level analysis by default** - Each component analyzed independently (better for fixing)
 - **AI formatter groups by component name** - Shows `COMPONENT: ImagePreviewComponent` instead of file paths
 - **Realistic issue counts** - Same issue in same file counts once (no URL multiplication)
-- **AFFECTS line** - Shows which sitemap URLs are impacted by each component
+- **AFFECTS line** - Shows which routes are impacted by each component
 
 ### Added
 - `--deep` flag for page-level analysis (bundles parent + child components, Lighthouse-like scores)

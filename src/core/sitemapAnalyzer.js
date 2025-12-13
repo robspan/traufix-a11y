@@ -672,9 +672,15 @@ function analyzeBySitemap(projectDir, options = {}) {
  */
 function formatSitemapResults(results) {
   const lines = [];
+  const isDeep = results.deepResolve && results.deepResolve.enabled;
 
+  // Header based on mode
   lines.push('========================================');
-  lines.push('  MAT-A11Y SITEMAP ANALYSIS');
+  if (isDeep) {
+    lines.push('  MAT-A11Y PAGE ANALYSIS');
+  } else {
+    lines.push('  MAT-A11Y COMPONENT ANALYSIS');
+  }
   lines.push('========================================');
   lines.push('');
 
@@ -684,36 +690,40 @@ function formatSitemapResults(results) {
   }
 
   lines.push('Tier: ' + results.tier.toUpperCase());
-  lines.push('Sitemap: ' + results.sitemapPath);
+  lines.push('Source: ' + results.sitemapPath);
 
-  // Show analysis mode
-  if (results.deepResolve && results.deepResolve.enabled) {
-    lines.push('Mode: Page-level (parent + child components bundled)');
-    lines.push(`Components in Registry: ${results.deepResolve.componentsInRegistry}`);
-    lines.push(`Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
+  // Show analysis mode with explanation
+  if (isDeep) {
+    lines.push('Mode: Page-level (--deep)');
+    lines.push(`  Each URL analyzed with all child components bundled`);
+    lines.push(`  Components in Registry: ${results.deepResolve.componentsInRegistry}`);
+    lines.push(`  Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
   } else {
-    lines.push('Mode: Component-level (each component analyzed independently)');
+    lines.push('Mode: Component-level (default)');
+    lines.push(`  Each route component analyzed independently`);
+    lines.push(`  Use --deep for page-level scores with child components`);
   }
   lines.push('');
 
   const d = results.distribution;
-  lines.push(`URL SCORES (${results.urlCount} URLs):`);
-  lines.push(`  🟢 Passing (90-100%): ${d.passing} URLs`);
-  lines.push(`  🟡 Needs Work (50-89%): ${d.warning} URLs`);
-  lines.push(`  🔴 Failing (<50%): ${d.failing} URLs`);
+  const scoreLabel = isDeep ? 'PAGE SCORES' : 'ROUTE SCORES';
+  lines.push(`${scoreLabel} (${results.urlCount} routes from sitemap):`);
+  lines.push(`  🟢 Passing (90-100%): ${d.passing}`);
+  lines.push(`  🟡 Needs Work (50-89%): ${d.warning}`);
+  lines.push(`  🔴 Failing (<50%): ${d.failing}`);
   if (results.unresolved > 0) {
-    lines.push(`  ⚪ Unresolved: ${results.unresolved} URLs`);
+    lines.push(`  ⚪ Unresolved: ${results.unresolved}`);
   }
   lines.push('');
 
-  lines.push('URLS:');
+  lines.push('ROUTES:');
   for (const url of results.urls.slice(0, 20)) {
     const score = String(url.auditScore).padStart(3) + '%';
     const icon = url.auditScore >= 90 ? '🟢' : url.auditScore >= 50 ? '🟡' : '🔴';
     lines.push(`  ${icon} ${score}  ${url.path}`);
   }
   if (results.urls.length > 20) {
-    lines.push(`  ... and ${results.urls.length - 20} more URLs`);
+    lines.push(`  ... and ${results.urls.length - 20} more routes`);
   }
   lines.push('');
 
@@ -730,11 +740,11 @@ function formatSitemapResults(results) {
     }
   }
 
-  // Internal pages section (not in sitemap)
+  // Internal routes section (not in sitemap)
   if (results.internal && results.internal.count > 0) {
     lines.push('----------------------------------------');
     lines.push('');
-    lines.push(`INTERNAL PAGES (${results.internal.count} routes not in sitemap):`);
+    lines.push(`INTERNAL ROUTES (${results.internal.count} not in sitemap):`);
     const id = results.internal.distribution;
     lines.push(`  🟢 Passing: ${id.passing}  🟡 Needs Work: ${id.warning}  🔴 Failing: ${id.failing}`);
 
@@ -742,7 +752,7 @@ function formatSitemapResults(results) {
     const worstInternal = results.internal.routes.filter(r => r.auditScore < 90).slice(0, 5);
     if (worstInternal.length > 0) {
       lines.push('');
-      lines.push('  Worst internal pages:');
+      lines.push('  Worst internal routes:');
       for (const route of worstInternal) {
         const icon = route.auditScore >= 90 ? '🟢' : route.auditScore >= 50 ? '🟡' : '🔴';
         lines.push(`    ${icon} ${route.auditScore}%  ${route.path}`);

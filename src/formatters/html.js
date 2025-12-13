@@ -34,21 +34,23 @@ function format(results, options = {}) {
  */
 function formatSitemapHTML(results) {
   const d = results.distribution;
+  const isDeep = results.deepResolve && results.deepResolve.enabled;
+  const modeLabel = isDeep ? 'Page-level' : 'Component-level';
 
-  // Generate URL table
-  let urlsHtml = '<table class="data-table"><thead>' +
-    '<tr><th>URL</th><th class="num">Score</th><th class="num">Audits</th></tr></thead><tbody>';
+  // Generate route table
+  let routesHtml = '<table class="data-table"><thead>' +
+    '<tr><th>Route</th><th class="num">Score</th><th class="num">Audits</th></tr></thead><tbody>';
 
   for (const url of (results.urls || []).slice(0, 50)) {
     const color = url.auditScore >= 90 ? 'pass' : url.auditScore >= 50 ? 'warn' : 'fail';
-    urlsHtml += `<tr><td>${escapeHtml(url.path)}</td>` +
+    routesHtml += `<tr><td>${escapeHtml(url.path)}</td>` +
       `<td class="num ${color}">${url.auditScore}%</td>` +
       `<td class="num">${url.auditsPassed}/${url.auditsTotal}</td></tr>`;
   }
-  urlsHtml += '</tbody></table>';
+  routesHtml += '</tbody></table>';
 
   if (results.urls && results.urls.length > 50) {
-    urlsHtml += `<p class="more">...and ${results.urls.length - 50} more URLs</p>`;
+    routesHtml += `<p class="more">...and ${results.urls.length - 50} more routes</p>`;
   }
 
   // Generate fix priorities
@@ -101,11 +103,13 @@ function formatSitemapHTML(results) {
     }
   }
 
+  const title = isDeep ? 'mat-a11y Page Analysis' : 'mat-a11y Component Analysis';
+
   return generateHTML({
-    title: 'mat-a11y Accessibility Report',
-    subtitle: `${results.urlCount || 0} sitemap URLs | Tier: ${(results.tier || 'material').toUpperCase()}`,
+    title,
+    subtitle: `${results.urlCount || 0} routes | ${modeLabel} | Tier: ${(results.tier || 'material').toUpperCase()}`,
     distribution: d,
-    content: '<h3>Sitemap URLs</h3>' + urlsHtml + prioritiesHtml + internalHtml
+    content: '<h3>Routes</h3>' + routesHtml + prioritiesHtml + internalHtml
   });
 }
 
@@ -116,6 +120,8 @@ function formatRouteHTML(results) {
   const passing = results.routes.filter(r => r.auditScore >= 90).length;
   const warning = results.routes.filter(r => r.auditScore >= 50 && r.auditScore < 90).length;
   const failing = results.routes.filter(r => r.auditScore < 50).length;
+  const isDeep = results.deepResolve && results.deepResolve.enabled;
+  const modeLabel = isDeep ? 'Page-level' : 'Component-level';
 
   // Generate routes table
   let routesHtml = '<table class="data-table"><thead>' +
@@ -149,9 +155,11 @@ function formatRouteHTML(results) {
     prioritiesHtml += '</ol>';
   }
 
+  const title = isDeep ? 'mat-a11y Page Analysis' : 'mat-a11y Component Analysis';
+
   return generateHTML({
-    title: 'mat-a11y Route Analysis',
-    subtitle: `${results.routeCount} routes | Tier: ${(results.tier || 'material').toUpperCase()}`,
+    title,
+    subtitle: `${results.routeCount} routes | ${modeLabel} | Tier: ${(results.tier || 'material').toUpperCase()}`,
     distribution: { passing, warning, failing },
     content: '<h3>All Routes</h3>' + routesHtml + prioritiesHtml
   });

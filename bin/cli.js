@@ -676,7 +676,8 @@ async function main() {
     console.log(c.yellow + 'No sitemap.xml found. Trying route-based analysis...' + c.reset + '\n');
 
     const routeResults = analyzeByRoute(opts.files[0], {
-      tier: opts.tier
+      tier: opts.tier,
+      deepResolve: opts.deepResolve
     });
 
     if (routeResults.error || routeResults.routeCount === 0) {

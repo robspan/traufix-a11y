@@ -244,12 +244,12 @@ function progressBar(percentage, width = 10) {
  * Analyze an Angular project by routes
  * @param {string} projectDir - Angular project directory
  * @param {object} options - Analysis options
- * @param {boolean} options.deepResolve - Enable deep component resolution (default: true)
+ * @param {boolean} options.deepResolve - Enable deep component resolution (default: false)
  * @returns {object} Analysis results
  */
 function analyzeByRoute(projectDir, options = {}) {
   const tier = options.tier || 'material';
-  const deepResolve = options.deepResolve !== false; // Default to true
+  const deepResolve = options.deepResolve === true; // Default to false (component-level analysis)
 
   // Load check registry
   const fullRegistry = loadAllChecks();
@@ -377,9 +377,15 @@ function analyzeByRoute(projectDir, options = {}) {
  */
 function formatRouteResults(results) {
   const lines = [];
+  const isDeep = results.deepResolve && results.deepResolve.enabled;
 
+  // Header based on mode
   lines.push('========================================');
-  lines.push('  MAT-A11Y ROUTE ANALYSIS');
+  if (isDeep) {
+    lines.push('  MAT-A11Y PAGE ANALYSIS');
+  } else {
+    lines.push('  MAT-A11Y COMPONENT ANALYSIS');
+  }
   lines.push('========================================');
   lines.push('');
 
@@ -392,15 +398,25 @@ function formatRouteResults(results) {
   }
 
   lines.push('Tier: ' + results.tier.toUpperCase());
+
+  // Show analysis mode
+  if (isDeep) {
+    lines.push('Mode: Page-level (--deep)');
+    lines.push(`  Components in Registry: ${results.deepResolve.componentsInRegistry}`);
+    lines.push(`  Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
+  } else {
+    lines.push('Mode: Component-level (default)');
+    lines.push(`  Use --deep for page-level scores with child components`);
+  }
   lines.push('');
 
-  // Score distribution - this is what actually matters for SEO
-  // Google scores each page independently
+  // Score distribution
   const passing = results.routes.filter(r => r.auditScore >= 90).length;
   const warning = results.routes.filter(r => r.auditScore >= 50 && r.auditScore < 90).length;
   const failing = results.routes.filter(r => r.auditScore < 50).length;
 
-  lines.push(`ROUTE SCORES (${results.routeCount} routes):`);
+  const scoreLabel = isDeep ? 'PAGE SCORES' : 'ROUTE SCORES';
+  lines.push(`${scoreLabel} (${results.routeCount} routes):`);
   lines.push(`  🟢 Passing (90-100%): ${passing} routes`);
   lines.push(`  🟡 Needs Work (50-89%): ${warning} routes`);
   lines.push(`  🔴 Failing (<50%): ${failing} routes`);
