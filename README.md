@@ -321,14 +321,42 @@ colors.getContrastRating(7);              // 'AAA'
 
 ```typescript
 import {
-  analyzeBySitemap,
-  SitemapAnalysisResult,
-  UrlResult,
-  Tier
+  // Analysis functions
+  analyze, analyzeBySitemap, analyzeByRoute,
+  basic, material, angular, full,
+  checkHTML, checkSCSS,
+
+  // Types
+  Tier, AnalysisResult, SitemapAnalysisResult, RouteAnalysisResult,
+  UrlResult, CheckResult, Issue, AuditResult,
+
+  // Formatters
+  formatters, Formatter, FormatterCategory,
+
+  // Utilities
+  colors, verifyChecks, getCheckInfo
 } from 'mat-a11y';
+```
 
+### Core Types
+
+```typescript
 type Tier = 'basic' | 'material' | 'angular' | 'full';
+type FileType = 'html' | 'scss';
+type Severity = 'error' | 'warning' | 'info';
 
+interface AnalyzeOptions {
+  tier?: Tier;
+  ignore?: string[];
+  check?: string | null;      // Run single check
+  verified?: boolean;         // Self-test before analysis
+  workers?: number | 'auto';  // Parallel execution
+}
+```
+
+### Analysis Results
+
+```typescript
 interface SitemapAnalysisResult {
   tier: Tier;
   sitemapPath: string;
@@ -344,10 +372,62 @@ interface SitemapAnalysisResult {
 interface UrlResult {
   url: string;
   path: string;
-  auditScore: number;
-  issues: Array<{ message: string; file: string; check: string }>;
-  audits: Array<{ name: string; weight: number; passed: boolean }>;
+  auditScore: number;               // 0-100 Lighthouse-style
+  auditsTotal: number;
+  auditsPassed: number;
+  auditsFailed: number;
+  issues: Issue[];
+  audits: AuditResult[];
 }
+
+interface Issue {
+  message: string;
+  file?: string;
+  check?: string;
+  line?: number;
+}
+
+interface AuditResult {
+  name: string;
+  weight: number;                   // 1-10
+  passed: boolean;
+  elementsFound: number;
+  issues: number;
+}
+```
+
+### Formatters
+
+```typescript
+type FormatterCategory = 'cicd' | 'code-quality' | 'docs' |
+                         'monitoring' | 'notifications' | 'data';
+
+interface Formatter {
+  name: string;
+  description: string;
+  category: FormatterCategory;
+  output: 'json' | 'xml' | 'text' | 'html';
+  fileExtension?: string;
+  format(results: SitemapAnalysisResult | RouteAnalysisResult | AnalysisResult): string;
+}
+
+// Usage
+formatters.format('sarif', results);
+formatters.listFormatters();  // ['sarif', 'junit', 'slack', ...]
+```
+
+### Color Utilities
+
+```typescript
+interface ColorUtils {
+  getContrastRatio(color1: string, color2: string): number | null;
+  meetsWCAG_AA(ratio: number, isLargeText?: boolean): boolean;
+  meetsWCAG_AAA(ratio: number, isLargeText?: boolean): boolean;
+  getContrastRating(ratio: number): 'fail' | 'AA-large' | 'AA' | 'AAA';
+}
+
+colors.getContrastRatio('#fff', '#000');  // 21
+colors.meetsWCAG_AA(4.5);                 // true
 ```
 
 Full types: [`src/index.d.ts`](./src/index.d.ts)
@@ -380,6 +460,117 @@ Score = (10 + 7) / (10 + 10 + 7) × 100 = 63%
 
 ---
 
+## Contributing
+
+Clone the repo for dev tools, self-tests, and example outputs (not shipped to npm):
+
+```bash
+git clone https://github.com/robspan/traufix-a11y
+cd traufix-a11y
+npm test           # Structure + formatter verification
+npm run dev-check  # Full dev check including self-test
+```
+
+### What's in the Repo vs npm
+
+| Folder | npm | Description |
+|--------|-----|-------------|
+| `src/` | Yes | 82 checks, 14 formatters, core analysis engine |
+| `bin/` | Yes | CLI entry point |
+| `dev-tools/` | No | Verification scripts, fixtures, contributor guide |
+| `example-outputs/` | No | Sample outputs for all 14 formats |
+| `tests/` | No | Test runner |
+| `src/checks/**/verify.*` | No | Self-test files for each check |
+
+### Dev Tools
+
+| Script | Purpose |
+|--------|---------|
+| `npm test` | Verify structure + verify formatters |
+| `npm run dev-check` | Full verification including self-test |
+| `npm run verify-structure` | Validate all verify files have required sections |
+| `npm run verify-formatters` | Test all formatters against 21 fixtures |
+
+### Adding a Check
+
+1. Create `src/checks/myCheck/index.js`:
+   ```javascript
+   module.exports = {
+     name: 'myCheck',
+     description: 'Description',
+     type: 'html',  // or 'scss'
+     tier: 'basic', // or 'material', 'full'
+     weight: 7,     // 1-10 (Lighthouse-style)
+     wcag: '4.1.2', // or null
+     check(content) {
+       const issues = [];
+       // ... check logic
+       return { pass: issues.length === 0, issues, elementsFound: 0 };
+     }
+   };
+   ```
+
+2. Create `src/checks/myCheck/verify.html` with 4 required sections:
+   ```html
+   <!-- @a11y-pass -->
+   <!-- Cases that should NOT trigger issues -->
+
+   <!-- @a11y-fail -->
+   <!-- Cases that SHOULD trigger issues -->
+
+   <!-- @a11y-false-positive -->
+   <!-- Accessible code that naive checks might incorrectly flag -->
+
+   <!-- @a11y-false-negative -->
+   <!-- Inaccessible code that naive checks might miss -->
+   ```
+
+3. Run `npm test` to verify.
+
+### Adding a Formatter
+
+1. Create `src/formatters/myFormat/index.js`:
+   ```javascript
+   module.exports = {
+     name: 'my-format',
+     description: 'Description',
+     category: 'cicd',      // cicd|monitoring|notifications|code-quality|docs|data
+     output: 'json',        // json|xml|text|html
+     fileExtension: '.json',
+     format(results, options = {}) {
+       // results can be SitemapAnalysisResult, RouteAnalysisResult, or AnalysisResult
+       return JSON.stringify({ /* ... */ }, null, 2);
+     }
+   };
+   ```
+
+2. Run `npm run verify-formatters` to test against all fixtures.
+
+### Example Outputs
+
+See [example-outputs/](https://github.com/robspan/traufix-a11y/tree/main/example-outputs) for sample outputs of all 14 formats:
+
+- **CI/CD**: `sarif`, `junit`, `github-annotations`, `gitlab-codequality`
+- **Quality**: `sonarqube`, `checkstyle`
+- **Monitoring**: `prometheus`, `grafana-json`, `datadog`
+- **Notifications**: `slack`, `discord`, `teams`
+- **Docs/Data**: `markdown`, `csv`
+
+Generate your own from a real project:
+```bash
+node dev-tools/generate-examples.js ../my-angular-app
+```
+
+Full contributor docs: [`dev-tools/README.md`](./dev-tools/README.md)
+
+---
+
+## Background
+
+Built for [traufix.de](https://traufix.de) — a German wedding planning platform with 60+ guides at [traufix.de/guide](https://traufix.de/guide). Created to ensure all Angular Material components meet WCAG accessibility standards at scale.
+
 ## License
 
-MIT - [Robin Spanier](https://robspan.de)
+[MIT + Commons Clause](./LICENSE) - Free to use, modify, and distribute. Not for resale.
+
+[Robin Spanier](https://robspan.de) · [robin.spanier@robspan.de](mailto:robin.spanier@robspan.de)
