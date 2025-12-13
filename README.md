@@ -99,9 +99,10 @@ mat-a11y analyzes your **source code directly** — no build, no browser, no wai
 ## Quick Start
 
 ```bash
-npm install mat-a11y
-npx mat-a11y ./src -f ai         # Generate AI-friendly TODO list
+npx mat-a11y
 ```
+
+That's it. Scans `./src`, runs all 82 checks, outputs `mat-a11y.todo.txt`.
 
 ```
 ACCESSIBILITY TODO: 1750 issues in 72 files
@@ -147,14 +148,14 @@ Choose a tier based on what you're working on:
 
 | Tier | Checks | When to Use |
 |------|--------|-------------|
-| `--basic` | 43 | **Default.** Quick wins for daily development |
-| `--material` | 29 | Fixing Angular Material component issues |
-| `--angular` | 10 | Template and event binding issues |
-| `--full` | 82 | Comprehensive audits before releases |
+| `--full` | 82 | **Default.** Comprehensive scan |
+| `--basic` | 43 | Quick wins for daily development |
+| `--material` | 29 | Only Angular Material component issues |
+| `--angular` | 10 | Only template and event binding issues |
 
 ```bash
-mat-a11y ./src              # Default (basic)
-mat-a11y ./src --full       # Everything
+mat-a11y              # Full scan (default)
+mat-a11y --basic      # Quick 43-check scan
 ```
 
 ### Analysis Mode
@@ -240,42 +241,43 @@ mat-a11y --list-checks  # See all 82 with descriptions
 ### CLI
 
 ```bash
-# Analyze project
-mat-a11y ./src                    # Basic tier (default)
-mat-a11y ./src --full             # All 82 checks
-mat-a11y ./src --material         # Only mat-* checks
+# Just run it (scans ./src, full checks, AI output)
+mat-a11y
 
-# Output
-mat-a11y ./src --json             # mat-a11y-report.json
-mat-a11y ./src --html             # mat-a11y-report.html
-mat-a11y ./src -f sarif -o out.sarif  # Custom format + path
+# Different formats
+mat-a11y --html                   # Visual HTML report
+mat-a11y --sarif                  # GitHub Security tab
+mat-a11y --junit                  # CI/CD pipelines
 
 # Options
-mat-a11y ./src -i "**/*.spec.ts"  # Ignore patterns
-mat-a11y ./src --check imageAlt   # Run single check
-
-# Parallelization (opt-in for speed)
-mat-a11y ./src                    # Single-threaded (default)
-mat-a11y ./src -w auto            # Auto-optimized parallel workers
-mat-a11y ./src -w 8               # Use exactly 8 workers
+mat-a11y ./other-dir              # Custom path
+mat-a11y --basic                  # Quick 43-check scan
+mat-a11y -i "**/*.spec.ts"        # Ignore patterns
+mat-a11y --check imageAlt         # Run single check
+mat-a11y -w auto                  # Parallel workers
 ```
 
 <details>
 <summary><strong>Full CLI Reference</strong></summary>
 
 ```
-mat-a11y <path> [options]
+mat-a11y [path] [options]
+
+Defaults: scans ./src, full tier (82 checks), AI format → mat-a11y.todo.txt
+
+Formats (shortcut flags):
+  --html, --json, --sarif, --junit, --github, --gitlab
+  --sonar, --checkstyle, --prometheus, --grafana, --datadog
+  --slack, --discord, --teams, --markdown, --csv
 
 Tiers:
-  --basic              Quick wins (default)
+  --full               All 82 checks (default)
+  --basic              Quick 43 checks
   --material           Only mat-* checks (29)
   --angular            Only Angular + CDK checks (10)
-  --full               Everything (82 checks)
 
 Output:
-  --json               Write mat-a11y-report.json
-  --html               Write mat-a11y-report.html
-  -f, --format <name>  Output format (sarif, junit, etc.)
+  -f, --format <name>  Output format (ai, json, sarif, etc.)
   -o, --output <path>  Custom output path
 
 Performance:
@@ -285,7 +287,7 @@ Options:
   -i, --ignore <pat>   Ignore pattern (repeatable)
   --check <name>       Run single check only
   --list-checks        List all checks
-  --file-based         Legacy file analysis
+  --file-based         Force file-based analysis
   -h, --help           Show help
   -v, --version        Show version
 ```
@@ -294,18 +296,18 @@ Options:
 
 ### Parallel Processing
 
-mat-a11y supports parallel workers for faster analysis on large codebases:
+For large codebases (500+ files):
 
 ```bash
-mat-a11y ./src                    # Single-threaded (default)
-mat-a11y ./src -w auto            # Auto-optimized parallel workers
-mat-a11y ./src -w 8               # Use exactly 8 workers
+mat-a11y              # Single-threaded (default)
+mat-a11y -w auto      # Auto-optimized workers
+mat-a11y -w 8         # Exactly 8 workers
 ```
 
-| Project Size | Sync (default) | Auto (`-w auto`) |
-|--------------|----------------|------------------|
-| ~100 files   | ~60ms          | ~60ms (same)     |
-| ~500 files   | ~2.8s          | ~0.8s (3.5x faster) |
+| Project Size | Sync | Auto (`-w auto`) |
+|--------------|------|------------------|
+| ~100 files   | ~60ms | ~60ms (same) |
+| ~500 files   | ~2.8s | ~0.8s (3.5x faster) |
 
 *Benchmarked on AMD Ryzen 9 8940HX (16 cores / 32 threads)*
 
@@ -318,87 +320,45 @@ mat-a11y ./src -w 8               # Use exactly 8 workers
 
 ### Output Formats
 
-mat-a11y supports 17 output formats:
+17 formats. All work as `--shortcut` flags:
 
-| Category | Formats | Use Case |
-|----------|---------|----------|
-| **Reports** | `json`, `html` | Local analysis, sharing |
-| **AI/LLM** | `ai` | Paste into ChatGPT/Claude for auto-fixes |
-| **CI/CD** | `sarif`, `junit`, `github-annotations`, `gitlab-codequality` | Pipeline integration |
-| **Code Quality** | `sonarqube`, `checkstyle` | Quality gates |
-| **Monitoring** | `prometheus`, `grafana-json`, `datadog` | Dashboards |
-| **Notifications** | `slack`, `discord`, `teams` | Team alerts |
-| **Data** | `markdown`, `csv` | Documentation, spreadsheets |
+| Category | Shortcuts |
+|----------|----------|
+| **Reports** | `--json`, `--html` |
+| **AI** | (default) |
+| **CI/CD** | `--sarif`, `--junit`, `--github`, `--gitlab` |
+| **Quality** | `--sonar`, `--checkstyle` |
+| **Monitoring** | `--prometheus`, `--grafana`, `--datadog` |
+| **Notifications** | `--slack`, `--discord`, `--teams` |
+| **Data** | `--markdown`, `--csv` |
 
-```bash
-mat-a11y ./src -f json               # Raw JSON data
-mat-a11y ./src -f html               # Visual HTML report
-mat-a11y ./src -f ai                 # TODO list for AI to fix
-mat-a11y ./src -f sarif              # GitHub Security tab
-mat-a11y ./src -f junit -o test.xml  # Jenkins/GitLab CI
-```
+Custom output: `mat-a11y -f sarif -o custom-name.sarif`
 
 ### AI-Assisted Fixing
 
-The `ai` formatter generates a simple TODO checklist designed for current-generation AI models (Claude Opus 4.5, GPT-4, etc.) to work through systematically:
+The default output (`mat-a11y.todo.txt`) is designed for AI to fix:
 
-```bash
-mat-a11y ./src -f ai -o fixes.todo.txt
+**Tips:**
+- **Parallel sessions** — Open the TODO, let AI work through files
+- **File-by-file** — Issues grouped by file for systematic fixing
+- **Counts** — `(×67)` means 67 identical issues; fix pattern once
+- **Verify** — Re-run `mat-a11y` after fixes; list shrinks
+
+**Prompt example:**
+```
+Read mat-a11y.todo.txt. For each file, apply the fixes and mark [x] done.
 ```
 
-**Example output:**
+**Validated models:**
 
-```
-ACCESSIBILITY TODO: 1750 issues in 72 files
-Mark [x] when fixed. Re-run linter to verify.
+| Model | Status |
+|-------|--------|
+| Claude Opus 4.5 | ✅ Validated (our daily driver) |
+| Claude Sonnet 4 | ✅ Validated |
+| GPT-4o | Should work |
+| Cursor / Windsurf | Should work |
 
-────────────────────────────────────────
-FILE: app/components/image-preview/image-preview.html
-────────────────────────────────────────
-[ ] clickWithoutKeyboard: <div> (×67)
-    → Add (keydown.enter) and (keydown.space) OR use <button>
-[ ] clickWithoutRole: <div> (×67)
-    → Add role="button" tabindex="0" OR use <button>
-[ ] matIconAccessibility: <mat-icon class="zoom-icon">zoom_in</mat-icon> (×67)
-    → Add aria-hidden="true" OR aria-label="description"
-
-────────────────────────────────────────
-FILE: pages/guest-view/replies/replies.html
-────────────────────────────────────────
-[ ] headingOrder: <h4> (×5)
-    → Use h2 instead of h4
-[ ] linkNames: <a href="https://traufix.de" target="_blank"... (×5)
-    → Add aria-label OR visible text
-```
-
-**Usage tips:**
-
-1. **Parallel AI sessions** — We use Claude Opus 4.5 in VS Code (Copilot) to fix issues in parallel. Open the TODO file, let the AI work through items file-by-file, checking off `[x]` as it goes.
-
-2. **File-by-file workflow** — Issues are grouped by file. Tell the AI: *"Fix all issues in `image-preview.html`, then mark them done."*
-
-3. **Deduplication with counts** — `(×67)` means the same issue appears 67 times. The AI fixes the pattern once, all instances resolve.
-
-4. **Re-run to verify** — After fixes, run `mat-a11y ./src -f ai` again. The TODO shrinks as issues get resolved.
-
-5. **Prompt example:**
-   ```
-   Read fixes.todo.txt. For each file, open it, apply the suggested fixes,
-   then mark the checkbox [x]. Work through the entire list.
-   ```
-
-**Validated with Claude Opus 4.5:**
-
-We tested the `ai` output format extensively with Claude Opus 4.5 in VS Code (GitHub Copilot). The AI successfully fixes the issues as described. Other models should work too — the format is plain text TODOs, nothing fancy.
-
-| Model | Status | Notes |
-|-------|--------|-------|
-| **Claude Opus 4.5** | ✅ Validated | Our daily driver. Tested on 1000+ issue fixes |
-| **Claude Sonnet 4** | ✅ Validated | Faster, works well for simple fixes |
-| **GPT-4o** | Should work | Plain text format, no special requirements |
-| **Cursor / Windsurf** | Should work | Agent mode compatible |
-
-*mat-a11y does not include, require, or connect to any AI service. Bring your own.*
+*mat-a11y does not include or require any AI. Bring your own.*
 
 ### CI/CD Integration
 
