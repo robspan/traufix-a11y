@@ -5,6 +5,19 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.2.2] - 2025-12-14
+
+### Fixed
+- **Route analyzer default mode** - Now correctly defaults to component-level (`deepResolve: false`), was incorrectly defaulting to page-level
+- **CLI `--deep` flag** - Now correctly passed to route analyzer (was being ignored)
+
+### Changed
+- **Console output now component-based** - Default mode shows components with issue counts instead of routes with scores
+  - `COMPONENT SCORES (35 components)` instead of `ROUTE SCORES (67 routes)`
+  - `COMPONENTS WITH ISSUES:` lists components sorted by issue count
+  - `FIX PRIORITIES:` shows component name, affected routes, and top issues
+- **Page-level output (`--deep`)** - Shows `PAGE SCORES` and `PAGES:` with per-page scores (Lighthouse-like)
+
 ## [5.2.1] - 2025-12-13
 
 ### Changed

@@ -371,6 +371,71 @@ function analyzeByRoute(projectDir, options = {}) {
 }
 
 /**
+ * Extract component name from file path
+ */
+function extractComponentName(filePath) {
+  if (!filePath || filePath === 'unknown') return 'Unknown';
+  const normalized = filePath.replace(/\\/g, '/');
+  const fileName = normalized.split('/').pop() || '';
+
+  if (fileName.includes('(inline template)')) {
+    const match = fileName.match(/<([^>]+)>/);
+    if (match) {
+      return match[1].split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('') + 'Component';
+    }
+  }
+
+  const baseName = fileName
+    .replace(/\.(component|directive|pipe)?\.(html|scss|css|ts)$/, '')
+    .replace(/\.(html|scss|css|ts)$/, '');
+  if (!baseName) return 'Unknown';
+
+  return baseName.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('') +
+         (fileName.includes('.component.') ? '' : 'Component');
+}
+
+/**
+ * Group results by component
+ */
+function groupByComponent(routes) {
+  const components = new Map();
+  const globalSeen = new Set();
+
+  for (const route of routes) {
+    for (const issue of (route.issues || [])) {
+      const filePath = issue.file || 'unknown';
+      const componentName = extractComponentName(filePath);
+
+      if (!components.has(componentName)) {
+        components.set(componentName, {
+          files: new Set(),
+          issues: [],
+          affectedRoutes: new Set(),
+          checkCounts: {}
+        });
+      }
+
+      const comp = components.get(componentName);
+      comp.files.add(filePath);
+      if (route.path) comp.affectedRoutes.add(route.path);
+
+      if (!comp.checkCounts[issue.check]) {
+        comp.checkCounts[issue.check] = 0;
+      }
+
+      const globalKey = `${filePath}|${issue.check}|${issue.message}`;
+      if (!globalSeen.has(globalKey)) {
+        globalSeen.add(globalKey);
+        comp.checkCounts[issue.check]++;
+        comp.issues.push(issue);
+      }
+    }
+  }
+
+  return components;
+}
+
+/**
  * Format route analysis results for console
  * @param {object} results - Analysis results
  * @returns {string} Formatted output
@@ -399,61 +464,110 @@ function formatRouteResults(results) {
 
   lines.push('Tier: ' + results.tier.toUpperCase());
 
-  // Show analysis mode
   if (isDeep) {
+    // Page-level: show routes
     lines.push('Mode: Page-level (--deep)');
     lines.push(`  Components in Registry: ${results.deepResolve.componentsInRegistry}`);
     lines.push(`  Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
+    lines.push('');
+
+    const passing = results.routes.filter(r => r.auditScore >= 90).length;
+    const warning = results.routes.filter(r => r.auditScore >= 50 && r.auditScore < 90).length;
+    const failing = results.routes.filter(r => r.auditScore < 50).length;
+
+    lines.push(`PAGE SCORES (${results.routeCount} routes):`);
+    lines.push(`  🟢 Passing (90-100%): ${passing} routes`);
+    lines.push(`  🟡 Needs Work (50-89%): ${warning} routes`);
+    lines.push(`  🔴 Failing (<50%): ${failing} routes`);
+    lines.push('');
+
+    lines.push('PAGES:');
+    const displayRoutes = [...results.routes].sort((a, b) => b.auditScore - a.auditScore);
+
+    for (const route of displayRoutes.slice(0, 20)) {
+      const bar = progressBar(route.auditScore);
+      const score = String(route.auditScore).padStart(3) + '%';
+      const audits = `${route.auditsPassed}/${route.auditsTotal}`;
+      lines.push(`  ${route.path.padEnd(40)} ${score}  ${bar}  ${audits} audits`);
+    }
+
+    if (displayRoutes.length > 20) {
+      lines.push(`  ... and ${displayRoutes.length - 20} more pages`);
+    }
+    lines.push('');
+
+    if (results.worstRoutes && results.worstRoutes.length > 0) {
+      lines.push('FIX PRIORITIES:');
+      for (let i = 0; i < Math.min(3, results.worstRoutes.length); i++) {
+        const worst = results.worstRoutes[i];
+        if (worst.score >= 90) continue;
+        lines.push(`  ${i + 1}. ${worst.path} (${worst.score}%)`);
+        for (const issue of worst.topIssues) {
+          lines.push(`     - ${issue.check}: ${issue.count} errors`);
+        }
+        lines.push('');
+      }
+    }
   } else {
+    // Component-level: group by component
     lines.push('Mode: Component-level (default)');
     lines.push(`  Use --deep for page-level scores with child components`);
-  }
-  lines.push('');
+    lines.push('');
 
-  // Score distribution
-  const passing = results.routes.filter(r => r.auditScore >= 90).length;
-  const warning = results.routes.filter(r => r.auditScore >= 50 && r.auditScore < 90).length;
-  const failing = results.routes.filter(r => r.auditScore < 50).length;
+    const components = groupByComponent(results.routes);
 
-  const scoreLabel = isDeep ? 'PAGE SCORES' : 'ROUTE SCORES';
-  lines.push(`${scoreLabel} (${results.routeCount} routes):`);
-  lines.push(`  🟢 Passing (90-100%): ${passing} routes`);
-  lines.push(`  🟡 Needs Work (50-89%): ${warning} routes`);
-  lines.push(`  🔴 Failing (<50%): ${failing} routes`);
-  lines.push('');
+    const componentList = [];
+    for (const [name, data] of components) {
+      if (data.issues.length === 0) continue;
+      componentList.push({
+        name,
+        issueCount: data.issues.length,
+        affectedRoutes: data.affectedRoutes,
+        checkCounts: data.checkCounts
+      });
+    }
 
-  // Routes table
-  lines.push('ROUTES:');
+    componentList.sort((a, b) => b.issueCount - a.issueCount);
 
-  // Sort by score for display (worst first for attention, or best first)
-  const displayRoutes = [...results.routes].sort((a, b) => b.auditScore - a.auditScore);
+    const totalIssues = componentList.reduce((sum, c) => sum + c.issueCount, 0);
+    const componentsWithIssues = componentList.length;
+    const componentsClean = components.size - componentsWithIssues;
 
-  for (const route of displayRoutes.slice(0, 20)) {
-    const bar = progressBar(route.auditScore);
-    const score = String(route.auditScore).padStart(3) + '%';
-    const audits = `${route.auditsPassed}/${route.auditsTotal}`;
-    lines.push(`  ${route.path.padEnd(40)} ${score}  ${bar}  ${audits} audits`);
-  }
+    lines.push(`COMPONENT SCORES (${components.size} components):`);
+    lines.push(`  🟢 Clean (no issues): ${componentsClean}`);
+    lines.push(`  🟡 Has Issues: ${componentsWithIssues}`);
+    lines.push(`  📊 Total Issues: ${totalIssues}`);
+    lines.push('');
 
-  if (displayRoutes.length > 20) {
-    lines.push(`  ... and ${displayRoutes.length - 20} more routes`);
-  }
-
-  lines.push('');
-
-  // Fix priorities
-  if (results.worstRoutes && results.worstRoutes.length > 0) {
-    lines.push('FIX PRIORITIES:');
-
-    for (let i = 0; i < Math.min(3, results.worstRoutes.length); i++) {
-      const worst = results.worstRoutes[i];
-      if (worst.score >= 90) continue; // Skip routes that are already good
-
-      lines.push(`  ${i + 1}. ${worst.path} (${worst.score}%)`);
-      for (const issue of worst.topIssues) {
-        lines.push(`     - ${issue.check}: ${issue.count} errors`);
+    if (componentList.length > 0) {
+      lines.push('COMPONENTS WITH ISSUES:');
+      for (const comp of componentList.slice(0, 15)) {
+        const routeCount = comp.affectedRoutes.size;
+        const routeHint = routeCount > 0 ? ` (affects ${routeCount} routes)` : '';
+        lines.push(`  🟡 ${comp.name}: ${comp.issueCount} issues${routeHint}`);
+      }
+      if (componentList.length > 15) {
+        lines.push(`  ... and ${componentList.length - 15} more components`);
       }
       lines.push('');
+
+      lines.push('FIX PRIORITIES:');
+      for (let i = 0; i < Math.min(3, componentList.length); i++) {
+        const comp = componentList[i];
+        const routes = [...comp.affectedRoutes].slice(0, 3);
+        const moreRoutes = comp.affectedRoutes.size > 3 ? ` (+${comp.affectedRoutes.size - 3} more)` : '';
+        lines.push(`  ${i + 1}. ${comp.name} (${comp.issueCount} issues)`);
+        if (routes.length > 0) {
+          lines.push(`     Affects: ${routes.join(', ')}${moreRoutes}`);
+        }
+        const topChecks = Object.entries(comp.checkCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3);
+        for (const [check, count] of topChecks) {
+          lines.push(`     - ${check}: ${count} errors`);
+        }
+        lines.push('');
+      }
     }
   }
 

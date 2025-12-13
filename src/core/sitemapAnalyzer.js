@@ -668,6 +668,74 @@ function analyzeBySitemap(projectDir, options = {}) {
 }
 
 /**
+ * Extract component name from file path
+ */
+function extractComponentName(filePath) {
+  if (!filePath || filePath === 'unknown') return 'Unknown';
+  const normalized = filePath.replace(/\\/g, '/');
+  const fileName = normalized.split('/').pop() || '';
+
+  // Handle inline templates
+  if (fileName.includes('(inline template)')) {
+    const match = fileName.match(/<([^>]+)>/);
+    if (match) {
+      return match[1].split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('') + 'Component';
+    }
+  }
+
+  const baseName = fileName
+    .replace(/\.(component|directive|pipe)?\.(html|scss|css|ts)$/, '')
+    .replace(/\.(html|scss|css|ts)$/, '');
+  if (!baseName) return 'Unknown';
+
+  return baseName.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('') +
+         (fileName.includes('.component.') ? '' : 'Component');
+}
+
+/**
+ * Group results by component for component-level display
+ */
+function groupByComponent(allUrls) {
+  const components = new Map();
+  const globalSeen = new Set();
+
+  for (const url of allUrls) {
+    for (const issue of (url.issues || [])) {
+      const filePath = issue.file || 'unknown';
+      const componentName = extractComponentName(filePath);
+
+      if (!components.has(componentName)) {
+        components.set(componentName, {
+          files: new Set(),
+          issues: [],
+          affectedUrls: new Set(),
+          checkCounts: {}
+        });
+      }
+
+      const comp = components.get(componentName);
+      comp.files.add(filePath);
+      if (url.path) comp.affectedUrls.add(url.path);
+
+      // Count by check type
+      if (!comp.checkCounts[issue.check]) {
+        comp.checkCounts[issue.check] = 0;
+      }
+
+      // Deduplicate globally
+      const globalKey = `${filePath}|${issue.check}|${issue.message}`;
+      if (!globalSeen.has(globalKey)) {
+        globalSeen.add(globalKey);
+        comp.checkCounts[issue.check]++;
+        comp.issues.push(issue);
+      }
+    }
+  }
+
+  return components;
+}
+
+/**
  * Format sitemap analysis results for console
  */
 function formatSitemapResults(results) {
@@ -698,61 +766,122 @@ function formatSitemapResults(results) {
     lines.push(`  Each URL analyzed with all child components bundled`);
     lines.push(`  Components in Registry: ${results.deepResolve.componentsInRegistry}`);
     lines.push(`  Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
+    lines.push('');
+
+    // Page-level: show routes
+    const d = results.distribution;
+    lines.push(`PAGE SCORES (${results.urlCount} routes from sitemap):`);
+    lines.push(`  🟢 Passing (90-100%): ${d.passing}`);
+    lines.push(`  🟡 Needs Work (50-89%): ${d.warning}`);
+    lines.push(`  🔴 Failing (<50%): ${d.failing}`);
+    if (results.unresolved > 0) {
+      lines.push(`  ⚪ Unresolved: ${results.unresolved}`);
+    }
+    lines.push('');
+
+    lines.push('PAGES:');
+    for (const url of results.urls.slice(0, 20)) {
+      const score = String(url.auditScore).padStart(3) + '%';
+      const icon = url.auditScore >= 90 ? '🟢' : url.auditScore >= 50 ? '🟡' : '🔴';
+      lines.push(`  ${icon} ${score}  ${url.path}`);
+    }
+    if (results.urls.length > 20) {
+      lines.push(`  ... and ${results.urls.length - 20} more pages`);
+    }
+    lines.push('');
+
+    if (results.worstUrls && results.worstUrls.length > 0) {
+      lines.push('FIX PRIORITIES:');
+      for (let i = 0; i < Math.min(3, results.worstUrls.length); i++) {
+        const worst = results.worstUrls[i];
+        if (worst.score >= 90) continue;
+        lines.push(`  ${i + 1}. ${worst.path} (${worst.score}%)`);
+        for (const issue of worst.topIssues) {
+          lines.push(`     - ${issue.check}: ${issue.count} errors`);
+        }
+        lines.push('');
+      }
+    }
   } else {
+    // Component-level: group by component
     lines.push('Mode: Component-level (default)');
-    lines.push(`  Each route component analyzed independently`);
     lines.push(`  Use --deep for page-level scores with child components`);
-  }
-  lines.push('');
+    lines.push('');
 
-  const d = results.distribution;
-  const scoreLabel = isDeep ? 'PAGE SCORES' : 'ROUTE SCORES';
-  lines.push(`${scoreLabel} (${results.urlCount} routes from sitemap):`);
-  lines.push(`  🟢 Passing (90-100%): ${d.passing}`);
-  lines.push(`  🟡 Needs Work (50-89%): ${d.warning}`);
-  lines.push(`  🔴 Failing (<50%): ${d.failing}`);
-  if (results.unresolved > 0) {
-    lines.push(`  ⚪ Unresolved: ${results.unresolved}`);
-  }
-  lines.push('');
+    // Combine all URLs for component grouping
+    const allUrls = [...(results.urls || []), ...((results.internal && results.internal.routes) || [])];
+    const components = groupByComponent(allUrls);
 
-  lines.push('ROUTES:');
-  for (const url of results.urls.slice(0, 20)) {
-    const score = String(url.auditScore).padStart(3) + '%';
-    const icon = url.auditScore >= 90 ? '🟢' : url.auditScore >= 50 ? '🟡' : '🔴';
-    lines.push(`  ${icon} ${score}  ${url.path}`);
-  }
-  if (results.urls.length > 20) {
-    lines.push(`  ... and ${results.urls.length - 20} more routes`);
-  }
-  lines.push('');
+    // Calculate component scores
+    const componentList = [];
+    for (const [name, data] of components) {
+      if (data.issues.length === 0) continue;
+      componentList.push({
+        name,
+        issueCount: data.issues.length,
+        affectedUrls: data.affectedUrls,
+        checkCounts: data.checkCounts
+      });
+    }
 
-  if (results.worstUrls && results.worstUrls.length > 0) {
-    lines.push('FIX PRIORITIES:');
-    for (let i = 0; i < Math.min(3, results.worstUrls.length); i++) {
-      const worst = results.worstUrls[i];
-      if (worst.score >= 90) continue;
-      lines.push(`  ${i + 1}. ${worst.path} (${worst.score}%)`);
-      for (const issue of worst.topIssues) {
-        lines.push(`     - ${issue.check}: ${issue.count} errors`);
+    // Sort by issue count (worst first)
+    componentList.sort((a, b) => b.issueCount - a.issueCount);
+
+    const totalIssues = componentList.reduce((sum, c) => sum + c.issueCount, 0);
+    const componentsWithIssues = componentList.length;
+    const componentsClean = components.size - componentsWithIssues;
+
+    lines.push(`COMPONENT SCORES (${components.size} components):`);
+    lines.push(`  🟢 Clean (no issues): ${componentsClean}`);
+    lines.push(`  🟡 Has Issues: ${componentsWithIssues}`);
+    lines.push(`  📊 Total Issues: ${totalIssues}`);
+    lines.push('');
+
+    if (componentList.length > 0) {
+      lines.push('COMPONENTS WITH ISSUES:');
+      for (const comp of componentList.slice(0, 15)) {
+        const urlCount = comp.affectedUrls.size;
+        const urlHint = urlCount > 0 ? ` (affects ${urlCount} routes)` : '';
+        lines.push(`  🟡 ${comp.name}: ${comp.issueCount} issues${urlHint}`);
+      }
+      if (componentList.length > 15) {
+        lines.push(`  ... and ${componentList.length - 15} more components`);
       }
       lines.push('');
+
+      lines.push('FIX PRIORITIES:');
+      for (let i = 0; i < Math.min(3, componentList.length); i++) {
+        const comp = componentList[i];
+        const urls = [...comp.affectedUrls].slice(0, 3);
+        const moreUrls = comp.affectedUrls.size > 3 ? ` (+${comp.affectedUrls.size - 3} more)` : '';
+        lines.push(`  ${i + 1}. ${comp.name} (${comp.issueCount} issues)`);
+        if (urls.length > 0) {
+          lines.push(`     Affects: ${urls.join(', ')}${moreUrls}`);
+        }
+        // Show top checks
+        const topChecks = Object.entries(comp.checkCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3);
+        for (const [check, count] of topChecks) {
+          lines.push(`     - ${check}: ${count} errors`);
+        }
+        lines.push('');
+      }
     }
   }
 
-  // Internal routes section (not in sitemap)
-  if (results.internal && results.internal.count > 0) {
+  // Internal routes section (show in both modes but simpler in component mode)
+  if (results.internal && results.internal.count > 0 && isDeep) {
     lines.push('----------------------------------------');
     lines.push('');
-    lines.push(`INTERNAL ROUTES (${results.internal.count} not in sitemap):`);
+    lines.push(`INTERNAL PAGES (${results.internal.count} not in sitemap):`);
     const id = results.internal.distribution;
     lines.push(`  🟢 Passing: ${id.passing}  🟡 Needs Work: ${id.warning}  🔴 Failing: ${id.failing}`);
 
-    // Show worst internal routes
     const worstInternal = results.internal.routes.filter(r => r.auditScore < 90).slice(0, 5);
     if (worstInternal.length > 0) {
       lines.push('');
-      lines.push('  Worst internal routes:');
+      lines.push('  Worst internal pages:');
       for (const route of worstInternal) {
         const icon = route.auditScore >= 90 ? '🟢' : route.auditScore >= 50 ? '🟡' : '🔴';
         lines.push(`    ${icon} ${route.auditScore}%  ${route.path}`);
