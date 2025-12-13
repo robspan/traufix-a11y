@@ -102,7 +102,7 @@ mat-a11y analyzes your **source code directly** — no build, no browser, no wai
 npx mat-a11y
 ```
 
-That's it. Scans `./src`, runs all 82 checks, outputs `mat-a11y.todo.txt`.
+That's it. Scans current directory, runs all 82 checks, outputs `mat-a11y.todo.txt`.
 
 ```
 ACCESSIBILITY TODO: 1750 issues in 72 files
@@ -169,8 +169,8 @@ mat-a11y automatically detects the best analysis approach:
 | 3 | **File** | No routes — scans all HTML/SCSS files |
 
 ```bash
-mat-a11y ./src              # Auto-detect (sitemap → route → file)
-mat-a11y ./src --file-based # Force file-based analysis
+mat-a11y                    # Auto-detect (sitemap → route → file)
+mat-a11y --file-based       # Force file-based analysis
 ```
 
 **Why sitemap-first?** Your sitemap defines what search engines crawl. Pages not in your sitemap won't rank. Analyzing sitemap URLs ensures your SEO-critical pages are accessible.
@@ -241,7 +241,7 @@ mat-a11y --list-checks  # See all 82 with descriptions
 ### CLI
 
 ```bash
-# Just run it (scans ./src, full checks, AI output)
+# Just run it (scans current dir, full checks, AI output)
 mat-a11y
 
 # Different formats
@@ -263,7 +263,7 @@ mat-a11y -w auto                  # Parallel workers
 ```
 mat-a11y [path] [options]
 
-Defaults: scans ./src, full tier (82 checks), AI format → mat-a11y.todo.txt
+Defaults: scans current directory, full tier (82 checks), AI format → mat-a11y.todo.txt
 
 Formats (shortcut flags):
   --html, --json, --sarif, --junit, --github, --gitlab
@@ -376,7 +376,7 @@ jobs:
         with:
           node-version: '18'
       - run: npm ci
-      - run: npx mat-a11y ./src --full --json
+      - run: npx mat-a11y --json
       - uses: actions/upload-artifact@v4
         with:
           name: a11y-report

@@ -13,10 +13,14 @@
 function format(results, options = {}) {
   const lines = [];
 
-  // Combine sitemap URLs + internal routes
+  // Combine all possible result sources:
+  // - sitemap URLs (results.urls)
+  // - internal routes from sitemap analysis (results.internal.routes)
+  // - route-based analysis (results.routes)
   const urls = results.urls || [];
   const internalRoutes = (results.internal && results.internal.routes) || [];
-  const allUrls = [...urls, ...internalRoutes];
+  const routeBasedRoutes = results.routes || [];
+  const allUrls = [...urls, ...internalRoutes, ...routeBasedRoutes];
 
   // Group all issues by file
   const issuesByFile = new Map();

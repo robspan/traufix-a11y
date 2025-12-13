@@ -96,9 +96,9 @@ function parseArgs(args) {
     else if (!arg.startsWith('-')) options.files.push(arg);
   }
 
-  // Default to src directory if no files specified (Angular convention)
+  // Default to project root if no path specified
   if (options.files.length === 0 && !options.help && !options.version && !options.listChecks && !options.selfTest) {
-    options.files.push('src');
+    options.files.push('.');
   }
 
   return options;
@@ -163,7 +163,7 @@ ${c.cyan}PARALLELIZATION:${c.reset}
   -w, --workers <mode>  sync (default), auto, or number of workers
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Default: AI TODO list (scans ./src)${c.reset}
+  ${c.dim}# Default: AI TODO list (scans current directory)${c.reset}
   mat-a11y
 
   ${c.dim}# Other formats${c.reset}
@@ -186,7 +186,7 @@ ${c.cyan}EXAMPLES:${c.reset}
   mat-a11y -c matIconAccessibility
 
 ${c.cyan}DEFAULTS:${c.reset}
-  Path:    ./src (Angular convention)
+  Path:    . (current directory)
   Tier:    --full (82 checks)
   Format:  AI TODO list
   Output:  mat-a11y.todo.txt
