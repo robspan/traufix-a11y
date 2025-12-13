@@ -13,6 +13,7 @@ const { loadAllChecks, getChecksByTier } = require('./loader');
 const { calculateAuditScore } = require('./weights');
 const { parseAngularRoutes } = require('./routeParser');
 const { resolveAllRoutes } = require('./componentResolver');
+const { createPageResolver } = require('./pageResolver');
 
 /**
  * Find sitemap.xml in a project
@@ -357,15 +358,23 @@ function getCheckNamesByType(registry, type) {
 }
 
 /**
- * Analyze a single URL's component
+ * Analyze a single URL/page with pre-resolved files
+ * @param {object} urlInfo - URL information { url, path, priority }
+ * @param {object} pageFiles - Pre-resolved page files from PageResolver
+ * @param {string} componentName - Component name
+ * @param {object} registry - Check registry
+ * @param {string[]} htmlChecks - HTML check names
+ * @param {string[]} scssChecks - SCSS check names
+ * @returns {object} Analysis result
  */
-function analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks) {
+function analyzeUrl(urlInfo, pageFiles, componentName, registry, htmlChecks, scssChecks) {
   const result = {
     url: urlInfo.url,
     path: urlInfo.path,
     priority: urlInfo.priority,
-    component: files?.component || null,
+    component: componentName || null,
     files: [],
+    childComponents: pageFiles?.components || [],
     auditScore: 100,
     auditsTotal: 0,
     auditsPassed: 0,
@@ -374,17 +383,19 @@ function analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks) {
     audits: []
   };
 
-  if (!files) {
+  if (!pageFiles || (pageFiles.htmlFiles.length === 0 && pageFiles.scssFiles.length === 0)) {
     result.error = 'Could not resolve component';
     return result;
   }
 
   const checkAggregates = {};
 
-  // Analyze HTML
-  if (files.html && fs.existsSync(files.html)) {
-    result.files.push(files.html);
-    const content = fs.readFileSync(files.html, 'utf-8');
+  // Analyze all HTML files (already resolved by PageResolver)
+  for (const htmlFile of pageFiles.htmlFiles) {
+    if (!fs.existsSync(htmlFile)) continue;
+    
+    result.files.push(htmlFile);
+    const content = fs.readFileSync(htmlFile, 'utf-8');
 
     for (const checkName of htmlChecks) {
       const checkResult = runCheck(checkName, content, registry);
@@ -402,17 +413,44 @@ function analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks) {
       for (const issue of checkResult.issues) {
         result.issues.push({
           message: typeof issue === 'string' ? issue : issue.message,
-          file: files.html,
+          file: htmlFile,
           check: checkName
         });
       }
     }
   }
 
-  // Analyze SCSS
-  if (files.scss && fs.existsSync(files.scss)) {
-    result.files.push(files.scss);
-    const content = fs.readFileSync(files.scss, 'utf-8');
+  // Analyze inline templates from components
+  for (const { selector, template } of (pageFiles.inlineTemplates || [])) {
+    for (const checkName of htmlChecks) {
+      const checkResult = runCheck(checkName, template, registry);
+
+      if (!checkAggregates[checkName]) {
+        checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
+      }
+      checkAggregates[checkName].elementsFound += checkResult.elementsFound;
+      checkAggregates[checkName].issues += checkResult.issues.length;
+
+      const errorCount = countErrors(checkResult.issues);
+      checkAggregates[checkName].errors += errorCount;
+      checkAggregates[checkName].warnings += (checkResult.issues.length - errorCount);
+
+      for (const issue of checkResult.issues) {
+        result.issues.push({
+          message: typeof issue === 'string' ? issue : issue.message,
+          file: `<${selector}> (inline template)`,
+          check: checkName
+        });
+      }
+    }
+  }
+
+  // Analyze all SCSS files (already resolved by PageResolver)
+  for (const scssFile of pageFiles.scssFiles) {
+    if (!fs.existsSync(scssFile)) continue;
+    
+    result.files.push(scssFile);
+    const content = fs.readFileSync(scssFile, 'utf-8');
 
     for (const checkName of scssChecks) {
       const checkResult = runCheck(checkName, content, registry);
@@ -430,7 +468,7 @@ function analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks) {
       for (const issue of checkResult.issues) {
         result.issues.push({
           message: typeof issue === 'string' ? issue : issue.message,
-          file: files.scss,
+          file: scssFile,
           check: checkName
         });
       }
@@ -452,10 +490,12 @@ function analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks) {
  * Analyze an Angular project using its sitemap
  * @param {string} projectDir - Project directory
  * @param {object} options - Options
+ * @param {boolean} options.deepResolve - Enable deep component resolution (default: true)
  * @returns {object} Analysis results
  */
 function analyzeBySitemap(projectDir, options = {}) {
   const tier = options.tier || 'material';
+  const deepResolve = options.deepResolve !== false; // Default to true
 
   // Find sitemap
   const sitemapPath = options.sitemap || findSitemap(projectDir);
@@ -483,6 +523,12 @@ function analyzeBySitemap(projectDir, options = {}) {
   const htmlChecks = getCheckNamesByType(registry, 'html');
   const scssChecks = getCheckNamesByType(registry, 'scss');
 
+  // Preprocessing: Build page resolver for deep component resolution
+  let pageResolver = null;
+  if (deepResolve) {
+    pageResolver = createPageResolver(projectDir);
+  }
+
   // Find dynamic loader
   const loader = findDynamicLoader(projectDir);
 
@@ -496,14 +542,30 @@ function analyzeBySitemap(projectDir, options = {}) {
   const urlResults = [];
   let resolved = 0;
   let unresolved = 0;
+  let totalChildComponents = 0;
 
   for (const urlInfo of urls) {
-    const files = mapUrlToComponent(urlInfo.path, loader, resolvedRoutes, projectDir);
-    const result = analyzeUrl(urlInfo, files, registry, htmlChecks, scssChecks);
+    // Step 1: Map URL to primary component files
+    const routeFiles = mapUrlToComponent(urlInfo.path, loader, resolvedRoutes, projectDir);
+    
+    // Step 2: Preprocessing - resolve all page files (primary + children)
+    const pageFiles = pageResolver 
+      ? pageResolver.resolveRouteFiles(routeFiles)
+      : {
+          htmlFiles: routeFiles?.html ? [routeFiles.html] : [],
+          scssFiles: routeFiles?.scss ? [routeFiles.scss] : [],
+          inlineTemplates: [],
+          components: []
+        };
+    
+    // Step 3: Analyze the fully resolved page
+    const componentName = routeFiles?.component || null;
+    const result = analyzeUrl(urlInfo, pageFiles, componentName, registry, htmlChecks, scssChecks);
     urlResults.push(result);
 
-    if (files) {
+    if (routeFiles) {
       resolved++;
+      totalChildComponents += result.childComponents.length;
     } else {
       unresolved++;
     }
@@ -541,17 +603,29 @@ function analyzeBySitemap(projectDir, options = {}) {
   const sitemapPaths = new Set(urls.map(u => u.path));
   const internalRoutes = resolvedRoutes.filter(r => !sitemapPaths.has(r.path));
 
-  // Analyze internal routes
+  // Analyze internal routes (using same preprocessing)
   const internalResults = [];
   for (const route of internalRoutes.slice(0, 50)) { // Limit to 50
-    const files = {
+    const routeFiles = {
       html: route.files.html,
       scss: route.files.scss,
       component: route.component || route.loadComponent?.exportName
     };
+    
+    // Preprocessing - resolve all page files
+    const pageFiles = pageResolver 
+      ? pageResolver.resolveRouteFiles(routeFiles)
+      : {
+          htmlFiles: routeFiles.html ? [routeFiles.html] : [],
+          scssFiles: routeFiles.scss ? [routeFiles.scss] : [],
+          inlineTemplates: [],
+          components: []
+        };
+    
     const result = analyzeUrl(
       { url: route.path, path: route.path, priority: 0 },
-      files,
+      pageFiles,
+      routeFiles.component,
       registry,
       htmlChecks,
       scssChecks
@@ -563,6 +637,9 @@ function analyzeBySitemap(projectDir, options = {}) {
   const internalWarning = internalResults.filter(r => r.auditScore >= 50 && r.auditScore < 90).length;
   const internalFailing = internalResults.filter(r => r.auditScore < 50).length;
 
+  // Get stats from pageResolver
+  const resolverStats = pageResolver ? pageResolver.getStats() : null;
+
   return {
     tier,
     sitemapPath,
@@ -572,6 +649,12 @@ function analyzeBySitemap(projectDir, options = {}) {
     distribution: { passing, warning, failing },
     urls: sortedUrls,
     worstUrls,
+    // Deep resolution stats
+    deepResolve: deepResolve ? {
+      enabled: true,
+      componentsInRegistry: resolverStats?.total || 0,
+      childComponentsAnalyzed: totalChildComponents
+    } : { enabled: false },
     // Internal pages (not in sitemap)
     internal: {
       count: internalRoutes.length,
@@ -600,6 +683,12 @@ function formatSitemapResults(results) {
 
   lines.push('Tier: ' + results.tier.toUpperCase());
   lines.push('Sitemap: ' + results.sitemapPath);
+  
+  // Show deep resolution stats
+  if (results.deepResolve && results.deepResolve.enabled) {
+    lines.push(`Components in Registry: ${results.deepResolve.componentsInRegistry}`);
+    lines.push(`Child Components Analyzed: ${results.deepResolve.childComponentsAnalyzed}`);
+  }
   lines.push('');
 
   const d = results.distribution;

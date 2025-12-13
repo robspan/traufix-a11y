@@ -1,7 +1,7 @@
 /**
  * Formatter Module Loader
  *
- * Dynamically discovers and loads formatter modules from the folder structure.
+ * Dynamically discovers and loads formatter modules from flat .js files.
  * Provides a registry-based approach to managing output formatters.
  *
  * @module formatters/loader
@@ -57,11 +57,11 @@ const VALID_OUTPUTS = [
 ];
 
 /**
- * Discover all formatter folders in src/formatters/
+ * Discover all formatter files in src/formatters/
  *
- * Scans the formatters directory for subfolders that contain an index.js file.
+ * Scans the formatters directory for .js files (excluding index.js and loader.js).
  *
- * @returns {string[]} Array of formatter folder paths (absolute paths)
+ * @returns {string[]} Array of formatter file paths (absolute paths)
  */
 function discoverFormatters() {
   if (!fs.existsSync(FORMATTERS_DIR)) {
@@ -79,20 +79,12 @@ function discoverFormatters() {
   const formatterPaths = [];
 
   for (const entry of entries) {
-    if (!entry.isDirectory()) {
-      continue;
-    }
-
-    // Skip special folders
-    if (entry.name.startsWith('_') || entry.name === 'node_modules') {
-      continue;
-    }
-
-    const formatterFolder = path.join(FORMATTERS_DIR, entry.name);
-    const indexFile = path.join(formatterFolder, 'index.js');
-
-    if (fs.existsSync(indexFile)) {
-      formatterPaths.push(formatterFolder);
+    // Only include .js files (not directories, not index.js/loader.js)
+    if (entry.isFile() && 
+        entry.name.endsWith('.js') && 
+        entry.name !== 'index.js' && 
+        entry.name !== 'loader.js') {
+      formatterPaths.push(path.join(FORMATTERS_DIR, entry.name));
     }
   }
 
@@ -166,24 +158,23 @@ function validateFormatterModule(module) {
 /**
  * Load a single formatter module
  *
- * @param {string} formatterPath - Path to formatter folder (must contain index.js)
+ * @param {string} formatterPath - Path to formatter .js file
  * @returns {{ module: object|null, error: string|null }} Load result
  */
 function loadFormatter(formatterPath) {
-  const indexFile = path.join(formatterPath, 'index.js');
-  const formatterName = path.basename(formatterPath);
+  const formatterName = path.basename(formatterPath, '.js');
 
-  if (!fs.existsSync(indexFile)) {
+  if (!fs.existsSync(formatterPath)) {
     return {
       module: null,
-      error: `Formatter "${formatterName}": index.js not found at ${indexFile}`
+      error: `Formatter "${formatterName}": file not found at ${formatterPath}`
     };
   }
 
   let module;
   try {
-    delete require.cache[require.resolve(indexFile)];
-    module = require(indexFile);
+    delete require.cache[require.resolve(formatterPath)];
+    module = require(formatterPath);
   } catch (error) {
     return {
       module: null,
@@ -201,7 +192,7 @@ function loadFormatter(formatterPath) {
 
   if (module.name !== formatterName) {
     console.warn(
-      `[formatter-loader] Warning: Formatter name "${module.name}" does not match folder name "${formatterName}"`
+      `[formatter-loader] Warning: Formatter name "${module.name}" does not match file name "${formatterName}"`
     );
   }
 

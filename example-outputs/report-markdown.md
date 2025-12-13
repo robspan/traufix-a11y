@@ -1,23 +1,23 @@
 # mat-a11y Accessibility Report
 
-**Tier:** full
-**Sitemap:** C:\Users\spani\OneDrive\Dokumente\GitHub\noro-wedding\dist\noro-marriage\browser\sitemap.xml
-**Generated:** 2025-12-12T21:33:05.196Z
+**Tier:** material
+**Sitemap:** ..\noro-wedding\dist\noro-marriage\browser\sitemap.xml
+**Generated:** 2025-12-13T13:52:19.362Z
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
 | URLs Analyzed | 67 |
-| Passing (90-100%) | 61 |
-| Warning (50-89%) | 6 |
+| Passing (90-100%) | 1 |
+| Warning (50-89%) | 66 |
 | Failing (<50%) | 0 |
 
 ## Distribution
 
 ```
-Passing: [##################--] 61 (91%)
-Warning: [##------------------] 6 (9%)
+Passing: [--------------------] 1 (1%)
+Warning: [####################] 66 (99%)
 Failing: [--------------------] 0 (0%)
 ```
 
@@ -25,117 +25,117 @@ Failing: [--------------------] 0 (0%)
 
 URLs that need the most attention:
 
-### /agb (83%)
+### / (59%)
 
 | Check | Count |
 |-------|-------|
-| `matIconAccessibility` | 3 |
-| `matProgressSpinnerLabel` | 2 |
-| `prefersReducedMotion` | 1 |
+| `matIconAccessibility` | 71 |
+| `colorContrast` | 7 |
+| `formLabels` | 2 |
 
-### /datenschutz (83%)
-
-| Check | Count |
-|-------|-------|
-| `matIconAccessibility` | 3 |
-| `matProgressSpinnerLabel` | 2 |
-| `prefersReducedMotion` | 1 |
-
-### /impressum (83%)
+### /agb (60%)
 
 | Check | Count |
 |-------|-------|
-| `matIconAccessibility` | 3 |
-| `matProgressSpinnerLabel` | 2 |
-| `prefersReducedMotion` | 1 |
+| `matIconAccessibility` | 121 |
+| `headingOrder` | 7 |
+| `hoverWithoutFocus` | 4 |
 
-### /cookies (83%)
-
-| Check | Count |
-|-------|-------|
-| `matIconAccessibility` | 3 |
-| `matProgressSpinnerLabel` | 2 |
-| `prefersReducedMotion` | 1 |
-
-### /widerrufsrecht (83%)
+### /datenschutz (60%)
 
 | Check | Count |
 |-------|-------|
-| `matIconAccessibility` | 3 |
-| `matProgressSpinnerLabel` | 2 |
-| `prefersReducedMotion` | 1 |
+| `matIconAccessibility` | 121 |
+| `headingOrder` | 7 |
+| `hoverWithoutFocus` | 4 |
+
+### /impressum (60%)
+
+| Check | Count |
+|-------|-------|
+| `matIconAccessibility` | 121 |
+| `headingOrder` | 7 |
+| `hoverWithoutFocus` | 4 |
+
+### /cookies (60%)
+
+| Check | Count |
+|-------|-------|
+| `matIconAccessibility` | 121 |
+| `headingOrder` | 7 |
+| `hoverWithoutFocus` | 4 |
 
 ## All URLs
 
 | URL | Score | Status | Issues |
 |-----|-------|--------|--------|
-| /agb | 83% | WARN | 6 |
-| /datenschutz | 83% | WARN | 6 |
-| /impressum | 83% | WARN | 6 |
-| /cookies | 83% | WARN | 6 |
-| /widerrufsrecht | 83% | WARN | 6 |
-| / | 87% | WARN | 65 |
-| /guide | 93% | PASS | 9 |
-| /guide/dj-band-buchen | 100% | PASS | 0 |
-| /guide/dresscode-kommunizieren | 100% | PASS | 0 |
-| /guide/gaesteliste-erstellen | 100% | PASS | 0 |
-| /guide/hochzeitseinladung-gestalten | 100% | PASS | 0 |
-| /guide/hochzeitsfarben-waehlen | 100% | PASS | 0 |
-| /guide/hochzeitstag-ablauf-planen | 100% | PASS | 0 |
-| /guide/hochzeitswebsite-erstellen | 100% | PASS | 1 |
-| /guide/notfallkoffer-packen | 100% | PASS | 0 |
-| /guide/tischdeko-gestalten | 100% | PASS | 0 |
-| /guide/traubogen-bauen | 100% | PASS | 0 |
-| /guide/brautkleid-checkliste | 100% | PASS | 0 |
-| /guide/budget-checkliste | 100% | PASS | 0 |
-| /guide/dienstleister-checkliste | 100% | PASS | 0 |
-| /guide/gaesteliste-checkliste | 100% | PASS | 0 |
-| /guide/hochzeitsfotos-must-haves | 100% | PASS | 0 |
-| /guide/hochzeitslocation-checkliste | 100% | PASS | 0 |
-| /guide/honeymoon-planung | 100% | PASS | 0 |
-| /guide/notfallkoffer-braut | 100% | PASS | 0 |
-| /guide/standesamt-checkliste | 100% | PASS | 0 |
-| /guide/trauzeugen-checkliste | 100% | PASS | 0 |
-| /guide/danksagung-vorlage | 100% | PASS | 0 |
-| /guide/dresscode-nachricht | 100% | PASS | 0 |
-| /guide/eheversprechen-editor | 100% | PASS | 0 |
-| /guide/einladungstext-generator | 100% | PASS | 0 |
-| /guide/gaestebuch-spiel | 100% | PASS | 0 |
-| /guide/hochzeitsquiz-fragen | 100% | PASS | 0 |
-| /guide/hochzeitsrede-assistent | 100% | PASS | 0 |
-| /guide/save-the-date-texte | 100% | PASS | 1 |
-| /guide/verkuendung-varianten | 100% | PASS | 0 |
-| /guide/zeremonien-ablauf | 100% | PASS | 0 |
-| /guide/boho-hochzeit-ideen | 100% | PASS | 0 |
-| /guide/farbkonzept-inspiration | 100% | PASS | 0 |
-| /guide/hochzeitsdeko-trends | 100% | PASS | 0 |
-| /guide/hochzeitsfrisuren-inspiration | 100% | PASS | 0 |
-| /guide/hochzeitskleid-stile | 100% | PASS | 0 |
-| /guide/hochzeitspapeterie-designs | 100% | PASS | 0 |
-| /guide/hochzeitsstil-quiz | 100% | PASS | 0 |
-| /guide/saisonale-hochzeitsblumen | 100% | PASS | 0 |
-| /guide/tischdeko-inspiration | 100% | PASS | 0 |
-| /guide/traubogen-designs | 100% | PASS | 0 |
-| /guide/12-monate-zeitplan | 100% | PASS | 0 |
-| /guide/budget-planung | 100% | PASS | 0 |
-| /guide/dienstleister-koordination | 100% | PASS | 0 |
-| /guide/getting-ready-zeitplan | 100% | PASS | 0 |
-| /guide/hochzeitstag-koordination | 100% | PASS | 0 |
-| /guide/hochzeitstag-zeitplan | 100% | PASS | 0 |
-| /guide/musik-wunschliste | 100% | PASS | 0 |
-| /guide/rsvp-tracking | 100% | PASS | 0 |
-| /guide/sitzplan-erstellung | 100% | PASS | 0 |
-| /guide/zeremonie-ablaufplan | 100% | PASS | 0 |
-| /guide/budget-schwerpunkte-quiz | 100% | PASS | 0 |
-| /guide/entscheidungs-stil-quiz | 100% | PASS | 0 |
-| /guide/feier-typ-quiz | 100% | PASS | 0 |
-| /guide/hochzeits-vorlieben-quiz | 100% | PASS | 0 |
-| /guide/hochzeits-wissen-test | 100% | PASS | 0 |
-| /guide/hochzeitsstil-finder | 100% | PASS | 0 |
-| /guide/paar-harmonie-quiz | 100% | PASS | 0 |
-| /guide/planungs-profil-quiz | 100% | PASS | 0 |
-| /guide/prioritaeten-ranking-quiz | 100% | PASS | 0 |
-| /guide/schnell-check-hochzeit | 100% | PASS | 0 |
+| / | 59% | WARN | 83 |
+| /agb | 60% | WARN | 140 |
+| /datenschutz | 60% | WARN | 140 |
+| /impressum | 60% | WARN | 140 |
+| /cookies | 60% | WARN | 140 |
+| /widerrufsrecht | 60% | WARN | 140 |
+| /guide/zeremonie-ablaufplan | 73% | WARN | 6 |
+| /guide/gaesteliste-erstellen | 83% | WARN | 3 |
+| /guide/hochzeitseinladung-gestalten | 83% | WARN | 3 |
+| /guide/hochzeitsfarben-waehlen | 83% | WARN | 3 |
+| /guide/hochzeitswebsite-erstellen | 83% | WARN | 3 |
+| /guide/notfallkoffer-packen | 83% | WARN | 3 |
+| /guide/tischdeko-gestalten | 83% | WARN | 3 |
+| /guide/traubogen-bauen | 83% | WARN | 3 |
+| /guide/brautkleid-checkliste | 83% | WARN | 3 |
+| /guide/budget-checkliste | 83% | WARN | 3 |
+| /guide/gaesteliste-checkliste | 83% | WARN | 3 |
+| /guide/hochzeitsfotos-must-haves | 83% | WARN | 3 |
+| /guide/notfallkoffer-braut | 83% | WARN | 3 |
+| /guide/standesamt-checkliste | 83% | WARN | 3 |
+| /guide/trauzeugen-checkliste | 83% | WARN | 4 |
+| /guide/hochzeitsquiz-fragen | 83% | WARN | 5 |
+| /guide/verkuendung-varianten | 83% | WARN | 3 |
+| /guide/zeremonien-ablauf | 83% | WARN | 3 |
+| /guide/boho-hochzeit-ideen | 83% | WARN | 3 |
+| /guide/farbkonzept-inspiration | 83% | WARN | 3 |
+| /guide/hochzeitsdeko-trends | 83% | WARN | 3 |
+| /guide/hochzeitsfrisuren-inspiration | 83% | WARN | 4 |
+| /guide/hochzeitskleid-stile | 83% | WARN | 3 |
+| /guide/hochzeitspapeterie-designs | 83% | WARN | 3 |
+| /guide/hochzeitsstil-quiz | 83% | WARN | 3 |
+| /guide/saisonale-hochzeitsblumen | 83% | WARN | 3 |
+| /guide/tischdeko-inspiration | 83% | WARN | 3 |
+| /guide/traubogen-designs | 83% | WARN | 3 |
+| /guide/budget-schwerpunkte-quiz | 83% | WARN | 3 |
+| /guide/entscheidungs-stil-quiz | 83% | WARN | 3 |
+| /guide/feier-typ-quiz | 83% | WARN | 3 |
+| /guide/hochzeits-wissen-test | 83% | WARN | 3 |
+| /guide/hochzeitsstil-finder | 83% | WARN | 3 |
+| /guide/paar-harmonie-quiz | 83% | WARN | 3 |
+| /guide/planungs-profil-quiz | 83% | WARN | 3 |
+| /guide/prioritaeten-ranking-quiz | 83% | WARN | 3 |
+| /guide/schnell-check-hochzeit | 83% | WARN | 3 |
+| /guide/dj-band-buchen | 84% | WARN | 3 |
+| /guide/dresscode-kommunizieren | 84% | WARN | 3 |
+| /guide/hochzeitstag-ablauf-planen | 84% | WARN | 3 |
+| /guide/dienstleister-checkliste | 84% | WARN | 3 |
+| /guide/honeymoon-planung | 84% | WARN | 3 |
+| /guide/danksagung-vorlage | 84% | WARN | 3 |
+| /guide/eheversprechen-editor | 84% | WARN | 3 |
+| /guide/dienstleister-koordination | 84% | WARN | 3 |
+| /guide/getting-ready-zeitplan | 84% | WARN | 3 |
+| /guide/hochzeitstag-koordination | 84% | WARN | 3 |
+| /guide/hochzeitstag-zeitplan | 84% | WARN | 3 |
+| /guide/musik-wunschliste | 84% | WARN | 3 |
+| /guide/hochzeits-vorlieben-quiz | 84% | WARN | 3 |
+| /guide/hochzeitslocation-checkliste | 85% | WARN | 3 |
+| /guide/dresscode-nachricht | 85% | WARN | 4 |
+| /guide/einladungstext-generator | 85% | WARN | 6 |
+| /guide/gaestebuch-spiel | 85% | WARN | 3 |
+| /guide/hochzeitsrede-assistent | 85% | WARN | 3 |
+| /guide/save-the-date-texte | 85% | WARN | 3 |
+| /guide/12-monate-zeitplan | 85% | WARN | 5 |
+| /guide/budget-planung | 85% | WARN | 3 |
+| /guide/rsvp-tracking | 85% | WARN | 3 |
+| /guide/sitzplan-erstellung | 85% | WARN | 3 |
+| /guide | 100% | PASS | 0 |
 
 ## Internal Pages
 
@@ -143,7 +143,7 @@ URLs that need the most attention:
 
 | Passing | Warning | Failing |
 |---------|---------|---------|
-| 9 | 40 | 1 |
+| 24 | 23 | 3 |
 
 ---
 *Generated by [mat-a11y](https://github.com/nicobrinkkemper/mat-a11y)*

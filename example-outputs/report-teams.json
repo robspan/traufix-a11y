@@ -14,7 +14,7 @@
         "body": [
           {
             "type": "TextBlock",
-            "text": "✅ mat-a11y Accessibility Report",
+            "text": "❌ mat-a11y Accessibility Report",
             "weight": "bolder",
             "size": "large",
             "wrap": true
@@ -35,11 +35,11 @@
               },
               {
                 "title": "Passing",
-                "value": "61 (score >= 90)"
+                "value": "1 (score >= 90)"
               },
               {
                 "title": "Warning",
-                "value": "6 (score 50-89)"
+                "value": "66 (score 50-89)"
               },
               {
                 "title": "Failing",
@@ -47,11 +47,11 @@
               },
               {
                 "title": "Pass Rate",
-                "value": "91.0%"
+                "value": "1.5%"
               },
               {
                 "title": "Tier",
-                "value": "full"
+                "value": "material"
               }
             ]
           },
@@ -122,6 +122,44 @@
                     "items": [
                       {
                         "type": "TextBlock",
+                        "text": "/",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**59** (Warning)",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "83",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TableRow",
+                "cells": [
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
                         "text": "/agb",
                         "wrap": true,
                         "size": "small"
@@ -133,7 +171,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**83** (Warning)",
+                        "text": "**60** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -144,7 +182,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "6",
+                        "text": "140",
                         "wrap": true,
                         "size": "small"
                       }
@@ -171,7 +209,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**83** (Warning)",
+                        "text": "**60** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -182,7 +220,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "6",
+                        "text": "140",
                         "wrap": true,
                         "size": "small"
                       }
@@ -209,7 +247,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**83** (Warning)",
+                        "text": "**60** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -220,7 +258,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "6",
+                        "text": "140",
                         "wrap": true,
                         "size": "small"
                       }
@@ -247,7 +285,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**83** (Warning)",
+                        "text": "**60** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -258,45 +296,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "6",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/widerrufsrecht",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**83** (Warning)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "6",
+                        "text": "140",
                         "wrap": true,
                         "size": "small"
                       }
@@ -322,15 +322,15 @@
               },
               {
                 "title": "Passing",
-                "value": "9"
+                "value": "24"
               },
               {
                 "title": "Warning",
-                "value": "40"
+                "value": "23"
               },
               {
                 "title": "Failing",
-                "value": "1"
+                "value": "3"
               }
             ]
           },
@@ -394,7 +394,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "/verwaltung/fotoalbum",
+                        "text": "/verwaltung/einladungen",
                         "wrap": true,
                         "size": "small"
                       }
@@ -416,7 +416,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "38",
+                        "text": "9",
                         "wrap": true,
                         "size": "small"
                       }
@@ -443,7 +443,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**60** (Warning)",
+                        "text": "**42** (Fail)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -454,7 +454,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "49",
+                        "text": "41",
                         "wrap": true,
                         "size": "small"
                       }
@@ -470,7 +470,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "/verwaltung/einladungen",
+                        "text": "/verwaltung/fotoalbum",
                         "wrap": true,
                         "size": "small"
                       }
@@ -481,7 +481,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**61** (Warning)",
+                        "text": "**45** (Fail)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -492,7 +492,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "12",
+                        "text": "31",
                         "wrap": true,
                         "size": "small"
                       }
@@ -504,7 +504,7 @@
           },
           {
             "type": "TextBlock",
-            "text": "Generated: 2025-12-12T21:33:05.206Z",
+            "text": "Generated: 2025-12-13T13:52:34.175Z",
             "size": "small",
             "isSubtle": true,
             "spacing": "medium"

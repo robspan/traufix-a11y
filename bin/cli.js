@@ -520,10 +520,10 @@ async function main() {
   if (opts.version) { showVersion(); process.exit(0); }
   if (opts.listChecks) { listChecks(); process.exit(0); }
 
-  // Self-test only mode (dev-only - requires full repo with dev-tools/)
+  // Self-test only mode (dev-only - requires full repo with dev/)
   if (opts.selfTest) {
-    // Check if dev-tools exists (only in git repo, not npm package)
-    const devToolsPath = path.join(__dirname, '..', 'dev-tools');
+    // Check if dev exists (only in git repo, not npm package)
+    const devToolsPath = path.join(__dirname, '..', 'dev');
     if (!fs.existsSync(devToolsPath)) {
       console.log(c.yellow + 'Self-test is a development feature.' + c.reset);
       console.log('');
@@ -532,7 +532,7 @@ async function main() {
       console.log('  cd traufix-a11y');
       console.log('  npm test');
       console.log('');
-      console.log('Or run: node dev-tools/run-checks.js');
+      console.log('Or run: node dev/run-checks.js');
       process.exit(0);
     }
 
@@ -556,7 +556,7 @@ async function main() {
       verifyAllFormatters,
       formatVerifyResults: formatFormatterResults,
       getVerifySummary: getFormatterSummary
-    } = require('../dev-tools/verify-formatters');
+    } = require('../dev/verify-formatters');
     const formatterResults = verifyAllFormatters();
     const formatterSummary = getFormatterSummary(formatterResults);
     console.log(formatFormatterResults(formatterResults));

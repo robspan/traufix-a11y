@@ -1,7 +1,7 @@
 /**
  * Check Module Loader
  *
- * Dynamically discovers and loads check modules from the folder structure.
+ * Dynamically discovers and loads check modules from flat .js files.
  * Provides a registry-based approach to managing accessibility checks.
  *
  * @module core/loader
@@ -52,15 +52,15 @@ const TIER_HIERARCHY = {
 };
 
 /**
- * Discover all check folders in src/checks/
+ * Discover all check files in src/checks/
  *
- * Scans the checks directory for subfolders that contain an index.js file.
+ * Scans the checks directory for .js files (excluding index.js).
  *
- * @returns {string[]} Array of check folder paths (absolute paths)
+ * @returns {string[]} Array of check file paths (absolute paths)
  *
  * @example
  * const checkPaths = discoverChecks();
- * // Returns: ['/path/to/src/checks/buttonNames', '/path/to/src/checks/colorContrast', ...]
+ * // Returns: ['/path/to/src/checks/buttonNames.js', '/path/to/src/checks/colorContrast.js', ...]
  */
 function discoverChecks() {
   // Handle missing checks directory gracefully
@@ -79,16 +79,9 @@ function discoverChecks() {
   const checkPaths = [];
 
   for (const entry of entries) {
-    if (!entry.isDirectory()) {
-      continue;
-    }
-
-    const checkFolder = path.join(CHECKS_DIR, entry.name);
-    const indexFile = path.join(checkFolder, 'index.js');
-
-    // Only include folders that have an index.js file
-    if (fs.existsSync(indexFile)) {
-      checkPaths.push(checkFolder);
+    // Only include .js files (not directories, not index.js)
+    if (entry.isFile() && entry.name.endsWith('.js') && entry.name !== 'index.js') {
+      checkPaths.push(path.join(CHECKS_DIR, entry.name));
     }
   }
 
@@ -170,14 +163,14 @@ function validateCheckModule(module) {
 /**
  * Load a single check module
  *
- * Attempts to load and validate a check module from the given path.
+ * Attempts to load and validate a check module from the given file path.
  * Returns the module if successful, or an error message if it fails.
  *
- * @param {string} checkPath - Path to check folder (must contain index.js)
+ * @param {string} checkPath - Path to check .js file
  * @returns {{ module: object|null, error: string|null }} Load result
  *
  * @example
- * const result = loadCheck('/path/to/src/checks/buttonNames');
+ * const result = loadCheck('/path/to/src/checks/buttonNames.js');
  * if (result.module) {
  *   console.log('Loaded:', result.module.name);
  * } else {
@@ -185,14 +178,13 @@ function validateCheckModule(module) {
  * }
  */
 function loadCheck(checkPath) {
-  const indexFile = path.join(checkPath, 'index.js');
-  const checkName = path.basename(checkPath);
+  const checkName = path.basename(checkPath, '.js');
 
-  // Check if index.js exists
-  if (!fs.existsSync(indexFile)) {
+  // Check if file exists
+  if (!fs.existsSync(checkPath)) {
     return {
       module: null,
-      error: `Check "${checkName}": index.js not found at ${indexFile}`
+      error: `Check "${checkName}": file not found at ${checkPath}`
     };
   }
 
@@ -200,8 +192,8 @@ function loadCheck(checkPath) {
   let module;
   try {
     // Clear from cache to ensure fresh load during development
-    delete require.cache[require.resolve(indexFile)];
-    module = require(indexFile);
+    delete require.cache[require.resolve(checkPath)];
+    module = require(checkPath);
   } catch (error) {
     return {
       module: null,
@@ -218,10 +210,10 @@ function loadCheck(checkPath) {
     };
   }
 
-  // Verify name matches folder name for consistency
+  // Verify name matches file name for consistency
   if (module.name !== checkName) {
     console.warn(
-      `[loader] Warning: Check name "${module.name}" does not match folder name "${checkName}"`
+      `[loader] Warning: Check name "${module.name}" does not match file name "${checkName}"`
     );
   }
 

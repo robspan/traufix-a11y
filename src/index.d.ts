@@ -429,6 +429,8 @@ export interface UrlResult {
   component: string | null;
   /** Files analyzed */
   files: string[];
+  /** Child components found and analyzed (deep resolution) */
+  childComponents: string[];
   /** Lighthouse-style score (0-100) */
   auditScore: number;
   /** Total audits run */
@@ -467,6 +469,15 @@ export interface InternalPagesResult {
   routes: UrlResult[];
 }
 
+export interface DeepResolveStats {
+  /** Whether deep resolution was enabled */
+  enabled: boolean;
+  /** Total components found in registry */
+  componentsInRegistry?: number;
+  /** Total child components analyzed across all pages */
+  childComponentsAnalyzed?: number;
+}
+
 export interface SitemapAnalysisResult {
   /** Tier used */
   tier: Tier;
@@ -484,6 +495,8 @@ export interface SitemapAnalysisResult {
   urls: UrlResult[];
   /** Top 5 worst URLs with issue details */
   worstUrls: WorstUrl[];
+  /** Deep component resolution statistics */
+  deepResolve: DeepResolveStats;
   /** Internal pages not in sitemap */
   internal: InternalPagesResult;
   /** Error message if analysis failed */
@@ -495,6 +508,8 @@ export interface SitemapAnalyzeOptions {
   tier?: Tier;
   /** Custom sitemap path */
   sitemap?: string;
+  /** Enable deep component resolution (default: true) */
+  deepResolve?: boolean;
 }
 
 /**
@@ -761,3 +776,112 @@ export interface Formatters {
  * const slack = formatters.format('slack', results);
  */
 export const formatters: Formatters;
+
+// ============================================
+// PAGE RESOLVER (Preprocessing for Deep Resolution)
+// ============================================
+
+export interface ComponentInfo {
+  /** Component selector (e.g., 'app-header') */
+  selector: string;
+  /** Path to .ts file */
+  filePath: string;
+  /** Component directory */
+  componentDir: string;
+  /** Path to template file (if external) */
+  templateUrl: string | null;
+  /** Inline template content (if no templateUrl) */
+  template: string | null;
+  /** Paths to style files */
+  styleUrls: string[];
+}
+
+export interface ResolvedPageFiles {
+  /** All HTML template files (including nested components) */
+  htmlFiles: string[];
+  /** All SCSS/CSS style files (including nested components) */
+  scssFiles: string[];
+  /** Components with inline templates */
+  inlineTemplates: Array<{ selector: string; template: string }>;
+  /** Component selectors found */
+  components: string[];
+  /** Primary HTML file path */
+  primaryHtml: string | null;
+  /** Primary SCSS file path */
+  primaryScss: string | null;
+}
+
+export interface RegistryStats {
+  /** Total components in registry */
+  total: number;
+  /** Components with external templates */
+  withTemplate: number;
+  /** Components with inline templates */
+  withInlineTemplate: number;
+  /** Components with style files */
+  withStyles: number;
+}
+
+/**
+ * Page Resolver - Preprocessing step for deep component resolution.
+ * 
+ * Scans all .ts files to build a component registry, then recursively
+ * resolves all child components used in a page's template.
+ * 
+ * Used by both sitemap and route analyzers.
+ * 
+ * @example
+ * const resolver = createPageResolver('./my-app');
+ * const pageFiles = resolver.resolvePage('./src/app/home/home.component.html');
+ * console.log(pageFiles.htmlFiles); // All templates including nested components
+ * console.log(pageFiles.components); // ['app-header', 'app-footer', ...]
+ */
+export class PageResolver {
+  constructor(projectDir: string);
+  
+  /** Initialize the component registry (called automatically by createPageResolver) */
+  initialize(): PageResolver;
+  
+  /** Check if initialized */
+  readonly initialized: boolean;
+  
+  /** Get registry statistics */
+  getStats(): RegistryStats;
+  
+  /** Resolve all files for a page given its primary HTML template */
+  resolvePage(htmlPath: string, scssPath?: string): ResolvedPageFiles;
+  
+  /** Resolve files for a route object { html, scss } */
+  resolveRouteFiles(routeFiles: { html?: string; scss?: string }): ResolvedPageFiles;
+}
+
+/**
+ * Create a page resolver for a project
+ * @param projectDir - Angular project directory
+ * @param autoInit - Whether to initialize immediately (default: true)
+ * @returns PageResolver instance
+ *
+ * @example
+ * // Preprocessing step - build once, use for all pages
+ * const resolver = createPageResolver('./my-app');
+ * console.log(`Found ${resolver.getStats().total} components`);
+ * 
+ * // Resolve a page
+ * const homeFiles = resolver.resolvePage('./src/app/home/home.component.html');
+ * console.log(`Home page uses ${homeFiles.components.length} child components`);
+ */
+export function createPageResolver(projectDir: string, autoInit?: boolean): PageResolver;
+
+/**
+ * Build a registry of all Angular components by scanning .ts files
+ * @param projectDir - Project directory
+ * @returns Map of selector -> ComponentInfo
+ */
+export function buildComponentRegistry(projectDir: string): Map<string, ComponentInfo>;
+
+/**
+ * Get statistics about a component registry
+ * @param registry - Component registry
+ * @returns Registry statistics
+ */
+export function getRegistryStats(registry: Map<string, ComponentInfo>): RegistryStats;

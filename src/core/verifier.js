@@ -51,20 +51,23 @@ const { loadCheck, loadAllChecks, getChecksByTier } = require('./loader');
  * @property {string[]} details.skipped - Names of skipped checks
  */
 
+// Verify files are in dev/tests/verify-files (not shipped to npm)
+const VERIFY_FILES_DIR = path.resolve(__dirname, '../../dev/tests/verify-files');
+
 /**
  * Find the verify file for a check module.
  *
- * Looks for verify.html or verify.scss based on the check's type.
+ * Looks for <checkName>.html or <checkName>.scss in dev/tests/verify-files.
  *
- * @param {string} checkPath - Path to the check folder
+ * @param {string} checkPath - Path to the check folder (used to get check name)
  * @param {string} checkType - Type of the check ('html' or 'scss')
  * @returns {{ filePath: string|null, error: string|null }}
  * @private
  */
 function findVerifyFile(checkPath, checkType) {
+  const checkName = path.basename(checkPath);
   const extension = checkType === 'html' ? '.html' : '.scss';
-  const verifyFileName = `verify${extension}`;
-  const verifyFilePath = path.join(checkPath, verifyFileName);
+  const verifyFilePath = path.join(VERIFY_FILES_DIR, `${checkName}${extension}`);
 
   if (fs.existsSync(verifyFilePath)) {
     return { filePath: verifyFilePath, error: null };
@@ -73,7 +76,7 @@ function findVerifyFile(checkPath, checkType) {
   // Also check for alternative extensions
   const alternativeExtensions = checkType === 'html' ? ['.htm'] : ['.css', '.sass'];
   for (const ext of alternativeExtensions) {
-    const altPath = path.join(checkPath, `verify${ext}`);
+    const altPath = path.join(VERIFY_FILES_DIR, `${checkName}${ext}`);
     if (fs.existsSync(altPath)) {
       return { filePath: altPath, error: null };
     }
@@ -81,7 +84,7 @@ function findVerifyFile(checkPath, checkType) {
 
   return {
     filePath: null,
-    error: `Verify file not found: expected ${verifyFileName} in ${checkPath}`
+    error: `Verify file not found: expected ${checkName}${extension} in ${VERIFY_FILES_DIR}`
   };
 }
 

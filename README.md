@@ -4,7 +4,27 @@
 [![license](https://img.shields.io/npm/l/mat-a11y.svg)](./LICENSE)
 [![node](https://img.shields.io/node/v/mat-a11y.svg)](https://nodejs.org)
 
-**Lighthouse can't see your Angular Material components.** mat-a11y can.
+**Static analysis + generative AI = accessible apps.**
+
+mat-a11y finds accessibility issues in Angular Material apps. Then AI fixes them.
+
+---
+
+## The Problem
+
+Accessibility is important, but fixing it is expensive. Manual audits, expert consultants, endless backlogs. Most teams know they *should* do better, but ship inaccessible apps because the cost is too high.
+
+**We built mat-a11y to change that.**
+
+By combining static analysis with generative AI (Claude, GPT-4), we can:
+1. **Find** every accessibility issue in your codebase automatically
+2. **Generate** a structured TODO list that AI can work through
+3. **Fix** hundreds of issues in minutes, not weeks
+
+```bash
+npx mat-a11y ./src -f ai -o fixes.todo.txt
+# Then paste into Claude/ChatGPT: "Fix all issues in this TODO list"
+```
 
 ---
 
@@ -24,7 +44,7 @@ Standard accessibility tools like Lighthouse only analyze rendered HTML. They do
 **Key features:**
 - **82 accessibility checks** across HTML, SCSS, Angular, Material, and CDK
 - **Lighthouse-style 0-100 scoring** per page from your sitemap
-- **16 output formats** for CI/CD, monitoring, and notifications
+- **AI-optimized output** — designed for Claude Opus 4.5, GPT-4, and other LLMs to fix automatically
 
 ---
 
@@ -32,15 +52,23 @@ Standard accessibility tools like Lighthouse only analyze rendered HTML. They do
 
 ```bash
 npm install mat-a11y
-npx mat-a11y ./src
+npx mat-a11y ./src -f ai         # Generate AI-friendly TODO list
 ```
 
 ```
-URL SCORES (67 URLs from sitemap.xml):
-  Passing (90-100%): 61 URLs
-  Needs Work (50-89%): 6 URLs
-  Failing (<50%): 0 URLs
+ACCESSIBILITY TODO: 1750 issues in 72 files
+Mark [x] when fixed. Re-run linter to verify.
+
+────────────────────────────────────────
+FILE: app/components/header/header.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>menu</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] buttonNames: <button mat-icon-button> (×2)
+    → Add aria-label OR visible text
 ```
+
+Paste the output into your AI assistant and let it fix the issues file-by-file.
 
 ---
 
@@ -97,6 +125,49 @@ mat-a11y ./src --file-based # Force file-based analysis
 ```
 
 **Why sitemap-first?** Your sitemap defines what search engines crawl. Pages not in your sitemap won't rank. Analyzing sitemap URLs ensures your SEO-critical pages are accessible.
+
+### Deep Component Resolution
+
+**Real accessibility testing requires analyzing entire pages, not just single components.**
+
+When Lighthouse runs on your deployed app, it sees the complete rendered page — your header, navigation, content, and footer all together. But static analysis tools typically only see the route component's template, missing all the child components that make up the actual page.
+
+**mat-a11y solves this with deep component resolution:**
+
+```
+Route: /home → HomeComponent
+                    │
+                    ├── <app-header>     → header.component.html ✓
+                    ├── <app-navigation> → navigation.component.html ✓
+                    ├── <app-hero>       → hero.component.html ✓
+                    └── <app-footer>     → footer.component.html ✓
+                    
+Traditional tools: analyze 1 file
+mat-a11y:          analyze 5 files (the real page)
+```
+
+**How it works:**
+1. **Preprocessing**: Scans all `.ts` files to build a registry of component selectors
+2. **Resolution**: For each page, finds `<app-*>` tags and recursively resolves their templates
+3. **Analysis**: Runs accessibility checks on all templates that make up the page
+
+This means if your `<app-header>` has an inaccessible button, it will be reported on every page that uses that header — just like a real user would experience it.
+
+```javascript
+// See what mat-a11y resolves for a page
+const { createPageResolver } = require('mat-a11y');
+
+const resolver = createPageResolver('./my-angular-app');
+console.log(`Found ${resolver.getStats().total} components`);
+
+const page = resolver.resolvePage('./src/app/home/home.component.html');
+console.log('Child components:', page.components);
+// ['app-header', 'app-nav', 'app-hero', 'app-footer']
+console.log('Files analyzed:', page.htmlFiles.length);
+// 5 (home + 4 children)
+```
+
+**Disable if needed:** `analyzeBySitemap(dir, { deepResolve: false })`
 
 ### Checks
 
@@ -199,11 +270,12 @@ mat-a11y ./src -w 8               # Use exactly 8 workers
 
 ### Output Formats
 
-mat-a11y supports 16 output formats:
+mat-a11y supports 17 output formats:
 
 | Category | Formats | Use Case |
 |----------|---------|----------|
-| **Built-in** | `--json`, `--html` | Local reports |
+| **Reports** | `json`, `html` | Local analysis, sharing |
+| **AI/LLM** | `ai` | Paste into ChatGPT/Claude for auto-fixes |
 | **CI/CD** | `sarif`, `junit`, `github-annotations`, `gitlab-codequality` | Pipeline integration |
 | **Code Quality** | `sonarqube`, `checkstyle` | Quality gates |
 | **Monitoring** | `prometheus`, `grafana-json`, `datadog` | Dashboards |
@@ -211,10 +283,61 @@ mat-a11y supports 16 output formats:
 | **Data** | `markdown`, `csv` | Documentation, spreadsheets |
 
 ```bash
-mat-a11y ./src -f sarif -o report.sarif   # GitHub Security tab
-mat-a11y ./src -f junit -o report.xml     # Jenkins/GitLab
-mat-a11y ./src -f slack -o slack.json     # Slack webhook
+mat-a11y ./src -f json               # Raw JSON data
+mat-a11y ./src -f html               # Visual HTML report
+mat-a11y ./src -f ai                 # TODO list for AI to fix
+mat-a11y ./src -f sarif              # GitHub Security tab
+mat-a11y ./src -f junit -o test.xml  # Jenkins/GitLab CI
 ```
+
+### AI-Assisted Fixing
+
+The `ai` formatter generates a simple TODO checklist designed for current-generation AI models (Claude Opus 4.5, GPT-4, etc.) to work through systematically:
+
+```bash
+mat-a11y ./src -f ai -o fixes.todo.txt
+```
+
+**Example output:**
+
+```
+ACCESSIBILITY TODO: 1750 issues in 72 files
+Mark [x] when fixed. Re-run linter to verify.
+
+────────────────────────────────────────
+FILE: app/components/image-preview/image-preview.html
+────────────────────────────────────────
+[ ] clickWithoutKeyboard: <div> (×67)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×67)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon class="zoom-icon">zoom_in</mat-icon> (×67)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/replies/replies.html
+────────────────────────────────────────
+[ ] headingOrder: <h4> (×5)
+    → Use h2 instead of h4
+[ ] linkNames: <a href="https://traufix.de" target="_blank"... (×5)
+    → Add aria-label OR visible text
+```
+
+**Usage tips:**
+
+1. **Parallel AI sessions** — We use Claude Opus 4.5 in VS Code (Copilot) to fix issues in parallel. Open the TODO file, let the AI work through items file-by-file, checking off `[x]` as it goes.
+
+2. **File-by-file workflow** — Issues are grouped by file. Tell the AI: *"Fix all issues in `image-preview.html`, then mark them done."*
+
+3. **Deduplication with counts** — `(×67)` means the same issue appears 67 times. The AI fixes the pattern once, all instances resolve.
+
+4. **Re-run to verify** — After fixes, run `mat-a11y ./src -f ai` again. The TODO shrinks as issues get resolved.
+
+5. **Prompt example:**
+   ```
+   Read fixes.todo.txt. For each file, open it, apply the suggested fixes,
+   then mark the checkbox [x]. Work through the entire list.
+   ```
 
 ### CI/CD Integration
 
@@ -455,7 +578,7 @@ Static analysis runs fast (no browser needed), integrates easily into CI/CD, and
 
 ## Contributing
 
-All 82 checks and 16 formatters were developed using **Test-Driven Development (TDD)**. Each check has a `verify.html` or `verify.scss` file with `@a11y-pass` and `@a11y-fail` sections that define expected behavior. The full test fixtures and verification scripts are available in the [GitHub repository](https://github.com/robspan/mat-a11y).
+All 82 checks and 17 formatters were developed using **Test-Driven Development (TDD)**. Each check has a verify file (`dev/tests/verify-files/<checkName>.html` or `.scss`) with `@a11y-pass` and `@a11y-fail` sections that define expected behavior. The full test fixtures and verification scripts are available in the [GitHub repository](https://github.com/robspan/mat-a11y).
 
 ```bash
 git clone https://github.com/robspan/mat-a11y
@@ -468,24 +591,23 @@ npm run dev-check  # Full verification including self-test
 
 | Folder | In npm? | Description |
 |--------|---------|-------------|
-| `src/` | Yes | 82 checks, 16 formatters, core engine |
+| `src/` | Yes | 82 checks, 17 formatters, core engine |
 | `bin/` | Yes | CLI entry point |
-| `dev-tools/` | No | Verification scripts, contributor guide |
-| `example-outputs/` | No | Sample outputs for all 16 formats |
-| `tests/` | No | Test runner |
+| `dev/` | No | Verification scripts, tests, contributor guide |
+| `example-outputs/` | No | Sample outputs for all formats |
 
 ### Adding a Check
 
-1. Create `src/checks/myCheck/index.js` with `name`, `type`, `tier`, `weight`, `check()`
-2. Create `src/checks/myCheck/verify.html` with `@a11y-pass`, `@a11y-fail`, `@a11y-false-positive`, `@a11y-false-negative` sections
+1. Create `src/checks/myCheck.js` with `name`, `type`, `tier`, `weight`, `check()`
+2. Create `dev/tests/verify-files/myCheck.html` with `@a11y-pass`, `@a11y-fail`, `@a11y-false-positive`, `@a11y-false-negative` sections
 3. Run `npm test`
 
 ### Adding a Formatter
 
-1. Create `src/formatters/myFormat/index.js` with `name`, `category`, `output`, `format()`
-2. Run `npm run verify-formatters`
+1. Create `src/formatters/myFormat.js` with `name`, `category`, `output`, `format()`
+2. Run `npm test`
 
-Full docs: [`dev-tools/README.md`](./dev-tools/README.md)
+Full docs: [`dev/README.md`](./dev/README.md)
 
 ---
 

@@ -1,0 +1,1438 @@
+ACCESSIBILITY TODO: 1750 issues in 72 files
+Mark [x] when fixed. Re-run linter to verify.
+
+────────────────────────────────────────
+FILE: app/components/image-preview/image-preview.html
+────────────────────────────────────────
+[ ] clickWithoutKeyboard: <div> (×67)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×67)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon class="zoom-icon">zoom_in</mat-icon> (×67)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/replies/replies.html
+────────────────────────────────────────
+[ ] headingOrder: <h4> (×5)
+    → Use h2 instead of h4
+[ ] linkNames: <a href="https://traufix.de" target="_blank" rel="noopener" ... (×5)
+    → Add aria-label OR visible text
+[ ] matIconAccessibility: <mat-icon class="success-icon">check_circle</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>visibility_off</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>high_quality</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>star</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>event_available</mat-icon> (×15)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon accepted">check_circle</mat-ico... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon declined">cancel</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon pending">schedule</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>restaurant_menu</mat-icon> (×15)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon [style.color]="option.color">{{ option.icon }}</ma... (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_forward</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×15)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="badge-icon" [style.color]="getStatusIconCol... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="badge-icon" [style.color]="dietary.color">{... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>groups</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>email</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>message</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>error</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>send</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/image-upload/image-upload.html
+────────────────────────────────────────
+[ ] formLabels: <input #fileInputEmpty type="file" accep... (×6)
+    → Add <label> OR aria-label
+[ ] formLabels: <input #fileInput type="file" accept... (×6)
+    → Add <label> OR aria-label
+[ ] headingOrder: <h3> (×6)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="empty-icon">photo_library</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×24)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>upload</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add_photo_alternate</mat-icon> (×12)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>groups</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ isLoadingMore ? 'hourglass_empty' : 'expand_mor... (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/day-plan/day-plan.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="openEditDialog($index)" mat... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="deleteEvent($i... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="cancelEditing()"> <mat-icon... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button type="button" mat-icon-button class="icon-... (×2)
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div> (×8)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×8)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon>add</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>event_note</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="time-icon">schedule</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="event-icon">{{ event.icon }}</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>place</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>checkroom</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>schedule</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>access_time</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>celebration</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>place</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ icon }}</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="premium-badge-icon">workspace_premium</mat-... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>location_on</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>map</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>info</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>local_parking</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>accessible</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ editingIndex !== null && editingIndex >= 0 ? 's... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/organisators/organisators.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="openEditDialog(i)" [matTool... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button [disabled]="i === 0" (... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button [disabled]="i === people.length - 1"... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="removePerson(i... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="cancelEditing()"> <mat-icon... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button class="clear-role-button"... (×2)
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div> (×4)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×4)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>description</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>work</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>phone</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>email</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_upward</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_downward</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>people</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ suggestion.icon }}</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>phone</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>email</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ editingIndex !== null ? 'check' : 'add' }}</mat... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/system/page-header/page-header.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>{{ icon }}</mat-icon> (×28)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>open_in_new</mat-icon> (×28)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: app/pages/landing/landing.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>info_outline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>local_offer</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="spinning">hourglass_empty</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>keyboard_arrow_down</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>bolt</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>shield</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>devices</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>support_agent</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>timeline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>touch_app</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>celebration</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>category</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>auto_awesome</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>dashboard_customize</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>palette</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>widgets</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>swap_vert</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>visibility</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ preset.icon }}</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add_circle_outline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>star</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>event_available</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo_library</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>schedule</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>qr_code_2</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>cake</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>upload</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>zoom_in</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>verified</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>language</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>speed</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>favorite</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>rocket_launch</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>verified_user</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>lock</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/contact/contact.html
+────────────────────────────────────────
+[ ] headingOrder: <h3> (×5)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="header-icon">contact_mail</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="info-icon">info</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="success-icon">check_circle</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>message</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>error</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>send</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/locations/locations.html
+────────────────────────────────────────
+[ ] headingOrder: <h3> (×5)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="card-icon location-icon">{{ location.icon }... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="card-icon location-icon">location_on</mat-i... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>place</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>directions_car</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>schedule</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>local_parking</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>phone</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>language</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>map</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/guest-footer/guest-footer.html
+────────────────────────────────────────
+[ ] linkNames: <a href="https://traufix.de" target="_blank" rel="noopener" ... (×5)
+    → Add aria-label OR visible text
+[ ] matIconAccessibility: <mat-icon>visibility_off</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add_circle</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>high_quality</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>star</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>bolt</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>shield</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="contact-icon">email</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="contact-icon">phone</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/housing/housing.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="openEditDialog($index)" [ma... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="deleteHotel($i... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="cancelEditing()"> <mat-icon... (×2)
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div> (×4)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×4)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon>add</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>location_on</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>directions</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>hotel</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>business</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>location_on</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>phone</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>directions</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>language</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/replies/replies.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>subject</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>send</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ showAdvanced ? 'expand_less' : 'expand_more' }}... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>label</mat-icon> (×12)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>text_fields</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>check_circle</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>cancel</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>schedule</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>info</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>error</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/housing/housing.html
+────────────────────────────────────────
+[ ] headingOrder: <h3> (×5)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="hotel-icon">hotel</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>euro</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>location_on</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>directions_car</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>phone</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>email</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>language</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>map</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/day-plan/day-plan.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>{{ event.icon }}</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>place</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>location_on</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>map</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>local_parking</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>accessible</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>checkroom</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/structural-order/structural-order.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="openThemeInfoDialog(templat...
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <span>
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <span>
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon class="floating-icon" [style.animation-delay.s]="i... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="large-icon">web</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="publishing-icon"> {{ isPublished() ? 'cloud...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="success-icon">check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>link</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>cloud_off</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>visibility</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="email-icon">mark_email_unread</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="arrow">arrow_forward</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>touch_app</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>rocket_launch</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="hint-icon">info</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>publish</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="component-icon">{{ component.icon }}</mat-i...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon configured">check_circle</mat-i...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon pending">schedule</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="chevron-icon">chevron_right</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>settings</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>tune</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>palette</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_back</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="preset-icon">{{ template.icon }}</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info_outline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/dashboard/dashboard.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="navigateTo('/administration...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="exportDietaryList(); $event...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="navigateTo('/administration...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="navigateTo('/administration...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="navigateTo('/configurator/w...
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div>
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div>
+    → Add role="button" tabindex="0" OR use <button>
+[ ] headingOrder: <h3>
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="large-icon">dashboard</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>reply</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>open_in_new</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>restaurant_menu</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon [style.color]="diet.color">{{ diet.icon }}</mat-ic...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>people</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>download</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>notifications</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>celebration</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon [style.color]="activity.color">{{ activity.icon }}...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>forum</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>block</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail_outline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo_library</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo_camera</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>zoom_in</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>redeem</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>card_giftcard</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>hourglass_empty</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>person</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-complete">check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/faq/faq.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="openEditDialog($index)" mat... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="deleteQuestion... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="cancelEditing()"> <mat-icon... (×2)
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div> (×4)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×4)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>help_outline</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="faq-icon">help_outline</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/quote/quote.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="addCustomQuote($index)" mat... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="deleteQuote($i... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="cancelEditing()"> <mat-icon... (×2)
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div> (×4)
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div> (×4)
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon class="style-icon">{{ style.icon }}</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>format_quote</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="quote-icon">format_quote</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/bridal-couple/bridal-couple.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-fab color="primary" class="upload-btn" (click)="... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-mini-fab color="warn" class="remove-btn" (click)... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-fab color="primary" class="upload-btn" (click)="... (×2)
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-mini-fab color="warn" class="remove-btn" (click)... (×2)
+    → Add aria-label OR visible text
+[ ] formLabels: <input type="file" #fileInput1 accept="image/*" (change)="on... (×2)
+    → Add <label> OR aria-label
+[ ] formLabels: <input type="file" #fileInput2 accept="image/*" (change)="on... (×2)
+    → Add <label> OR aria-label
+[ ] matIconAccessibility: <mat-icon>add_photo_alternate</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ person1ImagePreview() ? 'edit' : 'add' }}</mat-... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>info</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ person2ImagePreview() ? 'edit' : 'add' }}</mat-... (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>favorite</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/general/general.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="large-icon">settings</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>favorite</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×8)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>badge</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>calendar_today</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>lock</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="link-icon">link</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/qr-code/qr-code.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="copyUrl()" matTooltip="UR.....
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button (click)="testUrl()" matTooltip="In.....
+    → Add aria-label OR visible text
+[ ] matIconAccessibility: <mat-icon class="large-icon">qr_code_2</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>tune</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo_size_select_large</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="premium-icon-inline">workspace_premium</mat... (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>download</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>preview</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>rocket_launch</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>celebration</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>link</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>content_copy</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>open_in_new</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>palette</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>palette</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>format_color_fill</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>image</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>workspace_premium</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ customLogoUrl() && isPremium() ? 'edit' : 'tune...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>restore</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>tips_and_updates</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>description</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>auto_awesome</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>print</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>verified</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/wedding-registry/wedding-registry.html
+────────────────────────────────────────
+[ ] headingOrder: <h3> (×5)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="card-icon">card_giftcard</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>open_in_new</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>card_giftcard</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/photo-album/photo-album.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button class="refresh-button" (click)="relo...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-mini-fab color="warn" class="action-bt...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-mini-fab color="primary" class="action...
+    → Add aria-label OR visible text
+[ ] clickWithoutKeyboard: <div>
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div>
+    → Add role="button" tabindex="0" OR use <button>
+[ ] formLabels: <input #fileInput type="file" accept="image/*" mul...
+    → Add <label> OR aria-label
+[ ] matIconAccessibility: <mat-icon class="large-icon">photo_library</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>storage</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ getMaxResolution().isPremium ? 'auto_awesome' :...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ warning.icon }}</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>upgrade</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>workspace_premium</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>download</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>photo_library</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>person</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>calendar_today</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>insert_drive_file</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ isAtHardLimit() ? 'block' : 'add_photo_alternat...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ selectMode() ? 'check_box' : 'check_box_outline...
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/upgrade/upgrade.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button (click)="closeOrNavigate()" class="c...
+    → Add aria-label OR visible text
+[ ] matIconAccessibility: <mat-icon class="celebration-icon">auto_awesome</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>science</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>savings</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>local_offer</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>schedule</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>hourglass_empty</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>construction</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="verification-icon">mark_email_unread</mat-i...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="arrow-mini">arrow_forward</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>touch_app</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>payment</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>lock</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matTooltip="PayPal">account_balance_wallet</mat-ic...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matTooltip="Kreditkarte">credit_card</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matTooltip="Lastschrift">account_balance</mat-icon...
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/account/account/account.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="large-icon">account_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_back</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>favorite</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×3)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>credit_card</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>cancel</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>verified_user</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="consent-icon active">check_circle</mat-icon... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>history</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon withdrawn">cancel</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon active">check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="status-icon inactive">history</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>warning</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete_forever</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/countdown/countdown.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>favorite</mat-icon> (×20)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="celebration-icon">celebration</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/organisators/organisators.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="card-icon role-icon">{{ getRoleIcon(person.... (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>phone</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>email</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/title-image/title-image.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="deco-icon deco-1">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="deco-icon deco-2">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="deco-icon deco-3">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="deco-icon deco-4">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="scroll-icon">expand_more</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/replies/replies.html
+────────────────────────────────────────
+[ ] buttonNames: <button mat-icon-button color="primary" (click)="viewReplyDe...
+    → Add aria-label OR visible text
+[ ] buttonNames: <button mat-icon-button color="warn" (click)="deleteReply(re...
+    → Add aria-label OR visible text
+[ ] headingOrder: <h3>
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="large-icon">question_answer</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon color="warn">error</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="stat-icon accepted">check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="stat-icon guests">people</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon [style.color]="item.color" class="dietary-icon-com...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="stat-icon dietary">restaurant_menu</mat-ico...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="stat-icon pending">schedule</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>add</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="chip-icon">{{ getStatusIcon(reply.status) }...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="cell-icon">groups</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="dietary-icon-small" [style.color]="getDieta...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>delete</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>inbox</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>cancel</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>schedule</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/contact-information/contact-information.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>phone</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>mail</mat-icon> (×10)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/housing/housing.scss
+────────────────────────────────────────
+[ ] hoverWithoutFocus: .contact-link:hover (×20)
+    → Add :focus styles matching :hover
+
+────────────────────────────────────────
+FILE: pages/configurator-view/contact-information/contact-information.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>face_3</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>phone</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>email</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>face</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: app/components/impressum/impressum.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>article</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>lightbulb</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>person</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>person</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>home</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>place</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>location_city</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>public</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>contact_mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>email</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>phone</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>notes</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>description</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>business</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>receipt</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>badge</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>save</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/guest-view/guest-view.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>close</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="no-components-icon">web</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/account/signin/signin.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="discount-icon">local_offer</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>error_outline</mat-icon> (×4)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>hourglass_empty</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: <app-empty-component-state> (inline template)
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="no-data-icon">{{ icon }}</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/gifts/gifts.html
+────────────────────────────────────────
+[ ] headingOrder: <h3>
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="large-icon">card_giftcard</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>redeem</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>{{ showGifts() ? 'visibility_off' : 'visibility' }...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="gift-box-icon">redeem</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="empty-icon">card_giftcard</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="ribbon-icon">favorite</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="gift-icon">redeem</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>calendar_today</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>euro</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>open_in_new</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/website-not-published/website-not-published.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="main-icon">construction</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/faq/faq.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="question-icon">help_outline</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="answer-icon">check_circle</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/wedding-abc/wedding-abc.html
+────────────────────────────────────────
+[ ] headingOrder: <h3> (×5)
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/countdown/countdown.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="style-icon">{{ style.icon }}</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>event</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>message</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="checkbox-icon">schedule</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/invitations/invitations.html
+────────────────────────────────────────
+[ ] clickWithoutKeyboard: <div>
+    → Add (keydown.enter) and (keydown.space) OR use <button>
+[ ] clickWithoutRole: <div>
+    → Add role="button" tabindex="0" OR use <button>
+[ ] matIconAccessibility: <mat-icon class="large-icon">mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon [style.color]="theme.colors.primary">{{ theme.icon...
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>place</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>people</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>hourglass_empty</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>download</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/general/general.scss
+────────────────────────────────────────
+[ ] colorContrast: "Material button disabled state styling ::ng-deep .": rgba(0... (×2)
+    → Increase color contrast ratio
+[ ] colorContrast: "::ng-deep .delete-btn.mat-mdc-button-disabled": rgba(0, 0, ... (×2)
+    → Increase color contrast ratio
+[ ] colorContrast: ".taken-label": white on #f44336 (×2)
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba(0, 0, 0, 0.38)" (×2)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/configurator-view/image-upload/image-upload.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>description</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: <app-component-edit-button> (inline template)
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>edit</mat-icon> (×6)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/account/signin/signin.scss
+────────────────────────────────────────
+[ ] colorContrast: "&.validating": #e65100 on #fff3e0 (×2)
+    → Increase color contrast ratio
+[ ] colorContrast: "Privacy hint - LEGALLY REQUIRED - must always be v": rgba(0... (×2)
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba(0, 0, 0, 0.38)" (×2)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/administration/messages/messages.html
+────────────────────────────────────────
+[ ] headingOrder: <h3>
+    → Use h2 instead of h3
+[ ] matIconAccessibility: <mat-icon class="large-icon">mail</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon color="warn">error</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>email</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon class="heart-icon">favorite</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/closing-words/closing-words.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>message</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/contact/contact.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>title</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon matPrefix>message</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/bridal-couple/bridal-couple.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="story-icon">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/closing-words/closing-words.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon class="heart-icon">favorite</mat-icon> (×5)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/guest-view/replies/replies.scss
+────────────────────────────────────────
+[ ] colorContrast: "&:disabled": rgba(0, 0, 0, 0.4) !important on rgba(0, 0, 0,... (×5)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/guest-view/guest-footer/guest-footer.scss
+────────────────────────────────────────
+[ ] colorContrast: ".upgrade-badge": white on #f59e0b (×5)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: app/pages/landing/landing.scss
+────────────────────────────────────────
+[ ] colorContrast: "rgba($color-primary, 0.2)"
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba($color-primary, 0.15)"
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba($color-green, 0.15)"
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba($color-primary-dark, 0.12)"
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: <app-data-update-banner> (inline template)
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>info</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/freetext/freetext.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>description</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/configurator-view/invitation-text/invitation-text.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon matPrefix>edit_note</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>refresh</mat-icon> (×2)
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/generator/form-builder.html
+────────────────────────────────────────
+[ ] ngForTrackBy: let field of formFields (×2)
+    → Add trackBy function to *ngFor
+[ ] ngForTrackBy: let option of field.options
+    → Add trackBy function to *ngFor
+
+────────────────────────────────────────
+FILE: pages/account/magic-link/magic-link.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>check_circle</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>error_outline</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+[ ] matIconAccessibility: <mat-icon>arrow_back</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/planer/schedule-builder.html
+────────────────────────────────────────
+[ ] formLabels: <input type="time" [(ngModel)]="event....
+    → Add <label> OR aria-label
+[ ] formLabels: <input type="number" [(ngModel)]="even...
+    → Add <label> OR aria-label
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/generator/mix-match-builder.html
+────────────────────────────────────────
+[ ] ngForTrackBy: let category of categories
+    → Add trackBy function to *ngFor
+[ ] ngForTrackBy: let item of getFilteredItems()
+    → Add trackBy function to *ngFor
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/planer/checklist-progress.scss
+────────────────────────────────────────
+[ ] colorContrast: "&.close": #e65100 on #fff3e0
+    → Increase color contrast ratio
+[ ] colorContrast: "&.overdue": #d32f2f on #ffebee
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/administration/upgrade/upgrade.scss
+────────────────────────────────────────
+[ ] colorContrast: ".current-ribbon": white on #4caf50
+    → Increase color contrast ratio
+[ ] colorContrast: ".discount-badge": white on #ff5252
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/account/account/account.scss
+────────────────────────────────────────
+[ ] colorContrast: ".delete-btn.mat-mdc-button-disabled": rgba(0, 0, 0, 0.38) !...
+    → Increase color contrast ratio
+[ ] colorContrast: "rgba(0, 0, 0, 0.38)"
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/planer/schedule-builder.scss
+────────────────────────────────────────
+[ ] hoverWithoutFocus: .remove-btn:hover
+    → Add :focus styles matching :hover
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/checkliste/assignable-checklist.scss
+────────────────────────────────────────
+[ ] colorContrast: "&.export-button": #6d0000 on rgba(244, 67, 54, 0.12)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/inspiration/element-pairing.scss
+────────────────────────────────────────
+[ ] colorContrast: ".count": #0a3d0c on rgba(76, 175, 80, 0.25)
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: media/category-interactive-components/generator/conditional-text-builder.html
+────────────────────────────────────────
+[ ] matIconAccessibility: <mat-icon>expand_more</mat-icon>
+    → Add aria-hidden="true" OR aria-label="description"
+
+────────────────────────────────────────
+FILE: pages/administration/invitations/invitations.scss
+────────────────────────────────────────
+[ ] hoverWithoutFocus: .finished:hover
+    → Add :focus styles matching :hover
+
+────────────────────────────────────────
+FILE: pages/configurator-view/structural-order/structural-order.scss
+────────────────────────────────────────
+[ ] colorContrast: "rgba($color-primary, 0.25)"
+    → Increase color contrast ratio
+
+────────────────────────────────────────
+FILE: pages/administration/gifts/gifts.scss
+────────────────────────────────────────
+[ ] hoverWithoutFocus: .gift-card:hover
+    → Add :focus styles matching :hover
+
+────────────────────────────────────────
+FILE: pages/account/delete-account/delete-account.html
+────────────────────────────────────────
+[ ] headingOrder: <h3>
+    → Use h2 instead of h3

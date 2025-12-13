@@ -1,8 +1,8 @@
 /**
  * mat-a11y Output Formatters
  *
- * 85+ output formats for every integration imaginable.
- * Each formatter is a module in its own folder with validation.
+ * 14 output formats for CI/CD, monitoring, and notifications.
+ * Each formatter is a .js file with name, category, output, and format().
  */
 
 const {

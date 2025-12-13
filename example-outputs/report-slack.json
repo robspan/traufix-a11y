@@ -12,7 +12,7 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":large_yellow_circle: *Status: Warning*\nTier: `full` | Pass Rate: *91%*"
+        "text": ":large_yellow_circle: *Status: Warning*\nTier: `material` | Pass Rate: *1%*"
       }
     },
     {
@@ -27,11 +27,11 @@
         },
         {
           "type": "mrkdwn",
-          "text": "*Passing*\n:large_green_circle: 61"
+          "text": "*Passing*\n:large_green_circle: 1"
         },
         {
           "type": "mrkdwn",
-          "text": "*Warning*\n:large_yellow_circle: 6"
+          "text": "*Warning*\n:large_yellow_circle: 66"
         },
         {
           "type": "mrkdwn",
@@ -53,35 +53,35 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */agb*\nScore: 83% | Issues: 6\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":warning: */*\nScore: 59% | Issues: 83\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */datenschutz*\nScore: 83% | Issues: 6\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":warning: */agb*\nScore: 60% | Issues: 140\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */impressum*\nScore: 83% | Issues: 6\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":warning: */datenschutz*\nScore: 60% | Issues: 140\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */cookies*\nScore: 83% | Issues: 6\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":warning: */impressum*\nScore: 60% | Issues: 140\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */widerrufsrecht*\nScore: 83% | Issues: 6\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":warning: */cookies*\nScore: 60% | Issues: 140\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
@@ -91,28 +91,28 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Internal Routes* (not in sitemap)\n76 routes | :large_green_circle: 9 | :large_yellow_circle: 40 | :red_circle: 1"
+        "text": "*Internal Routes* (not in sitemap)\n76 routes | :large_green_circle: 24 | :large_yellow_circle: 23 | :red_circle: 3"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":x: */verwaltung/fotoalbum*\nScore: 42% | Issues: 38\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos"
+        "text": ":x: */verwaltung/einladungen*\nScore: 42% | Issues: 9\n  - `clickWithoutKeyboard`: Click handler without keyboard support. Keyboard users cannot activate this elem\n  - `clickWithoutRole`: Clickable element missing role. Screen readers cannot identify the element as in\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */konfigurator/reihenfolge*\nScore: 60% | Issues: 49\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `clickWithoutKeyboard`: Click handler without keyboard support. Keyboard users cannot activate this elem\n  - `clickWithoutRole`: Clickable element missing role. Screen readers cannot identify the element as in"
+        "text": ":x: */konfigurator/reihenfolge*\nScore: 42% | Issues: 41\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `clickWithoutKeyboard`: Click handler without keyboard support. Keyboard users cannot activate this elem\n  - `clickWithoutRole`: Clickable element missing role. Screen readers cannot identify the element as in"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: */verwaltung/einladungen*\nScore: 61% | Issues: 12\n  - `clickWithoutKeyboard`: Click handler without keyboard support. Keyboard users cannot activate this elem\n  - `clickWithoutRole`: Clickable element missing role. Screen readers cannot identify the element as in\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
+        "text": ":x: */verwaltung/fotoalbum*\nScore: 45% | Issues: 31\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos"
       }
     },
     {
@@ -123,10 +123,10 @@
       "elements": [
         {
           "type": "mrkdwn",
-          "text": "Generated by *mat-a11y* | 2025-12-12T21:33:05.202Z"
+          "text": "Generated by *mat-a11y* | 2025-12-13T13:52:28.431Z"
         }
       ]
     }
   ],
-  "text": "Accessibility Report: Warning - 61/67 URLs passing (91%)"
+  "text": "Accessibility Report: Warning - 1/67 URLs passing (1%)"
 }

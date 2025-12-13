@@ -898,6 +898,10 @@ function formatConsoleOutput(results) {
 // EXPORTS
 // ============================================
 
+// Import page resolver for deep component resolution (preprocessing)
+const { PageResolver, createPageResolver } = require('./core/pageResolver');
+const { buildComponentRegistry, getRegistryStats } = require('./core/componentRegistry');
+
 module.exports = {
   // Simple one-liner API
   basic,
@@ -918,6 +922,12 @@ module.exports = {
   analyzeBySitemap,
   formatSitemapResults,
   findSitemap,
+
+  // Page resolver (preprocessing for deep component resolution)
+  PageResolver,
+  createPageResolver,
+  buildComponentRegistry,
+  getRegistryStats,
 
   // New modular API
   verifyChecks,

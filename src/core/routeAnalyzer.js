@@ -13,6 +13,7 @@ const { parseAngularRoutes } = require('./routeParser');
 const { resolveAllRoutes } = require('./componentResolver');
 const { calculateAuditScore } = require('./weights');
 const { loadAllChecks, getChecksByTier } = require('./loader');
+const { createPageResolver } = require('./pageResolver');
 
 /**
  * Get check names from registry filtered by type
@@ -84,18 +85,20 @@ function countErrors(issues) {
 }
 
 /**
- * Analyze a single route
+ * Analyze a single route with pre-resolved page files
  * @param {object} route - Route with resolved files
+ * @param {object} pageFiles - Pre-resolved page files from PageResolver
  * @param {Map} registry - Check registry (tier-filtered)
  * @param {string[]} htmlChecks - HTML check names to run
  * @param {string[]} scssChecks - SCSS check names to run
  * @returns {object} Route analysis result
  */
-function analyzeRoute(route, registry, htmlChecks, scssChecks) {
+function analyzeRoute(route, pageFiles, registry, htmlChecks, scssChecks) {
   const result = {
     path: route.path,
     component: route.loadComponent?.exportName || route.component || null,
     files: [],
+    childComponents: pageFiles?.components || [],
     auditScore: 100,
     auditsTotal: 0,
     auditsPassed: 0,
@@ -109,10 +112,12 @@ function analyzeRoute(route, registry, htmlChecks, scssChecks) {
 
   const checkAggregates = {};
 
-  // Analyze HTML file
-  if (route.files.html && fs.existsSync(route.files.html)) {
-    result.files.push(route.files.html);
-    const content = fs.readFileSync(route.files.html, 'utf-8');
+  // Analyze all HTML files (resolved by PageResolver)
+  for (const htmlFile of (pageFiles?.htmlFiles || [])) {
+    if (!fs.existsSync(htmlFile)) continue;
+    
+    result.files.push(htmlFile);
+    const content = fs.readFileSync(htmlFile, 'utf-8');
 
     // Run HTML checks
     for (const checkName of htmlChecks) {
@@ -138,17 +143,50 @@ function analyzeRoute(route, registry, htmlChecks, scssChecks) {
       for (const issue of checkResult.issues) {
         result.issues.push({
           message: typeof issue === 'string' ? issue : issue.message,
-          file: route.files.html,
+          file: htmlFile,
           check: checkName
         });
       }
     }
   }
 
-  // Analyze SCSS file
-  if (route.files.scss && fs.existsSync(route.files.scss)) {
-    result.files.push(route.files.scss);
-    const content = fs.readFileSync(route.files.scss, 'utf-8');
+  // Analyze inline templates
+  for (const { selector, template } of (pageFiles?.inlineTemplates || [])) {
+    for (const checkName of htmlChecks) {
+      const checkResult = runCheck(checkName, template, registry);
+
+      if (!checkAggregates[checkName]) {
+        checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
+      }
+      checkAggregates[checkName].elementsFound += checkResult.elementsFound;
+      checkAggregates[checkName].issues += checkResult.issues.length;
+
+      const errorCount = countErrors(checkResult.issues);
+      checkAggregates[checkName].errors += errorCount;
+      checkAggregates[checkName].warnings += (checkResult.issues.length - errorCount);
+
+      if (checkResult.elementsFound > 0) {
+        result.elementsChecked += checkResult.elementsFound;
+        result.elementsPassed += (checkResult.elementsFound - checkResult.issues.length);
+        result.elementsFailed += checkResult.issues.length;
+      }
+
+      for (const issue of checkResult.issues) {
+        result.issues.push({
+          message: typeof issue === 'string' ? issue : issue.message,
+          file: `<${selector}> (inline template)`,
+          check: checkName
+        });
+      }
+    }
+  }
+
+  // Analyze all SCSS files (resolved by PageResolver)
+  for (const scssFile of (pageFiles?.scssFiles || [])) {
+    if (!fs.existsSync(scssFile)) continue;
+    
+    result.files.push(scssFile);
+    const content = fs.readFileSync(scssFile, 'utf-8');
 
     for (const checkName of scssChecks) {
       const checkResult = runCheck(checkName, content, registry);
@@ -172,7 +210,7 @@ function analyzeRoute(route, registry, htmlChecks, scssChecks) {
       for (const issue of checkResult.issues) {
         result.issues.push({
           message: typeof issue === 'string' ? issue : issue.message,
-          file: route.files.scss,
+          file: scssFile,
           check: checkName
         });
       }
@@ -206,10 +244,12 @@ function progressBar(percentage, width = 10) {
  * Analyze an Angular project by routes
  * @param {string} projectDir - Angular project directory
  * @param {object} options - Analysis options
+ * @param {boolean} options.deepResolve - Enable deep component resolution (default: true)
  * @returns {object} Analysis results
  */
 function analyzeByRoute(projectDir, options = {}) {
   const tier = options.tier || 'material';
+  const deepResolve = options.deepResolve !== false; // Default to true
 
   // Load check registry
   const fullRegistry = loadAllChecks();
@@ -245,16 +285,38 @@ function analyzeByRoute(projectDir, options = {}) {
     };
   }
 
+  // Preprocessing: Build page resolver for deep component resolution
+  let pageResolver = null;
+  if (deepResolve) {
+    pageResolver = createPageResolver(projectDir);
+  }
+
   // Analyze each route
   const routeResults = [];
   let totalScore = 0;
   let totalIssues = [];
+  let totalChildComponents = 0;
 
   for (const route of resolved) {
-    const result = analyzeRoute(route, registry, htmlChecks, scssChecks);
+    // Preprocessing - resolve all page files (primary + children)
+    const routeFiles = {
+      html: route.files.html,
+      scss: route.files.scss
+    };
+    const pageFiles = pageResolver 
+      ? pageResolver.resolveRouteFiles(routeFiles)
+      : {
+          htmlFiles: routeFiles.html ? [routeFiles.html] : [],
+          scssFiles: routeFiles.scss ? [routeFiles.scss] : [],
+          inlineTemplates: [],
+          components: []
+        };
+
+    const result = analyzeRoute(route, pageFiles, registry, htmlChecks, scssChecks);
     routeResults.push(result);
     totalScore += result.auditScore;
     totalIssues.push(...result.issues);
+    totalChildComponents += result.childComponents.length;
   }
 
   // Calculate site average
@@ -287,6 +349,9 @@ function analyzeByRoute(projectDir, options = {}) {
     };
   });
 
+  // Get stats from pageResolver
+  const resolverStats = pageResolver ? pageResolver.getStats() : null;
+
   return {
     tier,
     siteAverage,
@@ -295,7 +360,13 @@ function analyzeByRoute(projectDir, options = {}) {
     worstRoutes,
     routingFiles: parsed.routingFiles,
     totalIssues: totalIssues.length,
-    allIssues: totalIssues
+    allIssues: totalIssues,
+    // Deep resolution stats
+    deepResolve: deepResolve ? {
+      enabled: true,
+      componentsInRegistry: resolverStats?.total || 0,
+      childComponentsAnalyzed: totalChildComponents
+    } : { enabled: false }
   };
 }
 

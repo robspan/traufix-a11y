@@ -5,6 +5,32 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] - 2025-12-13
+
+### Added
+- **Deep Component Resolution** - Pages now analyzed with all child components, not just the route component
+- `PageResolver` class - Preprocessing step that builds component registry and resolves page dependencies
+- `createPageResolver()` - Factory function for easy page resolution
+- `buildComponentRegistry()` - Scans all `.ts` files to find `@Component` decorators and their selectors
+- Support for inline templates (`template:`) in addition to `templateUrl:`
+- `childComponents` array in analysis results showing which components were found
+- `deepResolve` stats in results: `componentsInRegistry`, `childComponentsAnalyzed`
+
+### Changed
+- Both `analyzeBySitemap()` and `analyzeByRoute()` now use PageResolver as preprocessing
+- Deep resolution enabled by default (disable with `{ deepResolve: false }`)
+- Refactored component resolution into shared `pageResolver.js` module
+- **Flattened project structure**: Checks and formatters are now single `.js` files instead of folders
+  - `src/checks/buttonNames.js` instead of `src/checks/buttonNames/index.js`
+  - `src/formatters/sarif.js` instead of `src/formatters/sarif/index.js`
+- Verify files moved to `dev/tests/verify-files/<checkName>.html|scss`
+- All internal tests consolidated in `dev/tests/`
+
+### Architecture
+- Preprocessing is now a shared step for both sitemap and route analysis
+- Component registry built once, reused for all pages
+- Recursive resolution handles nested components (prevents infinite loops)
+
 ## [4.1.2] - 2025-12-13
 
 ### Improved
@@ -27,9 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Worker modes: `sync` (default), `auto`, or specific number (e.g., `8`)
 - Lazy worker initialization in `auto` mode - zero overhead for small projects
 - Batch processing to minimize message passing overhead
-- `tests/test-parallel.js` for verifying parallel correctness
-- `dev-tools/benchmark.js` for testing different worker configurations
-- Parallel Processing Architecture section in dev-tools/README.md
+- `dev/benchmark.js` for testing different worker configurations
+- Parallel Processing Architecture section in dev/README.md
 
 ### Changed
 - CLI flag `-w, --workers` now accepts `sync`, `auto`, or a number
