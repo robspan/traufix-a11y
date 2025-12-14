@@ -5,6 +5,28 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.3.0] - 2025-12-14
+
+### Added
+- **New `analyzeByComponent()` function** - Scans all `@Component` files directly for complete coverage
+- **Component-based analysis as default** - CLI now uses component-based analysis by default (was sitemap-based)
+- **`--sitemap` flag** - Use sitemap + routes analysis for SEO/Google crawl view
+- **Clean component count** - Output now shows both clean and problematic components
+
+### Changed
+- **Default analysis mode** - Now scans all `@Component` files instead of relying on sitemap/routes
+  - Before: 35 components found (sitemap-based)
+  - After: 307 components found (complete coverage)
+- **Sitemap analyzer improvements**:
+  - Removed 50-route limit on internal routes (now analyzes all)
+  - Clean components now properly counted and displayed
+  - Output shows: `🟢 Clean (no issues): 115` / `🟡 Has Issues: 52`
+- **README updated** with new analysis modes, Real-World Results section, and traufix.de case study
+
+### Fixed
+- **Missing components in sitemap mode** - Internal routes were limited to 50, now analyzes all
+- **Clean count always showing 0** - `groupByComponent()` now tracks components without issues
+
 ## [5.2.2] - 2025-12-14
 
 ### Fixed

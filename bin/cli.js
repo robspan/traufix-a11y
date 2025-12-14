@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { analyze, analyzeByRoute, formatConsoleOutput, formatRouteResults, TIERS, DEFAULT_CONFIG } = require('../src/index.js');
 const { analyzeBySitemap, formatSitemapResults, findSitemap } = require('../src/core/sitemapAnalyzer.js');
+const { analyzeByComponent, formatComponentResults } = require('../src/core/componentAnalyzer.js');
 const { loadAllFormatters, listFormatters } = require('../src/formatters/index.js');
 
 // ANSI colors
@@ -39,7 +40,8 @@ function parseArgs(args) {
     selfTest: false,    // --self-test
     jsonReport: false,  // --json: write mat-a11y-report.json
     htmlReport: false,  // --html: write mat-a11y-report.html
-    fileBased: false,   // --file-based: use old file-based analysis instead of route-based
+    fileBased: false,   // --file-based: use old file-based analysis instead of component-based
+    sitemapBased: false, // --sitemap: use sitemap-based analysis (for SEO/Google crawling view)
     deepResolve: false  // --deep: bundle parent + child components (Lighthouse-like)
   };
 
@@ -94,6 +96,7 @@ function parseArgs(args) {
     else if (arg === '--json') { options.format = 'json'; options.output = options.output || 'mat-a11y.json'; }
     else if (arg === '--html') { options.format = 'html'; options.output = options.output || 'mat-a11y.html'; }
     else if (arg === '--file-based') options.fileBased = true;
+    else if (arg === '--sitemap') options.sitemapBased = true;
     else if (arg === '--deep') options.deepResolve = true;
     else if (!arg.startsWith('-')) options.files.push(arg);
   }
@@ -148,17 +151,13 @@ ${c.cyan}OPTIONS:${c.reset}
   -o, --output <path>   Custom output path
 
 ${c.cyan}ANALYSIS MODE:${c.reset}
-  ${c.dim}Default: Component-level (each component analyzed independently)${c.reset}
-  --deep                Page-level analysis (bundle parent + child components)
-  --file-based          Legacy file-based analysis (no route awareness)
+  ${c.dim}Default: Component-level (scans all @Component files directly)${c.reset}
+  --sitemap             Sitemap-based analysis (for SEO/Google crawling view)
+  --file-based          Legacy file-based analysis (scans HTML/SCSS files only)
+  --deep                Bundle parent + child components (Lighthouse-like scores)
 
-  Analysis priority:
-  1. sitemap.xml found → Analyze URLs Google will crawl
-  2. No sitemap → Fall back to Angular route analysis
-  3. No routes → Fall back to file-based analysis
-
-  ${c.dim}Note: Default mode is optimized for fixing. Use --deep for
-  Lighthouse-like page scores (less accurate for individual fixes).${c.reset}
+  ${c.dim}Note: Default mode scans ALL Angular components for complete coverage.
+  Use --sitemap for Google-crawl perspective.${c.reset}
 
 ${c.cyan}VERIFICATION:${c.reset}
   --verified            Verify checks work before running (self-test)
@@ -619,15 +618,12 @@ async function main() {
   }
 
   let results;
-  let useFileBased = opts.fileBased;
-  let usedMode = 'file-based';
 
-  // Try sitemap-based analysis first (default for SEO)
-  if (!useFileBased) {
+  // Sitemap-based analysis (explicit --sitemap flag)
+  if (opts.sitemapBased) {
     const sitemapPath = findSitemap(opts.files[0]);
 
     if (sitemapPath) {
-      usedMode = 'sitemap';
       const sitemapResults = analyzeBySitemap(opts.files[0], {
         tier: opts.tier,
         sitemap: sitemapPath,
@@ -635,22 +631,7 @@ async function main() {
       });
 
       if (!sitemapResults.error && sitemapResults.urlCount > 0) {
-        // Use sitemap-based results
         console.log(formatSitemapResults(sitemapResults));
-
-        // Write JSON report if requested
-        if (opts.jsonReport) {
-          const jsonPath = opts.output || 'mat-a11y-report.json';
-          fs.writeFileSync(jsonPath, formatJSON(sitemapResults));
-          console.log(c.green + 'JSON report: ' + jsonPath + c.reset);
-        }
-
-        // Write HTML report if requested
-        if (opts.htmlReport) {
-          const htmlPath = opts.output || 'mat-a11y-report.html';
-          fs.writeFileSync(htmlPath, formatSitemapHTML(sitemapResults));
-          console.log(c.green + 'HTML report: ' + htmlPath + c.reset);
-        }
 
         // Write custom format if requested
         if (opts.format && opts.format !== 'console') {
@@ -666,67 +647,17 @@ async function main() {
           }
         }
 
-        // Exit based on failing URLs
         const exitCode = sitemapResults.distribution.failing > 0 ? 1 : 0;
         process.exit(exitCode);
       }
     }
 
-    // No sitemap - try route-based
-    console.log(c.yellow + 'No sitemap.xml found. Trying route-based analysis...' + c.reset + '\n');
-
-    const routeResults = analyzeByRoute(opts.files[0], {
-      tier: opts.tier,
-      deepResolve: opts.deepResolve
-    });
-
-    if (routeResults.error || routeResults.routeCount === 0) {
-      // Fall back to file-based if no routes found
-      console.log(c.yellow + 'No Angular routes found. Using file-based analysis.' + c.reset + '\n');
-      useFileBased = true;
-    } else {
-      usedMode = 'route-based';
-      // Use route-based results
-      console.log(formatRouteResults(routeResults));
-
-      // Write JSON report if requested
-      if (opts.jsonReport) {
-        const jsonPath = opts.output || 'mat-a11y-report.json';
-        fs.writeFileSync(jsonPath, formatJSON(routeResults));
-        console.log(c.green + 'JSON report: ' + jsonPath + c.reset);
-      }
-
-      // Write HTML report if requested
-      if (opts.htmlReport) {
-        const htmlPath = opts.output || 'mat-a11y-report.html';
-        fs.writeFileSync(htmlPath, formatRouteHTML(routeResults));
-        console.log(c.green + 'HTML report: ' + htmlPath + c.reset);
-      }
-
-      // Write custom format if requested
-      if (opts.format && opts.format !== 'console') {
-        const formatters = loadAllFormatters();
-        const formatter = formatters.get(opts.format);
-        if (formatter) {
-          const outputPath = opts.output || `mat-a11y-report${formatter.fileExtension || '.txt'}`;
-          fs.writeFileSync(outputPath, formatter.format(routeResults));
-          console.log(c.green + `${opts.format} report: ${outputPath}` + c.reset);
-        } else {
-          console.error(c.red + `Unknown format: ${opts.format}` + c.reset);
-          console.log('Available formats: ' + listFormatters().join(', '));
-        }
-      }
-
-      // Exit based on failing routes
-      const failing = routeResults.routes.filter(r => r.auditScore < 50).length;
-      const exitCode = failing > 0 ? 1 : 0;
-      process.exit(exitCode);
-    }
+    console.error(c.red + 'No sitemap.xml found. Use default mode or --file-based.' + c.reset);
+    process.exit(2);
   }
 
-  // File-based analysis (fallback or explicit --file-based)
-  if (useFileBased) {
-    usedMode = 'file-based';
+  // File-based analysis (explicit --file-based flag)
+  if (opts.fileBased) {
     results = await analyze(opts.files[0], {
       tier: opts.tier,
       ignore: ignore,
@@ -774,6 +705,36 @@ async function main() {
 
     process.exit(results.summary.issues.length > 0 ? 1 : 0);
   }
+
+  // Default: Component-based analysis (scans all @Component files)
+  const componentResults = analyzeByComponent(opts.files[0], {
+    tier: opts.tier,
+    ignore: ignore
+  });
+
+  if (componentResults.error) {
+    console.error(c.red + componentResults.error + c.reset);
+    process.exit(2);
+  }
+
+  // Output to console
+  console.log(formatComponentResults(componentResults));
+
+  // Write custom format if requested
+  if (opts.format && opts.format !== 'console') {
+    const formatters = loadAllFormatters();
+    const formatter = formatters.get(opts.format);
+    if (formatter) {
+      const outputPath = opts.output || `mat-a11y-report${formatter.fileExtension || '.txt'}`;
+      fs.writeFileSync(outputPath, formatter.format(componentResults));
+      console.log(c.green + `${opts.format} report: ${outputPath}` + c.reset);
+    } else {
+      console.error(c.red + `Unknown format: ${opts.format}` + c.reset);
+      console.log('Available formats: ' + listFormatters().join(', '));
+    }
+  }
+
+  process.exit(componentResults.totalIssues > 0 ? 1 : 0);
 }
 
 // Make main async

@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/npm/l/mat-a11y.svg)](./LICENSE)
 [![node](https://img.shields.io/node/v/mat-a11y.svg)](https://nodejs.org)
 
-**Accessibility linter for Angular Material.** 82 checks. AI-optimized output. Validated with Claude Opus 4.5.
+**Accessibility linter for Angular Material.** 82 checks. AI-optimized output. Battle-tested on [traufix.de](https://traufix.de) with 300+ components.
 
 ```bash
 npx mat-a11y
@@ -96,30 +96,51 @@ mat-a11y analyzes your **source code directly** — no build, no browser, no wai
 
 ---
 
+## Real-World Results
+
+mat-a11y was built for [traufix.de](https://traufix.de), a German wedding planning platform with [60+ guides](https://traufix.de/guide) and 300+ Angular components.
+
+**Before mat-a11y:** Manual accessibility audits, inconsistent fixes, no way to track progress.
+
+**After mat-a11y:**
+```
+Components scanned: 307
+Clean (no issues):  115
+With issues:         52  → fixed with AI assistance
+Total issues:       881  → 0 after fixes
+```
+
+The entire accessibility remediation — from first scan to fully compliant — took less than a day using Claude Opus 4.5 to fix the issues automatically.
+
+---
+
 ## Quick Start
 
 ```bash
 npx mat-a11y
 ```
 
-That's it. Scans current directory, runs all 82 checks, outputs `mat-a11y.todo.txt`.
+That's it. Scans all `@Component` files, runs 82 checks, outputs `mat-a11y.todo.txt`.
 
 ```
-ACCESSIBILITY TODO: 541 issues in 35 components
+========================================
+  MAT-A11Y COMPONENT ANALYSIS
+========================================
 
-⚠ STATIC ANALYSIS WARNING:
-  Counts may be inaccurate. Conditional elements (*ngIf, *ngFor,
-  [hidden], etc.) cannot be detected.
+Tier: FULL
+Components scanned: 307
+Components with issues: 52
 
-════════════════════════════════════════
-COMPONENT: HeaderComponent
-AFFECTS: /, /about, /contact (+12 more)
-FILE: components/header/header.html
-════════════════════════════════════════
-[ ] matIconAccessibility: <mat-icon>menu</mat-icon> (×3)
-    → Add aria-hidden="true" OR aria-label="description"
-[ ] buttonNames: <button mat-icon-button> (×2)
-    → Add aria-label OR visible text
+COMPONENT SCORES (167 components):
+  🟢 Clean (no issues): 115
+  🟡 Has Issues: 52
+  📊 Total Issues: 881
+
+COMPONENTS WITH ISSUES:
+  🟡 HeaderComponent: 12 issues
+  🟡 DashboardComponent: 36 issues
+  🟡 NavigationComponent: 8 issues
+  ...
 ```
 
 Paste the output into your AI assistant and let it fix the issues component-by-component.
@@ -165,48 +186,52 @@ mat-a11y --basic      # Quick 43-check scan
 
 ### Analysis Mode
 
-mat-a11y automatically detects the best analysis approach:
+mat-a11y offers three analysis modes:
 
-| Priority | Mode | When Used |
-|----------|------|-----------|
-| 1 | **Sitemap** | `sitemap.xml` found — analyzes exactly what Google crawls |
-| 2 | **Route** | No sitemap — detects Angular routes from `app-routing.module.ts` |
-| 3 | **File** | No routes — scans all HTML/SCSS files |
+| Flag | Mode | What It Does |
+|------|------|--------------|
+| (default) | **Component** | Scans all `@Component` files directly — complete coverage |
+| `--sitemap` | **Sitemap** | Analyzes sitemap URLs + internal routes — SEO/Google crawl view |
+| `--file-based` | **File** | Scans all HTML/SCSS files — legacy mode |
 
 ```bash
-mat-a11y                    # Auto-detect (sitemap → route → file)
-mat-a11y --deep             # Page-level analysis (bundles child components)
-mat-a11y --file-based       # Force file-based analysis
+mat-a11y                    # Component-based (default) - scans ALL components
+mat-a11y --sitemap          # Sitemap + routes analysis (what Google sees)
+mat-a11y --file-based       # Legacy file-based analysis
+mat-a11y --deep             # Page-level (with --sitemap only)
 ```
 
-**Default: Component-level analysis** — Each component is analyzed independently. This is optimized for fixing: you fix each component once, regardless of how many pages use it.
+**Default: Component-based analysis** — Finds every `@Component` decorator in your codebase and analyzes its template and styles. This gives you complete coverage of all components, including shared components, widgets, and utilities that may not be in routes.
 
-**`--deep` flag** — Bundles parent + child components per page (Lighthouse-like scores). Use this for page-level accessibility scores, but note issue counts will be higher.
+**`--sitemap` mode** — Analyzes components based on your sitemap.xml URLs plus internal routes (admin pages, etc.). Shows what Google will crawl and what users will see. Use this for SEO-focused audits.
+
+**`--deep` flag** (with `--sitemap`) — Bundles parent + child components per page for Lighthouse-like scores.
 
 ### Deep Component Resolution (--deep)
 
-By default, mat-a11y analyzes each component independently — optimized for fixing issues efficiently. Use `--deep` for Lighthouse-like page-level analysis that bundles child components.
+When using `--sitemap` mode, add `--deep` for Lighthouse-like page-level analysis that bundles child components per route.
 
 ```
-Default (component-level):     --deep (page-level):
+--sitemap (default):           --sitemap --deep (page-level):
 HeaderComponent → 3 issues     /home → 47 issues (includes header, nav, footer...)
 NavComponent    → 5 issues     /about → 52 issues (same shared components counted again)
 FooterComponent → 2 issues     /contact → 49 issues
 ```
 
-**When to use `--deep`:**
+**When to use `--sitemap --deep`:**
 - You want page-level accessibility scores
 - You're comparing against Lighthouse results
 - You need to know total issues per URL
 
-**When to use default (no flag):**
+**When to use default (component-based):**
 - You're fixing issues (fix each component once)
-- You want realistic issue counts
+- You want complete coverage of all components
 - You're tracking fix progress over time
 
 ```javascript
 // Programmatic API
-const results = analyzeBySitemap('./app');                    // Component-level (default)
+const results = analyzeByComponent('./app');                           // Component-based (default)
+const sitemapResults = analyzeBySitemap('./app');                      // Sitemap-based
 const deepResults = analyzeBySitemap('./app', { deepResolve: true });  // Page-level
 ```
 
@@ -275,12 +300,16 @@ Output:
 Performance:
   -w, --workers <mode> sync (default), auto, or number
 
+Analysis Mode:
+  (default)            Component-based - scans all @Component files
+  --sitemap            Sitemap + routes analysis (SEO/Google crawl view)
+  --file-based         Legacy file-based analysis (HTML/SCSS files only)
+  --deep               Page-level analysis (use with --sitemap)
+
 Options:
   -i, --ignore <pat>   Ignore pattern (repeatable)
   --check <name>       Run single check only
   --list-checks        List all checks
-  --deep               Page-level analysis (bundle child components)
-  --file-based         Force file-based analysis
   -h, --help           Show help
   -v, --version        Show version
 ```
@@ -387,19 +416,23 @@ jobs:
 
 ```javascript
 const {
-  analyzeBySitemap,  // Sitemap-based (recommended)
-  analyzeByRoute,    // Route-based
-  analyze,           // File-based (legacy)
+  analyzeByComponent,  // Component-based (default, recommended)
+  analyzeBySitemap,    // Sitemap + routes (SEO view)
+  analyze,             // File-based (legacy)
   basic, material, angular, full  // Shortcuts
 } = require('mat-a11y');
 
-const results = analyzeBySitemap('./app', { tier: 'full' });
-console.log(`Score: ${results.urls[0].auditScore}%`);
+// Component-based analysis (default)
+const results = analyzeByComponent('./app', { tier: 'full' });
+console.log(`Components: ${results.componentCount}, Issues: ${results.totalIssues}`);
 
-// Control parallelization
+// Sitemap-based analysis (SEO view)
+const sitemapResults = analyzeBySitemap('./app', { tier: 'full' });
+console.log(`URLs: ${sitemapResults.urlCount}`);
+
+// Control parallelization (file-based only)
 const syncResults = analyze('./app', { tier: 'full' }); // sync (default)
 const autoResults = await analyze('./app', { tier: 'full', workers: 'auto' }); // auto (async)
-const fixedResults = await analyze('./app', { tier: 'full', workers: 8 }); // 8 workers (async)
 ```
 
 </details>

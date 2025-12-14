@@ -29,6 +29,9 @@ const { analyzeByRoute, formatRouteResults } = require('./core/routeAnalyzer');
 // Import sitemap-based analysis
 const { analyzeBySitemap, formatSitemapResults, findSitemap } = require('./core/sitemapAnalyzer');
 
+// Import component-based analysis
+const { analyzeByComponent, formatComponentResults } = require('./core/componentAnalyzer');
+
 // Import output formatters
 const formatters = require('./formatters');
 
@@ -922,6 +925,10 @@ module.exports = {
   analyzeBySitemap,
   formatSitemapResults,
   findSitemap,
+
+  // Component-based analysis (scans all @Component files)
+  analyzeByComponent,
+  formatComponentResults,
 
   // Page resolver (preprocessing for deep component resolution)
   PageResolver,

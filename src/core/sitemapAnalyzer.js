@@ -607,7 +607,7 @@ function analyzeBySitemap(projectDir, options = {}) {
 
   // Analyze internal routes (using same preprocessing)
   const internalResults = [];
-  for (const route of internalRoutes.slice(0, 50)) { // Limit to 50
+  for (const route of internalRoutes) { // Analyze all internal routes
     const routeFiles = {
       html: route.files.html,
       scss: route.files.scss,
@@ -700,6 +700,22 @@ function groupByComponent(allUrls) {
   const globalSeen = new Set();
 
   for (const url of allUrls) {
+    // First, register the component even if it has no issues (clean component)
+    const urlComponent = url.component;
+    if (urlComponent && !components.has(urlComponent)) {
+      components.set(urlComponent, {
+        files: new Set(),
+        issues: [],
+        affectedUrls: new Set(),
+        checkCounts: {},
+        isClean: true
+      });
+    }
+    if (urlComponent && url.path) {
+      components.get(urlComponent).affectedUrls.add(url.path);
+    }
+
+    // Then process issues
     for (const issue of (url.issues || [])) {
       const filePath = issue.file || 'unknown';
       const componentName = extractComponentName(filePath);
@@ -709,7 +725,8 @@ function groupByComponent(allUrls) {
           files: new Set(),
           issues: [],
           affectedUrls: new Set(),
-          checkCounts: {}
+          checkCounts: {},
+          isClean: true
         });
       }
 
@@ -728,6 +745,7 @@ function groupByComponent(allUrls) {
         globalSeen.add(globalKey);
         comp.checkCounts[issue.check]++;
         comp.issues.push(issue);
+        comp.isClean = false;
       }
     }
   }
