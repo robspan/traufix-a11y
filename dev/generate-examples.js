@@ -47,7 +47,7 @@ for (const [name, formatter] of formatters) {
   try {
     const output = formatter.format(results);
     const ext = formatter.fileExtension || '.txt';
-    const filename = `report-${name}${ext}`;
+    const filename = `_report-${name}${ext}`;
     const filepath = path.join(outputDir, filename);
 
     fs.writeFileSync(filepath, output);
@@ -58,8 +58,8 @@ for (const [name, formatter] of formatters) {
 }
 
 // Also save raw JSON
-const jsonPath = path.join(outputDir, 'report-raw.json');
+const jsonPath = path.join(outputDir, '_report-raw.json');
 fs.writeFileSync(jsonPath, JSON.stringify(results, null, 2));
-console.log(`✓ raw → report-raw.json`);
+console.log(`✓ raw → _report-raw.json`);
 
 console.log('\nDone!');

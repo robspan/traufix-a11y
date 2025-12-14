@@ -144,6 +144,10 @@ function format(results, options = {}) {
 
   // Build the output object
   const output = {
+    _generated: {
+      tool: 'mat-a11y',
+      notice: 'Generated file - do not edit'
+    },
     issues: issues
   };
 

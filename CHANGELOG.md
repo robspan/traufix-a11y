@@ -119,17 +119,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [5.1.0] - 2025-12-13
 
 ### Added
-- **AI-first defaults** - Running `npx mat-a11y` now outputs AI-optimized TODO format by default
+- **AI-first defaults** - Running `npx mat-a11y` now outputs AI-optimized backlog format by default
 - **17 format shortcuts** - All formats now have simple flags: `--sarif`, `--junit`, `--sonar`, `--slack`, etc.
 - **Smart defaults** - Scans `./src` (Angular convention), full 82 checks, auto-named output files
 - New formatters: `ai.js` (TODO list), `json.js`, `html.js`
 
 ### Changed
-- Default format changed from console to AI TODO list (`mat-a11y.todo.txt`)
+- Default format changed from console to AI backlog (`_mat-a11y.backlog.txt`)
 - Default tier changed from `basic` to `full` (82 checks)
 - Default path changed to `./src` when no path specified
-- `--html` now outputs to `mat-a11y.html` (was `mat-a11y-report.html`)
-- `--json` now outputs to `mat-a11y.json` (was `mat-a11y-report.json`)
+- `--html` now outputs to `_mat-a11y.html` (was `mat-a11y-report.html`)
+- `--json` now outputs to `_mat-a11y.json` (was `mat-a11y-report.json`)
 - Simplified CLI help with format grid and clear defaults section
 - README rewritten with AI-first focus and one-liner usage
 

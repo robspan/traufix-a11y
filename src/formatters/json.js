@@ -17,7 +17,15 @@
  */
 function format(results, options = {}) {
   const indent = options.indent !== undefined ? options.indent : 2;
-  return JSON.stringify(results, null, indent);
+  const output = {
+    _generated: {
+      tool: 'mat-a11y',
+      timestamp: new Date().toISOString(),
+      notice: 'Generated file - do not edit'
+    },
+    ...results
+  };
+  return JSON.stringify(output, null, indent);
 }
 
 module.exports = {

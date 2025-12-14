@@ -10,11 +10,11 @@
 npx mat-a11y
 ```
 
-Generates `mat-a11y.todo.txt` — paste into Claude/ChatGPT/Cursor and let AI fix the issues.
+Generates `_mat-a11y.backlog.txt` — paste into Claude/ChatGPT/Cursor and let AI fix the issues.
 
 ```bash
-npx mat-a11y --html   # → mat-a11y.html
-npx mat-a11y --json   # → mat-a11y.json
+npx mat-a11y --html   # → _mat-a11y.html
+npx mat-a11y --json   # → _mat-a11y.json
 ```
 
 <details>
@@ -120,7 +120,7 @@ The entire accessibility remediation — from first scan to fully compliant — 
 npx mat-a11y
 ```
 
-That's it. Scans all `@Component` files, runs 82 checks, outputs `mat-a11y.todo.txt`.
+That's it. Scans all `@Component` files, runs 82 checks, outputs `_mat-a11y.backlog.txt`.
 
 ```
 ========================================
@@ -282,7 +282,7 @@ mat-a11y -w auto                  # Parallel workers
 ```
 mat-a11y [path] [options]
 
-Defaults: scans current directory, full tier (82 checks), AI format → mat-a11y.todo.txt
+Defaults: scans current directory, full tier (82 checks), AI format → _mat-a11y.backlog.txt
 
 Formats (shortcut flags):
   --html, --json, --sarif, --junit, --github, --gitlab
@@ -360,7 +360,7 @@ Custom output: `mat-a11y -f sarif -o custom-name.sarif`
 
 ### AI-Assisted Fixing
 
-The default output (`mat-a11y.todo.txt`) is designed for AI to fix:
+The default output (`_mat-a11y.backlog.txt`) is designed for AI to fix:
 
 **Tips:**
 - **Component-by-component** — Issues grouped by component for systematic fixing
@@ -370,7 +370,7 @@ The default output (`mat-a11y.todo.txt`) is designed for AI to fix:
 
 **Prompt example:**
 ```
-Read mat-a11y.todo.txt. For each component, apply the fixes, then re-run `npx mat-a11y` to regenerate the TODO output.
+Read _mat-a11y.backlog.txt. For each file, apply the fixes, then re-run `npx mat-a11y` to update the backlog.
 ```
 
 **Validated models:**

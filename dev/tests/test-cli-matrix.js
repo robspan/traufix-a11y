@@ -217,9 +217,9 @@ function buildRuns({ tierName, tmpOutDir, tmpCwd }) {
   // A few default output filename checks (no -o) - only for basic/advanced.
   // Run in tmpCwd so it doesn't write to repo.
   if (tierName !== 'full') {
-    add('default output (ai)', ['--basic'], path.join(tmpCwd, 'mat-a11y.todo.txt'));
-    add('default output (sarif shortcut)', ['--basic', '--sarif'], path.join(tmpCwd, 'mat-a11y.sarif.json'));
-    add('default output (junit shortcut)', ['--basic', '--junit'], path.join(tmpCwd, 'mat-a11y.junit.xml'));
+    add('default output (ai)', ['--basic'], path.join(tmpCwd, '_mat-a11y.backlog.txt'));
+    add('default output (sarif shortcut)', ['--basic', '--sarif'], path.join(tmpCwd, '_mat-a11y.sarif.json'));
+    add('default output (junit shortcut)', ['--basic', '--junit'], path.join(tmpCwd, '_mat-a11y.junit.xml'));
   }
 
   return runs;

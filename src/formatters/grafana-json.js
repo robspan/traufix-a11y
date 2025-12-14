@@ -151,6 +151,10 @@ function format(results, options = {}) {
   // Build the response object
   const response = {
     // Metadata
+    _generated: {
+      tool: 'mat-a11y',
+      notice: 'Generated file - do not edit'
+    },
     meta: {
       tier,
       urlCount,

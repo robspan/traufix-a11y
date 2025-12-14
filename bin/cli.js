@@ -64,27 +64,27 @@ function parseArgs(args) {
     else if (arg === '--full-verified') { options.tier = 'full'; options.verified = true; }
     // === FORMAT SHORTCUTS (all do full scan on src, auto output filename) ===
     // CI/CD
-    else if (arg === '--sarif') { options.format = 'sarif'; if (!options.outputExplicit) options.output = 'mat-a11y.sarif.json'; }
-    else if (arg === '--junit') { options.format = 'junit'; if (!options.outputExplicit) options.output = 'mat-a11y.junit.xml'; }
-    else if (arg === '--github') { options.format = 'github-annotations'; if (!options.outputExplicit) options.output = 'mat-a11y.github.txt'; }
-    else if (arg === '--gitlab') { options.format = 'gitlab-codequality'; if (!options.outputExplicit) options.output = 'mat-a11y.gitlab.json'; }
+    else if (arg === '--sarif') { options.format = 'sarif'; if (!options.outputExplicit) options.output = '_mat-a11y.sarif.json'; }
+    else if (arg === '--junit') { options.format = 'junit'; if (!options.outputExplicit) options.output = '_mat-a11y.junit.xml'; }
+    else if (arg === '--github') { options.format = 'github-annotations'; if (!options.outputExplicit) options.output = '_mat-a11y.github.txt'; }
+    else if (arg === '--gitlab') { options.format = 'gitlab-codequality'; if (!options.outputExplicit) options.output = '_mat-a11y.gitlab.json'; }
     // Code Quality
-    else if (arg === '--sonar') { options.format = 'sonarqube'; if (!options.outputExplicit) options.output = 'mat-a11y.sonar.json'; }
-    else if (arg === '--checkstyle') { options.format = 'checkstyle'; if (!options.outputExplicit) options.output = 'mat-a11y.checkstyle.xml'; }
+    else if (arg === '--sonar') { options.format = 'sonarqube'; if (!options.outputExplicit) options.output = '_mat-a11y.sonar.json'; }
+    else if (arg === '--checkstyle') { options.format = 'checkstyle'; if (!options.outputExplicit) options.output = '_mat-a11y.checkstyle.xml'; }
     // Monitoring
-    else if (arg === '--prometheus') { options.format = 'prometheus'; if (!options.outputExplicit) options.output = 'mat-a11y.prom'; }
-    else if (arg === '--grafana') { options.format = 'grafana-json'; if (!options.outputExplicit) options.output = 'mat-a11y.grafana.json'; }
-    else if (arg === '--datadog') { options.format = 'datadog'; if (!options.outputExplicit) options.output = 'mat-a11y.datadog.json'; }
+    else if (arg === '--prometheus') { options.format = 'prometheus'; if (!options.outputExplicit) options.output = '_mat-a11y.prom'; }
+    else if (arg === '--grafana') { options.format = 'grafana-json'; if (!options.outputExplicit) options.output = '_mat-a11y.grafana.json'; }
+    else if (arg === '--datadog') { options.format = 'datadog'; if (!options.outputExplicit) options.output = '_mat-a11y.datadog.json'; }
     // Notifications
-    else if (arg === '--slack') { options.format = 'slack'; if (!options.outputExplicit) options.output = 'mat-a11y.slack.json'; }
-    else if (arg === '--discord') { options.format = 'discord'; if (!options.outputExplicit) options.output = 'mat-a11y.discord.json'; }
-    else if (arg === '--teams') { options.format = 'teams'; if (!options.outputExplicit) options.output = 'mat-a11y.teams.json'; }
+    else if (arg === '--slack') { options.format = 'slack'; if (!options.outputExplicit) options.output = '_mat-a11y.slack.json'; }
+    else if (arg === '--discord') { options.format = 'discord'; if (!options.outputExplicit) options.output = '_mat-a11y.discord.json'; }
+    else if (arg === '--teams') { options.format = 'teams'; if (!options.outputExplicit) options.output = '_mat-a11y.teams.json'; }
     // Docs
-    else if (arg === '--markdown' || arg === '--md') { options.format = 'markdown'; if (!options.outputExplicit) options.output = 'mat-a11y.md'; }
-    else if (arg === '--csv') { options.format = 'csv'; if (!options.outputExplicit) options.output = 'mat-a11y.csv'; }
+    else if (arg === '--markdown' || arg === '--md') { options.format = 'markdown'; if (!options.outputExplicit) options.output = '_mat-a11y.md'; }
+    else if (arg === '--csv') { options.format = 'csv'; if (!options.outputExplicit) options.output = '_mat-a11y.csv'; }
     // Data / Reports
-    else if (arg === '--json') { options.format = 'json'; if (!options.outputExplicit) options.output = 'mat-a11y.json'; }
-    else if (arg === '--html') { options.format = 'html'; if (!options.outputExplicit) options.output = 'mat-a11y.html'; }
+    else if (arg === '--json') { options.format = 'json'; if (!options.outputExplicit) options.output = '_mat-a11y.json'; }
+    else if (arg === '--html') { options.format = 'html'; if (!options.outputExplicit) options.output = '_mat-a11y.html'; }
     // === END FORMAT SHORTCUTS ===
     else if (arg === '--workers' || arg === '-w') {
       const val = args[++i];
@@ -109,9 +109,9 @@ function parseArgs(args) {
   // Default output filename if none provided and not already set by a shortcut.
   // For other formats, CLI later derives a sensible extension-based filename.
   if (!options.outputExplicit && !options.output) {
-    if (options.format === 'ai') options.output = 'mat-a11y.todo.txt';
-    else if (options.format === 'json') options.output = 'mat-a11y.json';
-    else if (options.format === 'html') options.output = 'mat-a11y.html';
+    if (options.format === 'ai') options.output = '_mat-a11y.backlog.txt';
+    else if (options.format === 'json') options.output = '_mat-a11y.json';
+    else if (options.format === 'html') options.output = '_mat-a11y.html';
   }
 
   return options;
@@ -130,12 +130,12 @@ function showHelp() {
 ${c.bold}mat-a11y${c.reset} - Angular Material Accessibility Linter
 
 ${c.cyan}USAGE:${c.reset}
-  ${c.green}npx mat-a11y${c.reset}           ${c.dim}# → mat-a11y.todo.txt (AI format)${c.reset}
-  ${c.green}npx mat-a11y --html${c.reset}    ${c.dim}# → mat-a11y.html${c.reset}
-  ${c.green}npx mat-a11y --json${c.reset}    ${c.dim}# → mat-a11y.json${c.reset}
+  ${c.green}npx mat-a11y${c.reset}           ${c.dim}# → _mat-a11y.backlog.txt (AI format)${c.reset}
+  ${c.green}npx mat-a11y --html${c.reset}    ${c.dim}# → _mat-a11y.html${c.reset}
+  ${c.green}npx mat-a11y --json${c.reset}    ${c.dim}# → _mat-a11y.json${c.reset}
 
 ${c.cyan}ALL 17 FORMATS:${c.reset}
-  ${c.dim}(default)${c.reset}       AI TODO list   ${c.green}--html${c.reset}        HTML report    ${c.green}--json${c.reset}        JSON data
+  ${c.dim}(default)${c.reset}       AI backlog     ${c.green}--html${c.reset}        HTML report    ${c.green}--json${c.reset}        JSON data
   ${c.green}--sarif${c.reset}         GitHub         ${c.green}--junit${c.reset}       Jenkins/CI     ${c.green}--gitlab${c.reset}      GitLab
   ${c.green}--sonar${c.reset}         SonarQube      ${c.green}--checkstyle${c.reset}  Checkstyle     ${c.green}--github${c.reset}      GH Annotations
   ${c.green}--prometheus${c.reset}    Prometheus     ${c.green}--grafana${c.reset}     Grafana        ${c.green}--datadog${c.reset}     Datadog
@@ -176,7 +176,7 @@ ${c.cyan}PARALLELIZATION:${c.reset}
   -w, --workers <mode>  sync (default), auto, or number of workers
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Default: AI TODO list (scans current directory)${c.reset}
+  ${c.dim}# Default: AI backlog (scans current directory)${c.reset}
   mat-a11y
 
   ${c.dim}# Other formats${c.reset}
@@ -189,7 +189,7 @@ ${c.cyan}EXAMPLES:${c.reset}
   mat-a11y ./my-app/src
 
   ${c.dim}# Custom output filename${c.reset}
-  mat-a11y -o my-report.todo.txt
+  mat-a11y -o my-report.backlog.txt
 
   ${c.dim}# Fewer checks (faster)${c.reset}
   mat-a11y --basic
@@ -201,8 +201,8 @@ ${c.cyan}EXAMPLES:${c.reset}
 ${c.cyan}DEFAULTS:${c.reset}
   Path:    . (current directory)
   Tier:    --full (82 checks)
-  Format:  AI TODO list
-  Output:  mat-a11y.todo.txt
+  Format:  AI backlog
+  Output:  _mat-a11y.backlog.txt
 
 ${c.cyan}DEFAULT IGNORES:${c.reset}
   ${DEFAULT_CONFIG.ignore.join(', ')}
