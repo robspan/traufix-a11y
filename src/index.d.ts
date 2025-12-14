@@ -625,6 +625,77 @@ export function analyzeByRoute(
 export function formatRouteResults(results: RouteAnalysisResult): string;
 
 // ============================================
+// COMPONENT-BASED ANALYSIS (Default CLI Mode)
+// ============================================
+
+export interface ComponentCheckAggregate {
+  elementsFound: number;
+  issues: number;
+  errors: number;
+  warnings: number;
+}
+
+export type ComponentCheckAggregates = Record<string, ComponentCheckAggregate>;
+
+export interface ComponentIssue extends Issue {
+  message: string;
+  file: string;
+  check: string;
+  line?: number | null;
+}
+
+export interface ComponentResult {
+  /** Component class name */
+  name: string;
+  /** Angular selector (if present) */
+  selector: string | null;
+  /** Path to the component .ts file */
+  tsFile: string;
+  /** Files analyzed (template + styles) */
+  files: string[];
+  /** Issues found in this component */
+  issues: ComponentIssue[];
+  /** Aggregated check statistics for this component */
+  checkAggregates: ComponentCheckAggregates;
+}
+
+export interface ComponentAnalysisResult {
+  tier: Tier;
+  /** Number of components with issues (and thus included in `components`) */
+  componentCount: number;
+  /** Total components discovered/scanned in the project */
+  totalComponentsScanned: number;
+  /** Total issue count across all reported components */
+  totalIssues: number;
+  /** Lighthouse-style audit score (0-100) */
+  auditScore: number;
+  /** Aggregated audit results */
+  audits: AuditResult[];
+  /** Components with issues (worst first) */
+  components: ComponentResult[];
+  /** Error message in case analysis could not run */
+  error?: string;
+}
+
+export interface ComponentAnalyzeOptions {
+  tier?: Tier;
+  ignore?: string[];
+}
+
+/**
+ * Analyze all Angular components directly (no sitemap, no route parsing).
+ */
+export function analyzeByComponent(
+  projectDir: string,
+  options?: ComponentAnalyzeOptions
+): ComponentAnalysisResult;
+
+/**
+ * Format component analysis results for console output.
+ */
+export function formatComponentResults(results: ComponentAnalysisResult): string;
+
+// ============================================
 // OUTPUT FORMATTERS
 // ============================================
 
@@ -659,7 +730,10 @@ export interface Formatter {
    * @param results - Analysis results (SitemapAnalysisResult, RouteAnalysisResult, or AnalysisResult)
    * @param options - Formatter-specific options
    */
-  format(results: SitemapAnalysisResult | RouteAnalysisResult | AnalysisResult, options?: Record<string, unknown>): string;
+  format(
+    results: SitemapAnalysisResult | RouteAnalysisResult | ComponentAnalysisResult | AnalysisResult,
+    options?: Record<string, unknown>
+  ): string;
 }
 
 export interface FormatterInfo {

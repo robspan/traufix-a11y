@@ -11,6 +11,18 @@
 
 const { normalizeResults, getWorstEntities } = require('./result-utils');
 
+function getEntityNouns(results, normalized) {
+  const kind = (() => {
+    if (results && typeof results === 'object' && typeof results.totalComponentsScanned === 'number') return 'component';
+    if (results && typeof results === 'object' && results.summary && Array.isArray(results.summary.issues)) return 'file';
+    return normalized?.entities?.[0]?.kind || 'page';
+  })();
+
+  if (kind === 'component') return { singular: 'Component', plural: 'Components' };
+  if (kind === 'file') return { singular: 'File', plural: 'Files' };
+  return { singular: 'URL', plural: 'URLs' };
+}
+
 /**
  * Get status icon based on score
  * @param {number} score - Audit score (0-100)
@@ -89,6 +101,8 @@ function format(results, options = {}) {
   const lines = [];
   const normalized = normalizeResults(results);
 
+  const nouns = getEntityNouns(results, normalized);
+
   const urls = normalized.entities || [];
   const distribution = normalized.distribution || { passing: 0, warning: 0, failing: 0 };
   const urlCount = normalized.total || urls.length;
@@ -113,7 +127,7 @@ function format(results, options = {}) {
     lines.push('');
     lines.push('| Metric | Value |');
     lines.push('|--------|-------|');
-    lines.push(`| URLs Analyzed | ${urlCount} |`);
+    lines.push(`| ${nouns.plural} Analyzed | ${urlCount} |`);
     lines.push(`| Passing (90-100%) | ${distribution.passing} |`);
     lines.push(`| Warning (50-89%) | ${distribution.warning} |`);
     lines.push(`| Failing (<50%) | ${distribution.failing} |`);
@@ -142,7 +156,7 @@ function format(results, options = {}) {
     if (worstUrls.length > 0) {
       lines.push('## Priority Fixes');
       lines.push('');
-      lines.push('URLs that need the most attention:');
+      lines.push(`${nouns.plural} that need the most attention:`);
       lines.push('');
 
       for (const url of worstUrls.slice(0, worstUrlsLimit)) {
@@ -168,9 +182,9 @@ function format(results, options = {}) {
 
   // All URLs table
   if (includeAllUrls && urls.length > 0) {
-    lines.push('## All URLs');
+    lines.push(`## All ${nouns.plural}`);
     lines.push('');
-    lines.push('| URL | Score | Status | Issues |');
+    lines.push(`| ${nouns.singular} | Score | Status | Issues |`);
     lines.push('|-----|-------|--------|--------|');
 
     for (const url of urls) {

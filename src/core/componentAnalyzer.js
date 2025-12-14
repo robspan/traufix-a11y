@@ -373,6 +373,7 @@ function analyzeByComponent(projectDir, options = {}) {
   const componentResults = [];
   const globalCheckAggregates = {};
   let totalIssues = 0;
+  let totalComponentsScanned = 0;
 
   for (const filePath of componentFiles) {
     const component = parseComponent(filePath);
@@ -385,6 +386,9 @@ function analyzeByComponent(projectDir, options = {}) {
     }
 
     const result = analyzeComponent(component, registry, htmlChecks, scssChecks);
+
+    // Count only components we actually analyzed (i.e., have template/styles)
+    totalComponentsScanned++;
 
     // Skip components with no issues
     if (result.issues.length === 0) continue;
@@ -413,7 +417,7 @@ function analyzeByComponent(projectDir, options = {}) {
   return {
     tier,
     componentCount: componentResults.length,
-    totalComponentsScanned: componentFiles.length,
+    totalComponentsScanned,
     totalIssues,
     auditScore: auditResult.score,
     audits: auditResult.audits,

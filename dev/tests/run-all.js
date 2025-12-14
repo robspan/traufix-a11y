@@ -39,9 +39,12 @@ const rootDir = path.resolve(devToolsDir, '..');
 const tests = [
   { name: 'Verify Files', count: '82 files', cmd: 'node dev/verify-structure.js' },
   { name: 'Formatters', count: '17×17', cmd: 'node dev/verify-formatters.js' },
-  { name: 'Result Normalization', count: '5 scenarios', cmd: 'node dev/tests/test-result-normalization.js' },
+  { name: 'Package Contents', count: 'pack list clean', cmd: 'node dev/tests/test-package-contents.js' },
+  { name: 'Result Normalization', count: '6 scenarios', cmd: 'node dev/tests/test-result-normalization.js' },
   { name: 'A11y Checks', count: '82 checks', cmd: 'node dev/tests/verify-checks.js' },
   { name: 'Page Resolver', count: '51 tests', cmd: 'node dev/tests/verify-page-resolver.js' },
+  { name: 'CLI Smoke', count: '2 runs', cmd: 'node dev/tests/test-cli-smoke.js' },
+  { name: 'CLI Matrix (basic)', count: 'varies', cmd: 'node dev/tests/test-cli-matrix.js --tier basic' },
   { name: 'Error Handling', count: '82 edge cases', cmd: 'node dev/tests/test-error-robustness.js' },
 ];
 

@@ -23,6 +23,18 @@ const COLORS = {
 
 const { normalizeResults, getWorstEntities } = require('./result-utils');
 
+function getEntityNouns(results, normalized) {
+  const kind = (() => {
+    if (results && typeof results === 'object' && typeof results.totalComponentsScanned === 'number') return 'component';
+    if (results && typeof results === 'object' && results.summary && Array.isArray(results.summary.issues)) return 'file';
+    return normalized?.entities?.[0]?.kind || 'page';
+  })();
+
+  if (kind === 'component') return { singular: 'Component', plural: 'Components' };
+  if (kind === 'file') return { singular: 'File', plural: 'Files' };
+  return { singular: 'URL', plural: 'URLs' };
+}
+
 /**
  * Get embed color based on results distribution
  * @param {object} distribution - Results distribution
@@ -74,7 +86,7 @@ function getWorstUrls(results, limit = 5) {
  * @returns {string} Formatted string for embed field
  */
 function formatWorstUrlsValue(worstUrls) {
-  if (worstUrls.length === 0) return 'All URLs are passing!';
+  if (worstUrls.length === 0) return 'All items are passing!';
 
   return worstUrls
     .map(url => {
@@ -137,6 +149,7 @@ function format(results, options = {}) {
   } = options;
 
   const normalized = normalizeResults(results);
+  const nouns = getEntityNouns(results, normalized);
   const distribution = normalized.distribution || { passing: 0, warning: 0, failing: 0 };
   const color = getEmbedColor(distribution);
   const statusText = getStatusText(distribution);
@@ -161,7 +174,7 @@ function format(results, options = {}) {
       inline: true
     },
     {
-      name: 'URLs Analyzed',
+      name: `${nouns.plural} Analyzed`,
       value: `${normalized.total || 0}`,
       inline: true
     },
@@ -185,7 +198,7 @@ function format(results, options = {}) {
   // Add worst URLs field if there are any
   if (worstUrls.length > 0) {
     fields.push({
-      name: 'Worst Performing URLs',
+      name: `Worst Performing ${nouns.plural}`,
       value: formatWorstUrlsValue(worstUrls),
       inline: false
     });
@@ -229,7 +242,7 @@ function format(results, options = {}) {
   // Build the embed object
   const embed = {
     title,
-    description: description || `Accessibility analysis complete for ${normalized.total || 0} URLs`,
+    description: description || `Accessibility analysis complete for ${normalized.total || 0} ${nouns.plural}`,
     color,
     fields,
     footer: {

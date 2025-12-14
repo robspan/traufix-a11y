@@ -1,0 +1,13 @@
+if command -v node >/dev/null 2>&1; then
+	node dev/hooks/run-precommit.js
+	exit $?
+fi
+
+# WSL can run Windows binaries; `node.exe` is commonly available via PATH.
+if command -v node.exe >/dev/null 2>&1; then
+	node.exe dev/hooks/run-precommit.js
+	exit $?
+fi
+
+echo "pre-commit: Node.js not found (need 'node' or 'node.exe' in PATH)"
+exit 127

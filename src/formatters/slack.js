@@ -12,6 +12,18 @@
 
 const { normalizeResults, getWorstEntities } = require('./result-utils');
 
+function getEntityNouns(results, normalized) {
+  const kind = (() => {
+    if (results && typeof results === 'object' && typeof results.totalComponentsScanned === 'number') return 'component';
+    if (results && typeof results === 'object' && results.summary && Array.isArray(results.summary.issues)) return 'file';
+    return normalized?.entities?.[0]?.kind || 'page';
+  })();
+
+  if (kind === 'component') return { singular: 'Component', plural: 'Components' };
+  if (kind === 'file') return { singular: 'File', plural: 'Files' };
+  return { singular: 'URL', plural: 'URLs' };
+}
+
 /**
  * Get status emoji based on score thresholds
  * @param {object} distribution - Results distribution
@@ -111,6 +123,7 @@ function format(results, options = {}) {
   } = options;
 
   const normalized = normalizeResults(results);
+  const nouns = getEntityNouns(results, normalized);
   const distribution = normalized.distribution || { passing: 0, warning: 0, failing: 0 };
   const statusEmoji = getStatusEmoji(distribution);
   const statusText = getStatusText(distribution);
@@ -147,7 +160,7 @@ function format(results, options = {}) {
     fields: [
       {
         type: 'mrkdwn',
-        text: `*URLs Analyzed*\n${normalized.total || 0}`
+        text: `*${nouns.plural} Analyzed*\n${normalized.total || 0}`
       },
       {
         type: 'mrkdwn',
@@ -172,7 +185,7 @@ function format(results, options = {}) {
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: '*Worst Performing URLs (Sitemap)*'
+        text: `*Worst Performing ${nouns.plural}${results.sitemapPath ? ' (Sitemap)' : ''}*`
       }
     });
 
@@ -226,7 +239,7 @@ function format(results, options = {}) {
   const payload = {
     blocks,
     // Fallback text for notifications
-    text: `${title}: ${statusText} - ${distribution.passing}/${results.urlCount || 0} URLs passing (${passRate}%)`
+    text: `${title}: ${statusText} - ${distribution.passing}/${normalized.total || 0} ${nouns.plural} passing (${passRate}%)`
   };
 
   return JSON.stringify(payload, null, 2);

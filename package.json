@@ -1,6 +1,6 @@
 {
   "name": "mat-a11y",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "description": "Angular Material accessibility linter (v12+). 82 WCAG checks for mat-* components, Angular templates & SCSS. Static analysis with color contrast calculation.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -9,7 +9,10 @@
   },
   "scripts": {
     "test": "node dev/tests/run-all.js",
-    "dev-check": "node dev/run-checks.js"
+    "dev-check": "node dev/run-checks.js",
+    "verify-structure": "node dev/verify-structure.js",
+    "verify-formatters": "node dev/verify-formatters.js",
+    "prepare": "husky"
   },
   "keywords": [
     "angular-material",
@@ -54,6 +57,9 @@
     "@angular/material": {
       "optional": true
     }
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
   },
   "files": [
     "src",

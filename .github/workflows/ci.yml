@@ -51,14 +51,31 @@ jobs:
 
       - name: Dry-run pack
         run: |
-          npm pack --dry-run 2>&1 | tee pack-output.txt
+          npm pack --dry-run --ignore-scripts 2>&1 | tee pack-output.txt
+          # Extract only the tarball file list (avoid grepping over metadata lines)
+          awk '
+            /^npm notice Tarball Contents/ {in_list=1; next}
+            /^npm notice Tarball Details/ {in_list=0}
+            in_list {print}
+          ' pack-output.txt > pack-files.txt
+          # Normalize to file paths only
+          sed -E 's/^npm notice [^ ]+ //' pack-files.txt > pack-paths.txt
           echo "--- Files to be published ---"
-          grep "npm notice" pack-output.txt | grep -v "npm notice ==" || true
+          cat pack-paths.txt
 
       - name: Verify no verify files in package
         run: |
-          if npm pack --dry-run 2>&1 | grep -q "verify.html\|verify.scss"; then
+          if grep -Eq '(^|/)(verify\.html|verify\.scss)$' pack-paths.txt; then
             echo "ERROR: verify files should not be included in npm package"
             exit 1
           fi
           echo "OK: No verify files in package"
+
+      - name: Verify no dev-only folders in package
+        run: |
+          # Ensure we don't accidentally ship developer tooling/tests.
+          if grep -Eq '^(dev/|\.husky/|\.github/)' pack-paths.txt; then
+            echo "ERROR: dev-only folders (dev/, .husky/, .github/) should not be included in npm package"
+            exit 1
+          fi
+          echo "OK: No dev-only folders in package"

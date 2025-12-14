@@ -156,6 +156,26 @@ function testComponentNormalization() {
   assertEqual(normalized.issues.length, input.totalIssues, 'component: flat issue count equals totalIssues');
 }
 
+function testComponentNormalizationAllPassing() {
+  console.log('\nComponent results (all passing)');
+
+  const input = {
+    tier: 'full',
+    componentCount: 0,
+    totalComponentsScanned: 5,
+    totalIssues: 0,
+    components: []
+  };
+
+  const normalized = normalizeResults(input);
+  validateCommonShape(normalized, 'componentAllPassing');
+
+  assertEqual(normalized.total, 5, 'componentAllPassing: total equals totalComponentsScanned');
+  assertEqual(normalized.distribution.failing, 0, 'componentAllPassing: failing is 0');
+  assertEqual(normalized.distribution.passing, 5, 'componentAllPassing: passing derived from scan counts');
+  assertEqual(normalized.issues.length, 0, 'componentAllPassing: no issues');
+}
+
 function testFileNormalization() {
   console.log('\nFile-based results');
   const input = fixtures.fileBasedResult;
@@ -188,6 +208,7 @@ function main() {
   testSitemapNormalization();
   testRouteNormalization();
   testComponentNormalization();
+  testComponentNormalizationAllPassing();
   testFileNormalization();
   testMissingFieldsStability();
 

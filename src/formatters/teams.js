@@ -13,6 +13,18 @@
 
 const { normalizeResults, getWorstEntities } = require('./result-utils');
 
+function getEntityNouns(results, normalized) {
+  const kind = (() => {
+    if (results && typeof results === 'object' && typeof results.totalComponentsScanned === 'number') return 'component';
+    if (results && typeof results === 'object' && results.summary && Array.isArray(results.summary.issues)) return 'file';
+    return normalized?.entities?.[0]?.kind || 'page';
+  })();
+
+  if (kind === 'component') return { singular: 'Component', plural: 'Components' };
+  if (kind === 'file') return { singular: 'File', plural: 'Files' };
+  return { singular: 'URL', plural: 'URLs' };
+}
+
 /**
  * Get status color based on pass rate
  * @param {number} passRate - Pass rate percentage (0-100)
@@ -65,11 +77,11 @@ function getWorstUrls(urls, count) {
  * @param {number} passRate - Calculated pass rate
  * @returns {Array} Facts for Adaptive Card FactSet
  */
-function buildSummaryFacts(results, passRate) {
+function buildSummaryFacts(results, passRate, nouns) {
   const distribution = results.distribution || { passing: 0, warning: 0, failing: 0 };
   return [
     {
-      title: 'Total URLs',
+      title: `Total ${nouns.plural}`,
       value: String(results.total || 0)
     },
     {
@@ -100,11 +112,11 @@ function buildSummaryFacts(results, passRate) {
  * @param {Array} worstUrls - Array of worst performing URLs
  * @returns {object} Adaptive Card Table element
  */
-function buildWorstUrlsTable(worstUrls) {
+function buildWorstUrlsTable(worstUrls, nouns) {
   if (worstUrls.length === 0) {
     return {
       type: 'TextBlock',
-      text: 'No URLs analyzed',
+      text: `No ${nouns.plural.toLowerCase()} analyzed`,
       wrap: true,
       isSubtle: true
     };
@@ -162,7 +174,7 @@ function buildWorstUrlsTable(worstUrls) {
         cells: [
           {
             type: 'TableCell',
-            items: [{ type: 'TextBlock', text: 'URL', weight: 'bolder', size: 'small' }]
+            items: [{ type: 'TextBlock', text: nouns.singular, weight: 'bolder', size: 'small' }]
           },
           {
             type: 'TableCell',
@@ -184,11 +196,11 @@ function buildWorstUrlsTable(worstUrls) {
  * @param {Array} worstUrls - Array of worst performing URLs
  * @returns {Array} Array of TextBlock elements
  */
-function buildWorstUrlsFallback(worstUrls) {
+function buildWorstUrlsFallback(worstUrls, nouns) {
   if (worstUrls.length === 0) {
     return [{
       type: 'TextBlock',
-      text: 'No URLs analyzed',
+      text: `No ${nouns.plural.toLowerCase()} analyzed`,
       wrap: true,
       isSubtle: true
     }];
@@ -230,6 +242,7 @@ function format(results, options = {}) {
   } = options;
 
   const normalized = normalizeResults(results);
+  const nouns = getEntityNouns(results, normalized);
 
   const passRate = normalized.total > 0
     ? ((normalized.distribution?.passing ?? 0) / normalized.total) * 100
@@ -273,29 +286,27 @@ function format(results, options = {}) {
     },
     {
       type: 'FactSet',
-      facts: buildSummaryFacts(results, passRate)
+      facts: buildSummaryFacts(
+        { tier: normalized.tier, total: normalized.total, distribution: normalized.distribution },
+        passRate,
+        nouns
+      )
     }
-  );
-
-  // Replace summary facts input with normalized values
-  body[body.length - 1].facts = buildSummaryFacts(
-    { tier: normalized.tier, total: normalized.total, distribution: normalized.distribution },
-    passRate
   );
 
   // Worst URLs section
   body.push({
     type: 'TextBlock',
-    text: `Worst Performing URLs (Top ${worstUrlCount})`,
+    text: `Worst Performing ${nouns.plural} (Top ${worstUrlCount})`,
     weight: 'bolder',
     size: 'medium',
     spacing: 'medium'
   });
 
   if (useFallback) {
-    body.push(...buildWorstUrlsFallback(worstUrls));
+    body.push(...buildWorstUrlsFallback(worstUrls, nouns));
   } else {
-    body.push(buildWorstUrlsTable(worstUrls));
+    body.push(buildWorstUrlsTable(worstUrls, nouns));
   }
 
   // Internal routes section if any
@@ -323,9 +334,9 @@ function format(results, options = {}) {
 
     if (worstInternal.length > 0) {
       if (useFallback) {
-        body.push(...buildWorstUrlsFallback(worstInternal));
+        body.push(...buildWorstUrlsFallback(worstInternal, { singular: 'URL', plural: 'URLs' }));
       } else {
-        body.push(buildWorstUrlsTable(worstInternal));
+        body.push(buildWorstUrlsTable(worstInternal, { singular: 'URL', plural: 'URLs' }));
       }
     }
   }

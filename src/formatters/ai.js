@@ -7,6 +7,8 @@
  * Grouped by component name for quick identification.
  */
 
+const { normalizeResults } = require('./result-utils');
+
 /**
  * Extract component name from file path
  * e.g., "app/components/image-preview/image-preview.component.html" → "ImagePreviewComponent"
@@ -67,59 +69,58 @@ function getShortPath(filePath) {
 function format(results, options = {}) {
   const lines = [];
 
-  // Handle component-based results (from analyzeByComponent)
-  if (results.components && Array.isArray(results.components)) {
-    return formatComponentResults(results, lines);
-  }
+  const normalized = normalizeResults(results);
 
-  // Combine all possible result sources:
-  // - sitemap URLs (results.urls)
-  // - internal routes from sitemap analysis (results.internal.routes)
-  // - route-based analysis (results.routes)
-  const urls = results.urls || [];
-  const internalRoutes = (results.internal && results.internal.routes) || [];
-  const routeBasedRoutes = results.routes || [];
-  const allUrls = [...urls, ...internalRoutes, ...routeBasedRoutes];
+  const isComponentMode = normalized.entities[0]?.kind === 'component';
 
   // Group all issues by component name
   // Use global deduplication: same issue in same file only counts once
-  // (even if 67 URLs use that component)
+  // (even if many routes use that component)
   const issuesByComponent = new Map();
   const globalSeen = new Set(); // Track file|check|element globally
 
-  for (const url of allUrls) {
-    for (const issue of (url.issues || [])) {
-      const filePath = issue.file || 'unknown';
-      const componentName = extractComponentName(filePath);
+  function ingestIssue(issue, affectedUrl) {
+    const filePath = issue.file || 'unknown';
+    const componentName = extractComponentName(filePath);
 
-      if (!issuesByComponent.has(componentName)) {
-        issuesByComponent.set(componentName, {
-          files: new Set(),
-          issues: [],
-          affectedUrls: new Set()
-        });
-      }
+    if (!issuesByComponent.has(componentName)) {
+      issuesByComponent.set(componentName, {
+        files: new Set(),
+        issues: [],
+        affectedUrls: new Set()
+      });
+    }
 
-      const comp = issuesByComponent.get(componentName);
-      comp.files.add(filePath);
-      if (url.path) comp.affectedUrls.add(url.path);
+    const comp = issuesByComponent.get(componentName);
+    comp.files.add(filePath);
+    if (affectedUrl) comp.affectedUrls.add(affectedUrl);
 
-      // Extract the code snippet and create a simple fix hint
-      const parsed = parseIssue(issue.message);
-      const element = parsed.element || issue.element || '';
-      const fix = getQuickFix(issue.check, parsed);
+    const parsed = parseIssue(issue.message);
+    const element = parsed.element || issue.element || '';
+    const fix = parsed.fixes[0] ? parsed.fixes[0] : null;
 
-      // Deduplicate globally by file|check|element
-      // This prevents counting the same issue multiple times across URLs
-      const globalKey = `${filePath}|${issue.check}|${element}`;
-      if (!globalSeen.has(globalKey)) {
-        globalSeen.add(globalKey);
-        comp.issues.push({
-          check: issue.check,
-          element: element,
-          fix: fix,
-          file: filePath
-        });
+    const globalKey = `${filePath}|${issue.check}|${element}`;
+    if (!globalSeen.has(globalKey)) {
+      globalSeen.add(globalKey);
+      comp.issues.push({
+        check: issue.check,
+        element: element,
+        fix: fix,
+        file: filePath
+      });
+    }
+  }
+
+  // Main issues from normalized output
+  for (const issue of normalized.issues) {
+    ingestIssue(issue, isComponentMode ? null : issue.entity);
+  }
+
+  // Optional: include sitemap-only internal routes (not part of normalized entities)
+  if (results?.internal?.routes && Array.isArray(results.internal.routes)) {
+    for (const route of results.internal.routes) {
+      for (const issue of (route.issues || [])) {
+        ingestIssue(issue, route.path || route.url);
       }
     }
   }
@@ -197,40 +198,6 @@ function format(results, options = {}) {
 }
 
 /**
- * Get a quick one-line fix suggestion
- */
-function getQuickFix(check, parsed) {
-  const fixes = {
-    'matIconAccessibility': 'Add aria-hidden="true" OR aria-label="description"',
-    'clickWithoutKeyboard': 'Add (keydown.enter) and (keydown.space) OR use <button>',
-    'clickWithoutRole': 'Add role="button" tabindex="0" OR use <button>',
-    'imageAlt': 'Add alt="description" OR alt="" if decorative',
-    'buttonNames': 'Add aria-label OR visible text',
-    'linkNames': 'Add aria-label OR visible text',
-    'formLabels': 'Add <label> OR aria-label',
-    'headingOrder': parsed.fixes[0] || 'Fix heading hierarchy (h1→h2→h3)',
-    'iframeTitles': 'Add title="description"',
-    'htmlHasLang': 'Add lang="en" to <html>',
-    'metaViewport': 'Ensure user-scalable=yes',
-    'focusStyles': 'Add :focus-visible styles',
-    'hoverWithoutFocus': 'Add :focus styles matching :hover',
-    'colorContrast': 'Increase color contrast ratio',
-    'matFormFieldLabel': 'Add <mat-label> inside mat-form-field',
-    'matCheckboxLabel': 'Add aria-label OR text content',
-    'matRadioGroupLabel': 'Add aria-label to mat-radio-group',
-    'matSelectPlaceholder': 'Add placeholder OR mat-label',
-    'matDialogFocus': 'Add cdkFocusInitial to first focusable element',
-    'matMenuTrigger': 'Add aria-label to trigger button',
-    'matTabLabel': 'Add aria-label to mat-tab',
-    'matExpansionHeader': 'Add aria-label if no text',
-    'ariaHiddenBody': 'Remove aria-hidden from <body>',
-    'duplicateIdAria': 'Use unique IDs for ARIA references'
-  };
-
-  return fixes[check] || (parsed.fixes[0] ? parsed.fixes[0] : null);
-}
-
-/**
  * Parse issue message for element and fixes
  */
 function parseIssue(issueStr) {
@@ -302,7 +269,7 @@ function formatComponentResults(results, lines) {
 
       const parsed = parseIssue(issue.message);
       const element = parsed.element || '';
-      const fix = getQuickFix(check, parsed);
+      const fix = parsed.fixes[0] ? parsed.fixes[0] : null;
 
       byCheck[check].push({ element, fix, message: issue.message });
     }

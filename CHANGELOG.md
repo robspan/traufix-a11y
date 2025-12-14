@@ -5,6 +5,23 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.4.0] - 2025-12-14
+
+### Added
+- **Result normalization contract for formatters** - Formatters now consume a stable `{ total, distribution, entities, issues }` shape regardless of analysis mode (component / sitemap / file-based)
+- **Normalization fixtures + tests** - Ensures consistent formatter inputs across result shapes
+- **CLI matrix dev test** - Runs a bounded set of CLI configurations and verifies they produce outputs
+- **Pre-commit tests (Husky)** - `npm test` runs automatically on `git commit`
+
+### Changed
+- **CLI output responsibility** - CLI is orchestration-only; formatting is routed through formatters (removed legacy inline formatting code)
+- **Component analysis semantics** - Totals/distribution reflect all analyzed components; the component list remains “failing only” to keep outputs small
+- **Formatter wording** - Outputs no longer assume entities are URLs when running component analysis
+
+### Fixed
+- **Formatter loader crash from AI formatter syntax error** - AI formatter now loads reliably in all CLI runs
+- **CLI shortcut output naming precedence** - `-o` always wins; shortcuts set correct default filenames
+
 ## [5.3.1] - 2025-12-14
 
 ### Fixed

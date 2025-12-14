@@ -104,7 +104,7 @@ mat-a11y was built for [traufix.de](https://traufix.de), a German wedding planni
 
 **After mat-a11y:**
 ```
-Components scanned: 307
+Components scanned: 167
 Clean (no issues):  115
 With issues:         52  → fixed with AI assistance
 Total issues:       881  → 0 after fixes
@@ -128,7 +128,7 @@ That's it. Scans all `@Component` files, runs 82 checks, outputs `mat-a11y.todo.
 ========================================
 
 Tier: FULL
-Components scanned: 307
+Components scanned: 167
 Components with issues: 52
 
 COMPONENT SCORES (167 components):
@@ -202,6 +202,8 @@ mat-a11y --deep             # Page-level (with --sitemap only)
 ```
 
 **Default: Component-based analysis** — Finds every `@Component` decorator in your codebase and analyzes its template and styles. This gives you complete coverage of all components, including shared components, widgets, and utilities that may not be in routes.
+
+Note: in component mode, the `components` list contains **only components with issues** (to keep output small), while totals/distribution still reflect **all analyzed components**.
 
 **`--sitemap` mode** — Analyzes components based on your sitemap.xml URLs plus internal routes (admin pages, etc.). Shows what Google will crawl and what users will see. Use this for SEO-focused audits.
 
