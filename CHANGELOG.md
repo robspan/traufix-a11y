@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Result normalization contract for formatters** - Formatters now consume a stable `{ total, distribution, entities, issues }` shape regardless of analysis mode (component / sitemap / file-based)
 - **Normalization fixtures + tests** - Ensures consistent formatter inputs across result shapes
 - **CLI matrix dev test** - Runs a bounded set of CLI configurations and verifies they produce outputs
+- **Package contents dev test** - Verifies `npm pack --dry-run` does not include dev-only folders (e.g. `dev/`, `.github/`, `.husky/`)
 - **Pre-commit tests (Husky)** - `npm test` runs automatically on `git commit`
 
 ### Changed
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Formatter loader crash from AI formatter syntax error** - AI formatter now loads reliably in all CLI runs
 - **CLI shortcut output naming precedence** - `-o` always wins; shortcuts set correct default filenames
+- **Pre-commit reliability across shells** - Husky hook no longer depends on direct `npm` execution, improving compatibility on Windows Git Bash, WSL, and macOS/Linux
 
 ## [5.3.1] - 2025-12-14
 
