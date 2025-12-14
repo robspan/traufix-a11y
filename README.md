@@ -370,7 +370,7 @@ The default output (`mat-a11y.todo.txt`) is designed for AI to fix:
 
 **Prompt example:**
 ```
-Read mat-a11y.todo.txt. For each component, apply the fixes and mark [x] done.
+Read mat-a11y.todo.txt. For each component, apply the fixes, then re-run `npx mat-a11y` to regenerate the TODO output.
 ```
 
 **Validated models:**

@@ -139,7 +139,7 @@ function format(results, options = {}) {
   const totalIssues = sortedComponents.reduce((sum, [_, data]) => sum + data.issues.length, 0);
   lines.push(`ACCESSIBILITY TODO: ${totalIssues} issues in ${sortedComponents.length} components`);
   lines.push('');
-  lines.push('Fix each issue and mark [x] when done.');
+  lines.push('Fix the issues, then run: npx mat-a11y (regenerates this TODO).');
   lines.push('');
 
   // Output by component
@@ -186,7 +186,7 @@ function format(results, options = {}) {
         ? `: ${exampleElement.substring(0, 55)}${exampleElement.length > 55 ? '...' : ''}`
         : '';
 
-      lines.push(`[ ] ${check}${elementStr}${countStr}`);
+      lines.push(`- ${check}${elementStr}${countStr}`);
       if (info.fix) {
         lines.push(`    → ${info.fix}`);
       }
@@ -243,7 +243,7 @@ function formatComponentResults(results, lines) {
   const totalIssues = results.totalIssues || withIssues.reduce((sum, c) => sum + c.issues.length, 0);
   lines.push(`ACCESSIBILITY TODO: ${totalIssues} issues in ${withIssues.length} components`);
   lines.push('');
-  lines.push('Fix each issue and mark [x] when done.');
+  lines.push('Fix the issues, then run: npx mat-a11y (regenerates this TODO).');
   lines.push('');
 
   // Output by component
@@ -287,7 +287,7 @@ function formatComponentResults(results, lines) {
 
       for (const [element, count] of Object.entries(elementCounts)) {
         const countStr = count > 1 ? ` (×${count})` : '';
-        lines.push(`[ ] ${check}: ${element}${countStr}`);
+        lines.push(`- ${check}: ${element}${countStr}`);
         if (fix) {
           lines.push(`    → ${fix}`);
         }
