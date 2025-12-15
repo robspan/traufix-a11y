@@ -1,5 +1,6 @@
 const { parseColor, getLuminance, getContrastRatio, getContrastRating } = require('../colors');
 const { format } = require('../core/errors');
+const { resolveValue, containsVariable, isLiteralColor } = require('../core/variableResolver');
 
 module.exports = {
   name: 'colorContrast',
@@ -8,9 +9,24 @@ module.exports = {
   type: 'scss',
   weight: 7,
 
-  check(content) {
+  /**
+   * Check color contrast in SCSS content
+   * @param {string} content - SCSS file content
+   * @param {object} context - Variable context from variableResolver (optional)
+   * @returns {object} - { pass, issues, elementsFound }
+   */
+  check(content, context = null) {
     const issues = [];
     let elementsFound = 0;
+    let variablesResolved = 0;
+    let variablesSkipped = 0;
+
+    // Create empty context if not provided
+    const varContext = context || {
+      scssVars: new Map(),
+      cssVars: new Map(),
+      maps: new Map()
+    };
 
     // Pattern to find rule blocks with both color and background
     const ruleBlockPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
@@ -21,22 +37,63 @@ module.exports = {
       const selector = match[1].trim();
       const declarations = match[2];
 
-      // Skip if it uses CSS variables or SCSS variables (can't analyze statically)
-      if (/var\(|^\$|\$[a-z]/i.test(declarations)) {
-        continue;
-      }
-
       // Extract text color and background color from the same rule
       const colorMatch = declarations.match(/(?:^|[^-])color\s*:\s*([^;}\n]+)/i);
       const bgMatch = declarations.match(/background(?:-color)?\s*:\s*([^;}\n]+)/i);
 
       if (colorMatch && bgMatch) {
-        const textColor = colorMatch[1].trim();
-        const bgColor = bgMatch[1].trim();
+        let textColor = colorMatch[1].trim();
+        let bgColor = bgMatch[1].trim();
 
-        // Skip gradients, images, and variables
-        if (/gradient|url\(|var\(|\$/i.test(bgColor)) {
+        // Skip gradients and images (cannot analyze)
+        if (/gradient|url\(/i.test(bgColor)) {
           continue;
+        }
+
+        // Try to resolve variables/functions
+        if (containsVariable(textColor)) {
+          const resolved = resolveValue(textColor, varContext);
+          if (resolved && isLiteralColor(resolved)) {
+            textColor = resolved;
+            variablesResolved++;
+          } else {
+            variablesSkipped++;
+            continue; // Cannot resolve, skip this rule
+          }
+        }
+
+        if (containsVariable(bgColor)) {
+          const resolved = resolveValue(bgColor, varContext);
+          if (resolved && isLiteralColor(resolved)) {
+            bgColor = resolved;
+            variablesResolved++;
+          } else {
+            variablesSkipped++;
+            continue; // Cannot resolve, skip this rule
+          }
+        }
+
+        // Try to resolve color functions (lighten, darken, etc.)
+        if (!isLiteralColor(textColor) && /^[a-z-]+\s*\(/i.test(textColor)) {
+          const resolved = resolveValue(textColor, varContext);
+          if (resolved && isLiteralColor(resolved)) {
+            textColor = resolved;
+            variablesResolved++;
+          } else {
+            variablesSkipped++;
+            continue;
+          }
+        }
+
+        if (!isLiteralColor(bgColor) && /^[a-z-]+\s*\(/i.test(bgColor)) {
+          const resolved = resolveValue(bgColor, varContext);
+          if (resolved && isLiteralColor(resolved)) {
+            bgColor = resolved;
+            variablesResolved++;
+          } else {
+            variablesSkipped++;
+            continue;
+          }
         }
 
         const textRgb = parseColor(textColor);
@@ -109,7 +166,9 @@ module.exports = {
     return {
       pass: errorCount === 0,
       issues,
-      elementsFound
+      elementsFound,
+      variablesResolved,
+      variablesSkipped
     };
   }
 };

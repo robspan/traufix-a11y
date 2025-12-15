@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { loadAllChecks, getChecksByTier } = require('./loader');
 const { calculateAuditScore } = require('./weights');
+const { buildContext } = require('./variableResolver');
 
 /**
  * Find all TypeScript files with @Component decorator
@@ -179,19 +180,26 @@ function getCheckFunction(name, registry) {
 
 /**
  * Run a single check on content
+ * @param {string} name - Check name
+ * @param {string} content - Content to check
+ * @param {Map} registry - Check registry
+ * @param {object} varContext - Variable context for SCSS variable resolution (optional)
  */
-function runCheck(name, content, registry) {
+function runCheck(name, content, registry, varContext = null) {
   const checkFn = getCheckFunction(name, registry);
   if (!checkFn) {
     return { pass: true, issues: [], elementsFound: 0 };
   }
 
   try {
-    const result = checkFn(content);
+    // Pass context to checks that support it (SCSS checks)
+    const result = varContext ? checkFn(content, varContext) : checkFn(content);
     return {
       pass: result.pass,
       issues: result.issues || [],
-      elementsFound: result.elementsFound || 0
+      elementsFound: result.elementsFound || 0,
+      variablesResolved: result.variablesResolved || 0,
+      variablesSkipped: result.variablesSkipped || 0
     };
   } catch (error) {
     return { pass: true, issues: [], elementsFound: 0 };
@@ -217,9 +225,10 @@ function getCheckNamesByType(registry, type) {
  * @param {Map} registry - Check registry
  * @param {string[]} htmlChecks - HTML check names
  * @param {string[]} scssChecks - SCSS check names
+ * @param {object} varContext - Variable context for SCSS variable resolution (optional)
  * @returns {object} Analysis result for this component
  */
-function analyzeComponent(component, registry, htmlChecks, scssChecks) {
+function analyzeComponent(component, registry, htmlChecks, scssChecks, varContext = null) {
   const result = {
     name: component.className,
     selector: component.selector,
@@ -290,7 +299,7 @@ function analyzeComponent(component, registry, htmlChecks, scssChecks) {
     const content = fs.readFileSync(styleFile, 'utf-8');
 
     for (const checkName of scssChecks) {
-      const checkResult = runCheck(checkName, content, registry);
+      const checkResult = runCheck(checkName, content, registry, varContext);
 
       if (!result.checkAggregates[checkName]) {
         result.checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
@@ -316,7 +325,7 @@ function analyzeComponent(component, registry, htmlChecks, scssChecks) {
   // Analyze inline styles
   if (component.inlineStyles) {
     for (const checkName of scssChecks) {
-      const checkResult = runCheck(checkName, component.inlineStyles, registry);
+      const checkResult = runCheck(checkName, component.inlineStyles, registry, varContext);
 
       if (!result.checkAggregates[checkName]) {
         result.checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
@@ -358,6 +367,15 @@ function analyzeByComponent(projectDir, options = {}) {
   const htmlChecks = getCheckNamesByType(registry, 'html');
   const scssChecks = getCheckNamesByType(registry, 'scss');
 
+  // Build variable context for SCSS resolution
+  let varContext = null;
+  try {
+    varContext = buildContext(projectDir);
+  } catch (e) {
+    // Continue without variable resolution if it fails
+    console.warn('[ComponentAnalyzer] Warning: Variable context build failed:', e.message);
+  }
+
   // Find all component files
   const componentFiles = findComponentFiles(projectDir, ignore);
 
@@ -385,7 +403,7 @@ function analyzeByComponent(projectDir, options = {}) {
       continue;
     }
 
-    const result = analyzeComponent(component, registry, htmlChecks, scssChecks);
+    const result = analyzeComponent(component, registry, htmlChecks, scssChecks, varContext);
 
     // Count only components we actually analyzed (i.e., have template/styles)
     totalComponentsScanned++;

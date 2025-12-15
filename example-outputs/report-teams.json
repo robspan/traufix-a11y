@@ -14,7 +14,7 @@
         "body": [
           {
             "type": "TextBlock",
-            "text": "✅ mat-a11y Accessibility Report",
+            "text": "⚠️ mat-a11y Accessibility Report",
             "weight": "bolder",
             "size": "large",
             "wrap": true
@@ -30,16 +30,16 @@
             "type": "FactSet",
             "facts": [
               {
-                "title": "Total URLs",
-                "value": "67"
+                "title": "Total Components",
+                "value": "303"
               },
               {
                 "title": "Passing",
-                "value": "67 (score >= 90)"
+                "value": "176 (score >= 90)"
               },
               {
                 "title": "Warning",
-                "value": "0 (score 50-89)"
+                "value": "127 (score 50-89)"
               },
               {
                 "title": "Failing",
@@ -47,7 +47,7 @@
               },
               {
                 "title": "Pass Rate",
-                "value": "100.0%"
+                "value": "58.1%"
               },
               {
                 "title": "Tier",
@@ -57,7 +57,7 @@
           },
           {
             "type": "TextBlock",
-            "text": "Worst Performing URLs (Top 5)",
+            "text": "Worst Performing Components (Top 5)",
             "weight": "bolder",
             "size": "medium",
             "spacing": "medium"
@@ -84,7 +84,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "URL",
+                        "text": "Component",
                         "weight": "bolder",
                         "size": "small"
                       }
@@ -122,7 +122,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "/agb",
+                        "text": "MasonryBoardComponent",
                         "wrap": true,
                         "size": "small"
                       }
@@ -133,7 +133,83 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**92** (Pass)",
+                        "text": "**68** (Warning)",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "8",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TableRow",
+                "cells": [
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "AddSimpleItemDialog",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**69** (Warning)",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "2",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TableRow",
+                "cells": [
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "AddCategorizedItemDialog",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**69** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -160,7 +236,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "/datenschutz",
+                        "text": "ScenarioQuiz",
                         "wrap": true,
                         "size": "small"
                       }
@@ -171,45 +247,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**92** (Pass)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "4",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/impressum",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**92** (Pass)",
+                        "text": "**70** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -236,7 +274,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "/cookies",
+                        "text": "GuideIndexComponent",
                         "wrap": true,
                         "size": "small"
                       }
@@ -247,7 +285,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**92** (Pass)",
+                        "text": "**73** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -258,45 +296,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "4",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/widerrufsrecht",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**92** (Pass)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "4",
+                        "text": "15",
                         "wrap": true,
                         "size": "small"
                       }
@@ -308,203 +308,7 @@
           },
           {
             "type": "TextBlock",
-            "text": "Internal Routes (not in sitemap)",
-            "weight": "bolder",
-            "size": "medium",
-            "spacing": "medium"
-          },
-          {
-            "type": "FactSet",
-            "facts": [
-              {
-                "title": "Total Routes",
-                "value": "76"
-              },
-              {
-                "title": "Passing",
-                "value": "49"
-              },
-              {
-                "title": "Warning",
-                "value": "27"
-              },
-              {
-                "title": "Failing",
-                "value": "0"
-              }
-            ]
-          },
-          {
-            "type": "Table",
-            "columns": [
-              {
-                "width": 3
-              },
-              {
-                "width": 1
-              },
-              {
-                "width": 1
-              }
-            ],
-            "rows": [
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "URL",
-                        "weight": "bolder",
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "Score",
-                        "weight": "bolder",
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "Issues",
-                        "weight": "bolder",
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/verwaltung/einladungen",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**61** (Warning)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "12",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/verwaltung/allgemein",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**77** (Warning)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "24",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "/empfehlung/partner-anmelden",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "**77** (Warning)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "10",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "TextBlock",
-            "text": "Generated: 2025-12-14T21:20:11.654Z",
+            "text": "Generated: 2025-12-15T11:12:52.536Z",
             "size": "small",
             "isSubtle": true,
             "spacing": "medium"

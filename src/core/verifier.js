@@ -21,6 +21,7 @@ const path = require('path');
 const fs = require('fs');
 const { parseVerifyFile, detectFileType } = require('./parser');
 const { loadCheck, loadAllChecks, getChecksByTier } = require('./loader');
+const { buildContext } = require('./variableResolver');
 
 /**
  * @typedef {Object} SectionResult
@@ -93,12 +94,13 @@ function findVerifyFile(checkPath, checkType) {
  *
  * @param {Function} checkFn - The check function to run
  * @param {string} content - Content to check
+ * @param {object|null} context - Variable context for SCSS checks (optional)
  * @returns {{ pass: boolean, issues: string[], error: string|null }}
  * @private
  */
-function runCheckSafely(checkFn, content) {
+function runCheckSafely(checkFn, content, context = null) {
   try {
-    const result = checkFn(content);
+    const result = checkFn(content, context);
 
     // Normalize result to expected format
     const pass = result.pass === true;
@@ -222,8 +224,15 @@ function verifyCheck(checkModule, checkPath) {
     return createErrorResult(checkName, `Parse error: ${parseResult.error}`);
   }
 
+  // Build variable context from the full file content (for SCSS checks)
+  // This allows variables defined in the verify file to be resolved
+  let varContext = null;
+  if (checkModule.type === 'scss') {
+    varContext = buildContext([verifyContent]);
+  }
+
   // Run check on pass section
-  const passCheckResult = runCheckSafely(checkModule.check, parseResult.passContent);
+  const passCheckResult = runCheckSafely(checkModule.check, parseResult.passContent, varContext);
   const passResult = {
     expected: 'pass',
     actual: passCheckResult.pass ? 'pass' : 'fail',
@@ -232,7 +241,7 @@ function verifyCheck(checkModule, checkPath) {
   };
 
   // Run check on fail section
-  const failCheckResult = runCheckSafely(checkModule.check, parseResult.failContent);
+  const failCheckResult = runCheckSafely(checkModule.check, parseResult.failContent, varContext);
   const failResult = {
     expected: 'fail',
     actual: failCheckResult.pass ? 'pass' : 'fail',

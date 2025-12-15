@@ -5,6 +5,24 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.6.0] - 2025-12-15
+
+### Added
+- **SCSS/CSS variable resolution for color contrast** — The `colorContrast` check now resolves SCSS variables (`$primary-color`), CSS custom properties (`var(--bg)`), SCSS maps (`map-get($colors, 'primary')`), and color functions (`lighten()`, `darken()`, `mix()`, etc.) before checking contrast ratios. Previously, rules using variables were skipped entirely — a blind spot in well-architected projects using design tokens.
+- **New `src/core/colorMath.js`** — RGB ↔ HSL ↔ HEX color conversions with `parseToRgb()` supporting hex, rgb(), rgba(), hsl(), hsla(), and 147 named CSS colors.
+- **New `src/core/scssColorFunctions.js`** — Implements 20+ SCSS color functions: `lighten`, `darken`, `saturate`, `desaturate`, `adjust-hue`, `complement`, `invert`, `mix`, `rgba`, `rgb`, `hsl`, `hsla`, `transparentize`, `opacify`, `grayscale`, `adjust-color`, `scale-color`, `change-color`.
+- **New `src/core/scssParser.js`** — Parses `$variable` and `--custom-property` definitions from SCSS/CSS files, handles `!default`, and extracts SCSS maps.
+- **New `src/core/scssMapResolver.js`** — Resolves `map-get()`, `map-has-key()`, `map-keys()`, `map-values()`, and `map-merge()` expressions.
+- **New `src/core/cssCustomProperties.js`** — Resolves `var(--name)` and `var(--name, fallback)` expressions with proper fallback handling.
+- **New `src/core/variableResolver.js`** — Main orchestrator that builds variable context from SCSS files and resolves chained variable references.
+- **New test suites** — `test-scss-functions.js` (43 tests), `test-variable-resolver.js` (27 tests), `test-color-contrast-variables.js` (20 tests for integration testing against false positives/negatives).
+- **Verifier variable context** — The check verifier now builds variable context from verify files, enabling SCSS checks to be tested with inline variable definitions.
+
+### Changed
+- **`colorContrast` check accuracy** — Now catches contrast issues in SCSS using design tokens. Before: skipped all variable-based colors. After: resolves to actual color values and checks contrast.
+- **`componentAnalyzer`** — Now builds variable context once per analysis run and passes it to SCSS checks for accurate resolution.
+- **`buildContext()` flexibility** — Now accepts either a project directory path OR an array of SCSS content strings, enabling both runtime analysis and unit testing.
+
 ## [5.5.0] - 2025-12-15
 
 ### Added

@@ -1,3 +1,33 @@
+/* Variable definitions - available to all sections */
+/* These MUST be at the top of the file so the verifier can build context */
+
+// Good contrast variables (4.5:1+ ratio)
+$good-text: #333333;
+$good-bg: #ffffff;
+$dark-text: #1a1a1a;
+$light-bg: #fafafa;
+
+// Bad contrast variables (below 4.5:1)
+$bad-text: #cccccc;
+$bad-bg: #ffffff;
+$muted-text: #aaaaaa;
+
+// Variable chains for testing resolution
+$base-color: #222222;
+$derived-text: $base-color;
+
+// Color for function tests
+$base-black: #000000;
+$base-white: #ffffff;
+
+// CSS custom properties
+:root {
+  --text-dark: #222222;
+  --bg-light: #ffffff;
+  --text-muted: #bbbbbb;
+  --bg-white: #ffffff;
+}
+
 /* @a11y-pass */
 /* Good examples that should NOT trigger issues */
 
@@ -15,9 +45,40 @@
   color: rgba(0, 0, 0, 0.87);
 }
 
-.using-variables {
-  color: $primary-text;
-  background: var(--bg-color);
+/* SCSS variable resolution - good contrast */
+.resolved-good-contrast {
+  color: $good-text;
+  background: $good-bg;
+}
+
+/* Variable chain resolution */
+.chained-variable-good {
+  color: $derived-text;
+  background: $light-bg;
+}
+
+/* CSS custom property resolution - good contrast */
+.css-var-good {
+  color: var(--text-dark);
+  background: var(--bg-light);
+}
+
+/* CSS var with fallback - uses fallback which has good contrast */
+.css-var-fallback-good {
+  color: var(--undefined-var, #333333);
+  background: var(--also-undefined, #ffffff);
+}
+
+/* Color function resolution - good contrast */
+.darken-good {
+  color: darken($base-white, 70%);
+  background: $base-white;
+}
+
+/* Mix function - good contrast */
+.mix-good {
+  color: mix($base-black, $base-white, 80%);
+  background: $base-white;
 }
 
 /* @a11y-fail */
@@ -33,6 +94,42 @@
 
 .bad-white-on-white {
   color: #fff;
+}
+
+/* SCSS variable that resolves to bad contrast */
+.resolved-bad-contrast {
+  color: $bad-text;
+  background: $bad-bg;
+}
+
+/* CSS custom property with bad contrast */
+.css-var-bad {
+  color: var(--text-muted);
+  background: var(--bg-white);
+}
+
+/* Color function that resolves to bad contrast - lighten(#000, 75%) = #bfbfbf */
+.function-bad-contrast {
+  color: lighten($base-black, 75%);
+  background: $base-white;
+}
+
+/* Darken function - still bad contrast */
+.darken-bad {
+  color: darken($base-white, 20%);
+  background: $base-white;
+}
+
+/* Mix function - bad contrast (50% mix = gray on white) */
+.mix-bad {
+  color: mix($base-black, $base-white, 40%);
+  background: $base-white;
+}
+
+/* rgba with low alpha */
+.rgba-bad {
+  color: rgba($base-black, 0.3);
+  background: $base-white;
 }
 
 // @a11y-false-positive

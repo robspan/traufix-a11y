@@ -108,6 +108,33 @@ When the same SCSS issue appears across multiple component files, mat-a11y trace
 
 This reduces your backlog by 50-80% on typical projects. Disable with `--no-collapse` if you need the raw issue list.
 
+### SCSS Variable Resolution
+
+The `colorContrast` check resolves SCSS variables, CSS custom properties, and color functions before checking contrast ratios. This means projects using design tokens get **accurate** contrast analysis:
+
+```scss
+// mat-a11y resolves this chain:
+$brand-blue: #1a73e8;
+$primary: $brand-blue;
+$button-bg: lighten($primary, 10%);
+
+.button {
+  background: $button-bg;  // → #4a90e8 (resolved)
+  color: white;            // Contrast: 3.2:1 ✗
+}
+```
+
+**Supported:**
+- SCSS variables (`$primary-color`, `$font-size`)
+- CSS custom properties (`var(--bg)`, `var(--color, #000)`)
+- SCSS maps (`map-get($colors, 'primary')`)
+- 20+ color functions (`lighten`, `darken`, `mix`, `rgba`, `adjust-hue`, etc.)
+- Chained variables (`$a: $b; $b: $c;`)
+
+**Before:** Rules using variables were skipped entirely — a blind spot in well-architected projects.
+
+**After:** Variables resolve to actual color values, enabling accurate contrast checking even with design tokens.
+
 ---
 
 ## Real-World Results

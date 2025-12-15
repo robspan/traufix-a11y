@@ -1,6 +1,6 @@
 {
   "name": "mat-a11y",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "Angular Material accessibility linter (v12+). 82 WCAG checks for mat-* components, Angular templates & SCSS. Static analysis with color contrast calculation.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
