@@ -6,14 +6,14 @@
 
 **Accessibility linter for Angular Material.** 82 checks. AI-optimized output. Battle-tested on [traufix.de](https://traufix.de) with 300+ components.
 
+
 ```bash
 npx mat-a11y
 ```
 
-Generates `_mat-a11y.backlog.txt` — paste into Claude/ChatGPT/Cursor and let AI fix the issues.
-
-- `npx mat-a11y --html` → `_mat-a11y.html` — [HTML sample](https://robspan.github.io/mat-a11y/_report-html.html)
-- `npx mat-a11y --json` → `_mat-a11y.json` — [JSON sample](https://robspan.github.io/mat-a11y/_report-json.json)
+`npx mat-a11y` → `_mat-a11y.backlog.txt` — [AI backlog sample](https://robspan.github.io/mat-a11y/_report-ai.backlog.txt)
+`npx mat-a11y --html` → `_mat-a11y.html` — [HTML sample](https://robspan.github.io/mat-a11y/_report-html.html)
+`npx mat-a11y --json` → `_mat-a11y.json` — [JSON sample](https://robspan.github.io/mat-a11y/_report-json.json)
 
 
 <details>
