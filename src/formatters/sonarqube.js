@@ -146,7 +146,8 @@ function format(results, options = {}) {
   const output = {
     _generated: {
       tool: 'mat-a11y',
-      notice: 'Generated file - do not edit'
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
     },
     issues: issues
   };

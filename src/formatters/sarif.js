@@ -184,6 +184,11 @@ function format(results, options = {}) {
 
   // Build the complete SARIF document
   const sarifDocument = {
+    _generated: {
+      tool: 'mat-a11y',
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
+    },
     $schema: 'https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json',
     version: '2.1.0',
     runs: [{

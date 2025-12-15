@@ -1,11 +1,16 @@
 {
+  "_generated": {
+    "tool": "mat-a11y",
+    "notice": "Generated file - do not edit",
+    "promo": "traufix.de | freelancermap.de/profil/robin-spanier"
+  },
   "series": [
     {
       "metric": "mat_a11y.urls.total",
       "points": [
         [
-          1765807752,
-          67
+          1765816830,
+          307
         ]
       ],
       "type": "gauge",
@@ -17,8 +22,8 @@
       "metric": "mat_a11y.urls.passing",
       "points": [
         [
-          1765807752,
-          67
+          1765816830,
+          156
         ]
       ],
       "type": "gauge",
@@ -30,8 +35,8 @@
       "metric": "mat_a11y.urls.warning",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          151
         ]
       ],
       "type": "gauge",
@@ -43,7 +48,7 @@
       "metric": "mat_a11y.urls.failing",
       "points": [
         [
-          1765807752,
+          1765816830,
           0
         ]
       ],
@@ -56,8 +61,8 @@
       "metric": "mat_a11y.pass_rate",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          50.814332247557005
         ]
       ],
       "type": "gauge",
@@ -70,8 +75,8 @@
       "metric": "mat_a11y.score.average",
       "points": [
         [
-          1765807752,
-          99.77611940298507
+          1765816830,
+          85.07834101382488
         ]
       ],
       "type": "gauge",
@@ -83,8 +88,8 @@
       "metric": "mat_a11y.issues.total",
       "points": [
         [
-          1765807752,
-          25
+          1765816830,
+          886
         ]
       ],
       "type": "gauge",
@@ -96,1883 +101,6195 @@
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          92
+          1765816830,
+          70
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide"
+        "url:locations"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          8
+          1765816830,
+          20
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide"
+        "url:locations"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          93
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/"
+        "url:navigation"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
+          20
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:navigation"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:replies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          17
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:replies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:referral"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          16
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:referral"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:checklistprogress"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          14
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:checklistprogress"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:administration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          15
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:administration"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideindexcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          14
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideindexcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:upgrade"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:upgrade"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:landing"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
           10
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/"
+        "url:landing"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          81
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/agb"
+        "url:impressumcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:impressumcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          64
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:adddeadlineitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:adddeadlineitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rsvptracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rsvptracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dayplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dayplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          87
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:housing"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          11
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:housing"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetallocator"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetallocator"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:printablechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:printablechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          65
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:schedulebuilder"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          10
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:schedulebuilder"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          89
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:vendortimeline"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:vendortimeline"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:datecountdowncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:datecountdowncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetbreakdowncomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          10
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetbreakdowncomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:replies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          10
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:replies"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:assignablechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:assignablechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:ratingcomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:ratingcomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:general"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:general"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quote"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quote"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingregistry"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          9
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingregistry"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quantityestimatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quantityestimatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tipcalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tipcalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:taskassignmenttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:taskassignmenttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          89
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:bridalcouple"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:bridalcouple"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:housing"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:housing"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contact"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contact"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          77
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:presetexampleview"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:presetexampleview"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:cancelsubscriptiondialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:cancelsubscriptiondialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestcomponentdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestcomponentdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:beforeaftercomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:beforeaftercomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:groupedchecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:groupedchecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:prioritychecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/agb"
+        "url:prioritychecklistcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          78
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/datenschutz"
+        "url:quantitychecklistcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quantitychecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          69
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addsimpleitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addsimpleitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          70
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:masonryboardcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:masonryboardcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:checklistadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:checklistadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:filtercards"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:filtercards"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestestimatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestestimatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:simplecalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:simplecalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contactinformation"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contactinformation"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          69
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contactinformation"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contactinformation"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestfooter"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestfooter"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:reservedialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:reservedialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:infocardscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:infocardscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:optionselectorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:optionselectorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          69
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addcategorizeditemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addcategorizeditemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:stylequizcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:stylequizcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingchart"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingchart"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingedittabledialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingedittabledialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          76
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:taskorganizer"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:taskorganizer"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetpriorityquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetpriorityquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:multiplechoicequiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:multiplechoicequiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:experttipcarousel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:experttipcarousel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetcalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetcalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:costsplittercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:costsplittercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:savingstrackercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:savingstrackercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featurematrixcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featurematrixcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:messages"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:messages"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faq"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faq"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingabc"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingabc"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          78
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdown"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdown"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dayplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          6
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dayplan"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          70
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:freetext"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:freetext"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:collapsiblestepscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:collapsiblestepscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tabbedcontentcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tabbedcontentcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:noteschecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/datenschutz"
+        "url:noteschecklistcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          83
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/impressum"
+        "url:progresschecklistcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:progresschecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:formbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:formbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:mixmatchbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:mixmatchbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:wordcounttrackercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:wordcounttrackercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:colorpalettecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:colorpalettecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:stylemixercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:stylemixercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdowntimer"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdowntimer"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:compatibilityquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:compatibilityquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rankingquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rankingquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          74
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:scenarioquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:scenarioquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:sliderscalequiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:sliderscalequiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:mythbuster"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:mythbuster"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelinestepper"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelinestepper"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dietaryrequirementstracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dietaryrequirementstracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingcharttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingcharttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weighteddecisionmakercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weighteddecisionmakercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:magiclink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:magiclink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:photoalbum"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:photoalbum"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addreplydialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addreplydialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:imageupload"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:imageupload"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:titleimage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:titleimage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dragdroptimelinecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:dragdroptimelinecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featurecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featurecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:interactivechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:interactivechecklistcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:interactiveslidercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:interactiveslidercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addpriorityitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:addpriorityitemdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:elementpairingcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:elementpairingcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seasonalfiltercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seasonalfiltercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:musicplaylist"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:musicplaylist"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelineplanner"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelineplanner"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:matchingpairsquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:matchingpairsquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:yesnoquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:yesnoquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:comparisontable"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:comparisontable"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetspendtracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetspendtracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdowndaystracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:countdowndaystracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rsvpresponsetracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rsvpresponsetracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:statusdashboard"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:statusdashboard"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          89
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pricetiercomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pricetiercomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          95
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:prosconscardscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:prosconscardscomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          89
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:swipecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:swipecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelinecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:timelinecomparisoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          70
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidefooter"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidefooter"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pdfexportcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pdfexportcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:socialsharecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:socialsharecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:gifts"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:gifts"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          79
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faq"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faq"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:organisators"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:organisators"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          57
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quote"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quote"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingabc"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingabc"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          89
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:takedownprocedure"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:takedownprocedure"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          87
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:partnerdashboard"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:partnerdashboard"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:premiumpreviewwarningdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:premiumpreviewwarningdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          75
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featureinfodialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:featureinfodialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:presetselector"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:presetselector"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tipcarouselcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:tipcarouselcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          86
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:conditionaltextbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:conditionaltextbuildercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:multistepwizardcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:multistepwizardcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:themeexplorercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:themeexplorercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:budgetadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:musicadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:musicadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          94
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:scheduleadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:scheduleadddialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          81
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingaddtabledialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:seatingaddtabledialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:imageselectionquiz"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/impressum"
+        "url:imageselectionquiz"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/cookies"
+        "url:personalitymatrixquiz"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/cookies"
+        "url:personalitymatrixquiz"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          91
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/widerrufsrecht"
+        "url:checklisttracker"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:checklisttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faqaccordion"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:faqaccordion"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          82
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quicktipsgrid"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:quicktipsgrid"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:comparisoncalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:comparisoncalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          85
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:roicalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:roicalculatorcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:vendorpaymenttracker"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/widerrufsrecht"
+        "url:vendorpaymenttracker"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dj-band-buchen"
+        "url:comparisontablecomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/dj-band-buchen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/dresscode-kommunizieren"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/dresscode-kommunizieren"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/gaesteliste-erstellen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/gaesteliste-erstellen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitseinladung-gestalten"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitseinladung-gestalten"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsfarben-waehlen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsfarben-waehlen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitstag-ablauf-planen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitstag-ablauf-planen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitswebsite-erstellen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitswebsite-erstellen"
+        "url:comparisontablecomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          90
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/notfallkoffer-packen"
+        "url:account"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/notfallkoffer-packen"
+        "url:account"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/tischdeko-gestalten"
+        "url:signin"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/tischdeko-gestalten"
+        "url:signin"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/traubogen-bauen"
+        "url:dashboard"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/traubogen-bauen"
+        "url:dashboard"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          90
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/brautkleid-checkliste"
+        "url:countdown"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/brautkleid-checkliste"
+        "url:countdown"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          90
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-checkliste"
+        "url:organisators"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-checkliste"
+        "url:organisators"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          91
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dienstleister-checkliste"
+        "url:structuralorder"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dienstleister-checkliste"
+        "url:structuralorder"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          67
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/gaesteliste-checkliste"
+        "url:closingwords"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/gaesteliste-checkliste"
+        "url:closingwords"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          87
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsfotos-must-haves"
+        "url:guestimpressumpage"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsfotos-must-haves"
+        "url:guestimpressumpage"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitslocation-checkliste"
+        "url:imageupload"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitslocation-checkliste"
+        "url:imageupload"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          85
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/honeymoon-planung"
+        "url:adminmagiclink"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/honeymoon-planung"
+        "url:adminmagiclink"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/notfallkoffer-braut"
+        "url:login"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/notfallkoffer-braut"
+        "url:login"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          92
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/standesamt-checkliste"
+        "url:footer"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          3
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/standesamt-checkliste"
+        "url:footer"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/trauzeugen-checkliste"
+        "url:imagepreview"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/trauzeugen-checkliste"
+        "url:imagepreview"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          92
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/danksagung-vorlage"
+        "url:storageconsentbanner"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/danksagung-vorlage"
+        "url:storageconsentbanner"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          92
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dresscode-nachricht"
+        "url:addquantityitemdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dresscode-nachricht"
+        "url:addquantityitemdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          90
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/eheversprechen-editor"
+        "url:dragtoarrangecomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/eheversprechen-editor"
+        "url:dragtoarrangecomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/einladungstext-generator"
+        "url:madlibsgeneratorcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/einladungstext-generator"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/gaestebuch-spiel"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/gaestebuch-spiel"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsquiz-fragen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsquiz-fragen"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsrede-assistent"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
-          0
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/hochzeitsrede-assistent"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.score",
-      "points": [
-        [
-          1765807752,
-          100
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "url:/guide/save-the-date-texte"
-      ]
-    },
-    {
-      "metric": "mat_a11y.url.issues",
-      "points": [
-        [
-          1765807752,
+          1765816830,
           1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/save-the-date-texte"
+        "url:madlibsgeneratorcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/verkuendung-varianten"
+        "url:tonestyleswitchercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/verkuendung-varianten"
+        "url:tonestyleswitchercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/zeremonien-ablauf"
+        "url:seatingaddguestdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/zeremonien-ablauf"
+        "url:seatingaddguestdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/boho-hochzeit-ideen"
+        "url:milestonetracker"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/boho-hochzeit-ideen"
+        "url:milestonetracker"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          90
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/farbkonzept-inspiration"
+        "url:progresstracker"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/farbkonzept-inspiration"
+        "url:progresstracker"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsdeko-trends"
+        "url:visualdiffslidercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsdeko-trends"
+        "url:visualdiffslidercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          80
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsfrisuren-inspiration"
+        "url:hochzeitswebsiteerstellencomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsfrisuren-inspiration"
+        "url:hochzeitswebsiteerstellencomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          85
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitskleid-stile"
+        "url:guidepromo"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitskleid-stile"
+        "url:guidepromo"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          83
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitspapeterie-designs"
+        "url:guidestorageconsent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitspapeterie-designs"
+        "url:guidestorageconsent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsstil-quiz"
+        "url:storageconsentdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsstil-quiz"
+        "url:storageconsentdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/saisonale-hochzeitsblumen"
+        "url:login"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/saisonale-hochzeitsblumen"
+        "url:login"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          87
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/tischdeko-inspiration"
+        "url:invitations"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/tischdeko-inspiration"
+        "url:invitations"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          82
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/traubogen-designs"
+        "url:closingwords"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/traubogen-designs"
+        "url:closingwords"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          89
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/12-monate-zeitplan"
+        "url:eigeneconfigurator"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/12-monate-zeitplan"
+        "url:eigeneconfigurator"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          91
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-planung"
+        "url:freetext"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-planung"
+        "url:freetext"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dienstleister-koordination"
+        "url:titleimage"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/dienstleister-koordination"
+        "url:titleimage"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          82
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/getting-ready-zeitplan"
+        "url:bridalcouple"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/getting-ready-zeitplan"
+        "url:bridalcouple"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitstag-koordination"
+        "url:emptycomponentstate"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitstag-koordination"
+        "url:emptycomponentstate"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitstag-zeitplan"
+        "url:partnerlogin"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitstag-zeitplan"
+        "url:partnerlogin"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/musik-wunschliste"
+        "url:imageuploaddialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/musik-wunschliste"
+        "url:imageuploaddialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          92
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/rsvp-tracking"
+        "url:impressumdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/rsvp-tracking"
+        "url:impressumdialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/sitzplan-erstellung"
+        "url:enablefeaturedialog"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          2
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/sitzplan-erstellung"
+        "url:enablefeaturedialog"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          88
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/zeremonie-ablaufplan"
+        "url:referralsigninnotice"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/zeremonie-ablaufplan"
+        "url:referralsigninnotice"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-schwerpunkte-quiz"
+        "url:fillinblankscomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/budget-schwerpunkte-quiz"
+        "url:fillinblankscomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/entscheidungs-stil-quiz"
+        "url:texturepickercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/entscheidungs-stil-quiz"
+        "url:texturepickercomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/feier-typ-quiz"
+        "url:decisiontree"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
+          1765816830,
           0
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/feier-typ-quiz"
+        "url:decisiontree"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          95
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeits-vorlieben-quiz"
+        "url:anleitunglandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeits-vorlieben-quiz"
+        "url:anleitunglandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeits-wissen-test"
+        "url:checklistelanding"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeits-wissen-test"
+        "url:checklistelanding"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsstil-finder"
+        "url:generatorlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/hochzeitsstil-finder"
+        "url:generatorlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/paar-harmonie-quiz"
+        "url:inspirationlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/paar-harmonie-quiz"
+        "url:inspirationlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/planungs-profil-quiz"
+        "url:planerlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/planungs-profil-quiz"
+        "url:planerlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/prioritaeten-ranking-quiz"
+        "url:quizlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/prioritaeten-ranking-quiz"
+        "url:quizlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.score",
       "points": [
         [
-          1765807752,
-          100
+          1765816830,
+          94
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/schnell-check-hochzeit"
+        "url:ratgeberlandingcomponent"
       ]
     },
     {
       "metric": "mat_a11y.url.issues",
       "points": [
         [
-          1765807752,
-          0
+          1765816830,
+          1
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
-        "url:/guide/schnell-check-hochzeit"
+        "url:ratgeberlandingcomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          94
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rechnerlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:rechnerlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          94
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:trackerlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:trackerlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          95
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:vergleichlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:vergleichlanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:savethedatetextecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:savethedatetextecomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideheader"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideheader"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideimage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideimage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          83
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidelanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidelanding"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          95
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidelink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guidelink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          91
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideloadercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guideloadercomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          95
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:configconflictdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:configconflictdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:sharebuttoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:sharebuttoncomponent"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          94
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:deleteaccount"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:deleteaccount"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          80
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:logout"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:logout"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          95
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:qrcode"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:qrcode"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          91
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contact"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:contact"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestview"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:guestview"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          88
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:invitationtext"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:invitationtext"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:componenteditbutton"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:componenteditbutton"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          94
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingregistry"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:weddingregistry"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:legalpage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:legalpage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:partnermagiclink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:partnermagiclink"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          90
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:themeinfodialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:themeinfodialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          92
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:header"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:header"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pageheader"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:pageheader"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.score",
+      "points": [
+        [
+          1765816830,
+          93
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:paymentprocess"
+      ]
+    },
+    {
+      "metric": "mat_a11y.url.issues",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "url:paymentprocess"
       ]
     },
     {
       "metric": "mat_a11y.issues.by_check",
       "points": [
         [
-          1765807752,
+          1765816830,
+          106
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:maticonaccessibility"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          255
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:colorcontrast"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          120
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:prefersreducedmotion"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          111
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:formlabels"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          84
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:contentoverflow"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          70
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:smallfontsize"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          16
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:touchtargets"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          13
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:clickwithoutrole"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
           2
         ]
       ],
@@ -1986,70 +6303,308 @@
       "metric": "mat_a11y.issues.by_check",
       "points": [
         [
-          1765807752,
-          8
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "check:contentoverflow"
-      ]
-    },
-    {
-      "metric": "mat_a11y.issues.by_check",
-      "points": [
-        [
-          1765807752,
-          8
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "check:prefersreducedmotion"
-      ]
-    },
-    {
-      "metric": "mat_a11y.issues.by_check",
-      "points": [
-        [
-          1765807752,
-          3
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "check:smallfontsize"
-      ]
-    },
-    {
-      "metric": "mat_a11y.issues.by_check",
-      "points": [
-        [
-          1765807752,
-          3
-        ]
-      ],
-      "type": "gauge",
-      "tags": [
-        "tier:full",
-        "check:colorcontrast"
-      ]
-    },
-    {
-      "metric": "mat_a11y.issues.by_check",
-      "points": [
-        [
-          1765807752,
-          1
+          1765816830,
+          5
         ]
       ],
       "type": "gauge",
       "tags": [
         "tier:full",
         "check:pointereventsnone"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matdialogfocus"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          11
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:clickwithoutkeyboard"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          14
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:hoverwithoutfocus"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          7
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:lineheighttight"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          11
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:cdkliveannouncer"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          8
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:scopeattrmisuse"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          12
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:innerhtmlusage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matchiplistlabel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:outlinenonewithoutalt"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:autofocususage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          4
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:cdktrapfocusdialog"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          5
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:ngfortrackby"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          3
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:visibilityhiddenusage"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matprogressspinnerlabel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matsliderlabel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:cdkariadescriber"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:emptytableheader"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:textjustify"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          2
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:headingorder"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:matradiogrouplabel"
+      ]
+    },
+    {
+      "metric": "mat_a11y.issues.by_check",
+      "points": [
+        [
+          1765816830,
+          1
+        ]
+      ],
+      "type": "gauge",
+      "tags": [
+        "tier:full",
+        "check:mattooltipkeyboard"
       ]
     }
   ]

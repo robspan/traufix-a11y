@@ -350,6 +350,15 @@ function format(results, options = {}) {
     spacing: 'medium'
   });
 
+  // Consulting promo
+  body.push({
+    type: 'TextBlock',
+    text: 'traufix.de | freelancermap.de/profil/robin-spanier',
+    size: 'small',
+    isSubtle: true,
+    spacing: 'small'
+  });
+
   // Build actions if build URL provided
   const actions = [];
   if (buildUrl) {

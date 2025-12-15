@@ -18,6 +18,7 @@ const path = require('path');
 const { Worker } = require('worker_threads');
 const { loadAllChecks, getChecksByTier, getChecksByType } = require('./loader');
 const { verifyByTier, getVerifySummary } = require('./verifier');
+const { extractStyleTags, adjustIssueLineNumbers, hasEmbeddedCss } = require('./embeddedCssExtractor');
 
 // ============================================
 // TYPE DEFINITIONS
@@ -763,6 +764,57 @@ class CheckRunner {
               check: checkName,
               message: issue
             });
+          }
+        }
+
+        // For HTML files, also run SCSS checks on embedded <style> content
+        if (isHtml && hasEmbeddedCss(file.content)) {
+          const styleBlocks = extractStyleTags(file.content);
+
+          for (const block of styleBlocks) {
+            for (const [checkName, checkModule] of scssChecks) {
+              results.summary.totalChecks++;
+              const checkResult = this._runCheckSync(checkModule, block.css, options.varContext);
+
+              // Adjust line numbers to match original HTML file
+              const adjustedIssues = adjustIssueLineNumbers(checkResult.issues, block.startLine);
+
+              // Merge with existing check result or create new one
+              const existingResult = fileResult.checks.get(checkName);
+              if (existingResult) {
+                // Merge issues into existing result
+                existingResult.issues = [...existingResult.issues, ...adjustedIssues];
+                existingResult.elementsFound += checkResult.elementsFound;
+                if (!checkResult.pass) existingResult.pass = false;
+              } else {
+                fileResult.checks.set(checkName, {
+                  pass: checkResult.pass,
+                  issues: adjustedIssues,
+                  elementsFound: checkResult.elementsFound,
+                  error: checkResult.error
+                });
+              }
+
+              if (checkResult.error) {
+                results.summary.errors++;
+                fileResult.failed++;
+              } else if (checkResult.pass) {
+                results.summary.passed++;
+                fileResult.passed++;
+              } else {
+                results.summary.failed++;
+                fileResult.failed++;
+              }
+
+              // Collect adjusted issues
+              for (const issue of adjustedIssues) {
+                results.summary.issues.push({
+                  file: file.path,
+                  check: checkName,
+                  message: issue
+                });
+              }
+            }
           }
         }
 

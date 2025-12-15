@@ -153,7 +153,8 @@ function format(results, options = {}) {
     // Metadata
     _generated: {
       tool: 'mat-a11y',
-      notice: 'Generated file - do not edit'
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
     },
     meta: {
       tier,

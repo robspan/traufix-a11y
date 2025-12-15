@@ -3,109 +3,339 @@
 # mat-a11y Accessibility Report
 
 **Tier:** full
-**Sitemap:** ..\noro-wedding\dist\noro-marriage\browser\sitemap.xml
-**Generated:** 2025-12-15T14:09:12.564Z
+**Generated:** 2025-12-15T16:40:30.659Z
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
-| URLs Analyzed | 67 |
-| Passing (90-100%) | 67 |
-| Warning (50-89%) | 0 |
+| Components Analyzed | 307 |
+| Passing (90-100%) | 156 |
+| Warning (50-89%) | 151 |
 | Failing (<50%) | 0 |
 
 ## Distribution
 
 ```
-Passing: [####################] 67 (100%)
-Warning: [--------------------] 0 (0%)
+Passing: [##########----------] 156 (51%)
+Warning: [##########----------] 151 (49%)
 Failing: [--------------------] 0 (0%)
 ```
 
 ## Priority Fixes
 
-URLs that need the most attention:
+Components that need the most attention:
 
-## All URLs
+### Quote (57%)
 
-| URL | Score | Status | Issues |
+| Check | Count |
+|-------|-------|
+| `smallFontSize` | 2 |
+| `contentOverflow` | 1 |
+| `prefersReducedMotion` | 1 |
+
+### AddDeadlineItemDialog (64%)
+
+| Check | Count |
+|-------|-------|
+| `colorContrast` | 7 |
+| `contentOverflow` | 2 |
+| `formLabels` | 1 |
+| `matDialogFocus` | 1 |
+| `touchTargets` | 1 |
+
+### ScheduleBuilder (65%)
+
+| Check | Count |
+|-------|-------|
+| `smallFontSize` | 4 |
+| `formLabels` | 2 |
+| `colorContrast` | 1 |
+| `hoverWithoutFocus` | 1 |
+| `lineHeightTight` | 1 |
+
+### ClosingWords (67%)
+
+| Check | Count |
+|-------|-------|
+| `matIconAccessibility` | 1 |
+| `contentOverflow` | 1 |
+| `prefersReducedMotion` | 1 |
+
+### AddSimpleItemDialog (69%)
+
+| Check | Count |
+|-------|-------|
+| `matDialogFocus` | 1 |
+| `prefersReducedMotion` | 1 |
+
+### ContactInformation (69%)
+
+| Check | Count |
+|-------|-------|
+| `matIconAccessibility` | 4 |
+| `colorContrast` | 1 |
+| `prefersReducedMotion` | 1 |
+| `smallFontSize` | 1 |
+
+### AddCategorizedItemDialog (69%)
+
+| Check | Count |
+|-------|-------|
+| `matDialogFocus` | 1 |
+| `contentOverflow` | 1 |
+| `prefersReducedMotion` | 1 |
+| `smallFontSize` | 1 |
+
+### Locations (70%)
+
+| Check | Count |
+|-------|-------|
+| `colorContrast` | 12 |
+| `matIconAccessibility` | 7 |
+| `prefersReducedMotion` | 1 |
+
+### MasonryBoardComponent (70%)
+
+| Check | Count |
+|-------|-------|
+| `colorContrast` | 2 |
+| `matChipListLabel` | 1 |
+| `contentOverflow` | 1 |
+| `pointerEventsNone` | 1 |
+| `prefersReducedMotion` | 1 |
+
+### Freetext (70%)
+
+| Check | Count |
+|-------|-------|
+| `colorContrast` | 3 |
+| `innerHtmlUsage` | 1 |
+| `lineHeightTight` | 1 |
+
+## All Components
+
+| Component | Score | Status | Issues |
 |-----|-------|--------|--------|
-| /guide | 92% | PASS | 8 |
-| / | 93% | PASS | 10 |
-| /agb | 100% | PASS | 1 |
-| /datenschutz | 100% | PASS | 1 |
-| /impressum | 100% | PASS | 1 |
-| /cookies | 100% | PASS | 1 |
-| /widerrufsrecht | 100% | PASS | 1 |
-| /guide/dj-band-buchen | 100% | PASS | 0 |
-| /guide/dresscode-kommunizieren | 100% | PASS | 0 |
-| /guide/gaesteliste-erstellen | 100% | PASS | 0 |
-| /guide/hochzeitseinladung-gestalten | 100% | PASS | 0 |
-| /guide/hochzeitsfarben-waehlen | 100% | PASS | 0 |
-| /guide/hochzeitstag-ablauf-planen | 100% | PASS | 0 |
-| /guide/hochzeitswebsite-erstellen | 100% | PASS | 1 |
-| /guide/notfallkoffer-packen | 100% | PASS | 0 |
-| /guide/tischdeko-gestalten | 100% | PASS | 0 |
-| /guide/traubogen-bauen | 100% | PASS | 0 |
-| /guide/brautkleid-checkliste | 100% | PASS | 0 |
-| /guide/budget-checkliste | 100% | PASS | 0 |
-| /guide/dienstleister-checkliste | 100% | PASS | 0 |
-| /guide/gaesteliste-checkliste | 100% | PASS | 0 |
-| /guide/hochzeitsfotos-must-haves | 100% | PASS | 0 |
-| /guide/hochzeitslocation-checkliste | 100% | PASS | 0 |
-| /guide/honeymoon-planung | 100% | PASS | 0 |
-| /guide/notfallkoffer-braut | 100% | PASS | 0 |
-| /guide/standesamt-checkliste | 100% | PASS | 0 |
-| /guide/trauzeugen-checkliste | 100% | PASS | 0 |
-| /guide/danksagung-vorlage | 100% | PASS | 0 |
-| /guide/dresscode-nachricht | 100% | PASS | 0 |
-| /guide/eheversprechen-editor | 100% | PASS | 0 |
-| /guide/einladungstext-generator | 100% | PASS | 0 |
-| /guide/gaestebuch-spiel | 100% | PASS | 0 |
-| /guide/hochzeitsquiz-fragen | 100% | PASS | 0 |
-| /guide/hochzeitsrede-assistent | 100% | PASS | 0 |
-| /guide/save-the-date-texte | 100% | PASS | 1 |
-| /guide/verkuendung-varianten | 100% | PASS | 0 |
-| /guide/zeremonien-ablauf | 100% | PASS | 0 |
-| /guide/boho-hochzeit-ideen | 100% | PASS | 0 |
-| /guide/farbkonzept-inspiration | 100% | PASS | 0 |
-| /guide/hochzeitsdeko-trends | 100% | PASS | 0 |
-| /guide/hochzeitsfrisuren-inspiration | 100% | PASS | 0 |
-| /guide/hochzeitskleid-stile | 100% | PASS | 0 |
-| /guide/hochzeitspapeterie-designs | 100% | PASS | 0 |
-| /guide/hochzeitsstil-quiz | 100% | PASS | 0 |
-| /guide/saisonale-hochzeitsblumen | 100% | PASS | 0 |
-| /guide/tischdeko-inspiration | 100% | PASS | 0 |
-| /guide/traubogen-designs | 100% | PASS | 0 |
-| /guide/12-monate-zeitplan | 100% | PASS | 0 |
-| /guide/budget-planung | 100% | PASS | 0 |
-| /guide/dienstleister-koordination | 100% | PASS | 0 |
-| /guide/getting-ready-zeitplan | 100% | PASS | 0 |
-| /guide/hochzeitstag-koordination | 100% | PASS | 0 |
-| /guide/hochzeitstag-zeitplan | 100% | PASS | 0 |
-| /guide/musik-wunschliste | 100% | PASS | 0 |
-| /guide/rsvp-tracking | 100% | PASS | 0 |
-| /guide/sitzplan-erstellung | 100% | PASS | 0 |
-| /guide/zeremonie-ablaufplan | 100% | PASS | 0 |
-| /guide/budget-schwerpunkte-quiz | 100% | PASS | 0 |
-| /guide/entscheidungs-stil-quiz | 100% | PASS | 0 |
-| /guide/feier-typ-quiz | 100% | PASS | 0 |
-| /guide/hochzeits-vorlieben-quiz | 100% | PASS | 0 |
-| /guide/hochzeits-wissen-test | 100% | PASS | 0 |
-| /guide/hochzeitsstil-finder | 100% | PASS | 0 |
-| /guide/paar-harmonie-quiz | 100% | PASS | 0 |
-| /guide/planungs-profil-quiz | 100% | PASS | 0 |
-| /guide/prioritaeten-ranking-quiz | 100% | PASS | 0 |
-| /guide/schnell-check-hochzeit | 100% | PASS | 0 |
-
-## Internal Pages
-
-*76 routes not in sitemap*
-
-| Passing | Warning | Failing |
-|---------|---------|---------|
-| 44 | 32 | 0 |
+| Locations | 70% | WARN | 20 |
+| Navigation | 95% | PASS | 20 |
+| Replies | 88% | WARN | 17 |
+| Referral | 83% | WARN | 16 |
+| ChecklistProgress | 81% | WARN | 14 |
+| Administration | 90% | PASS | 15 |
+| GuideIndexComponent | 75% | WARN | 14 |
+| Upgrade | 76% | WARN | 12 |
+| Landing | 76% | WARN | 10 |
+| ImpressumComponent | 81% | WARN | 12 |
+| AddDeadlineItemDialog | 64% | WARN | 12 |
+| RsvpTracker | 82% | WARN | 12 |
+| DayPlan | 85% | WARN | 12 |
+| Housing | 87% | WARN | 11 |
+| BudgetAllocator | 85% | WARN | 8 |
+| PrintableChecklistComponent | 78% | WARN | 5 |
+| ScheduleBuilder | 65% | WARN | 10 |
+| VendorTimeline | 89% | WARN | 8 |
+| DateCountdownComponent | 85% | WARN | 9 |
+| BudgetBreakdownComparisonComponent | 79% | WARN | 10 |
+| Replies | 86% | WARN | 10 |
+| AssignableChecklistComponent | 76% | WARN | 6 |
+| RatingComparisonComponent | 76% | WARN | 8 |
+| General | 86% | WARN | 9 |
+| Quote | 80% | WARN | 9 |
+| WeddingRegistry | 80% | WARN | 9 |
+| QuantityEstimatorComponent | 78% | WARN | 7 |
+| TipCalculatorComponent | 75% | WARN | 7 |
+| TaskAssignmentTracker | 80% | WARN | 7 |
+| BridalCouple | 89% | WARN | 8 |
+| Housing | 81% | WARN | 8 |
+| Contact | 82% | WARN | 8 |
+| PresetExampleView | 77% | WARN | 8 |
+| CancelSubscriptionDialog | 82% | WARN | 8 |
+| GuestComponentDialog | 79% | WARN | 8 |
+| BeforeAfterComparisonComponent | 82% | WARN | 7 |
+| GroupedChecklistComponent | 83% | WARN | 3 |
+| PriorityChecklistComponent | 78% | WARN | 1 |
+| QuantityChecklistComponent | 78% | WARN | 2 |
+| AddSimpleItemDialog | 69% | WARN | 2 |
+| MasonryBoardComponent | 70% | WARN | 7 |
+| ChecklistAddDialog | 76% | WARN | 7 |
+| FilterCards | 85% | WARN | 5 |
+| GuestEstimatorComponent | 86% | WARN | 5 |
+| SimpleCalculatorComponent | 81% | WARN | 5 |
+| ContactInformation | 83% | WARN | 7 |
+| ContactInformation | 69% | WARN | 7 |
+| GuestFooter | 75% | WARN | 5 |
+| ReserveDialog | 82% | WARN | 7 |
+| InfoCardsComponent | 84% | WARN | 5 |
+| OptionSelectorComponent | 83% | WARN | 5 |
+| AddCategorizedItemDialog | 69% | WARN | 4 |
+| StyleQuizComponent | 79% | WARN | 6 |
+| SeatingChart | 78% | WARN | 4 |
+| SeatingEditTableDialog | 78% | WARN | 6 |
+| TaskOrganizer | 76% | WARN | 5 |
+| BudgetPriorityQuiz | 84% | WARN | 4 |
+| MultipleChoiceQuiz | 85% | WARN | 2 |
+| ExpertTipCarousel | 82% | WARN | 4 |
+| BudgetCalculatorComponent | 85% | WARN | 5 |
+| CostSplitterComponent | 85% | WARN | 4 |
+| SavingsTrackerComponent | 85% | WARN | 4 |
+| FeatureMatrixComponent | 82% | WARN | 3 |
+| Messages | 88% | WARN | 6 |
+| Faq | 80% | WARN | 6 |
+| WeddingAbc | 81% | WARN | 6 |
+| Countdown | 78% | WARN | 6 |
+| DayPlan | 90% | PASS | 6 |
+| Freetext | 70% | WARN | 5 |
+| CollapsibleStepsComponent | 80% | WARN | 3 |
+| TabbedContentComponent | 79% | WARN | 4 |
+| NotesChecklistComponent | 84% | WARN | 1 |
+| ProgressChecklistComponent | 83% | WARN | 2 |
+| FormBuilderComponent | 86% | WARN | 5 |
+| MixMatchBuilderComponent | 85% | WARN | 5 |
+| WordCountTrackerComponent | 84% | WARN | 5 |
+| ColorPaletteComponent | 83% | WARN | 5 |
+| StyleMixerComponent | 84% | WARN | 5 |
+| CountdownTimer | 81% | WARN | 4 |
+| CompatibilityQuiz | 84% | WARN | 2 |
+| RankingQuiz | 85% | WARN | 3 |
+| ScenarioQuiz | 74% | WARN | 4 |
+| SliderScaleQuiz | 81% | WARN | 3 |
+| MythBuster | 80% | WARN | 5 |
+| TimelineStepper | 81% | WARN | 4 |
+| DietaryRequirementsTracker | 85% | WARN | 4 |
+| SeatingChartTracker | 86% | WARN | 2 |
+| WeightedDecisionMakerComponent | 90% | PASS | 4 |
+| MagicLink | 75% | WARN | 5 |
+| PhotoAlbum | 92% | PASS | 3 |
+| AddReplyDialog | 86% | WARN | 5 |
+| ImageUpload | 88% | WARN | 5 |
+| TitleImage | 90% | PASS | 5 |
+| DragDropTimelineComponent | 86% | WARN | 3 |
+| FeatureComparisonComponent | 86% | WARN | 3 |
+| InteractiveChecklistComponent | 83% | WARN | 2 |
+| InteractiveSliderComponent | 81% | WARN | 3 |
+| AddPriorityItemDialog | 75% | WARN | 4 |
+| ElementPairingComponent | 83% | WARN | 4 |
+| SeasonalFilterComponent | 84% | WARN | 2 |
+| MusicPlaylist | 86% | WARN | 2 |
+| TimelinePlanner | 83% | WARN | 4 |
+| MatchingPairsQuiz | 82% | WARN | 3 |
+| YesNoQuiz | 83% | WARN | 2 |
+| ComparisonTable | 90% | PASS | 4 |
+| BudgetSpendTracker | 81% | WARN | 2 |
+| CountdownDaysTracker | 79% | WARN | 3 |
+| RsvpResponseTracker | 86% | WARN | 2 |
+| StatusDashboard | 82% | WARN | 3 |
+| PriceTierComparisonComponent | 89% | WARN | 3 |
+| ProsConsCardsComponent | 95% | PASS | 2 |
+| SwipeComparisonComponent | 89% | WARN | 2 |
+| TimelineComparisonComponent | 83% | WARN | 3 |
+| GuideFooter | 70% | WARN | 4 |
+| PdfExportComponent | 79% | WARN | 4 |
+| SocialShareComponent | 79% | WARN | 3 |
+| Gifts | 88% | WARN | 4 |
+| Faq | 79% | WARN | 4 |
+| Organisators | 93% | PASS | 4 |
+| Quote | 57% | WARN | 4 |
+| WeddingAbc | 93% | PASS | 4 |
+| TakedownProcedure | 89% | WARN | 4 |
+| PartnerDashboard | 87% | WARN | 4 |
+| PremiumPreviewWarningDialog | 92% | PASS | 4 |
+| FeatureInfoDialog | 75% | WARN | 4 |
+| PresetSelector | 80% | WARN | 4 |
+| TipCarouselComponent | 82% | WARN | 2 |
+| ConditionalTextBuilderComponent | 86% | WARN | 3 |
+| MultiStepWizardComponent | 90% | PASS | 2 |
+| ThemeExplorerComponent | 83% | WARN | 3 |
+| BudgetAddDialog | 84% | WARN | 3 |
+| MusicAddDialog | 92% | PASS | 3 |
+| ScheduleAddDialog | 94% | PASS | 3 |
+| SeatingAddTableDialog | 81% | WARN | 3 |
+| ImageSelectionQuiz | 85% | WARN | 1 |
+| PersonalityMatrixQuiz | 89% | WARN | 1 |
+| ChecklistTracker | 91% | PASS | 2 |
+| FaqAccordion | 84% | WARN | 2 |
+| QuickTipsGrid | 82% | WARN | 2 |
+| ComparisonCalculatorComponent | 88% | WARN | 2 |
+| ROICalculatorComponent | 85% | WARN | 2 |
+| VendorPaymentTracker | 90% | PASS | 1 |
+| ComparisonTableComponent | 94% | PASS | 1 |
+| Account | 90% | PASS | 3 |
+| Signin | 95% | PASS | 3 |
+| Dashboard | 89% | WARN | 3 |
+| Countdown | 90% | PASS | 3 |
+| Organisators | 90% | PASS | 3 |
+| StructuralOrder | 91% | PASS | 3 |
+| ClosingWords | 67% | WARN | 3 |
+| GuestImpressumPage | 87% | WARN | 3 |
+| ImageUpload | 89% | WARN | 3 |
+| AdminMagicLink | 85% | WARN | 3 |
+| Login | 88% | WARN | 3 |
+| Footer | 92% | PASS | 3 |
+| ImagePreview | 94% | PASS | 2 |
+| StorageConsentBanner | 92% | PASS | 2 |
+| AddQuantityItemDialog | 92% | PASS | 2 |
+| DragToArrangeComponent | 90% | PASS | 2 |
+| MadLibsGeneratorComponent | 95% | PASS | 1 |
+| ToneStyleSwitcherComponent | 94% | PASS | 2 |
+| SeatingAddGuestDialog | 89% | WARN | 2 |
+| MilestoneTracker | 88% | WARN | 1 |
+| ProgressTracker | 90% | PASS | 1 |
+| VisualDiffSliderComponent | 95% | PASS | 1 |
+| HochzeitswebsiteErstellenComponent | 80% | WARN | 2 |
+| GuidePromo | 85% | WARN | 2 |
+| GuideStorageConsent | 83% | WARN | 2 |
+| StorageConsentDialog | 89% | WARN | 2 |
+| Login | 88% | WARN | 1 |
+| Invitations | 87% | WARN | 1 |
+| ClosingWords | 82% | WARN | 2 |
+| EigeneConfigurator | 89% | WARN | 2 |
+| Freetext | 91% | PASS | 2 |
+| TitleImage | 95% | PASS | 2 |
+| BridalCouple | 82% | WARN | 2 |
+| EmptyComponentState | 88% | WARN | 2 |
+| PartnerLogin | 88% | WARN | 2 |
+| ImageUploadDialog | 88% | WARN | 2 |
+| ImpressumDialog | 92% | PASS | 2 |
+| EnableFeatureDialog | 88% | WARN | 2 |
+| ReferralSigninNotice | 88% | WARN | 1 |
+| FillInBlanksComponent | 95% | PASS | 1 |
+| TexturePickerComponent | 95% | PASS | 1 |
+| DecisionTree | 95% | PASS | 0 |
+| AnleitungLandingComponent | 95% | PASS | 1 |
+| ChecklisteLanding | 94% | PASS | 1 |
+| GeneratorLandingComponent | 94% | PASS | 1 |
+| InspirationLandingComponent | 94% | PASS | 1 |
+| PlanerLandingComponent | 94% | PASS | 1 |
+| QuizLandingComponent | 94% | PASS | 1 |
+| RatgeberLandingComponent | 94% | PASS | 1 |
+| RechnerLanding | 94% | PASS | 1 |
+| TrackerLanding | 94% | PASS | 1 |
+| VergleichLanding | 95% | PASS | 1 |
+| SaveTheDateTexteComponent | 90% | PASS | 1 |
+| GuideHeader | 93% | PASS | 1 |
+| GuideImage | 90% | PASS | 1 |
+| GuideLanding | 83% | WARN | 1 |
+| GuideLink | 95% | PASS | 1 |
+| GuideLoaderComponent | 91% | PASS | 1 |
+| ConfigConflictDialog | 95% | PASS | 1 |
+| ShareButtonComponent | 92% | PASS | 1 |
+| DeleteAccount | 94% | PASS | 1 |
+| Logout | 80% | WARN | 1 |
+| QrCode | 95% | PASS | 1 |
+| Contact | 91% | PASS | 1 |
+| GuestView | 92% | PASS | 1 |
+| InvitationText | 88% | WARN | 1 |
+| ComponentEditButton | 92% | PASS | 1 |
+| WeddingRegistry | 94% | PASS | 1 |
+| LegalPage | 92% | PASS | 1 |
+| PartnerMagicLink | 92% | PASS | 1 |
+| ThemeInfoDialog | 90% | PASS | 1 |
+| Header | 92% | PASS | 1 |
+| PageHeader | 93% | PASS | 1 |
+| PaymentProcess | 93% | PASS | 1 |
 
 ---
 *Generated by [mat-a11y](https://github.com/nicobrinkkemper/mat-a11y)*
+
+*[traufix.de](https://traufix.de) | [freelancermap.de/profil/robin-spanier](https://www.freelancermap.de/profil/robin-spanier)*

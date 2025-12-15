@@ -21,7 +21,8 @@ function format(results, options = {}) {
     _generated: {
       tool: 'mat-a11y',
       timestamp: new Date().toISOString(),
-      notice: 'Generated file - do not edit'
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
     },
     ...results
   };

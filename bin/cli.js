@@ -281,8 +281,8 @@ async function main() {
       console.log(c.yellow + 'Self-test is a development feature.' + c.reset);
       console.log('');
       console.log('To run self-test, clone the repository:');
-      console.log('  git clone https://github.com/robspan/traufix-a11y');
-      console.log('  cd traufix-a11y');
+      console.log('  git clone https://github.com/nicobrinkkemper/mat-a11y');
+      console.log('  cd mat-a11y');
       console.log('  npm test');
       console.log('');
       console.log('Or run: node dev/run-checks.js');

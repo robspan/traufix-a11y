@@ -1,44 +1,48 @@
 #!/usr/bin/env node
 /**
  * Generate all formatter outputs for example-outputs folder
+ * Uses component-based analysis (same as CLI default)
  *
- * Usage: node dev-tools/generate-examples.js <path-to-angular-project>
+ * Usage: node dev/generate-examples.js <path-to-angular-project>
  */
 const fs = require('fs');
 const path = require('path');
-const { analyzeBySitemap, findSitemap } = require('../src/core/sitemapAnalyzer.js');
+const { analyzeByComponent } = require('../src/core/componentAnalyzer.js');
 const { loadAllFormatters } = require('../src/formatters/index.js');
 const { optimizeIssues, getOptimizationSummary } = require('../src/core/issueOptimizer.js');
 
-const targetPath = process.argv[2];
+const targetPath = process.argv[2] || '.';
 const outputDir = path.join(__dirname, '..', 'example-outputs');
 
-if (!targetPath) {
-  console.log('Generate example formatter outputs from a real Angular project.\n');
-  console.log('Usage: node dev-tools/generate-examples.js <path-to-angular-project>');
-  console.log('Example: node dev-tools/generate-examples.js ../my-angular-app');
-  process.exit(1);
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
 }
 
-console.log('Analyzing:', targetPath);
+console.log('Component-based analysis of:', targetPath);
 console.log('Output to:', outputDir);
 console.log('');
 
-// Run analysis
-const sitemapPath = findSitemap(targetPath);
-if (!sitemapPath) {
-  console.error('No sitemap found');
-  process.exit(1);
+// Remove old _report-* files to avoid stale duplicates
+const existing = fs.readdirSync(outputDir).filter(n => n.startsWith('_report-'));
+for (const f of existing) {
+  try { fs.unlinkSync(path.join(outputDir, f)); } catch (e) { /* ignore */ }
 }
 
-const results = analyzeBySitemap(targetPath, { tier: 'full', sitemap: sitemapPath });
+// Run component analysis (same as CLI default)
+let results;
+try {
+  results = analyzeByComponent(targetPath, { tier: 'full' });
+} catch (e) {
+  console.error('Analysis failed:', e && e.message ? e.message : e);
+  process.exit(1);
+}
 
 if (results.error) {
-  console.error('Analysis error:', results.error);
-  process.exit(1);
+  console.error(results.error);
+  process.exit(2);
 }
 
-console.log(`Analyzed ${results.urlCount} sitemap URLs + ${results.internal?.count || 0} internal routes\n`);
+console.log(`Analyzed ${results.totalComponentsScanned} components (${results.componentCount} with issues)\n`);
 
 // Optimize issues by collapsing to root cause
 const optimizedResults = optimizeIssues(results, targetPath, { enabled: true });

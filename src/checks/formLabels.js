@@ -1,5 +1,14 @@
 const { format } = require('../core/errors');
 
+// Get line number from character position
+function getLineNumber(content, index) {
+  let line = 1;
+  for (let i = 0; i < index && i < content.length; i++) {
+    if (content[i] === '\n') line++;
+  }
+  return line;
+}
+
 // Pre-compiled regex patterns
 const EARLY_EXIT = /<(?:input|select|textarea)\b/i;
 const INPUT_REGEX = /<(input|select|textarea)([^>]*)>/gi;
@@ -98,9 +107,11 @@ module.exports = {
       // Create error message
       const snippet = fullMatch.substring(0, 80).replace(/\s+/g, ' ').trim();
       const truncated = fullMatch.length > 80 ? '...' : '';
+      const lineNumber = getLineNumber(content, position);
       issues.push(format('FORM_MISSING_LABEL', {
         type: tagName,
-        element: `${snippet}${truncated}`
+        element: `${snippet}${truncated}`,
+        line: lineNumber
       }));
     }
 

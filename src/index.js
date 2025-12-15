@@ -433,6 +433,44 @@ function analyzeFile(filePath, tier = 'material', singleCheck = null) {
     for (const checkName of (tierConfig.cdk || [])) {
       if (shouldRun(checkName)) results.push(runCheck(checkName, content, filePath));
     }
+
+    // Run SCSS checks on embedded <style> content
+    if (hasEmbeddedCss(content)) {
+      const styleBlocks = extractStyleTags(content);
+      for (const block of styleBlocks) {
+        for (const checkName of (tierConfig.scss || [])) {
+          if (!shouldRun(checkName)) continue;
+
+          const checkFn = getCheckFunction(checkName);
+          if (!checkFn) continue;
+
+          try {
+            const result = checkFn(block.css);
+            // Adjust line numbers to match original HTML file
+            const adjustedIssues = adjustIssueLineNumbers(result.issues || [], block.startLine);
+
+            // Find existing result for this check or create new one
+            const existingIndex = results.findIndex(r => r.name === checkName);
+            if (existingIndex >= 0) {
+              // Merge with existing result
+              results[existingIndex].issues = [...results[existingIndex].issues, ...adjustedIssues];
+              results[existingIndex].count = results[existingIndex].issues.length;
+              results[existingIndex].elementsFound += result.elementsFound || 0;
+              if (!result.pass) results[existingIndex].passed = false;
+            } else {
+              results.push(new CheckResult(
+                checkName,
+                result.pass,
+                adjustedIssues,
+                result.elementsFound || 0
+              ));
+            }
+          } catch (error) {
+            // Skip on error
+          }
+        }
+      }
+    }
   } else if (['.scss', '.css'].includes(ext)) {
     // Run SCSS checks
     for (const checkName of (tierConfig.scss || [])) {
@@ -703,7 +741,7 @@ function convertRunnerResults(runnerResults, config) {
  * @returns {Promise<object>} Verification results
  *
  * @example
- * const { verifyChecks } = require('traufix-a11y');
+ * const { verifyChecks } = require('mat-a11y');
  * const results = await verifyChecks('full');
  * console.log(`Verified: ${results.verified}/${results.total}`);
  */
@@ -904,6 +942,9 @@ function formatConsoleOutput(results) {
 // Import page resolver for deep component resolution (preprocessing)
 const { PageResolver, createPageResolver } = require('./core/pageResolver');
 const { buildComponentRegistry, getRegistryStats } = require('./core/componentRegistry');
+
+// Import embedded CSS extractor for HTML with <style> tags
+const { extractStyleTags, adjustIssueLineNumbers, hasEmbeddedCss } = require('./core/embeddedCssExtractor');
 
 module.exports = {
   // Simple one-liner API

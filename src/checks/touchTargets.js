@@ -23,11 +23,33 @@ module.exports = {
 
     // Interactive element selectors to check
     const interactiveSelectors = [
+      // Buttons
       'button',
       '\\.btn',
       '\\.icon-btn',
       '\\.icon-button',
-      '\\.fab'
+      '\\.fab',
+      // Form inputs
+      'input',
+      'select',
+      'textarea',
+      // Links
+      '\\ba\\b',
+      '\\.link',
+      // Custom interactive elements
+      '\\[role="button"\\]',
+      '\\[role="link"\\]',
+      '\\[role="checkbox"\\]',
+      '\\[role="radio"\\]',
+      '\\[role="switch"\\]',
+      '\\[role="tab"\\]',
+      '\\[role="menuitem"\\]',
+      // Common UI patterns
+      '\\.clickable',
+      '\\.interactive',
+      '\\.toggle',
+      '\\.chip',
+      '\\.tag'
     ];
 
     // Build pattern to find interactive element rule blocks

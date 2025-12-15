@@ -5,6 +5,35 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.0] - 2025-12-15
+
+### Added
+- **HTML report redesign** — Clean sortable table for management instead of card layout. Columns: Component, Issue Points, Issues, Score, Top Issues. Click headers to sort.
+- **Issue Points system** — New prioritization metric: `basePoints × usageCount = totalPoints`. A component with 50 issue points used 11 times = 550 total issue points. Highest issue points = fix first for maximum impact.
+- **Expandable issue details** — Click row to see all issues. Shows first 5, then "View more" button for rest (no ugly scrollbars).
+- **Line numbers in HTML report** — Issues now show line numbers when available (e.g., `:42` in purple).
+- **Promo in all outputs** — All 18 formatters now include `traufix.de | freelancermap.de/profil/robin-spanier` in footers/metadata.
+- **HTML report accessibility** — The report itself now passes all mat-a11y checks (24/24 audits):
+  - Screen reader labels for search/filter controls
+  - Keyboard-accessible sortable table headers (Enter/Space to sort)
+  - `aria-expanded` and `aria-label` on expand buttons
+  - Visible focus styles on all interactive elements
+  - `aria-hidden` on decorative sort icons
+  - Proper touch target sizes (44x44px minimum)
+  - Focus states paired with hover states
+- **Embedded CSS analysis** — mat-a11y now extracts and analyzes CSS from `<style>` tags in HTML files. Line numbers are adjusted to match the original HTML file. This enables full SCSS checks on any HTML file with embedded styles.
+- **Promo verification test** — New `test-consulting-promo.js` ensures promo exists in all formatter outputs. Prevents accidental removal via PRs.
+
+### Changed
+- **HTML report scoring** — Components sorted by issue points (highest = worst) instead of audit score percentage.
+- **Stats bar** — Shows total Issue Points prominently alongside other metrics.
+- **Component-based generate-examples** — `dev/generate-examples.js` now uses `analyzeByComponent()` (same as CLI default) instead of sitemap-based analysis.
+- **`touchTargets` check expanded** — Now checks all interactive elements, not just buttons:
+  - Form inputs: `input`, `select`, `textarea`
+  - Links: `a`, `.link`
+  - ARIA roles: `[role="button"]`, `[role="checkbox"]`, `[role="radio"]`, `[role="switch"]`, `[role="tab"]`, `[role="menuitem"]`
+  - Common patterns: `.clickable`, `.interactive`, `.toggle`, `.chip`, `.tag`
+
 ## [6.0.0] - 2025-12-15
 
 ### Added

@@ -295,7 +295,14 @@ function format(results, options = {}) {
   }
 
   // Build the final payload
-  const payload = { series };
+  const payload = {
+    _generated: {
+      tool: 'mat-a11y',
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
+    },
+    series
+  };
 
   // Add host if provided (applied to all metrics when submitting)
   if (host) {

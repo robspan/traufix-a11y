@@ -265,7 +265,7 @@ function calculateEfficiency(entity) {
 
   const seen = Object.create(null);
   let totalWeight = 0;
-  
+
   for (let i = 0; i < issueCount; i++) {
     const check = issues[i].check;
     if (check && !seen[check]) {
@@ -275,6 +275,70 @@ function calculateEfficiency(entity) {
   }
 
   return totalWeight / issueCount;
+}
+
+/**
+ * Calculate total issue points for an entity
+ * Formula: sum(all issue weights) × usage_count
+ *
+ * If a component has 50 issue points and is used 11x = 550 total issue points
+ * If a component has 300 issue points and is used 1x = 300 total issue points
+ *
+ * @param {object} entity - Entity with issues array
+ * @returns {{ basePoints: number, usageCount: number, totalPoints: number }}
+ */
+function calculateIssuePoints(entity) {
+  const issues = entity.issues;
+  const issueCount = issues?.length || 0;
+
+  if (issueCount === 0) {
+    return { basePoints: 0, usageCount: 1, totalPoints: 0 };
+  }
+
+  // Sum all issue weights (not unique - every issue counts)
+  let basePoints = 0;
+  for (let i = 0; i < issueCount; i++) {
+    const check = issues[i].check;
+    if (check) {
+      basePoints += getCachedWeight(check);
+    }
+  }
+
+  // Usage count from affected routes/pages
+  const usageCount = Array.isArray(entity.affected)
+    ? (entity.affected.length || 1)
+    : (entity.affectedUrls?.size || 1);
+
+  const totalPoints = basePoints * usageCount;
+
+  return { basePoints, usageCount, totalPoints };
+}
+
+/**
+ * Get entities sorted by issue points (highest = worst = fix first)
+ *
+ * @param {Array} entities - Array of entities
+ * @param {number} limit - Max entities to return
+ * @returns {Array} Entities sorted by total issue points descending
+ */
+function getEntitiesByIssuePoints(entities, limit = Infinity) {
+  const arr = asArray(entities);
+  const withIssues = [];
+
+  // Single pass: filter + compute issue points
+  for (let i = 0; i < arr.length; i++) {
+    const e = arr[i];
+    if (e.issues?.length > 0) {
+      const points = calculateIssuePoints(e);
+      e.issuePoints = points;
+      withIssues.push(e);
+    }
+  }
+
+  // Sort by total issue points descending (worst first)
+  withIssues.sort((a, b) => b.issuePoints.totalPoints - a.issuePoints.totalPoints);
+
+  return limit < withIssues.length ? withIssues.slice(0, limit) : withIssues;
 }
 
 /**
@@ -318,7 +382,9 @@ module.exports = {
   normalizeEntities,
   getWorstEntities,
   getPriorityEntities,
+  getEntitiesByIssuePoints,
   getCheckWeight,
   calculateEfficiency,
-  calculatePriority
+  calculatePriority,
+  calculateIssuePoints
 };

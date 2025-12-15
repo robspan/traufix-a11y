@@ -79,7 +79,16 @@ function format(results, options = {}) {
       issueCount++;
   }
 
-  return JSON.stringify(issues, null, 2);
+  // Wrap in object with metadata for consulting promo
+  const output = {
+    _generated: {
+      tool: 'mat-a11y',
+      notice: 'Generated file - do not edit',
+      promo: 'traufix.de | freelancermap.de/profil/robin-spanier'
+    },
+    issues: issues
+  };
+  return JSON.stringify(output, null, 2);
 }
 
 /**

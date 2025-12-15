@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Centralized Error Catalog for traufix-a11y
+ * Centralized Error Catalog for mat-a11y
  *
  * ALL accessibility errors are defined here for consistent, standardized messaging.
  * Checks reference error codes and pass dynamic data - they don't create messages.

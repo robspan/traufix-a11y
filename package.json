@@ -1,6 +1,6 @@
 {
   "name": "mat-a11y",
-  "version": "6.0.3",
+  "version": "6.1.0",
   "description": "Angular Material accessibility linter (v12+). 82 WCAG checks for mat-* components, Angular templates & SCSS. Static analysis with color contrast calculation.",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -12,6 +12,7 @@
     "dev-check": "node dev/run-checks.js",
     "verify-structure": "node dev/verify-structure.js",
     "verify-formatters": "node dev/verify-formatters.js",
+    "gen-examples": "node dev/generate-examples.js ../noro-wedding",
     "prepare": "husky"
   },
   "keywords": [
@@ -37,12 +38,12 @@
   "license": "MIT + Commons Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/robspan/traufix-a11y"
+    "url": "https://github.com/nicobrinkkemper/mat-a11y"
   },
   "bugs": {
-    "url": "https://github.com/robspan/traufix-a11y/issues"
+    "url": "https://github.com/nicobrinkkemper/mat-a11y/issues"
   },
-  "homepage": "https://github.com/robspan/traufix-a11y#readme",
+  "homepage": "https://github.com/nicobrinkkemper/mat-a11y#readme",
   "engines": {
     "node": ">=16.0.0"
   },

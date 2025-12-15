@@ -39,6 +39,7 @@ const rootDir = path.resolve(devToolsDir, '..');
 const tests = [
   { name: 'Verify Files', count: '82 files', cmd: 'node dev/verify-structure.js' },
   { name: 'Formatters', count: '17×17', cmd: 'node dev/verify-formatters.js' },
+  { name: 'Consulting Promo', count: '18 formatters', cmd: 'node dev/tests/test-consulting-promo.js' },
   { name: 'Package Contents', count: 'pack list clean', cmd: 'node dev/tests/test-package-contents.js' },
   { name: 'Result Normalization', count: '6 scenarios', cmd: 'node dev/tests/test-result-normalization.js' },
   { name: 'A11y Checks', count: '82 checks', cmd: 'node dev/tests/verify-checks.js' },

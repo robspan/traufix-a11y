@@ -69,6 +69,7 @@ function format(results, options = {}) {
     const d = normalized.distribution || { passing: 0, warning: 0, failing: 0 };
     const summary = `Analyzed ${normalized.total || 0} URLs - Passing: ${d.passing}, Warning: ${d.warning}, Failing: ${d.failing}`;
     lines.push(`::notice title=mat-a11y Summary::${escapeAnnotation(summary)}`);
+    lines.push(`::notice title=mat-a11y::traufix.de | freelancermap.de/profil/robin-spanier`);
   }
 
   return lines.join('\n');
