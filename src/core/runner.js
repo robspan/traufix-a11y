@@ -111,17 +111,29 @@ class CheckRunner {
   constructor(options = {}) {
     // Determine worker count and mode
     // 'sync' = no workers, single-threaded (default)
-    // 'auto' = will be calculated based on file count in runChecks()
-    // number = specific worker count
+    // 'auto' = conservative auto-scaling (capped for safety)
+    // number = explicit user request (respected, only sanity-capped at CPU count)
     if (options.workers === 'sync' || !options.workers) {
       this.workerCount = 0;
       this.workerMode = 'sync';
     } else if (options.workers === 'auto') {
-      this.workerCount = Math.max(1, os.cpus().length - 1);
+      // Auto mode: defer calculation to runChecks() when we know file count
+      // Will use conservative limits (max 8 workers)
+      this.workerCount = 0;  // Will be set in runChecks()
       this.workerMode = 'auto';
     } else {
-      this.workerCount = Math.max(1, parseInt(options.workers, 10) || 1);
+      // Fixed mode: user explicitly requested N workers
+      // Respect their choice - they know their hardware (Threadripper, etc.)
+      // Only sanity cap: don't exceed physical CPU count (pointless over-subscription)
+      const requested = parseInt(options.workers, 10) || 1;
+      const cpuCount = os.cpus().length;
+      this.workerCount = Math.max(1, Math.min(requested, cpuCount));
       this.workerMode = 'fixed';
+      
+      // Info message if we adjusted (not a warning - just informational)
+      if (requested > cpuCount) {
+        console.log(`[runner] Worker count adjusted: requested ${requested}, using ${cpuCount} (physical CPU limit)`);
+      }
     }
 
     /** @type {number} Task timeout in milliseconds */
@@ -232,7 +244,39 @@ class CheckRunner {
       this.workerCount = this.workers.length;
     }
 
+    // Preload check modules in all workers to warm the cache
+    if (this.workers.length > 0) {
+      await this._preloadChecks();
+    }
+
     this.initialized = true;
+  }
+
+  /**
+   * Preload check modules in all workers to reduce first-run latency.
+   *
+   * @returns {Promise<void>}
+   * @private
+   */
+  async _preloadChecks() {
+    // Load check registry if not already loaded
+    this.checkRegistry = this.checkRegistry || loadAllChecks();
+    const allCheckNames = Array.from(this.checkRegistry.keys());
+
+    // Send preload request to all workers in parallel
+    const preloadPromises = this.workers.map(() =>
+      this._queueTask({
+        type: 'preload',
+        checkNames: allCheckNames
+      })
+    );
+
+    try {
+      await Promise.all(preloadPromises);
+    } catch (err) {
+      // Preload failures are non-fatal - checks will be loaded on-demand
+      console.warn('[runner] Some checks failed to preload:', err.message);
+    }
   }
 
   /**
@@ -440,12 +484,16 @@ class CheckRunner {
    *
    * @param {Object} checkModule - The check module
    * @param {string} content - Content to check
+   * @param {Object} [varContext] - SCSS variable context for color resolution
    * @returns {CheckResult} Check result
    * @private
    */
-  _runCheckSync(checkModule, content) {
+  _runCheckSync(checkModule, content, varContext = null) {
     try {
-      const result = checkModule.check(content);
+      // SCSS checks receive varContext as second arg
+      const result = checkModule.type === 'scss' && varContext
+        ? checkModule.check(content, varContext)
+        : checkModule.check(content);
       return {
         pass: result.pass === true,
         issues: Array.isArray(result.issues) ? result.issues : [],
@@ -472,6 +520,7 @@ class CheckRunner {
    * @param {'basic'|'material'|'full'} [tier='material'] - Which tier of checks to run
    * @param {Object} [options={}] - Additional options
    * @param {string} [options.check] - Optional single check name to run
+   * @param {Object} [options.varContext] - SCSS variable context for color resolution
    * @returns {Promise<RunResults>} Aggregated results
    *
    * @example
@@ -542,8 +591,21 @@ class CheckRunner {
     const scssCheckNames = Array.from(getChecksByType(checks, 'scss').keys());
 
     // Determine if we should use workers or run single-threaded
-    // Threshold: ~50 files per worker minimum to overcome message passing cost
-    const MIN_FILES_PER_WORKER = 50;
+    // Based on benchmarks (noro-wedding: 212 files, 952 issues):
+    // - 1 worker: slower than sync (overhead without parallelism)
+    // - 4-6 workers: ~2x speedup (good ROI)
+    // - 12-16 workers: ~3x speedup (diminishing returns start)
+    // - 16+ workers: marginal gains, ~3.5x max
+    //
+    // SAFETY LIMITS (to prevent resource abuse):
+    // - ABSOLUTE_MAX_WORKERS = 8 (conservative, safe for any system)
+    // - Never exceed physical CPU count
+    // - Never spawn workers for small workloads
+    // - All workers terminate after task completion (no persistent background processes)
+
+    // Auto mode scaling (smart defaults based on hardware)
+    const AUTO_MAX_WORKERS = 24;  // Reasonable cap for auto (covers most workstations)
+    const MIN_FILES_FOR_PARALLEL = 30;  // Don't parallelize tiny projects
 
     let useWorkers = false;
     let actualWorkers = 0;
@@ -552,27 +614,52 @@ class CheckRunner {
       // Sync mode: never use workers
       useWorkers = false;
     } else if (this.workerMode === 'auto') {
-      // Auto mode: calculate optimal worker count based on file count
-      // Only use workers when we have enough files for actual parallelism (2+ workers)
-      // Using just 1 worker adds overhead without parallelism benefit
-      actualWorkers = Math.floor(files.length / MIN_FILES_PER_WORKER);
-      if (actualWorkers >= 2) {
+      // Auto mode: smart scaling based on hardware
+      // 
+      // Formula: min(cpuCount - 2, AUTO_MAX_WORKERS)
+      // - Leave 2 cores for system + Node main thread
+      // - Cap at 24 to avoid diminishing returns on huge systems
+      // - Scale with actual work
+      
+      const cpuCount = os.cpus().length;
+      const filesPerWorker = 10;  // ~10 files per worker for good distribution
+      const minWorkers = 4;  // At least 4 for meaningful parallelism
+
+      if (files.length >= MIN_FILES_FOR_PARALLEL) {
+        const workBasedWorkers = Math.floor(files.length / filesPerWorker);
+        const cpuBasedWorkers = Math.max(minWorkers, cpuCount - 2);
+        
+        // Apply limits: work-based, CPU-based, and auto mode cap
+        actualWorkers = Math.min(
+          Math.max(minWorkers, workBasedWorkers),
+          cpuBasedWorkers,
+          AUTO_MAX_WORKERS
+        );
+        
         // Lazily initialize workers only when we actually need them
         await this._initWorkers(actualWorkers);
         actualWorkers = Math.min(this.workers.length, actualWorkers);
-        useWorkers = this.workers.length > 0 && actualWorkers >= 2;
+        useWorkers = this.workers.length > 0 && actualWorkers >= minWorkers;
       } else {
         useWorkers = false;
       }
     } else {
-      // Fixed mode: use specified worker count (but cap at available workers)
+      // Fixed mode: user explicitly requested N workers - respect their choice
+      // They may have a Threadripper with 192 threads, let them use it
       actualWorkers = Math.min(this.workers.length, this.workerCount);
-      useWorkers = this.workers.length > 0 && files.length >= MIN_FILES_PER_WORKER;
+      useWorkers = this.workers.length > 0 && files.length >= 10;
     }
 
     if (useWorkers) {
       // BATCH MODE: Split files into chunks, one per worker
       const chunks = this._splitIntoChunks(files, actualWorkers);
+
+      // Serialize varContext for worker communication (Maps → Arrays)
+      const serializedVarContext = options.varContext ? {
+        scssVars: Array.from(options.varContext.scssVars || []),
+        cssVars: Array.from(options.varContext.cssVars || []),
+        maps: Array.from(options.varContext.maps || []).map(([k, v]) => [k, Array.from(v)])
+      } : null;
 
       // Send all chunks to workers in parallel
       const chunkPromises = chunks.map((chunk, index) =>
@@ -580,7 +667,8 @@ class CheckRunner {
           type: 'runBatch',
           files: chunk,
           htmlCheckNames,
-          scssCheckNames
+          scssCheckNames,
+          varContext: serializedVarContext
         })
       );
 
@@ -653,7 +741,8 @@ class CheckRunner {
 
         for (const [checkName, checkModule] of applicableChecks) {
           results.summary.totalChecks++;
-          const checkResult = this._runCheckSync(checkModule, file.content);
+          // Pass varContext for SCSS checks
+          const checkResult = this._runCheckSync(checkModule, file.content, options.varContext);
           fileResult.checks.set(checkName, checkResult);
 
           if (checkResult.error) {

@@ -240,7 +240,7 @@ const DEFAULT_CONFIG = {
   outputFormat: 'console',
   // New options
   verified: false,  // Run self-test first
-  workers: 'sync',  // Parallel execution ('sync' default, 'auto', or number)
+  workers: 'sync',  // Parallel execution ('sync' default for API compatibility, 'auto', or number)
   check: null       // Single check mode
 };
 

@@ -28,6 +28,11 @@ module.exports = {
   wcag: '2.1.1',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/\(click\)/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  
+  // Small font size issue
+  .small-text {
+    font-size: 10px;
+  }
+  
+  // Low contrast issue
+  .low-contrast {
+    color: #999;
+    background: #fff;
+  }
+  
+  // Tight line height
+  p {
+    line-height: 1.0;
+  }
+}

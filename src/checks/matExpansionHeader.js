@@ -8,6 +8,11 @@ module.exports = {
   weight: 5, // Increased weight - expansion panels are important for navigation
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/mat-expansion/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

@@ -17,6 +17,11 @@ module.exports = {
   weight: 2,  // Lower weight
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/outline/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

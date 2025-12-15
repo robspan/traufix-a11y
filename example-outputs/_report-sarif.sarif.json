@@ -1,0 +1,882 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "mat-a11y",
+          "version": "3.0.0",
+          "semanticVersion": "3.0.0",
+          "informationUri": "https://github.com/anthropics/mat-a11y",
+          "rules": [
+            {
+              "id": "duplicateIdAria",
+              "name": "duplicateIdAria",
+              "shortDescription": {
+                "text": "Accessibility check: duplicateIdAria"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for duplicate id aria"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#duplicateIdAria",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            },
+            {
+              "id": "contentOverflow",
+              "name": "contentOverflow",
+              "shortDescription": {
+                "text": "Accessibility check: contentOverflow"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for content overflow"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#contentOverflow",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            },
+            {
+              "id": "prefersReducedMotion",
+              "name": "prefersReducedMotion",
+              "shortDescription": {
+                "text": "Accessibility check: prefersReducedMotion"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for prefers reduced motion"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#prefersReducedMotion",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            },
+            {
+              "id": "smallFontSize",
+              "name": "smallFontSize",
+              "shortDescription": {
+                "text": "Accessibility check: smallFontSize"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for small font size"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#smallFontSize",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            },
+            {
+              "id": "colorContrast",
+              "name": "colorContrast",
+              "shortDescription": {
+                "text": "Accessibility check: colorContrast"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for color contrast"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#colorContrast",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            },
+            {
+              "id": "pointerEventsNone",
+              "name": "pointerEventsNone",
+              "shortDescription": {
+                "text": "Accessibility check: pointerEventsNone"
+              },
+              "fullDescription": {
+                "text": "mat-a11y accessibility rule that checks for pointer events none"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://github.com/anthropics/mat-a11y#pointerEventsNone",
+              "properties": {
+                "tags": [
+                  "accessibility",
+                  "a11y",
+                  "wcag"
+                ]
+              }
+            }
+          ],
+          "properties": {
+            "analysis-tier": "full"
+          }
+        }
+      },
+      "artifacts": [
+        {
+          "location": {
+            "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\anleitung\\hochzeitswebsite-erstellen\\hochzeitswebsite-erstellen.scss",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        },
+        {
+          "location": {
+            "uri": "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\generator\\save-the-date-texte\\save-the-date-texte.scss",
+            "uriBaseId": "%SRCROOT%"
+          },
+          "roles": [
+            "analysisTarget"
+          ]
+        }
+      ],
+      "results": [
+        {
+          "ruleId": "duplicateIdAria",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "aria-controls references non-existent id \"hidden-categories\". Broken ARIA reference provides no accessibility benefit\n  How to fix:\n    - Add element with matching id\n    - Correct the id reference\n    - Remove the broken reference\n  WCAG 4.1.1: Parsing\n  Found: aria-controls=\"hidden-categories\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "duplicateIdAria",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "aria-controls references non-existent id \"hidden-categories\". Broken ARIA reference provides no accessibility benefit\n  How to fix:\n    - Add element with matching id\n    - Correct the id reference\n    - Remove the broken reference\n  WCAG 4.1.1: Parsing\n  Found: aria-controls=\"hidden-categories\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Content may be hidden without visual indication in \"Visually hidden utility for screen reader only content\r\n.visually-hidden\". Text content may be cut off and inaccessible to users.\n  How to fix:\n    - Add \"text-overflow: ellipsis\" to show truncation indicator (...)\n    - Or remove \"overflow: hidden\" to allow text to wrap naturally\n    - Or ensure content is accessible through other means (tooltips, expand buttons)\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"h3\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"p\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "smallFontSize",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "Font size 11px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \".chip-count\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "smallFontSize",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "Font size 11px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \".coming-soon-badge\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide",
+            "auditScore": 92
+          }
+        },
+        {
+          "ruleId": "colorContrast",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-primary, 0.15)\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "colorContrast",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-green, 0.15)\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "colorContrast",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Highly transparent text is difficult to read. Low opacity reduces effective contrast\n  How to fix:\n    - Increase opacity to at least 0.55\n    - Use solid colors for text\n  WCAG 1.4.3: Contrast (Minimum)\n  Found: \"rgba($color-primary-dark, 0.12)\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"============================================================================\r\n\r\n.hero-section\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"============================================================================\r\n\r\n.power-strip\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"============================================================================\r\n\r\n.cta-banner-inline\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \"============================================================================\r\n\r\n.mega-cta-section\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "contentOverflow",
+          "ruleIndex": 1,
+          "level": "note",
+          "message": {
+            "text": "Potential content overflow detected in \".gallery-preview-wrapper\". This may hide text content inaccessibly.\n  How to fix:\n    - Verify all content remains accessible when overflow is hidden\n    - Consider using \"overflow: auto\" or \"overflow: scroll\" for scrollable content\n    - Ensure responsive design allows content to reflow at 320px width\n  WCAG 1.4.10: Reflow"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "pointerEventsNone",
+          "ruleIndex": 5,
+          "level": "warning",
+          "message": {
+            "text": "pointer-events: none may hide interactive element. Users cannot interact with elements that have pointer-events disabled\n  How to fix:\n    - Ensure element is not intended to be interactive\n    - Use disabled attribute instead for form elements\n  WCAG 2.1.1: Keyboard\n  Found: button styling } } } .gallery-preview-overlay"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "smallFontSize",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "Font size 10px may be too small. Small text is difficult for users with low vision\n  How to fix:\n    - Use minimum 16px (1rem) for body text\n    - Use relative units (rem, em) for scalability\n    - Test at 200% zoom\n  WCAG 1.4.4: Resize Text\n  Found: \"include phone\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/",
+            "auditScore": 93
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/agb",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/datenschutz",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/impressum",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/cookies",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses animations and transitions without properly disabling them in prefers-reduced-motion: redu..."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/widerrufsrecht",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\anleitung\\hochzeitswebsite-erstellen\\hochzeitswebsite-erstellen.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide/hochzeitswebsite-erstellen",
+            "auditScore": 100
+          }
+        },
+        {
+          "ruleId": "prefersReducedMotion",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness\n  How to fix:\n    - Add @media (prefers-reduced-motion: reduce) query\n    - Disable or reduce animation when preference is set\n  WCAG 2.3.3: Animation from Interactions\n  Found: File uses transitions without properly disabling them in prefers-reduced-motion: reduce"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "C:\\Users\\spani\\OneDrive\\Dokumente\\GitHub\\noro-wedding\\src\\app\\media\\content\\generator\\save-the-date-texte\\save-the-date-texte.scss",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "url": "/guide/save-the-date-texte",
+            "auditScore": 100
+          }
+        }
+      ],
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "startTimeUtc": "2025-12-15T14:09:12.566Z",
+          "endTimeUtc": "2025-12-15T14:09:12.566Z",
+          "toolConfigurationNotifications": [],
+          "properties": {
+            "tier": "full",
+            "urlCount": 67,
+            "distribution": {
+              "passing": 67,
+              "warning": 0,
+              "failing": 0
+            }
+          },
+          "exitCode": 0
+        }
+      ],
+      "properties": {
+        "id": "run-1765807752566",
+        "summary": {
+          "urls": 67,
+          "passing": 67,
+          "warning": 0,
+          "failing": 0
+        }
+      }
+    }
+  ]
+}

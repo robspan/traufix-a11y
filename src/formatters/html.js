@@ -169,13 +169,13 @@ function formatNormalizedEntityHTML(results, normalized) {
     </div>`;
   }
 
-  // Fix priorities section (bang for buck: weight + usage)
+  // Fix priorities section (bang for buck: weight + usage) - reuse already sorted list
   let prioritiesHtml = '';
-  const prioritized = getPriorityEntities(normalized.entities, 10);
-  if (prioritized.length > 0) {
+  const top10 = prioritizedEntities.slice(0, 10);
+  if (top10.length > 0) {
     prioritiesHtml = '<div class="priorities-section"><h3>🎯 Fix Priorities</h3><div class="priority-list">';
-    for (let i = 0; i < prioritized.length; i++) {
-      const entity = prioritized[i];
+    for (let i = 0; i < top10.length; i++) {
+      const entity = top10[i];
       const issueGroups = groupIssuesByCheck(entity.issues);
       const topIssues = sortIssueGroupsByWeight(issueGroups).slice(0, 3);
       const affectedCount = Array.isArray(entity.affected) ? entity.affected.length : 0;

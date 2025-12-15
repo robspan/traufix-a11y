@@ -5,6 +5,8 @@
  *
  * Simple, reliable analysis that scans ALL Angular components directly.
  * No sitemap, no route parsing - just finds @Component decorators and analyzes their templates/styles.
+ *
+ * Supports optional parallel execution via workers for large projects.
  */
 
 const fs = require('fs');
@@ -12,6 +14,7 @@ const path = require('path');
 const { loadAllChecks, getChecksByTier } = require('./loader');
 const { calculateAuditScore } = require('./weights');
 const { buildContext } = require('./variableResolver');
+const { CheckRunner } = require('./runner');
 
 /**
  * Find all TypeScript files with @Component decorator
@@ -444,6 +447,197 @@ function analyzeByComponent(projectDir, options = {}) {
 }
 
 /**
+ * Analyze all components in a project (async with optional parallelism)
+ * @param {string} projectDir - Project directory
+ * @param {object} options - Options
+ * @param {string} options.tier - Check tier ('basic', 'material', 'full')
+ * @param {string[]} options.ignore - Patterns to ignore
+ * @param {number|'auto'|'sync'} options.workers - Worker mode ('sync' default, 'auto', or number)
+ * @returns {Promise<object>} Analysis results
+ */
+async function analyzeByComponentAsync(projectDir, options = {}) {
+  const tier = options.tier || 'full';
+  const ignore = options.ignore || ['node_modules', 'dist', '.git', '.angular', 'coverage'];
+  const workers = options.workers || 'sync';
+
+  // For sync mode, use the synchronous implementation
+  if (workers === 'sync') {
+    return analyzeByComponent(projectDir, options);
+  }
+
+  // Load check registry
+  const fullRegistry = loadAllChecks();
+  const registry = getChecksByTier(fullRegistry, tier);
+
+  // Build variable context for SCSS resolution (still sync - one-time cost)
+  let varContext = null;
+  try {
+    varContext = buildContext(projectDir);
+  } catch (e) {
+    console.warn('[ComponentAnalyzer] Warning: Variable context build failed:', e.message);
+  }
+
+  // Find all component files
+  const componentFiles = findComponentFiles(projectDir, ignore);
+
+  if (componentFiles.length === 0) {
+    return {
+      error: 'No Angular components found. Make sure you are in an Angular project.',
+      components: [],
+      componentCount: 0
+    };
+  }
+
+  // Parse components and collect all files to analyze
+  const components = [];
+  const filesToAnalyze = [];
+  const componentFileMap = new Map(); // Map file path to component index
+
+  for (let i = 0; i < componentFiles.length; i++) {
+    const component = parseComponent(componentFiles[i]);
+    if (!component) continue;
+
+    // Skip components with no template and no styles
+    if (!component.templateFile && !component.inlineTemplate &&
+        component.styleFiles.length === 0 && !component.inlineStyles) {
+      continue;
+    }
+
+    components.push({
+      ...component,
+      index: i,
+      issues: [],
+      checkAggregates: {}
+    });
+
+    // Collect files for batch processing
+    if (component.templateFile && fs.existsSync(component.templateFile)) {
+      filesToAnalyze.push({
+        path: component.templateFile,
+        content: fs.readFileSync(component.templateFile, 'utf-8'),
+        componentIndex: components.length - 1,
+        type: 'html'
+      });
+    } else if (component.inlineTemplate) {
+      // Use .html extension so worker correctly identifies as HTML
+      filesToAnalyze.push({
+        path: `${component.className}-inline.html`,
+        content: component.inlineTemplate,
+        componentIndex: components.length - 1,
+        type: 'html'
+      });
+    }
+
+    for (const styleFile of component.styleFiles) {
+      if (fs.existsSync(styleFile)) {
+        filesToAnalyze.push({
+          path: styleFile,
+          content: fs.readFileSync(styleFile, 'utf-8'),
+          componentIndex: components.length - 1,
+          type: 'scss'
+        });
+      }
+    }
+
+    if (component.inlineStyles) {
+      // Use .scss extension so worker correctly identifies as SCSS
+      filesToAnalyze.push({
+        path: `${component.className}-inline.scss`,
+        content: component.inlineStyles,
+        componentIndex: components.length - 1,
+        type: 'scss'
+      });
+    }
+  }
+
+  // Create runner and process files in parallel
+  const runner = new CheckRunner({ workers });
+  await runner.init();
+
+  try {
+    const runnerResults = await runner.runChecks(filesToAnalyze, tier, { varContext });
+
+    // Map results back to components
+    for (const [filePath, fileResult] of runnerResults.files) {
+      // Find which component this file belongs to
+      const fileInfo = filesToAnalyze.find(f => f.path === filePath);
+      if (!fileInfo) continue;
+
+      const component = components[fileInfo.componentIndex];
+
+      for (const [checkName, checkData] of fileResult.checks) {
+        if (!component.checkAggregates[checkName]) {
+          component.checkAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
+        }
+        component.checkAggregates[checkName].elementsFound += checkData.elementsFound || 0;
+        component.checkAggregates[checkName].issues += (checkData.issues || []).length;
+
+        for (const issue of checkData.issues || []) {
+          const msg = typeof issue === 'string' ? issue : issue;
+          const isError = msg.startsWith('[Error]');
+          if (isError) component.checkAggregates[checkName].errors++;
+          else component.checkAggregates[checkName].warnings++;
+
+          component.issues.push({
+            message: msg,
+            file: filePath,
+            check: checkName
+          });
+        }
+      }
+    }
+  } finally {
+    await runner.shutdown();
+  }
+
+  // Aggregate results
+  const componentResults = [];
+  const globalCheckAggregates = {};
+  let totalIssues = 0;
+
+  for (const component of components) {
+    if (component.issues.length === 0) continue;
+
+    componentResults.push({
+      name: component.className,
+      selector: component.selector,
+      tsFile: component.filePath,
+      files: [component.templateFile, ...component.styleFiles].filter(Boolean),
+      issues: component.issues,
+      checkAggregates: component.checkAggregates
+    });
+    totalIssues += component.issues.length;
+
+    // Merge into global aggregates
+    for (const [checkName, data] of Object.entries(component.checkAggregates)) {
+      if (!globalCheckAggregates[checkName]) {
+        globalCheckAggregates[checkName] = { elementsFound: 0, issues: 0, errors: 0, warnings: 0 };
+      }
+      globalCheckAggregates[checkName].elementsFound += data.elementsFound;
+      globalCheckAggregates[checkName].issues += data.issues;
+      globalCheckAggregates[checkName].errors += data.errors;
+      globalCheckAggregates[checkName].warnings += data.warnings;
+    }
+  }
+
+  // Sort by issue count (worst first)
+  componentResults.sort((a, b) => b.issues.length - a.issues.length);
+
+  // Calculate overall audit score
+  const auditResult = calculateAuditScore(globalCheckAggregates);
+
+  return {
+    tier,
+    componentCount: componentResults.length,
+    totalComponentsScanned: components.length,
+    totalIssues,
+    auditScore: auditResult.score,
+    audits: auditResult.audits,
+    components: componentResults
+  };
+}
+
+/**
  * Format component analysis results for console
  */
 function formatComponentResults(results) {
@@ -513,5 +707,6 @@ module.exports = {
   parseComponent,
   analyzeComponent,
   analyzeByComponent,
+  analyzeByComponentAsync,
   formatComponentResults
 };

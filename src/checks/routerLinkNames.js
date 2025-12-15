@@ -18,6 +18,11 @@ module.exports = {
   wcag: '2.4.4',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/routerLink/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

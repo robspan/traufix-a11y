@@ -209,106 +209,108 @@ function getWorstEntities(entities, limit = 5) {
     .slice(0, limit);
 }
 
-/**
- * Calculate efficiency score for an entity (component/route)
- * Efficiency = total weight of failing checks / number of issues
- * Higher efficiency = more audit points per fix
- *
- * @param {object} entity - Entity with issues array
- * @returns {number} Efficiency score (points per fix)
- */
-function calculateEfficiency(entity) {
-  const issues = entity.issues || [];
-  if (issues.length === 0) return 0;
-
-  const failingChecks = new Set();
-  for (const issue of issues) {
-    if (issue.check) failingChecks.add(issue.check);
+// Cache for weight lookups (weights never change at runtime)
+const weightCache = new Map();
+function getCachedWeight(checkName) {
+  let w = weightCache.get(checkName);
+  if (w === undefined) {
+    w = getWeight(checkName);
+    weightCache.set(checkName, w);
   }
-
-  let totalWeight = 0;
-  for (const check of failingChecks) {
-    totalWeight += getWeight(check);
-  }
-
-  return totalWeight / issues.length;
+  return w;
 }
 
 /**
- * Calculate priority score for an entity, factoring usage
- * priority = (total failing check weight / issues) * usage
- * usage = number of affected routes/pages (default 1 if unknown)
- *
- * @param {object} entity - Entity with issues array and optional affected list
+ * Calculate priority for an entity in a single pass
+ * priority = (sum of unique check weights / issue count) × usage
+ * 
+ * @param {object} entity - Entity with issues array
  * @returns {number} Priority score
  */
 function calculatePriority(entity) {
-  const efficiency = calculateEfficiency(entity);
-  const usage = (() => {
-    if (Array.isArray(entity.affected)) return Math.max(1, entity.affected.length);
-    if (entity.affectedUrls && typeof entity.affectedUrls.size === 'number') return Math.max(1, entity.affectedUrls.size);
-    return 1;
-  })();
+  const issues = entity.issues;
+  const issueCount = issues?.length || 0;
+  if (issueCount === 0) return 0;
+
+  // Single pass: collect unique checks
+  let checkBits = 0; // Use object as cheap set
+  const seen = Object.create(null);
+  let totalWeight = 0;
+  
+  for (let i = 0; i < issueCount; i++) {
+    const check = issues[i].check;
+    if (check && !seen[check]) {
+      seen[check] = 1;
+      totalWeight += getCachedWeight(check);
+    }
+  }
+
+  const efficiency = totalWeight / issueCount;
+  
+  // Usage multiplier
+  const usage = Array.isArray(entity.affected) 
+    ? (entity.affected.length || 1)
+    : (entity.affectedUrls?.size || 1);
+
   return efficiency * usage;
 }
 
 /**
+ * Efficiency = weight per fix (without usage multiplier)
+ */
+function calculateEfficiency(entity) {
+  const issues = entity.issues;
+  const issueCount = issues?.length || 0;
+  if (issueCount === 0) return 0;
+
+  const seen = Object.create(null);
+  let totalWeight = 0;
+  
+  for (let i = 0; i < issueCount; i++) {
+    const check = issues[i].check;
+    if (check && !seen[check]) {
+      seen[check] = 1;
+      totalWeight += getCachedWeight(check);
+    }
+  }
+
+  return totalWeight / issueCount;
+}
+
+/**
  * Get entities sorted by priority (highest bang for buck first)
+ * Optimized: single pass, no object spread, in-place sort
  *
  * @param {Array} entities - Array of entities
  * @param {number} limit - Max entities to return
- * @returns {Array} Entities sorted by priority
+ * @returns {Array} Entities sorted by priority (mutates priority property)
  */
 function getPriorityEntities(entities, limit = Infinity) {
-  return asArray(entities)
-    .filter(e => (e.issues?.length || 0) > 0)
-    .map(e => ({ ...e, priority: calculatePriority(e) }))
-    .sort((a, b) => b.priority - a.priority)
-    .slice(0, limit);
-}
-
-/**
- * Get weight for a check name (re-export for formatters)
- * @param {string} checkName
- * @returns {number}
- */
-function getCheckWeight(checkName) {
-  return getWeight(checkName);
-}
-
-/**
- * Calculate efficiency score for an entity (component/route)
- * Efficiency = total weight of failing checks / number of issues
- * Higher efficiency = more audit points per fix action
- * 
- * @param {object} entity - Entity with issues array
- * @returns {number} Efficiency score (points per fix)
- */
-function calculateEfficiency(entity) {
-  const issues = entity.issues || [];
-  if (issues.length === 0) return 0;
+  const arr = asArray(entities);
+  const withIssues = [];
   
-  // Get unique failing checks and sum their weights
-  const failingChecks = new Set();
-  for (const issue of issues) {
-    if (issue.check) failingChecks.add(issue.check);
+  // Single pass: filter + compute priority
+  for (let i = 0; i < arr.length; i++) {
+    const e = arr[i];
+    if (e.issues?.length > 0) {
+      e.priority = calculatePriority(e);
+      withIssues.push(e);
+    }
   }
   
-  let totalWeight = 0;
-  for (const check of failingChecks) {
-    totalWeight += getWeight(check);
-  }
+  // In-place sort by priority descending
+  withIssues.sort((a, b) => b.priority - a.priority);
   
-  return totalWeight / issues.length;
+  return limit < withIssues.length ? withIssues.slice(0, limit) : withIssues;
 }
 
 /**
- * Get weight for a check name (re-export for formatters)
+ * Get weight for a check name (cached)
  * @param {string} checkName 
  * @returns {number}
  */
 function getCheckWeight(checkName) {
-  return getWeight(checkName);
+  return getCachedWeight(checkName);
 }
 
 module.exports = {

@@ -18,6 +18,11 @@ module.exports = {
   wcag: '4.1.2',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/aria-/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
     const ariaRegex = /aria-([a-z]+)=["']([^"']*)["']/gi;

@@ -7,6 +7,11 @@ module.exports = {
   wcag: '2.5.5',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/width:|height:/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

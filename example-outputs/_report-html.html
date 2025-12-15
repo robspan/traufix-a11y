@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="mat-a11y">
+  <title>mat-a11y Component Analysis</title>
+  <style>
+    :root {
+      --pass: #22c55e;
+      --pass-bg: #f0fdf4;
+      --warn: #f59e0b;
+      --warn-bg: #fffbeb;
+      --fail: #ef4444;
+      --fail-bg: #fef2f2;
+      --border: #e5e5e5;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --bg: #ffffff;
+      --bg-alt: #f9fafb;
+    }
+    
+    * { box-sizing: border-box; }
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 1rem; 
+      color: var(--text); 
+      line-height: 1.5;
+      background: var(--bg);
+    }
+    
+    /* Header */
+    .header { 
+      position: sticky; 
+      top: 0; 
+      background: var(--bg); 
+      padding: 1rem 0; 
+      border-bottom: 2px solid var(--border);
+      z-index: 100;
+      margin-bottom: 1.5rem;
+    }
+    h1 { margin: 0 0 0.25rem; font-size: 1.75rem; }
+    .subtitle { color: var(--text-muted); margin: 0; font-size: 0.875rem; }
+    
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat { display: flex; align-items: baseline; gap: 0.5rem; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; }
+    .stat-label { color: var(--text-muted); font-size: 0.875rem; }
+    
+    /* Distribution cards */
+    .distribution { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0; }
+    .dist-card { padding: 1.25rem; border-radius: 12px; text-align: center; cursor: pointer; transition: transform 0.15s; }
+    .dist-card:hover { transform: scale(1.02); }
+    .dist-card.pass { background: var(--pass-bg); border: 2px solid var(--pass); }
+    .dist-card.warn { background: var(--warn-bg); border: 2px solid var(--warn); }
+    .dist-card.fail { background: var(--fail-bg); border: 2px solid var(--fail); }
+    .dist-value { font-size: 2rem; font-weight: bold; }
+    .dist-card.pass .dist-value { color: var(--pass); }
+    .dist-card.warn .dist-value { color: var(--warn); }
+    .dist-card.fail .dist-value { color: var(--fail); }
+    .dist-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+    
+    /* Optimization banner */
+    .optimization-banner {
+      background: #eff6ff;
+      border: 1px solid #3b82f6;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+    
+    /* Priorities */
+    .priorities-section { margin-bottom: 2rem; }
+    .priorities-section h3 { margin: 0 0 1rem; }
+    .priority-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .priority-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-alt);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .priority-item:hover { background: #e5e7eb; }
+    .priority-rank {
+      width: 28px;
+      height: 28px;
+      background: var(--text);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.875rem;
+    }
+    .priority-info { flex: 1; }
+    .priority-name { font-weight: 600; }
+    .priority-issues { font-size: 0.75rem; color: var(--text-muted); }
+    .priority-score { font-weight: bold; font-size: 0.875rem; }
+    .priority-score.pass { color: var(--pass); }
+    .priority-score.warn { color: var(--warn); }
+    .priority-score.fail { color: var(--fail); }
+    
+    /* Section header with controls */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .section-header h3 { margin: 0; }
+    .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .controls input, .controls select, .controls button {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+    .controls input { width: 200px; }
+    .controls button { 
+      background: var(--bg-alt); 
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .controls button:hover { background: #e5e7eb; }
+    
+    /* Component cards */
+    .component-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+    .component-card.hidden { display: none; }
+    .component-header {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--bg-alt);
+      cursor: pointer;
+      user-select: none;
+    }
+    .component-header:hover { background: #e5e7eb; }
+    .component-info { flex: 1; }
+    .component-name { font-weight: 600; }
+    .component-meta { margin-left: 0.75rem; font-size: 0.75rem; color: var(--text-muted); }
+    .component-score { 
+      font-weight: bold; 
+      font-size: 0.875rem; 
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin-right: 0.75rem;
+    }
+    .component-score.pass { background: var(--pass-bg); color: var(--pass); }
+    .component-score.warn { background: var(--warn-bg); color: var(--warn); }
+    .component-score.fail { background: var(--fail-bg); color: var(--fail); }
+    .toggle-icon { 
+      color: var(--text-muted); 
+      font-size: 0.75rem;
+      transition: transform 0.15s;
+    }
+    .component-card.expanded .toggle-icon { transform: rotate(90deg); }
+    
+    .component-body { padding: 1rem; border-top: 1px solid var(--border); }
+    .component-files { margin-bottom: 1rem; font-size: 0.875rem; }
+    .file-link {
+      display: inline-block;
+      margin: 0.25rem 0.5rem 0.25rem 0;
+      padding: 0.25rem 0.5rem;
+      background: #e0f2fe;
+      color: #0369a1;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.75rem;
+    }
+    .file-link:hover { background: #bae6fd; }
+    
+    /* Issue groups */
+    .issue-groups { display: flex; flex-direction: column; gap: 0.5rem; }
+    .issue-group { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .issue-group.severity-high { border-left: 3px solid var(--fail); }
+    .issue-group.severity-medium { border-left: 3px solid var(--warn); }
+    .issue-group-header {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      background: var(--bg-alt);
+      cursor: pointer;
+    }
+    .issue-group-header:hover { background: #e5e7eb; }
+    .issue-check { flex: 1; font-weight: 500; font-size: 0.875rem; }
+    .issue-count {
+      background: var(--text);
+      color: white;
+      padding: 0.125rem 0.5rem;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+    .issue-group.expanded .toggle-icon { transform: rotate(90deg); }
+    
+    .issue-list { padding: 0.5rem 0.75rem; }
+    .issue-item { 
+      padding: 0.5rem 0; 
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    .issue-item:last-child { border-bottom: none; }
+    .issue-file {
+      display: inline-block;
+      margin-bottom: 0.25rem;
+      color: #0369a1;
+      text-decoration: none;
+      font-size: 0.75rem;
+    }
+    .issue-file:hover { text-decoration: underline; }
+    .issue-message { color: var(--text-muted); font-size: 0.8125rem; }
+    
+    /* Score box for file mode */
+    .score-box { text-align: center; margin: 2rem 0; }
+    .score { font-size: 4rem; font-weight: bold; }
+    .score.pass { color: var(--pass); }
+    .score.warn { color: var(--warn); }
+    .score.fail { color: var(--fail); }
+    .score-label { color: var(--text-muted); }
+    
+    /* Footer */
+    .disclaimer { 
+      background: var(--warn-bg); 
+      border: 1px solid var(--warn); 
+      padding: 0.75rem 1rem; 
+      margin-top: 2rem; 
+      border-radius: 6px; 
+      font-size: 0.75rem; 
+    }
+    footer { margin-top: 1.5rem; color: #999; font-size: 0.75rem; text-align: center; }
+    
+    /* Print styles */
+    @media print {
+      .header { position: static; }
+      .controls { display: none; }
+      .component-body { display: block !important; }
+      .issue-list { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>mat-a11y Component Analysis</h1>
+    <p class="subtitle">67 routes | Component-level | Tier: FULL</p>
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value">25</span>
+        <span class="stat-label">issues</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">67</span>
+        <span class="stat-label">components</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">0</span>
+        <span class="stat-label">failing</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="distribution">
+    <div class="dist-card pass" onclick="filterByScore('pass')">
+      <div class="dist-value">67</div>
+      <div class="dist-label">Passing (90-100%)</div>
+    </div>
+    <div class="dist-card warn" onclick="filterByScore('warn')">
+      <div class="dist-value">0</div>
+      <div class="dist-label">Needs Work (50-89%)</div>
+    </div>
+    <div class="dist-card fail" onclick="filterByScore('fail')">
+      <div class="dist-value">0</div>
+      <div class="dist-label">Failing (&lt;50%)</div>
+    </div>
+  </div>
+  
+  <div class="priorities-section"><h3>🎯 Fix Priorities</h3><div class="priority-list">
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">1.</span>
+            <span class="priority-name">/agb</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">2.</span>
+            <span class="priority-name">/datenschutz</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">3.</span>
+            <span class="priority-name">/impressum</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">4.</span>
+            <span class="priority-name">/cookies</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">5.</span>
+            <span class="priority-name">/widerrufsrecht</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">6.</span>
+            <span class="priority-name">/guide/hochzeitswebsite-erstellen</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">7.</span>
+            <span class="priority-name">/guide/save-the-date-texte</span>
+            <span class="priority-score">100%</span>
+          </div>
+          <div class="priority-meta">1 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">prefersReducedMotion (1)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">8.</span>
+            <span class="priority-name">/guide</span>
+            <span class="priority-score">92%</span>
+          </div>
+          <div class="priority-meta">8 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">duplicateIdAria (2)</span><span class="priority-issue">prefersReducedMotion (1)</span><span class="priority-issue">contentOverflow (3)</span>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-header">
+            <span class="priority-rank">9.</span>
+            <span class="priority-name">/</span>
+            <span class="priority-score">93%</span>
+          </div>
+          <div class="priority-meta">10 issues</div>
+          <div class="priority-issues">
+            <span class="priority-issue">colorContrast (3)</span><span class="priority-issue">pointerEventsNone (1)</span><span class="priority-issue">contentOverflow (5)</span>
+          </div>
+        </div></div></div>
+      <div class="components-section">
+        <div class="section-header">
+          <h3>📦 Routes (67)</h3>
+          <div class="controls">
+            <input type="text" id="search" placeholder="Search components..." oninput="filterComponents(this.value)">
+            <select id="filter" onchange="filterByScore(this.value)">
+              <option value="all">All</option>
+              <option value="fail">Failing (&lt;50%)</option>
+              <option value="warn">Needs Work (50-89%)</option>
+              <option value="pass">Passing (90-100%)</option>
+            </select>
+            <button onclick="expandAll()">Expand All</button>
+            <button onclick="collapseAll()">Collapse All</button>
+          </div>
+        </div>
+        <div id="components-container">
+          
+    <div class="component-card" data-component="/agb" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/agb</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Fguest-view%2Fguest-view%2Fguest-view.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss">guest-view.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/datenschutz" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/datenschutz</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Fguest-view%2Fguest-view%2Fguest-view.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss">guest-view.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/impressum" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/impressum</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Fguest-view%2Fguest-view%2Fguest-view.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss">guest-view.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/cookies" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/cookies</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Fguest-view%2Fguest-view%2Fguest-view.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss">guest-view.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/widerrufsrecht" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/widerrufsrecht</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Fguest-view%2Fguest-view%2Fguest-view.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/guest-view/guest-view/guest-view.scss">guest-view.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/guide/hochzeitswebsite-erstellen" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/guide/hochzeitswebsite-erstellen</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fcontent%2Fanleitung%2Fhochzeitswebsite-erstellen%2Fhochzeitswebsite-erstellen.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/content/anleitung/hochzeitswebsite-erstellen/hochzeitswebsite-erstellen.scss">hochzeitswebsite-erstellen.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/guide/save-the-date-texte" data-score="100" data-issues="1">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/guide/save-the-date-texte</span>
+          <span class="component-meta">1 issue</span>
+        </div>
+        <div class="component-score pass">100%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fcontent%2Fgenerator%2Fsave-the-date-texte%2Fsave-the-date-texte.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/content/generator/save-the-date-texte/save-the-date-texte.scss">save-the-date-texte.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/guide" data-score="92" data-issues="8">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/guide</span>
+          <span class="component-meta">8 issues</span>
+        </div>
+        <div class="component-score pass">92%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-critical">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">duplicateIdAria</span>
+                <span class="issue-count">2</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.html" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html">guide-index.html</a>
+                    <div class="issue-message">[Error] aria-controls references non-existent id &quot;hidden-categories&quot;. Broken ARIA reference provides no accessibility benefit</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.html" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.html">guide-index.html</a>
+                    <div class="issue-message">[Error] aria-controls references non-existent id &quot;hidden-categories&quot;. Broken ARIA reference provides no accessibility benefit</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">prefersReducedMotion</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Warning] Animation without prefers-reduced-motion support. Animations can cause vestibular disorders and motion sickness</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-low">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">contentOverflow</span>
+                <span class="issue-count">3</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Warning] Content may be hidden without visual indication in &quot;Visually hidden utility for screen reader only content</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;h3&quot;. This may hide text content inaccessibly.</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;p&quot;. This may hide text content inaccessibly.</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-low">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">smallFontSize</span>
+                <span class="issue-count">2</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Warning] Font size 11px may be too small. Small text is difficult for users with low vision</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fmedia%2Fguide-index%2Fguide-index.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/media/guide-index/guide-index.scss">guide-index.scss</a>
+                    <div class="issue-message">[Warning] Font size 11px may be too small. Small text is difficult for users with low vision</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="component-card" data-component="/" data-score="93" data-issues="10">
+      <div class="component-header" onclick="toggleComponent(this)">
+        <div class="component-info">
+          <span class="component-name">/</span>
+          <span class="component-meta">10 issues</span>
+        </div>
+        <div class="component-score pass">93%</div>
+        <span class="toggle-icon">▶</span>
+      </div>
+      <div class="component-body" style="display: none;">
+        
+        <div class="issue-groups">
+          
+            <div class="issue-group severity-high">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">colorContrast</span>
+                <span class="issue-count">3</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Error] Highly transparent text is difficult to read. Low opacity reduces effective contrast</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-medium">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">pointerEventsNone</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Warning] pointer-events: none may hide interactive element. Users cannot interact with elements that have pointer-events disabled</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-low">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">contentOverflow</span>
+                <span class="issue-count">5</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;============================================================================</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;============================================================================</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;============================================================================</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;============================================================================</div>
+                  </div>
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Info] Potential content overflow detected in &quot;.gallery-preview-wrapper&quot;. This may hide text content inaccessibly.</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+            <div class="issue-group severity-low">
+              <div class="issue-group-header" onclick="toggleIssueGroup(this)">
+                <span class="issue-check">smallFontSize</span>
+                <span class="issue-count">1</span>
+                <span class="toggle-icon">▶</span>
+              </div>
+              <div class="issue-list" style="display: none;">
+                
+                  <div class="issue-item">
+                    <a href="vscode://file/C%3A%2FUsers%2Fspani%2FOneDrive%2FDokumente%2FGitHub%2Fnoro-wedding%2Fsrc%2Fapp%2Fpages%2Flanding%2Flanding.scss" class="issue-file" title="C:/Users/spani/OneDrive/Dokumente/GitHub/noro-wedding/src/app/pages/landing/landing.scss">landing.scss</a>
+                    <div class="issue-message">[Warning] Font size 10px may be too small. Small text is difficult for users with low vision</div>
+                  </div>
+                
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+        </div>
+      </div>
+  
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> This analysis is provided "as is" without warranty. 
+    No guarantee of completeness or fitness for a particular purpose.
+  </div>
+  
+  <footer>Generated by mat-a11y | 2025-12-15T14:09:12.555Z</footer>
+  
+  <script>
+    // Toggle component expansion
+    function toggleComponent(header) {
+      const card = header.closest('.component-card');
+      const body = card.querySelector('.component-body');
+      const isExpanded = body.style.display !== 'none';
+      body.style.display = isExpanded ? 'none' : 'block';
+      card.classList.toggle('expanded', !isExpanded);
+    }
+    
+    // Toggle issue group expansion
+    function toggleIssueGroup(header) {
+      const group = header.closest('.issue-group');
+      const list = group.querySelector('.issue-list');
+      const isExpanded = list.style.display !== 'none';
+      list.style.display = isExpanded ? 'none' : 'block';
+      group.classList.toggle('expanded', !isExpanded);
+    }
+    
+    // Expand all components
+    function expandAll() {
+      document.querySelectorAll('.component-card').forEach(card => {
+        card.querySelector('.component-body').style.display = 'block';
+        card.classList.add('expanded');
+      });
+    }
+    
+    // Collapse all components
+    function collapseAll() {
+      document.querySelectorAll('.component-card').forEach(card => {
+        card.querySelector('.component-body').style.display = 'none';
+        card.classList.remove('expanded');
+      });
+    }
+    
+    // Filter components by search
+    function filterComponents(query) {
+      const q = query.toLowerCase();
+      document.querySelectorAll('.component-card').forEach(card => {
+        const name = card.dataset.component.toLowerCase();
+        card.classList.toggle('hidden', !name.includes(q));
+      });
+    }
+    
+    // Filter by score category
+    function filterByScore(category) {
+      document.getElementById('filter').value = category;
+      document.querySelectorAll('.component-card').forEach(card => {
+        const score = parseInt(card.dataset.score);
+        let show = true;
+        if (category === 'pass') show = score >= 90;
+        else if (category === 'warn') show = score >= 50 && score < 90;
+        else if (category === 'fail') show = score < 50;
+        card.classList.toggle('hidden', !show);
+      });
+    }
+    
+    // Scroll to component
+    function scrollToComponent(name) {
+      const card = document.querySelector('[data-component="' + name + '"]');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.querySelector('.component-body').style.display = 'block';
+        card.classList.add('expanded');
+        card.style.boxShadow = '0 0 0 3px #3b82f6';
+        setTimeout(() => card.style.boxShadow = '', 2000);
+      }
+    }
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        document.getElementById('search')?.focus();
+      }
+      if (e.key === 'Escape') {
+        document.getElementById('search').value = '';
+        filterComponents('');
+        document.getElementById('filter').value = 'all';
+        filterByScore('all');
+      }
+    });
+  </script>
+</body>
+</html>

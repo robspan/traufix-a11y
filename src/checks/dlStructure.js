@@ -9,6 +9,11 @@ module.exports = {
   wcag: '1.3.1',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/<dl|<dd|<dt/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
     const dlMatch = content.match(/<dl[^>]*>([\s\S]*?)<\/dl>/gi);

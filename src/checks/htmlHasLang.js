@@ -9,6 +9,11 @@ module.exports = {
   wcag: '3.1.1',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/<html/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

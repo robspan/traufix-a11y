@@ -9,6 +9,11 @@ module.exports = {
   wcag: '1.3.1',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/<ul|<ol/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

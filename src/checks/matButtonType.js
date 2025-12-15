@@ -9,6 +9,11 @@ module.exports = {
   wcag: '4.1.2',
 
   check(content) {
+    // Early exit: no mat-button directives, no issues
+    if (!/mat-button|mat-raised-button|mat-flat-button|mat-stroked-button|mat-icon-button|mat-fab|mat-mini-fab/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

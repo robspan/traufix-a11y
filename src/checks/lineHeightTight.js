@@ -1,5 +1,14 @@
 const { format } = require('../core/errors');
 
+// Pre-compiled regex patterns
+const EARLY_EXIT = /line-height\s*:/i;
+const LINE_HEIGHT_PATTERN = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{[^}]*line-height\s*:\s*([^;}\n]+)/gi;
+const UNITLESS_VALUE = /^(\d+(?:\.\d+)?)$/;
+const PERCENT_VALUE = /^(\d+(?:\.\d+)?)\s*%/;
+const NORMAL_KEYWORD = /^normal$/i;
+// Combined pattern for body text selectors
+const BODY_TEXT_SELECTOR = /^(?:body|p|\.text|\.content|\.body|\.paragraph|\.description|article|\.article|main|section)/i;
+
 module.exports = {
   name: 'lineHeightTight',
   description: 'Detects line-height below 1.2 on body text which makes content harder to read',
@@ -8,71 +17,53 @@ module.exports = {
   weight: 3,
 
   check(content) {
+    // Early exit: no line-height declarations, no issues
+    if (!EARLY_EXIT.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 
-    // Pattern to find line-height declarations with their selectors
-    const lineHeightPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{[^}]*line-height\s*:\s*([^;}\n]+)/gi;
-
-    // Selectors that typically contain body text
-    const bodyTextSelectors = [
-      /^body$/i,
-      /^p$/i,
-      /^\.text/i,
-      /^\.content/i,
-      /^\.body/i,
-      /^\.paragraph/i,
-      /^\.description/i,
-      /^article/i,
-      /^\.article/i,
-      /^main/i,
-      /^section/i,
-    ];
+    // Reset regex state
+    LINE_HEIGHT_PATTERN.lastIndex = 0;
 
     let match;
-
-    while ((match = lineHeightPattern.exec(content)) !== null) {
+    while ((match = LINE_HEIGHT_PATTERN.exec(content)) !== null) {
       elementsFound++;
       const selector = match[1].trim();
       const lineHeight = match[2].trim();
+
+      // Skip 'normal' keyword early
+      if (NORMAL_KEYWORD.test(lineHeight)) {
+        continue;
+      }
 
       let isTooTight = false;
       let parsedValue = '';
 
       // Check unitless values (preferred)
-      const unitlessMatch = lineHeight.match(/^(\d+(?:\.\d+)?)$/);
+      const unitlessMatch = lineHeight.match(UNITLESS_VALUE);
       if (unitlessMatch) {
         const value = parseFloat(unitlessMatch[1]);
         if (value < 1.2) {
           isTooTight = true;
           parsedValue = value.toString();
         }
-      }
-
-      // Check percentage values
-      const percentMatch = lineHeight.match(/^(\d+(?:\.\d+)?)\s*%/);
-      if (percentMatch) {
-        const value = parseFloat(percentMatch[1]);
-        if (value < 120) { // 120% = 1.2
-          isTooTight = true;
-          parsedValue = `${value}%`;
+      } else {
+        // Check percentage values
+        const percentMatch = lineHeight.match(PERCENT_VALUE);
+        if (percentMatch) {
+          const value = parseFloat(percentMatch[1]);
+          if (value < 120) {
+            isTooTight = true;
+            parsedValue = `${value}%`;
+          }
         }
-      }
-
-      // Check for 'normal' keyword - this is fine
-      if (/^normal$/i.test(lineHeight)) {
-        continue;
       }
 
       if (isTooTight) {
-        // Determine if this is likely body text
-        const isBodyText = bodyTextSelectors.some(pattern => pattern.test(selector));
-
-        if (isBodyText) {
-          issues.push(format('TEXT_LINE_HEIGHT_TIGHT', { element: `${selector} { line-height: ${parsedValue}; }` }));
-        } else {
-          issues.push(format('TEXT_LINE_HEIGHT_TIGHT', { element: `${selector} { line-height: ${parsedValue}; }` }));
-        }
+        issues.push(format('TEXT_LINE_HEIGHT_TIGHT', { element: `${selector} { line-height: ${parsedValue}; }` }));
       }
     }
 

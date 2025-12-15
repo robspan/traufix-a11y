@@ -127,6 +127,11 @@ module.exports = {
   weight: 7,
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/\| async/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

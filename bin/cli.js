@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { analyze, analyzeByRoute, formatConsoleOutput, formatRouteResults, TIERS, DEFAULT_CONFIG } = require('../src/index.js');
 const { analyzeBySitemap, formatSitemapResults, findSitemap } = require('../src/core/sitemapAnalyzer.js');
-const { analyzeByComponent, formatComponentResults } = require('../src/core/componentAnalyzer.js');
+const { analyzeByComponent, analyzeByComponentAsync, formatComponentResults } = require('../src/core/componentAnalyzer.js');
 const { loadAllFormatters, listFormatters } = require('../src/formatters/index.js');
 const { optimizeIssues, getOptimizationSummary } = require('../src/core/issueOptimizer.js');
 
@@ -38,7 +38,7 @@ function parseArgs(args) {
     check: null,  // Single check mode
     listChecks: false,
     verified: false,    // --verified or combined --full-verified
-    workers: 'sync',    // --workers <auto|sync|n>
+    workers: 'sync',    // --workers <auto|sync|n> - sync is default for consistent object return
     selfTest: false,    // --self-test
     fileBased: false,   // --file-based: use old file-based analysis instead of component-based
     sitemapBased: false, // --sitemap: use sitemap-based analysis (for SEO/Google crawling view)
@@ -445,10 +445,20 @@ async function main() {
   }
 
   // Default: Component-based analysis (scans all @Component files)
-  const componentResults = analyzeByComponent(opts.files[0], {
-    tier: opts.tier,
-    ignore: ignore
-  });
+  // Use async version if workers are specified for parallelism
+  let componentResults;
+  if (opts.workers !== 'sync') {
+    componentResults = await analyzeByComponentAsync(opts.files[0], {
+      tier: opts.tier,
+      ignore: ignore,
+      workers: opts.workers
+    });
+  } else {
+    componentResults = analyzeByComponent(opts.files[0], {
+      tier: opts.tier,
+      ignore: ignore
+    });
+  }
 
   if (componentResults.error) {
     console.error(c.red + componentResults.error + c.reset);

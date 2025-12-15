@@ -9,6 +9,11 @@ module.exports = {
   wcag: '4.1.2',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/aria-hidden/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

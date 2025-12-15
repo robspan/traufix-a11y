@@ -9,6 +9,11 @@ module.exports = {
   wcag: '1.2.2',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/<video/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
     const videoRegex = /<video[^>]*>[\s\S]*?<\/video>/gi;

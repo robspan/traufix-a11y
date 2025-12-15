@@ -1,5 +1,13 @@
 const { format } = require('../core/errors');
 
+// Pre-compiled regex patterns
+const EARLY_EXIT = /mat-checkbox/i;
+const CHECKBOX_REGEX = /<mat-checkbox\b([^>]*)(?:\/>|>([\s\S]*?)<\/mat-checkbox>)/gi;
+const ARIA_LABEL_VALUE = /\baria-label\s*=\s*["'][^"']+["']|\[aria-label\]|\[attr\.aria-label\]/i;
+const ARIA_LABELLEDBY = /\baria-labelledby\s*=\s*["'][^"']+["']|\[aria-labelledby\]|\[attr\.aria-labelledby\]/i;
+const ANGULAR_INTERPOLATION = /\{\{[^}]+\}\}/;
+const STRIP_TAGS = /<[^>]+>/g;
+
 module.exports = {
   name: 'matCheckboxLabel',
   description: 'Check that mat-checkbox has an accessible label',
@@ -8,64 +16,65 @@ module.exports = {
   weight: 3,
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!EARLY_EXIT.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 
-    // Find line number for a match position
+    // Build line index lazily for O(log n) lookups
+    let lineStarts = null;
     const getLineNumber = (pos) => {
-      return content.substring(0, pos).split('\n').length;
+      if (!lineStarts) {
+        lineStarts = [0];
+        for (let i = 0; i < content.length; i++) {
+          if (content[i] === '\n') lineStarts.push(i + 1);
+        }
+      }
+      let lo = 0, hi = lineStarts.length - 1;
+      while (lo < hi) {
+        const mid = (lo + hi + 1) >> 1;
+        if (lineStarts[mid] <= pos) lo = mid;
+        else hi = mid - 1;
+      }
+      return lo + 1;
     };
 
-    // Match mat-checkbox elements (both self-closing and with content)
-    // Self-closing: <mat-checkbox ... />
-    // With content: <mat-checkbox ...>...</mat-checkbox>
-    const matCheckboxRegex = /<mat-checkbox\b([^>]*)(?:\/>|>([\s\S]*?)<\/mat-checkbox>)/gi;
+    // Reset regex state
+    CHECKBOX_REGEX.lastIndex = 0;
 
     let match;
-    while ((match = matCheckboxRegex.exec(content)) !== null) {
+    while ((match = CHECKBOX_REGEX.exec(content)) !== null) {
       elementsFound++;
       const fullMatch = match[0];
       const attrs = match[1] || '';
       const innerContent = match[2] || '';
-      const lineNumber = getLineNumber(match.index);
 
-      // Check for aria-label (standard and Angular binding)
-      const hasAriaLabel = /\baria-label\s*=\s*["'][^"']+["']/i.test(attrs) ||
-                           /\[aria-label\]\s*=/i.test(attrs) ||
-                           /\[attr\.aria-label\]\s*=/i.test(attrs);
-
-      // Check for aria-labelledby (standard and Angular binding)
-      const hasAriaLabelledby = /\baria-labelledby\s*=\s*["'][^"']+["']/i.test(attrs) ||
-                                /\[aria-labelledby\]\s*=/i.test(attrs) ||
-                                /\[attr\.aria-labelledby\]\s*=/i.test(attrs);
-
-      // If aria-label or aria-labelledby is present, it's accessible
-      if (hasAriaLabel || hasAriaLabelledby) {
+      // Fast path: check aria attributes
+      if (ARIA_LABEL_VALUE.test(attrs) || ARIA_LABELLEDBY.test(attrs)) {
         continue;
       }
 
-      // Check inner content for text or Angular interpolation
-      // First, check if it's a self-closing tag (no inner content)
+      // Check for self-closing tag
       const isSelfClosing = fullMatch.endsWith('/>');
 
       if (!isSelfClosing && innerContent) {
-        // Check for Angular interpolation {{ ... }} which indicates dynamic label
-        if (/\{\{[^}]+\}\}/.test(innerContent)) {
-          continue; // Has dynamic content, assume it provides a label
+        // Check for Angular interpolation
+        if (ANGULAR_INTERPOLATION.test(innerContent)) {
+          continue;
         }
 
-        // Extract text content by removing HTML tags and checking for non-whitespace
-        const textContent = innerContent
-          .replace(/<[^>]+>/g, '') // Remove HTML tags
-          .replace(/\s+/g, ' ')    // Normalize whitespace
-          .trim();
-
+        // Check for text content
+        const textContent = innerContent.replace(STRIP_TAGS, '').replace(/\s+/g, ' ').trim();
         if (textContent.length > 0) {
-          continue; // Has text content as label
+          continue;
         }
       }
 
-      // No accessible label found - report issue
+      // No accessible label found
+      const lineNumber = getLineNumber(match.index);
       issues.push(format('MAT_CHECKBOX_MISSING_LABEL', { element: fullMatch, line: lineNumber }));
     }
 

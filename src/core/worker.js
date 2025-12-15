@@ -25,6 +25,28 @@ const CHECKS_DIR = path.join(__dirname, '..', 'checks');
 // Cache for loaded check modules to avoid repeated file system access
 const checkCache = new Map();
 
+/**
+ * Deserialize varContext from JSON-safe format back to Maps.
+ * Worker threads receive plain objects, we need to convert back to Maps.
+ * @param {Object|null} serialized - Serialized context {scssVars, cssVars, maps} with arrays
+ * @returns {Object} - Context with Maps
+ */
+function deserializeVarContext(serialized) {
+  if (!serialized) {
+    return {
+      scssVars: new Map(),
+      cssVars: new Map(),
+      maps: new Map()
+    };
+  }
+
+  return {
+    scssVars: new Map(serialized.scssVars || []),
+    cssVars: new Map(serialized.cssVars || []),
+    maps: new Map((serialized.maps || []).map(([k, v]) => [k, new Map(v)]))
+  };
+}
+
 // Import parser for verify file parsing
 let parser = null;
 try {
@@ -59,7 +81,8 @@ function loadCheckModule(checkName) {
     return { module: checkCache.get(checkName), error: null };
   }
 
-  const checkPath = path.join(CHECKS_DIR, checkName, 'index.js');
+  // Checks are flat .js files, not directories with index.js
+  const checkPath = path.join(CHECKS_DIR, `${checkName}.js`);
 
   try {
     // Check if file exists first
@@ -173,6 +196,47 @@ function handleRun(msg) {
 }
 
 /**
+ * Handle a 'preload' message - pre-load check modules to warm the cache.
+ * This reduces first-run latency by loading modules before they're needed.
+ *
+ * @param {Object} msg - The message object
+ * @param {string} msg.id - Unique task ID
+ * @param {string[]} msg.checkNames - Names of checks to preload
+ * @private
+ */
+function handlePreload(msg) {
+  const { id, checkNames } = msg;
+
+  if (!id) {
+    sendError(null, null, 'INVALID_MESSAGE', 'Missing task id');
+    return;
+  }
+
+  if (!Array.isArray(checkNames)) {
+    sendError(id, null, 'INVALID_MESSAGE', 'checkNames must be an array');
+    return;
+  }
+
+  let loaded = 0;
+  let failed = 0;
+
+  for (const checkName of checkNames) {
+    const loadResult = loadCheckModule(checkName);
+    if (loadResult.module) {
+      loaded++;
+    } else {
+      failed++;
+    }
+  }
+
+  parentPort.postMessage({
+    type: 'result',
+    id,
+    result: { loaded, failed }
+  });
+}
+
+/**
  * Handle a 'runBatch' message - process multiple files with multiple checks.
  * This is the optimized path that minimizes message passing overhead.
  *
@@ -181,10 +245,14 @@ function handleRun(msg) {
  * @param {Array<{path: string, content: string}>} msg.files - Files to process
  * @param {string[]} msg.htmlCheckNames - Check names for HTML files
  * @param {string[]} msg.scssCheckNames - Check names for SCSS files
+ * @param {Object} [msg.varContext] - Serialized SCSS variable context for color resolution
  * @private
  */
 function handleRunBatch(msg) {
-  const { id, files, htmlCheckNames, scssCheckNames } = msg;
+  const { id, files, htmlCheckNames, scssCheckNames, varContext: serializedVarContext } = msg;
+  
+  // Deserialize varContext for SCSS checks (converts arrays back to Maps)
+  const varContext = deserializeVarContext(serializedVarContext);
 
   if (!id) {
     sendError(null, null, 'INVALID_MESSAGE', 'Missing task id');
@@ -223,7 +291,9 @@ function handleRunBatch(msg) {
         continue;
       }
 
-      const checkResult = runCheckSafely(loadResult.module.check, file.content, file.path);
+      // SCSS checks receive varContext as second arg, HTML checks receive filePath
+      const secondArg = isScss ? varContext : file.path;
+      const checkResult = runCheckSafely(loadResult.module.check, file.content, secondArg);
       fileResult.checks[checkName] = {
         pass: checkResult.pass,
         issues: checkResult.issues,
@@ -462,6 +532,11 @@ parentPort.on('message', (msg) => {
 
       case 'verify':
         handleVerify(msg);
+        break;
+
+      case 'preload':
+        // Preload check modules to warm the cache
+        handlePreload(msg);
         break;
 
       case 'shutdown':

@@ -8,6 +8,11 @@ module.exports = {
   weight: 5, // Reduced weight as MatDialog has reasonable defaults
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/mat-dialog|MatDialog|<dialog/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

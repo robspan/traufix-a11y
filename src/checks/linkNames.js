@@ -1,5 +1,18 @@
 const { format } = require('../core/errors');
 
+// Pre-compiled regex patterns
+const EARLY_EXIT = /<a\b/i;
+const LINK_REGEX = /<a[^>]*>[\s\S]*?<\/a>/gi;
+const ARIA_LABEL = /aria-label=/i;
+const ARIA_LABELLEDBY = /aria-labelledby=/i;
+const TITLE_ATTR = /\btitle=/i;
+const STRIP_ICONS = /<(?:mat-icon|svg)[^>]*>[\s\S]*?<\/(?:mat-icon|svg)>/gi;
+const STRIP_TAGS = /<[^>]+>/g;
+const ANGULAR_BINDING = /\{\{[^}]+\}\}/g;
+
+// Generic text patterns - pre-compiled once
+const GENERIC_TEXTS = /^(?:click\s+here|here|link|read\s+more|more|continue)$/i;
+
 module.exports = {
   name: 'linkNames',
   description: 'Links have accessible names',
@@ -9,41 +22,38 @@ module.exports = {
   wcag: '2.4.4',
 
   check(content) {
+    // Early exit: no anchor elements, no issues
+    if (!EARLY_EXIT.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
-    let elementsFound = 0;
-    const linkRegex = /<a[^>]*>[\s\S]*?<\/a>/gi;
-    const links = content.match(linkRegex) || [];
 
-    elementsFound = links.length;
+    // Reset regex state
+    LINK_REGEX.lastIndex = 0;
 
-    // Generic text patterns to check for
-    const genericTexts = [
-      /^click\s+here$/i,
-      /^here$/i,
-      /^link$/i,
-      /^read\s+more$/i,
-      /^more$/i,
-      /^continue$/i,
-    ];
+    const links = content.match(LINK_REGEX) || [];
+    const elementsFound = links.length;
 
     for (const link of links) {
-      const hasAriaLabel = /aria-label=/i.test(link);
-      const hasAriaLabelledBy = /aria-labelledby=/i.test(link);
-      const hasTitle = /\btitle=/i.test(link);
+      const hasAriaLabel = ARIA_LABEL.test(link);
+      const hasAriaLabelledBy = ARIA_LABELLEDBY.test(link);
+      const hasTitle = TITLE_ATTR.test(link);
+
+      // Reset global regex state before each use
+      STRIP_ICONS.lastIndex = 0;
 
       const textContent = link
-        .replace(/<mat-icon[^>]*>[\s\S]*?<\/mat-icon>/gi, '')
-        .replace(/<svg[^>]*>[\s\S]*?<\/svg>/gi, '')
-        .replace(/<[^>]+>/g, '')
-        .replace(/\{\{[^}]+\}\}/g, 'TEXT')
+        .replace(STRIP_ICONS, '')
+        .replace(STRIP_TAGS, '')
+        .replace(ANGULAR_BINDING, 'TEXT')
         .trim();
 
       if (!textContent && !hasAriaLabel && !hasAriaLabelledBy && !hasTitle) {
         const snippet = link.substring(0, 80).replace(/\s+/g, ' ').trim();
         const truncated = link.length > 80 ? '...' : '';
         issues.push(format('LINK_MISSING_NAME', { element: `${snippet}${truncated}` }));
-      } else if (textContent && genericTexts.some(pattern => pattern.test(textContent))) {
-        // Check for generic text
+      } else if (textContent && GENERIC_TEXTS.test(textContent)) {
         const snippet = link.substring(0, 80).replace(/\s+/g, ' ').trim();
         const truncated = link.length > 80 ? '...' : '';
         issues.push(format('LINK_GENERIC_TEXT', { text: textContent, element: `${snippet}${truncated}` }));

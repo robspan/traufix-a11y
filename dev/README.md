@@ -19,6 +19,90 @@ npm test -- --verbose
 npm run dev-check
 ```
 
+## Parallel Execution Architecture
+
+mat-a11y supports parallel check execution via worker threads for significant performance gains on larger projects.
+
+### Worker Pool Design
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           CheckRunner (runner.js)                           │
+│                                                                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
+│  │ Worker 1 │  │ Worker 2 │  │ Worker 3 │  │ Worker 4 │  │ Worker N │     │
+│  │  Batch   │  │  Batch   │  │  Batch   │  │  Batch   │  │  Batch   │     │
+│  │ Check A  │  │ Check A  │  │ Check A  │  │ Check A  │  │ Check A  │     │
+│  │ Check B  │  │ Check B  │  │ Check B  │  │ Check B  │  │ Check B  │     │
+│  │   ...    │  │   ...    │  │   ...    │  │   ...    │  │   ...    │     │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘  └──────────┘     │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Worker Modes
+
+| Mode | Workers | Use Case |
+|------|---------|----------|
+| `'sync'` | 0 | Default, single-threaded (API compatibility) |
+| `'auto'` | 4-24 | Smart scaling based on CPU cores and file count |
+| `16` | 16 | Explicit worker count (respects user's hardware) |
+
+### Auto Mode Calculation
+
+```javascript
+// Auto mode: smart scaling (capped at 24 for safety)
+const cpuBasedWorkers = cpuCount - 2;  // Leave room for system + Node
+const workBasedWorkers = Math.floor(files / 10);  // ~10 files per worker
+const actualWorkers = Math.min(
+  Math.max(4, workBasedWorkers),
+  cpuBasedWorkers,
+  24  // Auto mode cap
+);
+```
+
+### Performance Benchmarks (noro-wedding: 212 components, 952 issues)
+
+| Workers | Time | Speedup |
+|---------|------|---------|
+| Sync | 2600ms | 1.00x |
+| Auto (21) | 700ms | **3.7x** |
+| 32 | 800ms | 3.3x |
+
+### Parity Test
+
+The `verify-parallel-parity.js` test ensures sync and async modes produce **identical results** using SHA-256 hash comparison:
+
+```bash
+node dev/tests/verify-parallel-parity.js
+
+# Output:
+# Sync hash:  74581d8c6af244c104ad85e0e7e5fd12aefe...
+# Async hash: 74581d8c6af244c104ad85e0e7e5fd12aefe...
+# ✓ Output hashes match (strict equality)
+```
+
+### varContext Serialization
+
+SCSS checks (like `colorContrast`) need variable context for resolving `$variables` and CSS custom properties. Since `Map` objects can't cross worker boundaries, we serialize:
+
+```javascript
+// In runner.js (main thread)
+const serializedVarContext = {
+  scssVars: Array.from(varContext.scssVars),
+  cssVars: Array.from(varContext.cssVars),
+  maps: Array.from(varContext.maps).map(([k, v]) => [k, Array.from(v)])
+};
+
+// In worker.js (worker thread)
+function deserializeVarContext(serialized) {
+  return {
+    scssVars: new Map(serialized.scssVars),
+    cssVars: new Map(serialized.cssVars),
+    maps: new Map(serialized.maps.map(([k, v]) => [k, new Map(v)]))
+  };
+}
+```
+
 ## Project Structure
 
 ```
@@ -34,6 +118,7 @@ mat-a11y/
 │   ├── tests/
 │   │   ├── run-all.js        # Test runner (npm test)
 │   │   ├── verify-checks.js  # Tests 82 checks against verify files
+│   │   ├── verify-parallel-parity.js  # Ensures sync/async produce identical results
 │   │   ├── verify-page-resolver.js  # Tests component resolution (51 tests)
 │   │   ├── test-error-robustness.js # Edge case handling (82 tests)
 │   │   └── verify-files/     # Test files for each check (82 files)

@@ -2,6 +2,17 @@ const { parseColor, getLuminance, getContrastRatio, getContrastRating } = requir
 const { format } = require('../core/errors');
 const { resolveValue, containsVariable, isLiteralColor } = require('../core/variableResolver');
 
+// Pre-compiled regex patterns
+const EARLY_EXIT_COLOR = /\bcolor\s*:/i;
+const EARLY_EXIT_BG = /background/i;
+const RULE_BLOCK = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
+const COLOR_DECL = /(?:^|[^-])color\s*:\s*([^;}\n]+)/i;
+const BG_DECL = /background(?:-color)?\s*:\s*([^;}\n]+)/i;
+const GRADIENT_OR_URL = /gradient|url\(/i;
+const FUNC_CALL = /^[a-z-]+\s*\(/i;
+const LIGHT_GRAY = /(?:^|[^-])color\s*:\s*#([cde])\1\1(?![0-9a-f])/gi;
+const TRANSPARENT_TEXT = /(?:^|[^-])color\s*:\s*rgba\s*\([^)]*,\s*0\.[0-3]\d*\s*\)/gi;
+
 module.exports = {
   name: 'colorContrast',
   description: 'Detects obvious low-contrast color patterns that fail WCAG requirements',
@@ -16,6 +27,11 @@ module.exports = {
    * @returns {object} - { pass, issues, elementsFound }
    */
   check(content, context = null) {
+    // Early exit: no color declarations, no issues
+    if (!EARLY_EXIT_COLOR.test(content) || !EARLY_EXIT_BG.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
     let variablesResolved = 0;
@@ -28,25 +44,25 @@ module.exports = {
       maps: new Map()
     };
 
-    // Pattern to find rule blocks with both color and background
-    const ruleBlockPattern = /([\w\s.#\[\]='"~^$*|&>:+-]+)\s*\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g;
+    // Reset regex state
+    RULE_BLOCK.lastIndex = 0;
 
     let match;
-    while ((match = ruleBlockPattern.exec(content)) !== null) {
+    while ((match = RULE_BLOCK.exec(content)) !== null) {
       elementsFound++;
       const selector = match[1].trim();
       const declarations = match[2];
 
       // Extract text color and background color from the same rule
-      const colorMatch = declarations.match(/(?:^|[^-])color\s*:\s*([^;}\n]+)/i);
-      const bgMatch = declarations.match(/background(?:-color)?\s*:\s*([^;}\n]+)/i);
+      const colorMatch = declarations.match(COLOR_DECL);
+      const bgMatch = declarations.match(BG_DECL);
 
       if (colorMatch && bgMatch) {
         let textColor = colorMatch[1].trim();
         let bgColor = bgMatch[1].trim();
 
         // Skip gradients and images (cannot analyze)
-        if (/gradient|url\(/i.test(bgColor)) {
+        if (GRADIENT_OR_URL.test(bgColor)) {
           continue;
         }
 
@@ -58,7 +74,7 @@ module.exports = {
             variablesResolved++;
           } else {
             variablesSkipped++;
-            continue; // Cannot resolve, skip this rule
+            continue;
           }
         }
 
@@ -69,12 +85,12 @@ module.exports = {
             variablesResolved++;
           } else {
             variablesSkipped++;
-            continue; // Cannot resolve, skip this rule
+            continue;
           }
         }
 
-        // Try to resolve color functions (lighten, darken, etc.)
-        if (!isLiteralColor(textColor) && /^[a-z-]+\s*\(/i.test(textColor)) {
+        // Try to resolve color functions
+        if (!isLiteralColor(textColor) && FUNC_CALL.test(textColor)) {
           const resolved = resolveValue(textColor, varContext);
           if (resolved && isLiteralColor(resolved)) {
             textColor = resolved;
@@ -85,7 +101,7 @@ module.exports = {
           }
         }
 
-        if (!isLiteralColor(bgColor) && /^[a-z-]+\s*\(/i.test(bgColor)) {
+        if (!isLiteralColor(bgColor) && FUNC_CALL.test(bgColor)) {
           const resolved = resolveValue(bgColor, varContext);
           if (resolved && isLiteralColor(resolved)) {
             bgColor = resolved;
@@ -112,7 +128,6 @@ module.exports = {
                 element: `"${cleanSelector}": ${textColor} on ${bgColor}`
               }));
             } else {
-              // Between 3.0 and 4.5 - only passes for large text
               issues.push(format('COLOR_CONTRAST_LARGE_TEXT', {
                 ratio: ratio.toFixed(2),
                 element: `"${cleanSelector}": ${textColor} on ${bgColor}`
@@ -124,39 +139,28 @@ module.exports = {
     }
 
     // Detect obviously problematic patterns even without pairing
-    const problematicPatterns = [
-      {
-        // Very light gray text (#ccc, #ddd, #eee) - almost invisible on white
-        pattern: /(?:^|[^-])color\s*:\s*#([cde])\1\1(?![0-9a-f])/gi,
-        code: 'COLOR_CONTRAST_LOW',
-        getData: (match) => {
-          const color = match.match(/#[cde]{3}/i)[0];
-          return { ratio: '1.6', required: '4.5', element: `Very light text color "${color}"` };
-        }
-      },
-      {
-        // Highly transparent text (opacity below 0.4) - definitely unreadable
-        pattern: /(?:^|[^-])color\s*:\s*rgba\s*\([^)]*,\s*0\.[0-3]\d*\s*\)/gi,
-        code: 'COLOR_TRANSPARENT_TEXT',
-        getData: (match) => {
-          const colorValue = match.match(/rgba\s*\([^)]+\)/i)[0];
-          return { element: `"${colorValue}"` };
-        }
-      }
-    ];
-
     const seenMessages = new Set();
-    for (const { pattern, code, getData } of problematicPatterns) {
-      let patternMatch;
-      pattern.lastIndex = 0; // Reset regex
-      while ((patternMatch = pattern.exec(content)) !== null) {
-        const data = getData(patternMatch[0]);
-        const message = format(code, data);
-        // Avoid duplicate messages
-        if (!seenMessages.has(message)) {
-          seenMessages.add(message);
-          issues.push(message);
-        }
+
+    // Very light gray text (#ccc, #ddd, #eee) - almost invisible on white
+    LIGHT_GRAY.lastIndex = 0;
+    let patternMatch;
+    while ((patternMatch = LIGHT_GRAY.exec(content)) !== null) {
+      const color = patternMatch[0].match(/#[cde]{3}/i)[0];
+      const message = format('COLOR_CONTRAST_LOW', { ratio: '1.6', required: '4.5', element: `Very light text color "${color}"` });
+      if (!seenMessages.has(message)) {
+        seenMessages.add(message);
+        issues.push(message);
+      }
+    }
+
+    // Highly transparent text (opacity below 0.4) - definitely unreadable
+    TRANSPARENT_TEXT.lastIndex = 0;
+    while ((patternMatch = TRANSPARENT_TEXT.exec(content)) !== null) {
+      const colorValue = patternMatch[0].match(/rgba\s*\([^)]+\)/i)[0];
+      const message = format('COLOR_TRANSPARENT_TEXT', { element: `"${colorValue}"` });
+      if (!seenMessages.has(message)) {
+        seenMessages.add(message);
+        issues.push(message);
       }
     }
 

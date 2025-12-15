@@ -50,6 +50,7 @@ const tests = [
   { name: 'Color Contrast Variables', count: '20 tests', cmd: 'node dev/tests/test-color-contrast-variables.js' },
   { name: 'CLI Smoke', count: '2 runs', cmd: 'node dev/tests/test-cli-smoke.js' },
   { name: 'CLI Matrix (basic)', count: 'varies', cmd: 'node dev/tests/test-cli-matrix.js --tier basic' },
+  { name: 'Parallel Parity', count: '3 asserts', cmd: 'node dev/tests/verify-parallel-parity.js' },
   { name: 'Error Handling', count: '82 edge cases', cmd: 'node dev/tests/test-error-robustness.js' },
 ];
 

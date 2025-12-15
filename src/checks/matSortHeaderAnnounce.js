@@ -8,6 +8,11 @@ module.exports = {
   weight: 3,
 
   check(content) {
+    // Early exit: no mat-sort-header elements, no issues
+    if (!/mat-sort-header/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
 

@@ -5,6 +5,52 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2025-12-15
+
+### Added
+- **Parallel check execution via worker threads** — New `workers` option enables multi-threaded analysis for significant performance gains on larger projects. Use `'auto'` for smart scaling (up to 2x speedup), or specify exact worker count for full control.
+- **Smart auto-scaling** — Auto mode calculates optimal worker count based on CPU cores and file count: `min(cpuCount - 2, fileCount / 10, 24)`. Conservative enough for CI/shared hosts, powerful enough for workstations.
+- **Early exit optimization for all 82 checks** — Each check now tests for element presence before running expensive regex operations. If no `<button>` exists, `buttonNames` returns immediately.
+- **SHA-256 parity test** — New `verify-parallel-parity.js` ensures sync and async modes produce byte-identical results. Uses internal fixtures by default, or accepts a project path argument for testing against real codebases.
+- **SCSS variable context in workers** — `colorContrast` and other SCSS checks now receive full variable context (`$vars`, `--custom-props`, SCSS maps) in parallel mode via serialization/deserialization.
+
+### Changed
+- **`analyzeByComponentAsync()` function** — New async entry point for parallel analysis. Original `analyzeByComponent()` remains synchronous for backwards compatibility.
+- **Worker pool lifecycle** — Workers are lazily initialized only when needed, and terminate after task completion (no persistent background processes).
+- **Check execution order** — Cheap presence tests run before expensive regex parsing.
+- **Pre-compiled regex patterns** — Top 9 most expensive checks now use module-level compiled patterns instead of creating regex per-call. Eliminates repeated regex compilation overhead.
+- **Binary search for line numbers** — Checks that report line numbers now use O(log n) binary search on a lazily-built line index instead of O(n) substring splits.
+- **Consolidated regex patterns** — Multiple similar patterns combined into single alternation patterns (e.g., three aria-label variants → one pattern with `|` alternation).
+- **Label cache for form checks** — `formLabels` now builds a Set of all `<label for="id">` elements once, enabling O(1) lookups instead of O(n) regex search per input.
+
+### Performance
+Benchmarks on noro-wedding (217 components, 1036 issues):
+
+| Mode | Time | vs v5.6 |
+|------|------|---------|
+| v5.6 sync | ~2600ms | baseline |
+| v6.0 sync (optimized checks) | 1671ms | **1.6x faster** |
+| v6.0 parallel (auto) | 798ms | **3.3x faster** |
+
+**Individual check improvements (top 9):**
+
+| Check | Before | After | Improvement |
+|-------|--------|-------|-------------|
+| buttonNames | 91µs | 75µs | 18% faster |
+| colorContrast | 86µs | 79µs | 8% faster |
+| formLabels | 83µs | 70µs | 16% faster |
+| linkNames | 59µs | 53µs | 10% faster |
+| matIconAccessibility | 56µs | 49µs | 13% faster |
+| matCheckboxLabel | 54µs | 49µs | 9% faster |
+| imageAlt | 37µs | 33µs | 11% faster |
+| smallFontSize | 34µs | 32µs | 6% faster |
+| lineHeightTight | 34µs | 23µs | 32% faster |
+
+### Migration
+- **No breaking API changes** — Default behavior unchanged (`workers: 'sync'`).
+- **Opt-in parallelism** — Use `workers: 'auto'` or `workers: N` to enable.
+- **CLI unchanged** — Parallel execution coming in future CLI update.
+
 ## [5.6.0] - 2025-12-15
 
 ### Added

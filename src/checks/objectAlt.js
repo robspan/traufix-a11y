@@ -9,6 +9,11 @@ module.exports = {
   wcag: '1.1.1',
 
   check(content) {
+    // Early exit: no relevant elements, no issues
+    if (!/<object/i.test(content)) {
+      return { pass: true, issues: [], elementsFound: 0 };
+    }
+
     const issues = [];
     let elementsFound = 0;
     const objectRegex = /<object[^>]*>[\s\S]*?<\/object>/gi;
