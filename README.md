@@ -17,6 +17,8 @@ npx mat-a11y --html   # → _mat-a11y.html
 npx mat-a11y --json   # → _mat-a11y.json
 ```
 
+**[See all example outputs →](https://github.com/nicobrinkkemper/mat-a11y/tree/main/example-outputs)**
+
 <details>
 <summary><strong>📊 14 more formats</strong></summary>
 
@@ -386,28 +388,28 @@ mat-a11y -w 8         # Exactly 8 workers
 
 ### Output Formats
 
-17 formats. All work as `--shortcut` flags. **[See example outputs →](./example-outputs/)**
+17 formats. All work as `--shortcut` flags. **[See example outputs →](https://github.com/nicobrinkkemper/mat-a11y/tree/main/example-outputs)**
 
 | Category | Shortcuts | Output File | Example |
 |----------|-----------|-------------|---------|
-| **AI** | (default) | `_mat-a11y.backlog.txt` | [View](./example-outputs/_report-ai.backlog.txt) |
-| **Reports** | `--json` | `_mat-a11y.json` | [View](./example-outputs/_report-json.json) |
-| | `--html` | `_mat-a11y.html` | [View](./example-outputs/_report-html.html) |
-| | `--raw` | `_mat-a11y.raw.json` | [View](./example-outputs/_report-raw.json) |
-| **CI/CD** | `--sarif` | `_mat-a11y.sarif.json` | [View](./example-outputs/_report-sarif.sarif.json) |
-| | `--junit` | `_mat-a11y.junit.xml` | [View](./example-outputs/_report-junit.xml) |
-| | `--github` | `_mat-a11y.github.txt` | [View](./example-outputs/_report-github-annotations.txt) |
-| | `--gitlab` | `_mat-a11y.gitlab.json` | [View](./example-outputs/_report-gitlab-codequality.json) |
-| **Quality** | `--sonar` | `_mat-a11y.sonar.json` | [View](./example-outputs/_report-sonarqube.json) |
-| | `--checkstyle` | `_mat-a11y.checkstyle.xml` | [View](./example-outputs/_report-checkstyle.xml) |
-| **Monitoring** | `--prometheus` | `_mat-a11y.prom` | [View](./example-outputs/_report-prometheus.prom) |
-| | `--grafana` | `_mat-a11y.grafana.json` | [View](./example-outputs/_report-grafana-json.json) |
-| | `--datadog` | `_mat-a11y.datadog.json` | [View](./example-outputs/_report-datadog.json) |
-| **Notifications** | `--slack` | `_mat-a11y.slack.json` | [View](./example-outputs/_report-slack.json) |
-| | `--discord` | `_mat-a11y.discord.json` | [View](./example-outputs/_report-discord.json) |
-| | `--teams` | `_mat-a11y.teams.json` | [View](./example-outputs/_report-teams.json) |
-| **Data** | `--markdown` | `_mat-a11y.md` | [View](./example-outputs/_report-markdown.md) |
-| | `--csv` | `_mat-a11y.csv` | [View](./example-outputs/_report-csv.csv) |
+| **AI** | (default) | `_mat-a11y.backlog.txt` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-ai.backlog.txt) |
+| **Reports** | `--json` | `_mat-a11y.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-json.json) |
+| | `--html` | `_mat-a11y.html` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-html.html) |
+| | `--raw` | `_mat-a11y.raw.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-raw.json) |
+| **CI/CD** | `--sarif` | `_mat-a11y.sarif.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-sarif.sarif.json) |
+| | `--junit` | `_mat-a11y.junit.xml` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-junit.xml) |
+| | `--github` | `_mat-a11y.github.txt` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-github-annotations.txt) |
+| | `--gitlab` | `_mat-a11y.gitlab.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-gitlab-codequality.json) |
+| **Quality** | `--sonar` | `_mat-a11y.sonar.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-sonarqube.json) |
+| | `--checkstyle` | `_mat-a11y.checkstyle.xml` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-checkstyle.xml) |
+| **Monitoring** | `--prometheus` | `_mat-a11y.prom` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-prometheus.prom) |
+| | `--grafana` | `_mat-a11y.grafana.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-grafana-json.json) |
+| | `--datadog` | `_mat-a11y.datadog.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-datadog.json) |
+| **Notifications** | `--slack` | `_mat-a11y.slack.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-slack.json) |
+| | `--discord` | `_mat-a11y.discord.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-discord.json) |
+| | `--teams` | `_mat-a11y.teams.json` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-teams.json) |
+| **Data** | `--markdown` | `_mat-a11y.md` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-markdown.md) |
+| | `--csv` | `_mat-a11y.csv` | [View](https://github.com/nicobrinkkemper/mat-a11y/blob/main/example-outputs/_report-csv.csv) |
 
 Custom output: `mat-a11y -f sarif -o custom-name.sarif`
 
