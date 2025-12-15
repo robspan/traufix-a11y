@@ -14,6 +14,7 @@
  */
 
 const { collectPages, getTotalCount, getDistribution, getPathLabel } = require('./page-utils');
+const { getWeight } = require('../core/weights');
 
 function asArray(value) {
   return Array.isArray(value) ? value : [];
@@ -85,11 +86,17 @@ function normalizeEntities(results) {
         ? comp.auditScore
         : (fromAggregates ? fromAggregates.auditScore : scoreFromIssues(issues));
 
+      // Preserve affected routes/pages when available (component usage)
+      const affected = comp.affectedUrls
+        ? Array.from(comp.affectedUrls)
+        : (Array.isArray(comp.affected) ? comp.affected : undefined);
+
       return {
         label: comp.name || comp.className || 'Unknown',
         kind: 'component',
         auditScore,
         issues,
+        affected,
         auditsPassed: fromAggregates ? fromAggregates.auditsPassed : undefined,
         auditsTotal: fromAggregates ? fromAggregates.auditsTotal : undefined
       };
@@ -202,8 +209,114 @@ function getWorstEntities(entities, limit = 5) {
     .slice(0, limit);
 }
 
+/**
+ * Calculate efficiency score for an entity (component/route)
+ * Efficiency = total weight of failing checks / number of issues
+ * Higher efficiency = more audit points per fix
+ *
+ * @param {object} entity - Entity with issues array
+ * @returns {number} Efficiency score (points per fix)
+ */
+function calculateEfficiency(entity) {
+  const issues = entity.issues || [];
+  if (issues.length === 0) return 0;
+
+  const failingChecks = new Set();
+  for (const issue of issues) {
+    if (issue.check) failingChecks.add(issue.check);
+  }
+
+  let totalWeight = 0;
+  for (const check of failingChecks) {
+    totalWeight += getWeight(check);
+  }
+
+  return totalWeight / issues.length;
+}
+
+/**
+ * Calculate priority score for an entity, factoring usage
+ * priority = (total failing check weight / issues) * usage
+ * usage = number of affected routes/pages (default 1 if unknown)
+ *
+ * @param {object} entity - Entity with issues array and optional affected list
+ * @returns {number} Priority score
+ */
+function calculatePriority(entity) {
+  const efficiency = calculateEfficiency(entity);
+  const usage = (() => {
+    if (Array.isArray(entity.affected)) return Math.max(1, entity.affected.length);
+    if (entity.affectedUrls && typeof entity.affectedUrls.size === 'number') return Math.max(1, entity.affectedUrls.size);
+    return 1;
+  })();
+  return efficiency * usage;
+}
+
+/**
+ * Get entities sorted by priority (highest bang for buck first)
+ *
+ * @param {Array} entities - Array of entities
+ * @param {number} limit - Max entities to return
+ * @returns {Array} Entities sorted by priority
+ */
+function getPriorityEntities(entities, limit = Infinity) {
+  return asArray(entities)
+    .filter(e => (e.issues?.length || 0) > 0)
+    .map(e => ({ ...e, priority: calculatePriority(e) }))
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, limit);
+}
+
+/**
+ * Get weight for a check name (re-export for formatters)
+ * @param {string} checkName
+ * @returns {number}
+ */
+function getCheckWeight(checkName) {
+  return getWeight(checkName);
+}
+
+/**
+ * Calculate efficiency score for an entity (component/route)
+ * Efficiency = total weight of failing checks / number of issues
+ * Higher efficiency = more audit points per fix action
+ * 
+ * @param {object} entity - Entity with issues array
+ * @returns {number} Efficiency score (points per fix)
+ */
+function calculateEfficiency(entity) {
+  const issues = entity.issues || [];
+  if (issues.length === 0) return 0;
+  
+  // Get unique failing checks and sum their weights
+  const failingChecks = new Set();
+  for (const issue of issues) {
+    if (issue.check) failingChecks.add(issue.check);
+  }
+  
+  let totalWeight = 0;
+  for (const check of failingChecks) {
+    totalWeight += getWeight(check);
+  }
+  
+  return totalWeight / issues.length;
+}
+
+/**
+ * Get weight for a check name (re-export for formatters)
+ * @param {string} checkName 
+ * @returns {number}
+ */
+function getCheckWeight(checkName) {
+  return getWeight(checkName);
+}
+
 module.exports = {
   normalizeResults,
   normalizeEntities,
-  getWorstEntities
+  getWorstEntities,
+  getPriorityEntities,
+  getCheckWeight,
+  calculateEfficiency,
+  calculatePriority
 };

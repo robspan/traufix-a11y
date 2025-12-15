@@ -386,17 +386,17 @@ mat-a11y -w 8         # Exactly 8 workers
 
 ### Output Formats
 
-17 formats. All work as `--shortcut` flags:
+17 formats. All work as `--shortcut` flags. **[See example outputs →](https://github.com/robspan/traufix-a11y/tree/main/example-outputs)**
 
-| Category | Shortcuts |
-|----------|----------|
-| **Reports** | `--json`, `--html` |
-| **AI** | (default) |
-| **CI/CD** | `--sarif`, `--junit`, `--github`, `--gitlab` |
-| **Quality** | `--sonar`, `--checkstyle` |
-| **Monitoring** | `--prometheus`, `--grafana`, `--datadog` |
-| **Notifications** | `--slack`, `--discord`, `--teams` |
-| **Data** | `--markdown`, `--csv` |
+| Category | Shortcuts | Examples |
+|----------|----------|----------|
+| **Reports** | `--json`, `--html` | [JSON](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-json.json), [HTML](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-html.html) |
+| **AI** | (default) | [AI Backlog](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-ai.todo.txt) |
+| **CI/CD** | `--sarif`, `--junit`, `--github`, `--gitlab` | [SARIF](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-sarif.sarif.json), [JUnit](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-junit.xml), [GitHub](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-github-annotations.txt), [GitLab](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-gitlab-codequality.json) |
+| **Quality** | `--sonar`, `--checkstyle` | [SonarQube](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-sonarqube.json), [Checkstyle](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-checkstyle.xml) |
+| **Monitoring** | `--prometheus`, `--grafana`, `--datadog` | [Prometheus](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-prometheus.prom), [Grafana](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-grafana-json.json), [Datadog](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-datadog.json) |
+| **Notifications** | `--slack`, `--discord`, `--teams` | [Slack](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-slack.json), [Discord](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-discord.json), [Teams](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-teams.json) |
+| **Data** | `--markdown`, `--csv` | [Markdown](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-markdown.md), [CSV](https://github.com/robspan/traufix-a11y/blob/main/example-outputs/report-csv.csv) |
 
 Custom output: `mat-a11y -f sarif -o custom-name.sarif`
 
