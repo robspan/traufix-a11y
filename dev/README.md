@@ -6,7 +6,7 @@ This folder contains development tools for maintaining and extending mat-a11y. T
 
 ```bash
 # Clone the repo
-git clone https://github.com/nicobrinkkemper/mat-a11y
+git clone https://github.com/robspan/mat-a11y
 cd mat-a11y
 
 # Run all development tests (quick summary)
