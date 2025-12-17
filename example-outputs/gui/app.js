@@ -375,11 +375,20 @@
     if (['json', 'sarif', 'gitlab-codequality', 'grafana-json', 'datadog', 'slack', 'discord', 'teams', 'sonarqube'].includes(format)) {
       return 'json';
     }
-    if (['junit', 'checkstyle', 'html', 'pdf'].includes(format)) {
+    if (['junit', 'checkstyle'].includes(format)) {
       return 'xml';
     }
     if (format === 'prometheus') {
       return 'prometheus';
+    }
+    if (format === 'ai' || format === 'github-annotations') {
+      return 'ai';
+    }
+    if (format === 'csv') {
+      return 'csv';
+    }
+    if (format === 'markdown') {
+      return 'markdown';
     }
     return 'text';
   }
@@ -411,6 +420,64 @@
         return '<span class="' + cls + '">' + escapeHtml(match) + '</span>';
       }
     );
+  }
+
+  function highlightXML(xml) {
+    return escapeHtml(xml)
+      .replace(/(&lt;\/?)(\w+)/g, '$1<span class="tag">$2</span>')
+      .replace(/(\w+)(=)(&quot;[^&]*&quot;)/g, '<span class="attr">$1</span>$2<span class="string">$3</span>')
+      .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="comment">$1</span>');
+  }
+
+  function highlightAI(text) {
+    return escapeHtml(text)
+      .replace(/^(#.*)$/gm, '<span class="comment">$1</span>')
+      .replace(/^(════+)$/gm, '<span class="separator">$1</span>')
+      .replace(/^(COMPONENT:)(.+)(\[\d+pts\])$/gm, '<span class="keyword">$1</span><span class="component">$2</span><span class="number">$3</span>')
+      .replace(/^(FILES?:)(.*)$/gm, '<span class="keyword">$1</span><span class="path">$2</span>')
+      .replace(/^(\[w\d+\])\s*(\w+):/gm, '<span class="weight">$1</span> <span class="check">$2</span>:')
+      .replace(/^(→.*)$/gm, '<span class="fix">$1</span>');
+  }
+
+  function highlightPrometheus(text) {
+    return escapeHtml(text)
+      .replace(/^(#.*)$/gm, '<span class="comment">$1</span>')
+      .replace(/^(\w+)(\{[^}]*\})?\s+(\d+\.?\d*)$/gm, '<span class="metric">$1</span>$2 <span class="number">$3</span>')
+      .replace(/(\w+)=("[^"]*")/g, '<span class="label">$1</span>=<span class="string">$2</span>');
+  }
+
+  function highlightCSV(text) {
+    const lines = escapeHtml(text).split('\n');
+    if (lines.length === 0) return text;
+    const header = '<span class="header">' + lines[0] + '</span>';
+    const body = lines.slice(1).map(line => {
+      return line.split(',').map((cell, i) => {
+        if (/^\d+$/.test(cell.trim())) return '<span class="number">' + cell + '</span>';
+        return cell;
+      }).join(',');
+    }).join('\n');
+    return header + '\n' + body;
+  }
+
+  function highlightMarkdown(text) {
+    return escapeHtml(text)
+      .replace(/^(#{1,6}\s.*)$/gm, '<span class="heading">$1</span>')
+      .replace(/^(\|.*)$/gm, '<span class="table">$1</span>')
+      .replace(/(\*\*[^*]+\*\*)/g, '<span class="bold">$1</span>')
+      .replace(/(\`[^\`]+\`)/g, '<span class="code">$1</span>')
+      .replace(/^([-*]\s.*)$/gm, '<span class="list">$1</span>');
+  }
+
+  function highlightContent(content, formatType) {
+    switch (formatType) {
+      case 'json': return highlightJSON(content);
+      case 'xml': return highlightXML(content);
+      case 'ai': return highlightAI(content);
+      case 'prometheus': return highlightPrometheus(content);
+      case 'csv': return highlightCSV(content);
+      case 'markdown': return highlightMarkdown(content);
+      default: return escapeHtml(content);
+    }
   }
 
   function initExport() {
@@ -499,18 +566,16 @@
 
     // Format and display with syntax highlighting
     if (elements.previewCode) {
-      if (formatType === 'json') {
+      // Pretty-print JSON if not truncated
+      if (formatType === 'json' && !isTruncated) {
         try {
-          if (!isTruncated) {
-            const parsed = JSON.parse(content);
-            displayContent = JSON.stringify(parsed, null, 2);
-          }
+          const parsed = JSON.parse(content);
+          displayContent = JSON.stringify(parsed, null, 2);
         } catch { /* keep as-is */ }
-        const truncateNotice = isTruncated ? '<span class="truncate-notice">\n\n... (truncated)</span>' : '';
-        elements.previewCode.innerHTML = highlightJSON(displayContent) + truncateNotice;
-      } else {
-        elements.previewCode.textContent = displayContent + (isTruncated ? '\n\n... (truncated)' : '');
       }
+
+      const truncateNotice = isTruncated ? '<span class="truncate-notice">\n\n... (truncated)</span>' : '';
+      elements.previewCode.innerHTML = highlightContent(displayContent, formatType) + truncateNotice;
     }
 
     // Update info

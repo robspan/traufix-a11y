@@ -2009,6 +2009,177 @@ body.dark-mode .preview-panel[data-format-type="json"] .preview-content .key {
   color: #b392f0;
 }
 
+/* XML syntax highlighting */
+.preview-panel[data-format-type="xml"] .preview-content .tag {
+  color: #22863a;
+}
+.preview-panel[data-format-type="xml"] .preview-content .attr {
+  color: #6f42c1;
+}
+.preview-panel[data-format-type="xml"] .preview-content .string {
+  color: #032f62;
+}
+.preview-panel[data-format-type="xml"] .preview-content .comment {
+  color: #6a737d;
+  font-style: italic;
+}
+body.dark-mode .preview-panel[data-format-type="xml"] .preview-content .tag {
+  color: #85e89d;
+}
+body.dark-mode .preview-panel[data-format-type="xml"] .preview-content .attr {
+  color: #b392f0;
+}
+body.dark-mode .preview-panel[data-format-type="xml"] .preview-content .string {
+  color: #9ecbff;
+}
+body.dark-mode .preview-panel[data-format-type="xml"] .preview-content .comment {
+  color: #959da5;
+}
+
+/* AI backlog syntax highlighting */
+.preview-panel[data-format-type="ai"] .preview-content .comment {
+  color: #6a737d;
+  font-style: italic;
+}
+.preview-panel[data-format-type="ai"] .preview-content .separator {
+  color: #6f42c1;
+}
+.preview-panel[data-format-type="ai"] .preview-content .keyword {
+  color: #d73a49;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="ai"] .preview-content .component {
+  color: #005cc5;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="ai"] .preview-content .number {
+  color: #e36209;
+}
+.preview-panel[data-format-type="ai"] .preview-content .path {
+  color: #22863a;
+}
+.preview-panel[data-format-type="ai"] .preview-content .weight {
+  color: #d73a49;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="ai"] .preview-content .check {
+  color: #6f42c1;
+}
+.preview-panel[data-format-type="ai"] .preview-content .fix {
+  color: #22863a;
+  font-style: italic;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .comment {
+  color: #959da5;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .separator {
+  color: #b392f0;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .keyword {
+  color: #f97583;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .component {
+  color: #79b8ff;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .number {
+  color: #ffab70;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .path {
+  color: #85e89d;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .weight {
+  color: #f97583;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .check {
+  color: #b392f0;
+}
+body.dark-mode .preview-panel[data-format-type="ai"] .preview-content .fix {
+  color: #85e89d;
+}
+
+/* Prometheus syntax highlighting */
+.preview-panel[data-format-type="prometheus"] .preview-content .comment {
+  color: #6a737d;
+  font-style: italic;
+}
+.preview-panel[data-format-type="prometheus"] .preview-content .metric {
+  color: #005cc5;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="prometheus"] .preview-content .label {
+  color: #6f42c1;
+}
+.preview-panel[data-format-type="prometheus"] .preview-content .string {
+  color: #22863a;
+}
+.preview-panel[data-format-type="prometheus"] .preview-content .number {
+  color: #e36209;
+}
+body.dark-mode .preview-panel[data-format-type="prometheus"] .preview-content .comment {
+  color: #959da5;
+}
+body.dark-mode .preview-panel[data-format-type="prometheus"] .preview-content .metric {
+  color: #79b8ff;
+}
+body.dark-mode .preview-panel[data-format-type="prometheus"] .preview-content .label {
+  color: #b392f0;
+}
+body.dark-mode .preview-panel[data-format-type="prometheus"] .preview-content .string {
+  color: #85e89d;
+}
+body.dark-mode .preview-panel[data-format-type="prometheus"] .preview-content .number {
+  color: #ffab70;
+}
+
+/* CSV syntax highlighting */
+.preview-panel[data-format-type="csv"] .preview-content .header {
+  color: #005cc5;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="csv"] .preview-content .number {
+  color: #e36209;
+}
+body.dark-mode .preview-panel[data-format-type="csv"] .preview-content .header {
+  color: #79b8ff;
+}
+body.dark-mode .preview-panel[data-format-type="csv"] .preview-content .number {
+  color: #ffab70;
+}
+
+/* Markdown syntax highlighting */
+.preview-panel[data-format-type="markdown"] .preview-content .heading {
+  color: #005cc5;
+  font-weight: 600;
+}
+.preview-panel[data-format-type="markdown"] .preview-content .bold {
+  font-weight: 700;
+}
+.preview-panel[data-format-type="markdown"] .preview-content .code {
+  color: #e36209;
+  background: var(--color-bg-tertiary);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+.preview-panel[data-format-type="markdown"] .preview-content .table {
+  color: #6f42c1;
+}
+.preview-panel[data-format-type="markdown"] .preview-content .list {
+  color: #22863a;
+}
+body.dark-mode .preview-panel[data-format-type="markdown"] .preview-content .heading {
+  color: #79b8ff;
+}
+body.dark-mode .preview-panel[data-format-type="markdown"] .preview-content .code {
+  color: #ffab70;
+  background: var(--color-bg-tertiary);
+}
+body.dark-mode .preview-panel[data-format-type="markdown"] .preview-content .table {
+  color: #b392f0;
+}
+body.dark-mode .preview-panel[data-format-type="markdown"] .preview-content .list {
+  color: #85e89d;
+}
+
 /* Truncate notice */
 .truncate-notice {
   color: var(--color-text-muted);
