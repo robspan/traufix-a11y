@@ -12,6 +12,15 @@ const { analyzeByComponent, analyzeByComponentAsync, formatComponentResults } = 
 const { loadAllFormatters, listFormatters } = require('../src/formatters/index.js');
 const { optimizeIssues, getOptimizationSummary } = require('../src/core/issueOptimizer.js');
 
+// GUI server (lazy loaded)
+let guiServer = null;
+function getGuiServer() {
+  if (!guiServer) {
+    guiServer = require('../gui/server.js');
+  }
+  return guiServer;
+}
+
 // ANSI colors
 const c = {
   reset: '\x1b[0m',
@@ -43,7 +52,9 @@ function parseArgs(args) {
     fileBased: false,   // --file-based: use old file-based analysis instead of component-based
     sitemapBased: false, // --sitemap: use sitemap-based analysis (for SEO/Google crawling view)
     deepResolve: false,  // --deep: bundle parent + child components (Lighthouse-like)
-    collapseRootCause: true  // --no-collapse: disable SCSS root cause analysis
+    collapseRootCause: true,  // --no-collapse: disable SCSS root cause analysis
+    headless: false,    // --headless, --ci, -H: run without GUI (CLI only)
+    guiPort: null       // --port <number>: custom GUI port
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -87,6 +98,7 @@ function parseArgs(args) {
     // Data / Reports
     else if (arg === '--json') { options.format = 'json'; if (!options.outputExplicit) options.output = '_mat-a11y.json'; }
     else if (arg === '--html') { options.format = 'html'; if (!options.outputExplicit) options.output = '_mat-a11y.html'; }
+    else if (arg === '--pdf') { options.format = 'pdf'; if (!options.outputExplicit) options.output = '_mat-a11y.pdf.html'; }
     // === END FORMAT SHORTCUTS ===
     else if (arg === '--workers' || arg === '-w') {
       const val = args[++i];
@@ -101,6 +113,9 @@ function parseArgs(args) {
     else if (arg === '--sitemap') options.sitemapBased = true;
     else if (arg === '--deep') options.deepResolve = true;
     else if (arg === '--no-collapse') options.collapseRootCause = false;
+    // GUI/Headless mode options
+    else if (arg === '--headless' || arg === '--ci' || arg === '-H') options.headless = true;
+    else if (arg === '--port' || arg === '-p') options.guiPort = parseInt(args[++i], 10) || null;
     else if (!arg.startsWith('-')) options.files.push(arg);
   }
 
@@ -133,23 +148,29 @@ function showHelp() {
 ${c.bold}mat-a11y${c.reset} - Angular Material Accessibility Linter
 
 ${c.cyan}USAGE:${c.reset}
-  ${c.green}npx mat-a11y${c.reset}           ${c.dim}# → _mat-a11y.backlog.txt (AI format)${c.reset}
-  ${c.green}npx mat-a11y --html${c.reset}    ${c.dim}# → _mat-a11y.html${c.reset}
-  ${c.green}npx mat-a11y --json${c.reset}    ${c.dim}# → _mat-a11y.json${c.reset}
+  ${c.green}npx mat-a11y${c.reset}                ${c.dim}# Opens the accessibility dashboard in your browser${c.reset}
+  ${c.green}npx mat-a11y --headless${c.reset}     ${c.dim}# CLI mode: → _mat-a11y.backlog.txt${c.reset}
+  ${c.green}npx mat-a11y --headless --html${c.reset}  ${c.dim}# CLI mode: → _mat-a11y.html${c.reset}
 
-${c.cyan}ALL 17 FORMATS:${c.reset}
-  ${c.dim}(default)${c.reset}       AI backlog     ${c.green}--html${c.reset}        HTML report    ${c.green}--json${c.reset}        JSON data
-  ${c.green}--sarif${c.reset}         GitHub         ${c.green}--junit${c.reset}       Jenkins/CI     ${c.green}--gitlab${c.reset}      GitLab
-  ${c.green}--sonar${c.reset}         SonarQube      ${c.green}--checkstyle${c.reset}  Checkstyle     ${c.green}--github${c.reset}      GH Annotations
-  ${c.green}--prometheus${c.reset}    Prometheus     ${c.green}--grafana${c.reset}     Grafana        ${c.green}--datadog${c.reset}     Datadog
-  ${c.green}--slack${c.reset}         Slack          ${c.green}--discord${c.reset}     Discord        ${c.green}--teams${c.reset}       MS Teams
-  ${c.green}--markdown${c.reset}      Markdown       ${c.green}--csv${c.reset}         CSV/Excel
+${c.cyan}ALL 18 FORMATS:${c.reset}
+  ${c.dim}(default)${c.reset}       AI backlog     ${c.green}--html${c.reset}        HTML report    ${c.green}--pdf${c.reset}         PDF summary
+  ${c.green}--json${c.reset}          JSON data      ${c.green}--sarif${c.reset}       GitHub         ${c.green}--junit${c.reset}       Jenkins/CI
+  ${c.green}--gitlab${c.reset}        GitLab         ${c.green}--sonar${c.reset}       SonarQube      ${c.green}--checkstyle${c.reset}  Checkstyle
+  ${c.green}--github${c.reset}        GH Annotations ${c.green}--prometheus${c.reset}  Prometheus     ${c.green}--grafana${c.reset}     Grafana
+  ${c.green}--datadog${c.reset}       Datadog        ${c.green}--slack${c.reset}       Slack          ${c.green}--discord${c.reset}     Discord
+  ${c.green}--teams${c.reset}         MS Teams       ${c.green}--markdown${c.reset}    Markdown       ${c.green}--csv${c.reset}         CSV/Excel
 
 ${c.cyan}TIERS:${c.reset}
   ${c.green}-b, --basic${c.reset}      Quick wins across all categories (${basicCount} checks)
   ${c.green}-m, --material${c.reset}   ONLY mat-* component checks (${materialCount} checks)
   ${c.green}-a, --angular${c.reset}    ONLY Angular + CDK checks (${angularCount} checks)
   ${c.green}-F, --full${c.reset}       Everything (${fullCount} checks) ${c.dim}[default]${c.reset}
+
+${c.cyan}MODE:${c.reset}
+  ${c.dim}(default)${c.reset}             GUI mode: Opens dashboard in browser
+  --headless, -H        CLI mode: Output to terminal/file (no GUI)
+  --ci                  Alias for --headless (CI/CD convenience)
+  --port, -p <number>   Custom port for GUI (default: 3847)
 
 ${c.cyan}OPTIONS:${c.reset}
   -h, --help            Show this help
@@ -180,33 +201,29 @@ ${c.cyan}PARALLELIZATION:${c.reset}
   -w, --workers <mode>  sync (default), auto, or number of workers
 
 ${c.cyan}EXAMPLES:${c.reset}
-  ${c.dim}# Default: AI backlog (scans current directory)${c.reset}
+  ${c.dim}# Open the accessibility dashboard (default)${c.reset}
   mat-a11y
 
-  ${c.dim}# Other formats${c.reset}
-  mat-a11y --html
-  mat-a11y --json
-  mat-a11y --sarif
-  mat-a11y --junit
+  ${c.dim}# CLI mode (headless)${c.reset}
+  mat-a11y --headless
+  mat-a11y --headless --html
+  mat-a11y --headless --sarif -o report.sarif
+
+  ${c.dim}# CI/CD pipelines${c.reset}
+  mat-a11y --ci --junit -o results.xml
 
   ${c.dim}# Custom path${c.reset}
-  mat-a11y ./my-app/src
+  mat-a11y --headless ./my-app/src
 
-  ${c.dim}# Custom output filename${c.reset}
-  mat-a11y -o my-report.backlog.txt
-
-  ${c.dim}# Fewer checks (faster)${c.reset}
-  mat-a11y --basic
-  mat-a11y --material
-
-  ${c.dim}# Single check${c.reset}
-  mat-a11y -c matIconAccessibility
+  ${c.dim}# Quick scan with fewer checks${c.reset}
+  mat-a11y --headless --basic
 
 ${c.cyan}DEFAULTS:${c.reset}
+  Mode:    GUI (opens dashboard in browser)
   Path:    . (current directory)
   Tier:    --full (82 checks)
-  Format:  AI backlog
-  Output:  _mat-a11y.backlog.txt
+  Format:  AI backlog (in CLI mode)
+  Output:  _mat-a11y.backlog.txt (in CLI mode)
 
 ${c.cyan}DEFAULT IGNORES:${c.reset}
   ${DEFAULT_CONFIG.ignore.join(', ')}
@@ -272,6 +289,14 @@ async function main() {
   if (opts.help) { showHelp(); process.exit(0); }
   if (opts.version) { showVersion(); process.exit(0); }
   if (opts.listChecks) { listChecks(); process.exit(0); }
+
+  // GUI mode (default) - launch dashboard unless --headless/--ci is specified
+  if (!opts.headless && !opts.selfTest) {
+    const gui = getGuiServer();
+    const port = opts.guiPort || 3847;
+    gui.start({ port, open: true });
+    return; // Keep server running
+  }
 
   // Self-test only mode (dev-only - requires full repo with dev/)
   if (opts.selfTest) {

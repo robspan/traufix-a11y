@@ -21,7 +21,7 @@ const COLORS = {
   BLUE: 0x3498DB     // Info/Neutral
 };
 
-const { normalizeResults, getWorstEntities } = require('./result-utils');
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 function getEntityNouns(results, normalized) {
   const kind = (() => {
@@ -69,55 +69,81 @@ function calculatePassRate(results) {
 }
 
 /**
- * Get the worst performing URLs from results
- * @param {object} results - Analysis results
- * @param {number} limit - Maximum number of URLs to return
- * @returns {Array} Array of worst URL objects
+ * Get the highest priority entities from pre-sorted results
+ * Entities are pre-sorted by totalPoints descending (highest priority first)
+ * @param {object} results - Normalized analysis results
+ * @param {number} limit - Maximum number of entities to return
+ * @returns {Array} Array of highest priority entity objects
  */
-function getWorstUrls(results, limit = 5) {
-  return getWorstEntities(results.entities, limit)
+function getHighPriorityEntities(results, limit = 5) {
+  // Entities are pre-sorted by totalPoints descending in normalizeResults()
+  // Filter to only show entities with issues (score < 90)
+  return (results.entities || [])
     .filter(e => (e.auditScore ?? 0) < 90)
-    .map(e => ({ path: e.label, auditScore: e.auditScore, issues: e.issues }));
+    .slice(0, limit)
+    .map(e => ({
+      path: e.label,
+      auditScore: e.auditScore,
+      issues: e.issues,
+      issuePoints: e.issuePoints
+    }));
 }
 
 /**
- * Format worst URLs as embed field value
- * @param {Array} worstUrls - Array of worst URL objects
+ * Format high priority entities as embed field value
+ * Shows priority points to indicate fix urgency
+ * @param {Array} entities - Array of high priority entity objects
  * @returns {string} Formatted string for embed field
  */
-function formatWorstUrlsValue(worstUrls) {
-  if (worstUrls.length === 0) return 'All items are passing!';
+function formatHighPriorityEntities(entities) {
+  if (entities.length === 0) return 'All items are passing!';
 
-  return worstUrls
-    .map(url => {
-      const emoji = url.auditScore >= 50 ? ':warning:' : ':x:';
-      const issueCount = url.issues ? url.issues.length : 0;
-      return `${emoji} **${url.path}** - ${url.auditScore}% (${issueCount} issues)`;
+  return entities
+    .map(entity => {
+      const emoji = entity.auditScore >= 50 ? ':warning:' : ':x:';
+      const issueCount = entity.issues ? entity.issues.length : 0;
+      const points = entity.issuePoints?.totalPoints || 0;
+      // Show priority points to indicate fix urgency
+      return `${emoji} **${entity.path}** - ${entity.auditScore}% (${issueCount} issues, ${points} pts)`;
     })
     .join('\n');
 }
 
 /**
  * Format top issues as embed field value
- * @param {object} results - Analysis results
- * @param {number} limit - Maximum issues to show
+ * Uses pre-sorted issues by weight (most severe first)
+ * Groups by check and sorts by total weight (count * weight)
+ * @param {object} results - Normalized analysis results
+ * @param {number} limit - Maximum issue types to show
  * @returns {string} Formatted string for embed field
  */
 function formatTopIssues(results, limit = 5) {
-  const issueCounts = {};
+  // Issues are pre-sorted by weight in normalizeResults()
+  // Group by check and calculate total weight per check type
+  const checkStats = {};
 
   for (const issue of (results.issues || [])) {
-    issueCounts[issue.check] = (issueCounts[issue.check] || 0) + 1;
+    const check = issue.check;
+    if (!checkStats[check]) {
+      checkStats[check] = {
+        count: 0,
+        weight: issue.weight || getCheckWeight(check),
+        totalWeight: 0
+      };
+    }
+    checkStats[check].count++;
+    checkStats[check].totalWeight += (issue.weight || getCheckWeight(check));
   }
 
-  const sorted = Object.entries(issueCounts)
-    .sort((a, b) => b[1] - a[1])
+  // Sort by total weight (count * weight) descending - highest priority issues first
+  const sorted = Object.entries(checkStats)
+    .sort((a, b) => b[1].totalWeight - a[1].totalWeight)
     .slice(0, limit);
 
   if (sorted.length === 0) return 'No issues found!';
 
   return sorted
-    .map(([check, count]) => `\`${check}\`: ${count}`)
+    .map(([check, stats]) => `\`${check}\`: ${stats.count} (${stats.totalWeight} pts)`)
     .join('\n');
 }
 
@@ -154,7 +180,8 @@ function format(results, options = {}) {
   const color = getEmbedColor(distribution);
   const statusText = getStatusText(distribution);
   const passRate = calculatePassRate(normalized);
-  const worstUrls = getWorstUrls(normalized, maxWorstUrls);
+  // Use pre-sorted entities by priority (totalPoints descending)
+  const highPriorityEntities = getHighPriorityEntities(normalized, maxWorstUrls);
 
   // Build embed fields
   const fields = [
@@ -195,11 +222,11 @@ function format(results, options = {}) {
     }
   ];
 
-  // Add worst URLs field if there are any
-  if (worstUrls.length > 0) {
+  // Add high priority entities field if there are any (sorted by issue points)
+  if (highPriorityEntities.length > 0) {
     fields.push({
-      name: `Worst Performing ${nouns.plural}`,
-      value: formatWorstUrlsValue(worstUrls),
+      name: `Highest Priority ${nouns.plural}`,
+      value: formatHighPriorityEntities(highPriorityEntities),
       inline: false
     });
   }

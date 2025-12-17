@@ -108,7 +108,8 @@ function extFor(formatName, outputType) {
 
 function runCli({ projectDir, args, cwd }) {
   const startedAt = Date.now();
-  const res = spawnSync(process.execPath, [cliPath, projectDir, ...args], {
+  // Always use --headless for CLI tests (default mode opens GUI)
+  const res = spawnSync(process.execPath, [cliPath, projectDir, '--headless', ...args], {
     cwd,
     encoding: 'utf8',
     maxBuffer: 50 * 1024 * 1024

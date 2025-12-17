@@ -9,7 +9,7 @@
  * @module formatters/markdown
  */
 
-const { normalizeResults, getWorstEntities } = require('./result-utils');
+const { normalizeResults, getWorstEntities, getCheckWeight } = require('./result-utils');
 
 function getEntityNouns(results, normalized) {
   const kind = (() => {
@@ -148,33 +148,39 @@ function format(results, options = {}) {
     lines.push('');
   }
 
-  // Worst URLs section
+  // Priority Fixes section (entities are pre-sorted by totalPoints descending)
   if (includeWorstUrls) {
-    const worstUrls = results.worstUrls || getWorstEntities(urls, worstUrlsLimit)
-      .filter(u => (u.auditScore ?? 0) < 90)
-      .slice(0, worstUrlsLimit)
-      .map(u => ({ path: u.label, auditScore: u.auditScore, issues: u.issues }));
+    // Use pre-sorted entities with issuePoints from normalizeResults
+    const priorityEntities = urls
+      .filter(u => (u.auditScore ?? 0) < 90 && u.issuePoints?.totalPoints > 0)
+      .slice(0, worstUrlsLimit);
 
-    if (worstUrls.length > 0) {
+    if (priorityEntities.length > 0) {
+      // Calculate total priority points for header
+      const totalPoints = priorityEntities.reduce((sum, u) => sum + (u.issuePoints?.totalPoints || 0), 0);
+
       lines.push('## Priority Fixes');
       lines.push('');
-      lines.push(`${nouns.plural} that need the most attention:`);
+      lines.push(`${nouns.plural} sorted by priority (${totalPoints} total priority points):`);
       lines.push('');
 
-      for (const url of worstUrls.slice(0, worstUrlsLimit)) {
-        const score = url.score ?? url.auditScore ?? 0;
-        if (score >= 90) continue;
+      for (const url of priorityEntities) {
+        const score = url.auditScore ?? 0;
+        const points = url.issuePoints || { basePoints: 0, usageCount: 1, totalPoints: 0 };
+        const pointsDisplay = points.usageCount > 1
+          ? `${points.totalPoints}pts (${points.basePoints} x ${points.usageCount} uses)`
+          : `${points.basePoints}pts`;
 
-        lines.push(`### ${escapeMarkdown(url.path)} (${score}%)`);
+        lines.push(`### ${escapeMarkdown(url.label)} (${score}%) - ${pointsDisplay}`);
         lines.push('');
 
-        // Get top issues for this URL
-        const topIssues = url.topIssues || getTopIssues(url);
+        // Get top issues for this URL (sorted by weight)
+        const topIssues = getTopIssuesWithWeight(url);
         if (topIssues.length > 0) {
-          lines.push('| Check | Count |');
-          lines.push('|-------|-------|');
+          lines.push('| Check | Weight | Count |');
+          lines.push('|-------|--------|-------|');
           for (const issue of topIssues.slice(0, 5)) {
-            lines.push(`| \`${escapeMarkdown(issue.check)}\` | ${issue.count} |`);
+            lines.push(`| \`${escapeMarkdown(issue.check)}\` | ${issue.weight} | ${issue.count} |`);
           }
           lines.push('');
         }
@@ -182,18 +188,19 @@ function format(results, options = {}) {
     }
   }
 
-  // All URLs table
+  // All URLs table (entities are pre-sorted by priority - highest totalPoints first)
   if (includeAllUrls && urls.length > 0) {
     lines.push(`## All ${nouns.plural}`);
     lines.push('');
-    lines.push(`| ${nouns.singular} | Score | Status | Issues |`);
-    lines.push('|-----|-------|--------|--------|');
+    lines.push(`| ${nouns.singular} | Score | Status | Issues | Priority |`);
+    lines.push('|-----|-------|--------|--------|----------|');
 
     for (const url of urls) {
       const score = url.auditScore ?? 0;
       const status = getStatusIcon(score);
       const issueCount = url.issues ? url.issues.length : 0;
-      lines.push(`| ${escapeMarkdown(url.label)} | ${score}% | ${status} | ${issueCount} |`);
+      const points = url.issuePoints?.totalPoints || 0;
+      lines.push(`| ${escapeMarkdown(url.label)} | ${score}% | ${status} | ${issueCount} | ${points}pts |`);
     }
     lines.push('');
   }
@@ -221,7 +228,35 @@ function format(results, options = {}) {
 }
 
 /**
- * Extract top issues from a URL result
+ * Extract top issues from a URL result (sorted by weight descending)
+ * @param {object} url - URL result object
+ * @returns {Array} Array of {check, count, weight} objects sorted by weight
+ */
+function getTopIssuesWithWeight(url) {
+  if (!url.issues || url.issues.length === 0) {
+    return [];
+  }
+
+  // Count issues by check type and track weight
+  const checkData = {};
+  for (const issue of url.issues) {
+    const check = issue.check || 'unknown';
+    if (!checkData[check]) {
+      // Use pre-computed weight from normalizeResults or fetch it
+      const weight = issue.weight !== undefined ? issue.weight : getCheckWeight(check);
+      checkData[check] = { count: 0, weight };
+    }
+    checkData[check].count++;
+  }
+
+  // Convert to array and sort by weight descending (highest priority first)
+  return Object.entries(checkData)
+    .map(([check, data]) => ({ check, count: data.count, weight: data.weight }))
+    .sort((a, b) => b.weight - a.weight);
+}
+
+/**
+ * Extract top issues from a URL result (legacy - sorted by count)
  * @param {object} url - URL result object
  * @returns {Array} Array of {check, count} objects
  */

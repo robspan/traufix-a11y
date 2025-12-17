@@ -11,7 +11,7 @@
  * @module formatters/teams
  */
 
-const { normalizeResults, getWorstEntities } = require('./result-utils');
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 function getEntityNouns(results, normalized) {
   const kind = (() => {
@@ -59,7 +59,20 @@ function formatScore(score) {
 }
 
 /**
- * Get the N worst URLs by score
+ * Get the top N entities by priority (pre-sorted by totalPoints)
+ * Entities are already sorted by normalizeResults() in priority order.
+ * @param {Array} entities - Array of normalized entities (pre-sorted)
+ * @param {number} count - Number of entities to return
+ * @returns {Array} Highest priority entities
+ */
+function getTopPriorityEntities(entities, count) {
+  if (!entities || entities.length === 0) return [];
+  // Entities are pre-sorted by totalPoints descending (highest priority first)
+  return entities.slice(0, count);
+}
+
+/**
+ * Get the N worst URLs by score (fallback for internal routes)
  * @param {Array} urls - Array of URL results
  * @param {number} count - Number of URLs to return
  * @returns {Array} Worst performing URLs
@@ -108,7 +121,113 @@ function buildSummaryFacts(results, passRate, nouns) {
 }
 
 /**
- * Build worst URLs section as a table
+ * Build priority entities section as a table
+ * @param {Array} entities - Array of priority entities (pre-sorted)
+ * @param {object} nouns - Entity type nouns
+ * @param {boolean} showPriority - Whether to show priority points column
+ * @returns {object} Adaptive Card Table element
+ */
+function buildPriorityTable(entities, nouns, showPriority = true) {
+  if (entities.length === 0) {
+    return {
+      type: 'TextBlock',
+      text: `No ${nouns.plural.toLowerCase()} analyzed`,
+      wrap: true,
+      isSubtle: true
+    };
+  }
+
+  const rows = entities.map(entity => {
+    const cells = [
+      {
+        type: 'TableCell',
+        items: [
+          {
+            type: 'TextBlock',
+            text: entity.path || entity.label,
+            wrap: true,
+            size: 'small'
+          }
+        ]
+      },
+      {
+        type: 'TableCell',
+        items: [
+          {
+            type: 'TextBlock',
+            text: formatScore(entity.auditScore),
+            wrap: true,
+            size: 'small'
+          }
+        ]
+      },
+      {
+        type: 'TableCell',
+        items: [
+          {
+            type: 'TextBlock',
+            text: String(entity.issues ? entity.issues.length : 0),
+            wrap: true,
+            size: 'small'
+          }
+        ]
+      }
+    ];
+
+    if (showPriority && entity.issuePoints) {
+      cells.push({
+        type: 'TableCell',
+        items: [
+          {
+            type: 'TextBlock',
+            text: String(entity.issuePoints.totalPoints),
+            wrap: true,
+            size: 'small'
+          }
+        ]
+      });
+    }
+
+    return { type: 'TableRow', cells };
+  });
+
+  const headerCells = [
+    {
+      type: 'TableCell',
+      items: [{ type: 'TextBlock', text: nouns.singular, weight: 'bolder', size: 'small' }]
+    },
+    {
+      type: 'TableCell',
+      items: [{ type: 'TextBlock', text: 'Score', weight: 'bolder', size: 'small' }]
+    },
+    {
+      type: 'TableCell',
+      items: [{ type: 'TextBlock', text: 'Issues', weight: 'bolder', size: 'small' }]
+    }
+  ];
+
+  const columns = [{ width: 3 }, { width: 1 }, { width: 1 }];
+
+  if (showPriority && entities.some(e => e.issuePoints)) {
+    headerCells.push({
+      type: 'TableCell',
+      items: [{ type: 'TextBlock', text: 'Priority', weight: 'bolder', size: 'small' }]
+    });
+    columns.push({ width: 1 });
+  }
+
+  return {
+    type: 'Table',
+    columns,
+    rows: [
+      { type: 'TableRow', cells: headerCells },
+      ...rows
+    ]
+  };
+}
+
+/**
+ * Build worst URLs section as a table (legacy, for internal routes)
  * @param {Array} worstUrls - Array of worst performing URLs
  * @returns {object} Adaptive Card Table element
  */
@@ -192,7 +311,43 @@ function buildWorstUrlsTable(worstUrls, nouns) {
 }
 
 /**
- * Build fallback worst URLs section for older Teams versions
+ * Build fallback priority entities section for older Teams versions
+ * @param {Array} entities - Array of priority entities (pre-sorted)
+ * @param {object} nouns - Entity type nouns
+ * @param {boolean} showPriority - Whether to show priority points
+ * @returns {Array} Array of TextBlock elements
+ */
+function buildPriorityFallback(entities, nouns, showPriority = true) {
+  if (entities.length === 0) {
+    return [{
+      type: 'TextBlock',
+      text: `No ${nouns.plural.toLowerCase()} analyzed`,
+      wrap: true,
+      isSubtle: true
+    }];
+  }
+
+  return entities.map(entity => {
+    const path = entity.path || entity.label;
+    const issueCount = entity.issues ? entity.issues.length : 0;
+    let text = `${path} - Score: ${entity.auditScore}, Issues: ${issueCount}`;
+
+    if (showPriority && entity.issuePoints) {
+      text += `, Priority: ${entity.issuePoints.totalPoints}`;
+    }
+
+    return {
+      type: 'TextBlock',
+      text,
+      wrap: true,
+      size: 'small',
+      spacing: 'small'
+    };
+  });
+}
+
+/**
+ * Build fallback worst URLs section for older Teams versions (legacy, for internal routes)
  * @param {Array} worstUrls - Array of worst performing URLs
  * @returns {Array} Array of TextBlock elements
  */
@@ -225,11 +380,12 @@ function buildWorstUrlsFallback(worstUrls, nouns) {
  * @param {number} results.urlCount - Total URL count
  * @param {object} [options={}] - Formatting options
  * @param {string} [options.title] - Custom card title
- * @param {number} [options.worstUrlCount=5] - Number of worst URLs to show
+ * @param {number} [options.worstUrlCount=5] - Number of highest priority entities to show
  * @param {string} [options.webhookUrl] - Webhook URL (for documentation, not used in format)
  * @param {boolean} [options.useFallback=false] - Use fallback format instead of Table
  * @param {string} [options.projectName] - Project name to display
  * @param {string} [options.buildUrl] - URL to build/pipeline
+ * @param {boolean} [options.showPriority=true] - Show priority points in the table
  * @returns {string} JSON string of Adaptive Card
  */
 function format(results, options = {}) {
@@ -238,7 +394,8 @@ function format(results, options = {}) {
     worstUrlCount = 5,
     useFallback = false,
     projectName,
-    buildUrl
+    buildUrl,
+    showPriority = true
   } = options;
 
   const normalized = normalizeResults(results);
@@ -250,8 +407,10 @@ function format(results, options = {}) {
 
   const statusColor = getStatusColor(passRate);
   const statusEmoji = getStatusEmoji(passRate);
-  const worstUrls = getWorstEntities(normalized.entities, worstUrlCount)
-    .map(e => ({ path: e.label, auditScore: e.auditScore, issues: e.issues }));
+
+  // Use pre-sorted entities from normalizeResults (sorted by totalPoints descending)
+  // Entities are already in priority order - highest impact first
+  const priorityEntities = getTopPriorityEntities(normalized.entities, worstUrlCount);
 
   // Build the card body
   const body = [
@@ -294,19 +453,19 @@ function format(results, options = {}) {
     }
   );
 
-  // Worst URLs section
+  // Highest priority entities section (sorted by issue points)
   body.push({
     type: 'TextBlock',
-    text: `Worst Performing ${nouns.plural} (Top ${worstUrlCount})`,
+    text: `Highest Priority ${nouns.plural} (Top ${worstUrlCount})`,
     weight: 'bolder',
     size: 'medium',
     spacing: 'medium'
   });
 
   if (useFallback) {
-    body.push(...buildWorstUrlsFallback(worstUrls, nouns));
+    body.push(...buildPriorityFallback(priorityEntities, nouns, showPriority));
   } else {
-    body.push(buildWorstUrlsTable(worstUrls, nouns));
+    body.push(buildPriorityTable(priorityEntities, nouns, showPriority));
   }
 
   // Internal routes section if any

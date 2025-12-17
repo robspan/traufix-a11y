@@ -50,6 +50,21 @@ function format(results, options = {}) {
   // Calculate pass rate
   const passRate = urlCount > 0 ? (distribution.passing / urlCount) * 100 : 0;
 
+  // Calculate total priority points (pre-computed by normalizeResults)
+  let totalPriorityPoints = 0;
+  for (const url of urls) {
+    if (url.issuePoints) {
+      totalPriorityPoints += url.issuePoints.totalPoints;
+    }
+  }
+
+  // Calculate total weighted issues (issues are pre-sorted by weight)
+  const allIssues = normalized.issues || [];
+  let totalWeightedIssues = 0;
+  for (const issue of allIssues) {
+    totalWeightedIssues += (issue.weight || 1);
+  }
+
   // Build timeseries data for graphs
   const timeseries = [
     {
@@ -71,6 +86,14 @@ function format(results, options = {}) {
     {
       target: 'pass_rate',
       datapoints: [[parseFloat(passRate.toFixed(2)), timestamp]]
+    },
+    {
+      target: 'priority_points_total',
+      datapoints: [[totalPriorityPoints, timestamp]]
+    },
+    {
+      target: 'issues_weighted_total',
+      datapoints: [[totalWeightedIssues, timestamp]]
     }
   ];
 
@@ -85,26 +108,30 @@ function format(results, options = {}) {
   }
 
   // Build table data for detailed views
+  // Note: urls (entities) are pre-sorted by totalPoints descending (highest priority first)
   const urlTable = {
     columns: [
       { text: 'URL', type: 'string' },
       { text: 'Score', type: 'number' },
       { text: 'Status', type: 'string' },
-      { text: 'Issues', type: 'number' }
+      { text: 'Issues', type: 'number' },
+      { text: 'Priority Points', type: 'number' }
     ],
     rows: urls.map(url => {
       const urlPath = url.label || 'unknown';
       const score = typeof url.auditScore === 'number' ? url.auditScore : 0;
       const issueCount = url.issues ? url.issues.length : 0;
+      const priorityPoints = url.issuePoints ? url.issuePoints.totalPoints : 0;
       let status = 'failing';
       if (score >= 90) status = 'passing';
       else if (score >= 50) status = 'warning';
-      return [urlPath, score, status, issueCount];
+      return [urlPath, score, status, issueCount, priorityPoints];
     }),
     type: 'table'
   };
 
   // Build issues table
+  // Note: normalized.issues are pre-sorted by weight descending (most critical first)
   const issueRows = [];
   for (const issue of normalized.issues || []) {
     issueRows.push([
@@ -112,7 +139,8 @@ function format(results, options = {}) {
       issue.check || 'unknown',
       issue.message || '',
       issue.file || '',
-      issue.line || 0
+      issue.line || 0,
+      issue.weight || 1
     ]);
   }
 
@@ -122,7 +150,8 @@ function format(results, options = {}) {
       { text: 'Check', type: 'string' },
       { text: 'Message', type: 'string' },
       { text: 'File', type: 'string' },
-      { text: 'Line', type: 'number' }
+      { text: 'Line', type: 'number' },
+      { text: 'Weight', type: 'number' }
     ],
     rows: issueRows,
     type: 'table'
@@ -160,6 +189,8 @@ function format(results, options = {}) {
       tier,
       urlCount,
       passRate: parseFloat(passRate.toFixed(2)),
+      priorityPointsTotal: totalPriorityPoints,
+      issuesWeightedTotal: totalWeightedIssues,
       timestamp,
       generatedAt: new Date(timestamp).toISOString()
     },

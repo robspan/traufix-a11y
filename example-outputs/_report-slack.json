@@ -12,7 +12,7 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":large_yellow_circle: *Status: Warning*\nTier: `full` | Pass Rate: *51%*"
+        "text": ":large_yellow_circle: *Status: Warning*\nTier: `full` | Pass Rate: *50%*"
       }
     },
     {
@@ -23,15 +23,15 @@
       "fields": [
         {
           "type": "mrkdwn",
-          "text": "*Components Analyzed*\n307"
+          "text": "*Components Analyzed*\n305"
         },
         {
           "type": "mrkdwn",
-          "text": "*Passing*\n:large_green_circle: 156"
+          "text": "*Passing*\n:large_green_circle: 152"
         },
         {
           "type": "mrkdwn",
-          "text": "*Warning*\n:large_yellow_circle: 151"
+          "text": "*Warning*\n:large_yellow_circle: 153"
         },
         {
           "type": "mrkdwn",
@@ -53,35 +53,35 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: *Quote*\nScore: 57% | Issues: 4\n  - `contentOverflow`: Potential content overflow detected in \"========================================\n  - `prefersReducedMotion`: Animation without prefers-reduced-motion support. Animations can cause vestibula\n  - `smallFontSize`: Font size 0.7rem (approximately 11.2px) may be too small. Small text is difficul"
+        "text": ":warning: *Replies*\nScore: 88% | Issues: 17\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: *AddDeadlineItemDialog*\nScore: 64% | Issues: 12\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `matDialogFocus`: mat-dialog should manage focus. Focus should move to dialog and return on close\n\n  - `colorContrast`: Low contrast 1.00:1 (needs 4.5:1). Low contrast text is difficult to read for us"
+        "text": ":warning: *Locations*\nScore: 70% | Issues: 20\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: *ScheduleBuilder*\nScore: 65% | Issues: 10\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `colorContrast`: Low contrast 1.77:1 (needs 4.5:1). Low contrast text is difficult to read for us"
+        "text": ":warning: *RichtextEditor*\nScore: 79% | Issues: 16\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos\n  - `buttonNames`: Button missing accessible name. Screen readers cannot announce the button purpos"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: *ClosingWords*\nScore: 67% | Issues: 3\n  - `matIconAccessibility`: mat-icon used as interactive without accessible label. Screen readers cannot ann\n  - `contentOverflow`: Potential content overflow detected in \"Override guest-component-container for c\n  - `prefersReducedMotion`: Animation without prefers-reduced-motion support. Animations can cause vestibula"
+        "text": ":warning: *Referral*\nScore: 79% | Issues: 16\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How"
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":warning: *AddSimpleItemDialog*\nScore: 69% | Issues: 2\n  - `matDialogFocus`: mat-dialog should manage focus. Focus should move to dialog and return on close\n\n  - `prefersReducedMotion`: Animation without prefers-reduced-motion support. Animations can cause vestibula"
+        "text": ":warning: *ImpressumComponent*\nScore: 81% | Issues: 12\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How\n  - `formLabels`: Form input missing label. Screen readers cannot identify the input purpose\n  How"
       }
     },
     {
@@ -92,10 +92,10 @@
       "elements": [
         {
           "type": "mrkdwn",
-          "text": "Generated by *mat-a11y* | 2025-12-15T16:40:30.670Z | traufix.de | freelancermap.de/profil/robin-spanier"
+          "text": "Generated by *mat-a11y* | 2025-12-17T16:17:31.023Z | traufix.de | freelancermap.de/profil/robin-spanier"
         }
       ]
     }
   ],
-  "text": "Accessibility Report: Warning - 156/307 Components passing (51%)"
+  "text": "Accessibility Report: Warning - 152/305 Components passing (50%)"
 }

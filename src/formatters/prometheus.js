@@ -156,6 +156,55 @@ function format(results, options = {}) {
   const passRate = urlCount > 0 ? (distribution.passing / urlCount) : 0;
   lines.push(`${prefix}_pass_rate${buildLabels(baseLabels)} ${passRate.toFixed(4)}${timestamp}`);
 
+  // --- Priority points metrics (pre-computed by normalizeResults) ---
+  // Total priority points across all entities
+  let totalPriorityPoints = 0;
+  for (const entity of entities) {
+    if (entity.issuePoints) {
+      totalPriorityPoints += entity.issuePoints.totalPoints;
+    }
+  }
+
+  if (includeHelp) {
+    lines.push(`# HELP ${prefix}_priority_points_total Total weighted priority points across all entities`);
+  }
+  if (includeType) {
+    lines.push(`# TYPE ${prefix}_priority_points_total gauge`);
+  }
+  lines.push(`${prefix}_priority_points_total${buildLabels(baseLabels)} ${totalPriorityPoints}${timestamp}`);
+
+  // --- Per-entity priority points (entities are pre-sorted by totalPoints descending) ---
+  if (entities.length > 0) {
+    if (includeHelp) {
+      lines.push(`# HELP ${prefix}_entity_priority_points Weighted priority points per entity`);
+    }
+    if (includeType) {
+      lines.push(`# TYPE ${prefix}_entity_priority_points gauge`);
+    }
+
+    for (const entity of entities) {
+      const entityLabel = entity.label || 'unknown';
+      const points = entity.issuePoints ? entity.issuePoints.totalPoints : 0;
+      const entityLabels = { entity: entityLabel, tier, ...customLabels };
+      lines.push(`${prefix}_entity_priority_points${buildLabels(entityLabels)} ${points}${timestamp}`);
+    }
+  }
+
+  // --- Weighted issues count by severity ---
+  const weightedIssues = normalized.issues || [];
+  let totalWeightedIssueWeight = 0;
+  for (const issue of weightedIssues) {
+    totalWeightedIssueWeight += (issue.weight || 1);
+  }
+
+  if (includeHelp) {
+    lines.push(`# HELP ${prefix}_issues_weighted_total Sum of all issue weights (severity-weighted issue count)`);
+  }
+  if (includeType) {
+    lines.push(`# TYPE ${prefix}_issues_weighted_total gauge`);
+  }
+  lines.push(`${prefix}_issues_weighted_total${buildLabels(baseLabels)} ${totalWeightedIssueWeight}${timestamp}`);
+
   return lines.join('\n');
 }
 

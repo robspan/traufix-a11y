@@ -20,10 +20,30 @@ const SEVERITY_MAP = {
   '[Info]': 'note'
 };
 
-const { normalizeResults } = require('./result-utils');
+/**
+ * Weight thresholds for SARIF level mapping
+ * Higher weights = more critical issues
+ */
+const WEIGHT_THRESHOLDS = {
+  error: 7,    // weight >= 7 -> error (critical/high severity)
+  warning: 4   // weight >= 4 -> warning, below -> note
+};
+
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 /**
- * Get SARIF severity level from issue message
+ * Get SARIF severity level from issue weight
+ * @param {number} weight - Issue weight (1-10)
+ * @returns {string} SARIF level (error, warning, note)
+ */
+function getLevelFromWeight(weight) {
+  if (weight >= WEIGHT_THRESHOLDS.error) return 'error';
+  if (weight >= WEIGHT_THRESHOLDS.warning) return 'warning';
+  return 'note';
+}
+
+/**
+ * Get SARIF severity level from issue message (fallback)
  * @param {string} message - Issue message
  * @returns {string} SARIF level (error, warning, note)
  */
@@ -72,10 +92,11 @@ function format(results, options = {}) {
   const rules = new Map();
   const artifacts = new Map();
 
-  // Process each entity's issues
+  // Process each entity's issues (already sorted by weight descending from normalizeResults)
   for (const issue of normalized.issues) {
       const ruleId = issue.check;
-      const level = getSeverityLevel(issue.message);
+      const weight = issue.weight ?? getCheckWeight(ruleId);
+      const level = getLevelFromWeight(weight);
       const message = cleanMessage(issue.message);
       const filePath = issue.file || '';
       const line = issue.line || 1;
@@ -134,7 +155,8 @@ function format(results, options = {}) {
         }],
         properties: {
           url: issue.entity,
-          auditScore: issue.auditScore
+          auditScore: issue.auditScore,
+          weight: weight
         }
       };
 

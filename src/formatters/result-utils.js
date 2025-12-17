@@ -188,16 +188,34 @@ function normalizeResults(results) {
 
   const tier = results?.tier || 'material';
 
+  // Pre-compute issue points for all entities (enables priority sorting)
+  for (const entity of entities) {
+    if (entity.issues?.length > 0) {
+      entity.issuePoints = calculateIssuePoints(entity);
+    } else {
+      entity.issuePoints = { basePoints: 0, usageCount: 1, totalPoints: 0 };
+    }
+  }
+
+  // Pre-sort entities by total issue points (worst first = highest priority)
+  entities.sort((a, b) => b.issuePoints.totalPoints - a.issuePoints.totalPoints);
+
+  // Collect and pre-sort all issues by check weight (most severe first)
   const issues = [];
   for (const entity of entities) {
     for (const issue of asArray(entity.issues)) {
+      const normalized = normalizeIssue(issue);
+      normalized.weight = getCachedWeight(normalized.check);
       issues.push({
-        ...normalizeIssue(issue),
+        ...normalized,
         entity: entity.label,
         auditScore: entity.auditScore
       });
     }
   }
+
+  // Sort issues by weight descending (most critical first)
+  issues.sort((a, b) => b.weight - a.weight);
 
   return { tier, total, distribution, entities, issues };
 }
