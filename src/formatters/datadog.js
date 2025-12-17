@@ -54,21 +54,29 @@ function countTotalIssues(urls) {
 }
 
 /**
- * Group issues by check type
+ * Group issues by check type (sorted by total weight descending)
  * @param {Array} urls - Array of URL results
- * @returns {object} Map of check name to count
+ * @returns {Array} Array of [check, count] sorted by total weight
  */
 function groupIssuesByCheck(urls) {
   const checkCounts = {};
+  const checkWeights = {};
 
   for (const url of (urls || [])) {
     for (const issue of (url.issues || [])) {
       const check = issue.check || 'unknown';
       checkCounts[check] = (checkCounts[check] || 0) + 1;
+      // Store weight from issue (pre-computed by normalizeResults)
+      if (issue.weight !== undefined && checkWeights[check] === undefined) {
+        checkWeights[check] = issue.weight;
+      }
     }
   }
 
-  return checkCounts;
+  // Sort by total weight (count × weight) descending for priority ordering
+  return Object.entries(checkCounts)
+    .map(([check, count]) => ({ check, count, weight: checkWeights[check] || 0 }))
+    .sort((a, b) => (b.count * b.weight) - (a.count * a.weight));
 }
 
 /**
@@ -252,7 +260,7 @@ function format(results, options = {}) {
     baseTags
   ));
 
-  // Per-URL metrics
+  // Per-URL metrics (entities are pre-sorted by priority - highest totalPoints first)
   if (includePerUrl && normalized.entities && normalized.entities.length > 0) {
     for (const url of normalized.entities) {
       const urlTag = `url:${sanitizeTagValue(url.label)}`;
@@ -273,20 +281,41 @@ function format(results, options = {}) {
         'gauge',
         urlTags
       ));
+
+      // Priority points metric (pre-computed by normalizeResults)
+      if (url.issuePoints) {
+        series.push(createSeries(
+          `${prefix}.url.priority_points`,
+          url.issuePoints.totalPoints,
+          timestamp,
+          'gauge',
+          urlTags
+        ));
+      }
     }
   }
 
-  // Per-check issue counts
+  // Per-check issue counts (sorted by priority - highest total weight first)
   if (includePerCheck) {
-    const checkCounts = groupIssuesByCheck(normalized.entities);
+    const checkData = groupIssuesByCheck(normalized.entities);
 
-    for (const [check, count] of Object.entries(checkCounts)) {
+    for (const { check, count, weight } of checkData) {
       const checkTag = `check:${sanitizeTagValue(check)}`;
-      const checkTags = [...baseTags, checkTag];
+      const weightTag = `weight:${weight}`;
+      const checkTags = [...baseTags, checkTag, weightTag];
 
       series.push(createSeries(
         `${prefix}.issues.by_check`,
         count,
+        timestamp,
+        'gauge',
+        checkTags
+      ));
+
+      // Priority points for this check type (count × weight)
+      series.push(createSeries(
+        `${prefix}.issues.priority_points_by_check`,
+        count * weight,
         timestamp,
         'gauge',
         checkTags

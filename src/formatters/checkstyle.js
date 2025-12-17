@@ -8,6 +8,10 @@
  * issues to be displayed inline in editors and integrated into existing
  * code quality workflows.
  *
+ * Issues are sorted by weight (priority) so CI tools surface the most
+ * critical accessibility violations first. Weight is also mapped to
+ * Checkstyle severity levels for proper tooling integration.
+ *
  * @see https://checkstyle.org/
  * @module formatters/checkstyle
  */
@@ -28,11 +32,31 @@ function escapeXml(str) {
 }
 
 /**
- * Get severity level from issue message
+ * Map issue weight to Checkstyle severity
+ * Higher weight = more critical = higher severity
+ *
+ * Weight thresholds:
+ * - >= 8: error (critical accessibility violations)
+ * - >= 4: warning (moderate issues)
+ * - >= 1: info (minor issues)
+ * - 0: ignore (informational only)
+ *
+ * @param {number} weight - Issue weight from check configuration
+ * @returns {string} Checkstyle severity (error, warning, info, ignore)
+ */
+function getSeverityFromWeight(weight) {
+  if (weight >= 8) return 'error';
+  if (weight >= 4) return 'warning';
+  if (weight >= 1) return 'info';
+  return 'ignore';
+}
+
+/**
+ * Get severity level from issue message (fallback)
  * @param {string} message - Issue message
  * @returns {string} Checkstyle severity (error, warning, info, ignore)
  */
-function getSeverity(message) {
+function getSeverityFromMessage(message) {
   if (message.startsWith('[Error]')) return 'error';
   if (message.startsWith('[Warning]')) return 'warning';
   if (message.startsWith('[Info]')) return 'info';
@@ -48,7 +72,7 @@ function cleanMessage(message) {
   return String(message).replace(/^\[(Error|Warning|Info)\]\s*/, '');
 }
 
-const { normalizeResults } = require('./result-utils');
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 /**
  * Format accessibility results as Checkstyle XML
@@ -71,23 +95,32 @@ function format(results, options = {}) {
 
   const normalized = normalizeResults(results);
 
-  // Group issues by file
+  // Group issues by file, tracking total weight per file for priority sorting
+  // normalized.issues are pre-sorted by weight descending from normalizeResults()
   const fileGroups = new Map();
+  const fileWeights = new Map();
 
   for (const issue of normalized.issues) {
-      const filePath = issue.file || 'unknown';
+    const filePath = issue.file || 'unknown';
+    // Issue weight is pre-computed by normalizeResults, fallback to getCheckWeight
+    const weight = typeof issue.weight === 'number' ? issue.weight : getCheckWeight(issue.check);
 
-      if (!fileGroups.has(filePath)) {
-        fileGroups.set(filePath, []);
-      }
+    if (!fileGroups.has(filePath)) {
+      fileGroups.set(filePath, []);
+      fileWeights.set(filePath, 0);
+    }
 
-      fileGroups.get(filePath).push({
-        line: issue.line || 1,
-        column: 1,
-        severity: getSeverity(issue.message),
-        message: cleanMessage(issue.message),
-        source: `mat-a11y.${issue.check}`
-      });
+    // Accumulate total weight for file priority sorting
+    fileWeights.set(filePath, fileWeights.get(filePath) + weight);
+
+    fileGroups.get(filePath).push({
+      line: issue.line || 1,
+      column: 1,
+      weight,
+      severity: getSeverityFromWeight(weight),
+      message: cleanMessage(issue.message),
+      source: `mat-a11y.${issue.check}`
+    });
   }
 
   // Build XML output
@@ -97,15 +130,24 @@ function format(results, options = {}) {
   lines.push('<!-- traufix.de | freelancermap.de/profil/robin-spanier -->');
   lines.push(`<checkstyle version="${escapeXml(version)}">`);
 
-  // Sort files for consistent output
-  const sortedFiles = Array.from(fileGroups.keys()).sort();
+  // Sort files by total weight descending (highest priority files first)
+  // This ensures CI tools process the most problematic files first
+  const sortedFiles = Array.from(fileGroups.keys()).sort((a, b) => {
+    const weightDiff = fileWeights.get(b) - fileWeights.get(a);
+    // Secondary sort by filename for deterministic output when weights are equal
+    return weightDiff !== 0 ? weightDiff : a.localeCompare(b);
+  });
 
   for (const filePath of sortedFiles) {
     const issues = fileGroups.get(filePath);
     lines.push(`  <file name="${escapeXml(filePath)}">`);
 
-    // Sort issues by line number
-    issues.sort((a, b) => a.line - b.line);
+    // Sort issues by weight descending (most critical first), then by line
+    // This leverages the pre-sorted order from normalizeResults where possible
+    issues.sort((a, b) => {
+      const weightDiff = b.weight - a.weight;
+      return weightDiff !== 0 ? weightDiff : a.line - b.line;
+    });
 
     for (const issue of issues) {
       const columnAttr = includeColumn ? ` column="${issue.column}"` : '';

@@ -11,12 +11,41 @@
  * @module formatters/sonarqube
  */
 
+const { normalizeResults, getCheckWeight } = require('./result-utils');
+
 /**
- * Map severity from issue message to SonarQube severity levels
+ * Map weight to SonarQube severity levels
+ * Higher weight = higher severity
+ * Weight scale: 1-10 (from weights.js)
+ *
+ * @param {number} weight - Issue weight (1-10)
+ * @returns {string} SonarQube severity (BLOCKER, CRITICAL, MAJOR, MINOR, INFO)
+ */
+function getSeverityFromWeight(weight) {
+  if (weight >= 9) return 'BLOCKER';   // Critical accessibility issues (weight 9-10)
+  if (weight >= 7) return 'CRITICAL';  // Serious issues (weight 7-8)
+  if (weight >= 5) return 'MAJOR';     // Moderate issues (weight 5-6)
+  if (weight >= 3) return 'MINOR';     // Minor issues (weight 3-4)
+  return 'INFO';                        // Informational (weight 1-2)
+}
+
+/**
+ * Severity order for sorting (higher = more severe)
+ */
+const SEVERITY_ORDER = {
+  'BLOCKER': 5,
+  'CRITICAL': 4,
+  'MAJOR': 3,
+  'MINOR': 2,
+  'INFO': 1
+};
+
+/**
+ * Map severity from issue message to SonarQube severity levels (legacy fallback)
  * @param {string} message - Issue message
  * @returns {string} SonarQube severity (BLOCKER, CRITICAL, MAJOR, MINOR, INFO)
  */
-function getSeverity(message) {
+function getSeverityFromMessage(message) {
   if (message.startsWith('[Error]')) return 'MAJOR';
   if (message.startsWith('[Warning]')) return 'MINOR';
   if (message.startsWith('[Info]')) return 'INFO';
@@ -73,8 +102,6 @@ function cleanMessage(message) {
   return String(message).replace(/^\[(Error|Warning|Info)\]\s*/, '');
 }
 
-const { normalizeResults } = require('./result-utils');
-
 /**
  * Format accessibility results as SonarQube Generic Issue Import JSON
  *
@@ -99,9 +126,11 @@ function format(results, options = {}) {
   const issues = [];
   const rulesMap = new Map();
 
-  // Process all issues
+  // Process all issues (pre-sorted by weight descending from normalizeResults)
   for (const issue of normalized.issues) {
-      const severity = getSeverity(issue.message);
+      // Use weight-based severity (weight is pre-computed by normalizeResults)
+      const weight = issue.weight !== undefined ? issue.weight : getCheckWeight(issue.check);
+      const severity = getSeverityFromWeight(weight);
       const cleanedMessage = cleanMessage(issue.message);
 
       // Build the issue object per SonarQube spec
@@ -117,29 +146,49 @@ function format(results, options = {}) {
             startColumn: 0,
             endColumn: 0
           }
-        }
+        },
+        // Store severity for sorting (SonarQube doesn't have severity in issues, but we use it internally)
+        _severity: severity,
+        _weight: weight
       };
 
       issues.push(sonarIssue);
 
-      // Collect unique rules for rule definitions
-      if (includeRules && !rulesMap.has(issue.check)) {
-        rulesMap.set(issue.check, {
-          id: issue.check,
-          name: issue.check.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-          description: `Accessibility check: ${issue.check}`,
-          engineId: engineId,
-          cleanCodeAttribute: 'CLEAR',
-          type: 'CODE_SMELL',
-          severity: severity,
-          impacts: [
-            {
-              softwareQuality: 'MAINTAINABILITY',
-              severity: getImpactSeverity(severity)
-            }
-          ]
-        });
+      // Collect unique rules for rule definitions (use highest severity seen for this check)
+      if (includeRules) {
+        const existing = rulesMap.get(issue.check);
+        if (!existing || SEVERITY_ORDER[severity] > SEVERITY_ORDER[existing.severity]) {
+          rulesMap.set(issue.check, {
+            id: issue.check,
+            name: issue.check.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            description: `Accessibility check: ${issue.check}`,
+            engineId: engineId,
+            cleanCodeAttribute: 'CLEAR',
+            type: 'CODE_SMELL',
+            severity: severity,
+            impacts: [
+              {
+                softwareQuality: 'MAINTAINABILITY',
+                severity: getImpactSeverity(severity)
+              }
+            ]
+          });
+        }
       }
+  }
+
+  // Sort issues by severity (BLOCKER first, then CRITICAL, etc.)
+  issues.sort((a, b) => {
+    const severityDiff = SEVERITY_ORDER[b._severity] - SEVERITY_ORDER[a._severity];
+    if (severityDiff !== 0) return severityDiff;
+    // Secondary sort by weight for same severity
+    return (b._weight || 0) - (a._weight || 0);
+  });
+
+  // Clean up internal properties before output
+  for (const issue of issues) {
+    delete issue._severity;
+    delete issue._weight;
   }
 
   // Build the output object
@@ -152,9 +201,10 @@ function format(results, options = {}) {
     issues: issues
   };
 
-  // Include rules if enabled
+  // Include rules if enabled (sorted by severity - highest first)
   if (includeRules && rulesMap.size > 0) {
-    output.rules = Array.from(rulesMap.values());
+    output.rules = Array.from(rulesMap.values())
+      .sort((a, b) => SEVERITY_ORDER[b.severity] - SEVERITY_ORDER[a.severity]);
   }
 
   return JSON.stringify(output, null, 2);

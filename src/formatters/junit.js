@@ -6,6 +6,11 @@
  * JUnit XML format for CI/CD test reporting.
  * Works with: Jenkins, GitLab CI, CircleCI, Azure DevOps, Bamboo, and most CI systems.
  *
+ * Prioritization: Leverages pre-sorted data from normalizeResults():
+ * - Entities are pre-sorted by totalPoints descending (highest priority first)
+ * - Issues have pre-computed `weight` property and are sorted by weight descending
+ * - Critical failures appear first in the test report for immediate attention
+ *
  * @see https://llg.cubic.org/docs/junit/
  * @see https://www.ibm.com/docs/en/developer-for-zos/14.1.0?topic=formats-junit-xml-format
  */
@@ -48,7 +53,7 @@ function cleanMessage(message) {
   return message.replace(/^\[(Error|Warning|Info)\]\s*/, '');
 }
 
-const { normalizeResults, getWorstEntities } = require('./result-utils');
+const { normalizeResults, getWorstEntities, getCheckWeight } = require('./result-utils');
 
 /**
  * Format results as JUnit XML
@@ -63,6 +68,7 @@ const { normalizeResults, getWorstEntities } = require('./result-utils');
  * @param {number} [options.failThreshold=90] - Score below which test fails
  * @param {number} [options.maxIssuesPerTest=10] - Max issues to show per test
  * @param {boolean} [options.includeSystemOut=true] - Include system-out with all issues
+ * @param {boolean} [options.includeWeight=true] - Include weight in failure messages
  * @param {string} [options.hostname] - Hostname for test suite
  * @returns {string} JUnit XML string
  */
@@ -71,6 +77,7 @@ function format(results, options = {}) {
   const failThreshold = options.failThreshold ?? 90;
   const maxIssuesPerTest = options.maxIssuesPerTest ?? 10;
   const includeSystemOut = options.includeSystemOut ?? true;
+  const includeWeight = options.includeWeight ?? true;
   const hostname = options.hostname || 'localhost';
   const timestamp = new Date().toISOString();
 
@@ -83,10 +90,29 @@ function format(results, options = {}) {
 
   const testcases = [];
 
+  // Separate failing and passing entities to ensure failures appear first in XML output
+  // Entities are already pre-sorted by totalPoints (highest priority first) from normalizeResults()
+  const failingEntities = [];
+  const passingEntities = [];
+
   for (const entity of normalized.entities) {
+    const score = entity.auditScore ?? 0;
+    if (score < failThreshold) {
+      failingEntities.push(entity);
+    } else {
+      passingEntities.push(entity);
+    }
+  }
+
+  // Process failing entities first (already sorted by priority within the group)
+  // This ensures critical failures appear at the top of CI test reports
+  const orderedEntities = [...failingEntities, ...passingEntities];
+
+  for (const entity of orderedEntities) {
     totalTests++;
     const score = entity.auditScore ?? 0;
     const passed = score >= failThreshold;
+    // Issues are already pre-sorted by weight (highest first) from normalizeResults()
     const issues = entity.issues || [];
     const testName = escapeXml(entity.label);
     const className = `${suiteName}.accessibility`;
@@ -94,13 +120,17 @@ function format(results, options = {}) {
     if (!passed) {
       failures++;
 
-      // Build failure message from top issues
+      // Build failure message from top issues (already sorted by weight - most critical first)
       const topIssues = issues.slice(0, maxIssuesPerTest);
       const failureMessages = topIssues.map(issue => {
         const check = escapeXml(issue.check);
         const message = escapeXml(cleanMessage(issue.message));
         const file = issue.file ? ` (${escapeXml(issue.file)}:${issue.line || 1})` : '';
-        return `[${check}] ${message}${file}`;
+        // Include weight in message if enabled (helps prioritize fixes)
+        const weight = includeWeight && typeof issue.weight === 'number'
+          ? `[W:${issue.weight}] `
+          : '';
+        return `${weight}[${check}] ${message}${file}`;
       }).join('\n');
 
       const remainingCount = issues.length - topIssues.length;
@@ -114,13 +144,16 @@ ${failureMessages}${moreText}
 ]]>
       </failure>`;
 
-      // Add system-out with all issues if enabled
+      // Add system-out with all issues if enabled (issues already sorted by weight)
       if (includeSystemOut && issues.length > maxIssuesPerTest) {
         const allIssues = issues.map(issue => {
           const check = escapeXml(issue.check);
           const message = escapeXml(cleanMessage(issue.message));
           const file = issue.file ? ` (${escapeXml(issue.file)}:${issue.line || 1})` : '';
-          return `[${check}] ${message}${file}`;
+          const weight = includeWeight && typeof issue.weight === 'number'
+            ? `[W:${issue.weight}] `
+            : '';
+          return `${weight}[${check}] ${message}${file}`;
         }).join('\n');
 
         testcase += `
@@ -140,12 +173,15 @@ ${allIssues}
       let testcase = `
     <testcase name="${testName}" classname="${className}" time="0"/>`;
 
-      // Still include any warnings in system-out
+      // Still include any warnings in system-out (sorted by weight - most critical first)
       if (includeSystemOut && issues.length > 0) {
         const warningMessages = issues.map(issue => {
           const check = escapeXml(issue.check);
           const message = escapeXml(cleanMessage(issue.message));
-          return `[${check}] ${message}`;
+          const weight = includeWeight && typeof issue.weight === 'number'
+            ? `[W:${issue.weight}] `
+            : '';
+          return `${weight}[${check}] ${message}`;
         }).join('\n');
 
         testcase = `

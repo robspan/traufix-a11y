@@ -11,28 +11,31 @@
 npx mat-a11y
 ```
 
-- `npx mat-a11y` → `_mat-a11y.backlog.txt` — [AI backlog sample](https://robspan.github.io/mat-a11y/_report-ai.backlog.txt)
-- `npx mat-a11y --html` → `_mat-a11y.html` — [HTML sample](https://robspan.github.io/mat-a11y/_report-html.html)
-- `npx mat-a11y --json` → `_mat-a11y.json` — [JSON sample](https://robspan.github.io/mat-a11y/_report-json.json)
+Opens an **interactive dashboard** in your browser — designed for accessibility testers and management, not just developers.
+
+**Headless mode** (for scripts/CI):
+- `npx mat-a11y --headless` → `_mat-a11y.backlog.txt` — [AI backlog sample](https://robspan.github.io/mat-a11y/_report-ai.backlog.txt)
+- `npx mat-a11y --headless --html` → `_mat-a11y.html` — [HTML sample](https://robspan.github.io/mat-a11y/_report-html.html)
+- `npx mat-a11y --headless --json` → `_mat-a11y.json` — [JSON sample](https://robspan.github.io/mat-a11y/_report-json.json)
 
 
 <details>
-<summary><strong>📊 14 more formats</strong></summary>
+<summary><strong>📊 14 more formats (headless mode)</strong></summary>
 
-- `npx mat-a11y --sarif` — [SARIF sample](https://robspan.github.io/mat-a11y/_report-sarif.sarif.json)
-- `npx mat-a11y --junit` — [JUnit XML sample](https://robspan.github.io/mat-a11y/_report-junit.xml)
-- `npx mat-a11y --github` — [GitHub Annotations sample](https://robspan.github.io/mat-a11y/_report-github-annotations.txt)
-- `npx mat-a11y --gitlab` — [GitLab Code Quality sample](https://robspan.github.io/mat-a11y/_report-gitlab-codequality.json)
-- `npx mat-a11y --sonar` — [SonarQube sample](https://robspan.github.io/mat-a11y/_report-sonarqube.json)
-- `npx mat-a11y --checkstyle` — [Checkstyle XML sample](https://robspan.github.io/mat-a11y/_report-checkstyle.xml)
-- `npx mat-a11y --prometheus` — [Prometheus sample](https://robspan.github.io/mat-a11y/_report-prometheus.prom)
-- `npx mat-a11y --grafana` — [Grafana JSON sample](https://robspan.github.io/mat-a11y/_report-grafana-json.json)
-- `npx mat-a11y --datadog` — [Datadog sample](https://robspan.github.io/mat-a11y/_report-datadog.json)
-- `npx mat-a11y --slack` — [Slack sample](https://robspan.github.io/mat-a11y/_report-slack.json)
-- `npx mat-a11y --discord` — [Discord sample](https://robspan.github.io/mat-a11y/_report-discord.json)
-- `npx mat-a11y --teams` — [MS Teams sample](https://robspan.github.io/mat-a11y/_report-teams.json)
-- `npx mat-a11y --markdown` — [Markdown sample](https://robspan.github.io/mat-a11y/_report-markdown.md)
-- `npx mat-a11y --csv` — [CSV sample](https://robspan.github.io/mat-a11y/_report-csv.csv)
+- `npx mat-a11y --headless --sarif` — [SARIF sample](https://robspan.github.io/mat-a11y/_report-sarif.sarif.json)
+- `npx mat-a11y --headless --junit` — [JUnit XML sample](https://robspan.github.io/mat-a11y/_report-junit.xml)
+- `npx mat-a11y --headless --github` — [GitHub Annotations sample](https://robspan.github.io/mat-a11y/_report-github-annotations.txt)
+- `npx mat-a11y --headless --gitlab` — [GitLab Code Quality sample](https://robspan.github.io/mat-a11y/_report-gitlab-codequality.json)
+- `npx mat-a11y --headless --sonar` — [SonarQube sample](https://robspan.github.io/mat-a11y/_report-sonarqube.json)
+- `npx mat-a11y --headless --checkstyle` — [Checkstyle XML sample](https://robspan.github.io/mat-a11y/_report-checkstyle.xml)
+- `npx mat-a11y --headless --prometheus` — [Prometheus sample](https://robspan.github.io/mat-a11y/_report-prometheus.prom)
+- `npx mat-a11y --headless --grafana` — [Grafana JSON sample](https://robspan.github.io/mat-a11y/_report-grafana-json.json)
+- `npx mat-a11y --headless --datadog` — [Datadog sample](https://robspan.github.io/mat-a11y/_report-datadog.json)
+- `npx mat-a11y --headless --slack` — [Slack sample](https://robspan.github.io/mat-a11y/_report-slack.json)
+- `npx mat-a11y --headless --discord` — [Discord sample](https://robspan.github.io/mat-a11y/_report-discord.json)
+- `npx mat-a11y --headless --teams` — [MS Teams sample](https://robspan.github.io/mat-a11y/_report-teams.json)
+- `npx mat-a11y --headless --markdown` — [Markdown sample](https://robspan.github.io/mat-a11y/_report-markdown.md)
+- `npx mat-a11y --headless --csv` — [CSV sample](https://robspan.github.io/mat-a11y/_report-csv.csv)
 
 </details>
 
@@ -143,13 +146,51 @@ The entire accessibility remediation — from first scan to fully compliant — 
 
 ---
 
+## Installation
+
+**Always install as a devDependency** — mat-a11y is a development tool (~1MB) that should never be in your production bundle:
+
+```bash
+npm install --save-dev mat-a11y
+```
+
+Or run directly without installing:
+
+```bash
+npx mat-a11y
+```
+
+> **Bundle Protection:** mat-a11y includes safeguards to prevent accidental bundling. If incorrectly installed as a regular dependency, bundlers (webpack, rollup, esbuild) receive a tiny stub (~200 bytes) instead of the full library. The stub logs a warning in development and throws errors if methods are called.
+
 ## Quick Start
 
 ```bash
 npx mat-a11y
 ```
 
-That's it. Scans all `@Component` files, runs 82 checks, outputs `_mat-a11y.backlog.txt`.
+Opens the **accessibility dashboard** in your browser at `http://localhost:3847`.
+
+**Dashboard features:**
+- Plain language issue descriptions (for non-developers)
+- Impact ratings: Critical, High, Medium
+- Clear "How to fix" instructions
+- Visual score overview
+- One-click export to HTML, JSON, CSV
+- Expert mode toggle for advanced options
+- Dark/light mode with system preference detection
+- Severity and category filters (expert mode)
+- CLI command preview with copy button
+- Scan statistics (files, duration, issues by severity)
+
+**[Try the GUI demo →](https://robspan.github.io/mat-a11y/gui/)** (static preview)
+
+**For scripts and CI/CD:**
+
+```bash
+npx mat-a11y --headless
+```
+
+Runs in headless mode — scans all `@Component` files, runs 82 checks, outputs `_mat-a11y.backlog.txt`.
 
 ```
 ========================================
@@ -161,14 +202,14 @@ Components scanned: 167
 Components with issues: 52
 
 COMPONENT SCORES (167 components):
-  🟢 Clean (no issues): 115
-  🟡 Has Issues: 52
-  📊 Total Issues: 881
+  Clean (no issues): 115
+  Has Issues: 52
+  Total Issues: 881
 
 COMPONENTS WITH ISSUES:
-  🟡 HeaderComponent: 12 issues
-  🟡 DashboardComponent: 36 issues
-  🟡 NavigationComponent: 8 issues
+  HeaderComponent: 12 issues
+  DashboardComponent: 36 issues
+  NavigationComponent: 8 issues
   ...
 ```
 
@@ -209,8 +250,9 @@ Choose a tier based on what you're working on:
 | `--angular` | 10 | Only template and event binding issues |
 
 ```bash
-mat-a11y              # Full scan (default)
-mat-a11y --basic      # Quick 43-check scan
+mat-a11y                         # GUI with full scan (default)
+mat-a11y --headless              # Headless with full scan
+mat-a11y --headless --basic      # Headless with quick 43-check scan
 ```
 
 ### Analysis Mode
@@ -224,10 +266,11 @@ mat-a11y offers three analysis modes:
 | `--file-based` | **File** | Scans all HTML/SCSS files — legacy mode |
 
 ```bash
-mat-a11y                    # Component-based (default) - scans ALL components
-mat-a11y --sitemap          # Sitemap + routes analysis (what Google sees)
-mat-a11y --file-based       # Legacy file-based analysis
-mat-a11y --deep             # Page-level (with --sitemap only)
+mat-a11y                              # GUI dashboard (default)
+mat-a11y --headless                   # Component-based - scans ALL components
+mat-a11y --headless --sitemap         # Sitemap + routes analysis (what Google sees)
+mat-a11y --headless --file-based      # Legacy file-based analysis
+mat-a11y --headless --sitemap --deep  # Page-level (Lighthouse-like)
 ```
 
 **Default: Component-based analysis** — Finds every `@Component` decorator in your codebase and analyzes its template and styles. This gives you complete coverage of all components, including shared components, widgets, and utilities that may not be in routes.
@@ -279,7 +322,7 @@ const deepResults = analyzeBySitemap('./app', { deepResolve: true });  // Page-l
 | **CDK** | 3 | Focus trapping, live announcer, aria describer |
 
 ```bash
-mat-a11y --list-checks  # See all 82 with descriptions
+mat-a11y --headless --list-checks  # See all 82 with descriptions
 ```
 
 ---
@@ -289,20 +332,23 @@ mat-a11y --list-checks  # See all 82 with descriptions
 ### CLI
 
 ```bash
-# Just run it (scans current dir, full checks, AI output)
+# Open the accessibility dashboard (default)
 mat-a11y
 
-# Different formats
-mat-a11y --html                   # Visual HTML report
-mat-a11y --sarif                  # GitHub Security tab
-mat-a11y --junit                  # CI/CD pipelines
+# Headless mode (for scripts/CI)
+mat-a11y --headless               # AI backlog output
+mat-a11y --headless --html        # Visual HTML report
+mat-a11y --headless --sarif       # GitHub Security tab
+mat-a11y --ci --junit             # CI/CD pipelines (--ci = --headless)
 
-# Options
-mat-a11y ./other-dir              # Custom path
-mat-a11y --basic                  # Quick 43-check scan
-mat-a11y -i "**/*.spec.ts"        # Ignore patterns
-mat-a11y --check imageAlt         # Run single check
-mat-a11y -w auto                  # Parallel workers
+# Options (headless mode)
+mat-a11y --headless ./other-dir   # Custom path
+mat-a11y --headless --basic       # Quick 43-check scan
+mat-a11y --headless -i "**/*.spec.ts"  # Ignore patterns
+mat-a11y --headless -w auto       # Parallel workers
+
+# GUI options
+mat-a11y --port 8080              # Custom port for dashboard
 ```
 
 <details>
@@ -311,9 +357,13 @@ mat-a11y -w auto                  # Parallel workers
 ```
 mat-a11y [path] [options]
 
-Defaults: scans current directory, full tier (82 checks), AI format → _mat-a11y.backlog.txt
+Mode:
+  (default)            Opens GUI dashboard in browser
+  --headless, -H       CLI mode (no GUI) - outputs to terminal/file
+  --ci                 Alias for --headless (CI/CD convenience)
+  --port, -p <number>  Custom port for GUI (default: 3847)
 
-Formats (shortcut flags):
+Formats (headless mode):
   --html, --json, --sarif, --junit, --github, --gitlab
   --sonar, --checkstyle, --prometheus, --grafana, --datadog
   --slack, --discord, --teams, --markdown, --csv
@@ -374,12 +424,12 @@ Full example: https://robspan.github.io/mat-a11y/_report-ai.backlog.txt
 
 ### Parallel Processing
 
-For large codebases (500+ files):
+For large codebases (500+ files) in headless mode:
 
 ```bash
-mat-a11y              # Single-threaded (default)
-mat-a11y -w auto      # Auto-optimized workers
-mat-a11y -w 8         # Exactly 8 workers
+mat-a11y --headless              # Single-threaded (default)
+mat-a11y --headless -w auto      # Auto-optimized workers
+mat-a11y --headless -w 8         # Exactly 8 workers
 ```
 
 | Project Size | Sync | Auto (`-w auto`) |
@@ -421,21 +471,21 @@ mat-a11y -w 8         # Exactly 8 workers
 | **Data** | `--markdown` | `_mat-a11y.md` | [View](https://robspan.github.io/mat-a11y/_report-markdown.md) |
 | | `--csv` | `_mat-a11y.csv` | [View](https://robspan.github.io/mat-a11y/_report-csv.csv) |
 
-Custom output: `mat-a11y -f sarif -o custom-name.sarif`
+Custom output: `mat-a11y --headless -f sarif -o custom-name.sarif`
 
 ### AI-Assisted Fixing
 
-The default output (`_mat-a11y.backlog.txt`) is designed for AI to fix:
+The headless mode output (`_mat-a11y.backlog.txt`) is designed for AI to fix:
 
 **Tips:**
 - **Component-by-component** — Issues grouped by component for systematic fixing
 - **AFFECTS line** — Shows which URLs improve when you fix a component
 - **Counts** — `(×3)` means 3 identical elements in that component
-- **Verify** — Re-run `mat-a11y` after fixes; list shrinks
+- **Verify** — Re-run `mat-a11y --headless` after fixes; list shrinks
 
 **Prompt example:**
 ```
-Read _mat-a11y.backlog.txt. For each file, apply the fixes, then re-run `npx mat-a11y` to update the backlog.
+Read _mat-a11y.backlog.txt. For each file, apply the fixes, then re-run `npx mat-a11y --headless` to update the backlog.
 ```
 
 **Validated models:**
@@ -465,11 +515,11 @@ jobs:
         with:
           node-version: '18'
       - run: npm ci
-      - run: npx mat-a11y --json
+      - run: npx mat-a11y --ci --json
       - uses: actions/upload-artifact@v4
         with:
           name: a11y-report
-          path: mat-a11y-report.json
+          path: _mat-a11y.json
 ```
 
 **Exit codes:** `0` = passing, `1` = failing, `2` = error

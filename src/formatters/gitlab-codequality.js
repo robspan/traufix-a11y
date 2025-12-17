@@ -12,7 +12,7 @@
 
 const crypto = require('crypto');
 
-const { normalizeResults } = require('./result-utils');
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 /**
  * Format results as GitLab Code Quality JSON
@@ -44,8 +44,9 @@ function format(results, options = {}) {
       break;
     }
 
-      // Map severity based on message prefix
-      const severity = mapSeverity(issue.message);
+      // Map severity based on issue weight (pre-computed by normalizeResults)
+      const weight = issue.weight !== undefined ? issue.weight : getCheckWeight(issue.check);
+      const severity = mapSeverity(weight);
 
       // Generate unique fingerprint for deduplication
       const fingerprint = generateFingerprint(issue);
@@ -92,27 +93,38 @@ function format(results, options = {}) {
 }
 
 /**
- * Map message severity to GitLab Code Quality severity
+ * Map issue weight to GitLab Code Quality severity
  *
  * GitLab Code Quality severity levels:
- * - blocker: Breaks the build
- * - critical: Must be fixed immediately
- * - major: Should be fixed soon
- * - minor: Should be fixed eventually
- * - info: Informational only
+ * - blocker: Breaks the build (weight >= 9)
+ * - critical: Must be fixed immediately (weight >= 7)
+ * - major: Should be fixed soon (weight >= 5)
+ * - minor: Should be fixed eventually (weight >= 3)
+ * - info: Informational only (weight < 3)
  *
- * @param {string} message - The issue message
+ * Weight scale (from weights.js):
+ * - 10: Most critical (e.g., missing alt text, form labels)
+ * - 7-9: High severity
+ * - 4-6: Medium severity
+ * - 1-3: Low severity
+ *
+ * @param {number} weight - The issue weight (0-10)
  * @returns {string} GitLab severity level
  */
-function mapSeverity(message) {
-  if (message.startsWith('[Warning]')) {
+function mapSeverity(weight) {
+  if (weight >= 9) {
+    return 'blocker';
+  }
+  if (weight >= 7) {
+    return 'critical';
+  }
+  if (weight >= 5) {
+    return 'major';
+  }
+  if (weight >= 3) {
     return 'minor';
   }
-  if (message.startsWith('[Info]')) {
-    return 'info';
-  }
-  // Default to major for errors (accessibility issues are important)
-  return 'major';
+  return 'info';
 }
 
 /**

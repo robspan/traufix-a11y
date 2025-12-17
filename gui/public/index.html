@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="mat-a11y Accessibility Dashboard - Check your Angular application for accessibility issues">
+  <title>mat-a11y - Accessibility Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header class="header" role="banner">
+    <div class="header-content">
+      <h1 class="logo">
+        <span class="logo-icon" aria-hidden="true">A11Y</span>
+        mat-a11y
+      </h1>
+      <p class="tagline">Accessibility checker for Angular applications</p>
+    </div>
+    <div class="header-controls">
+      <button type="button" class="dark-mode-btn" id="dark-mode-btn" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <div class="mode-toggle">
+        <input type="checkbox" id="expert-mode" class="toggle-checkbox">
+        <label for="expert-mode" class="toggle-label">
+          <span class="toggle-text">Expert Mode</span>
+          <span class="toggle-switch" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main">
+    <!-- Scan Configuration Panel -->
+    <section class="panel scan-panel" aria-labelledby="scan-heading">
+      <h2 id="scan-heading" class="panel-title">Check Your Project</h2>
+
+      <form id="scan-form" class="scan-form" aria-describedby="scan-description">
+        <p id="scan-description" class="form-description">
+          Choose your project folder, select the type of check, then start the scan.
+        </p>
+
+        <!-- Simple Mode: Project Path -->
+        <div class="form-group path-input-group">
+          <label for="scan-path" class="form-label">Project Folder</label>
+          <div class="path-input-wrapper">
+            <input type="text" id="scan-path" class="form-input" placeholder="Current directory" aria-describedby="path-hint">
+            <span class="path-current" id="current-path-display"></span>
+          </div>
+          <p id="path-hint" class="form-hint">Enter the path to your Angular project, or leave empty to scan the current directory</p>
+        </div>
+
+        <!-- Simple Mode: Tier Selection -->
+        <fieldset class="tier-selection" id="tier-fieldset">
+          <legend class="fieldset-legend">How thorough should the check be?</legend>
+
+          <div class="tier-options" role="radiogroup" aria-labelledby="tier-fieldset">
+            <label class="tier-option" data-tier="basic">
+              <input type="radio" name="tier" value="basic" class="tier-radio">
+              <span class="tier-card">
+                <span class="tier-name">Quick Scan</span>
+                <span class="tier-badge quickstart">Quick Start</span>
+                <span class="tier-description">Fast check for the most important issues</span>
+                <span class="tier-count"><span data-count="basic">43</span> checks</span>
+              </span>
+            </label>
+
+            <label class="tier-option" data-tier="full">
+              <input type="radio" name="tier" value="full" class="tier-radio" checked>
+              <span class="tier-card">
+                <span class="tier-name">Complete Audit</span>
+                <span class="tier-badge default">Default</span>
+                <span class="tier-description">Thorough review with all available checks</span>
+                <span class="tier-count"><span data-count="full">82</span> checks</span>
+              </span>
+            </label>
+
+            <label class="tier-option expert-only" data-tier="material">
+              <input type="radio" name="tier" value="material" class="tier-radio">
+              <span class="tier-card">
+                <span class="tier-name">Material Only</span>
+                <span class="tier-badge specialized">Specialized</span>
+                <span class="tier-description">Angular Material component checks only</span>
+                <span class="tier-count"><span data-count="material">29</span> checks</span>
+              </span>
+            </label>
+
+            <label class="tier-option expert-only" data-tier="angular">
+              <input type="radio" name="tier" value="angular" class="tier-radio">
+              <span class="tier-card">
+                <span class="tier-name">Angular Only</span>
+                <span class="tier-badge focused">Focused</span>
+                <span class="tier-description">Angular template and CDK checks</span>
+                <span class="tier-count"><span data-count="angular">10</span> checks</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Expert Mode: Additional Options -->
+        <div class="expert-options expert-only" aria-labelledby="expert-options-heading">
+          <h3 id="expert-options-heading" class="expert-heading">Advanced Options</h3>
+
+          <!-- Analysis Strategy (Collapsible) -->
+          <div class="collapsible-section">
+            <button type="button" class="collapsible-header" aria-expanded="true" aria-controls="analysis-content">
+              <span class="collapsible-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Analysis Strategy
+              </span>
+              <svg class="collapsible-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="collapsible-content" id="analysis-content">
+          <fieldset class="option-fieldset">
+            <legend class="option-legend">
+              Analysis Strategy
+              <button type="button" class="help-tooltip" aria-label="Help: Analysis Strategy" data-tooltip="Choose how mat-a11y discovers and analyzes your code. Component-based is recommended for most Angular projects.">?</button>
+            </legend>
+
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="analysis-mode" value="component" checked>
+                <span class="radio-label">
+                  <strong>Component-based</strong>
+                  <span class="radio-description">Scans all @Component files directly. Complete coverage.</span>
+                </span>
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="analysis-mode" value="sitemap">
+                <span class="radio-label">
+                  <strong>Sitemap-based</strong>
+                  <span class="radio-description">Analyzes URLs from sitemap.xml. SEO/Google crawl perspective.</span>
+                </span>
+              </label>
+
+              <label class="radio-option">
+                <input type="radio" name="analysis-mode" value="file-based">
+                <span class="radio-label">
+                  <strong>File-based</strong>
+                  <span class="radio-description">Scans all HTML/SCSS files. Legacy mode.</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Sitemap Options (shown when sitemap mode selected) -->
+          <div class="conditional-options" id="sitemap-options" hidden>
+            <label class="checkbox-option">
+              <input type="checkbox" id="deep-resolve">
+              <span class="checkbox-label">
+                <strong>Page-level analysis (--deep)</strong>
+                <button type="button" class="help-tooltip help-tooltip-inline" aria-label="Help: Page-level analysis" data-tooltip="Resolves which components appear on each page and groups issues by URL. Gives you a Lighthouse-style per-page accessibility score.">?</button>
+                <span class="checkbox-description">Bundle parent + child components per page. Lighthouse-like scores.</span>
+              </span>
+            </label>
+          </div>
+            </div>
+          </div>
+
+          <!-- SCSS & Performance (Collapsible) -->
+          <div class="collapsible-section">
+            <button type="button" class="collapsible-header" aria-expanded="true" aria-controls="scss-perf-content">
+              <span class="collapsible-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                SCSS &amp; Performance
+              </span>
+              <svg class="collapsible-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="collapsible-content" id="scss-perf-content">
+
+          <!-- SCSS Options -->
+          <fieldset class="option-fieldset">
+            <legend class="option-legend">
+              SCSS Analysis
+              <button type="button" class="help-tooltip" aria-label="Help: SCSS Analysis" data-tooltip="Controls how styling issues are reported. SCSS files often get imported into multiple components, causing duplicate reports.">?</button>
+            </legend>
+
+            <label class="checkbox-option">
+              <input type="checkbox" id="collapse-root-cause" checked>
+              <span class="checkbox-label">
+                <strong>Root cause analysis</strong>
+                <button type="button" class="help-tooltip help-tooltip-inline" aria-label="Help: Root cause analysis" data-tooltip="When enabled, if 10 components import the same _colors.scss with contrast issues, you'll see 1 issue pointing to _colors.scss instead of 10 duplicate issues.">?</button>
+                <span class="checkbox-description">Collapse duplicate SCSS issues to their shared source file. Reduces backlog by 50-80%.</span>
+              </span>
+            </label>
+          </fieldset>
+
+          <!-- Performance Options -->
+          <fieldset class="option-fieldset">
+            <legend class="option-legend">
+              Performance
+              <button type="button" class="help-tooltip" aria-label="Help: Performance" data-tooltip="Large projects can be scanned faster using multiple CPU cores. The 'auto' setting detects your system capabilities.">?</button>
+            </legend>
+
+            <div class="form-group">
+              <label for="worker-mode" class="form-label">Parallel Processing</label>
+              <select id="worker-mode" class="form-select">
+                <option value="sync">Single-threaded (default)</option>
+                <option value="auto">Auto-optimized (recommended for large projects)</option>
+                <option value="2">2 workers</option>
+                <option value="4">4 workers</option>
+                <option value="8">8 workers</option>
+              </select>
+              <p class="form-hint">Use auto for projects with 500+ files</p>
+            </div>
+          </fieldset>
+            </div>
+          </div>
+
+          <!-- Filters (Collapsible) -->
+          <div class="collapsible-section">
+            <button type="button" class="collapsible-header" aria-expanded="true" aria-controls="filters-content">
+              <span class="collapsible-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                Filters
+              </span>
+              <svg class="collapsible-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="collapsible-content" id="filters-content">
+
+          <!-- Filter Options -->
+          <fieldset class="option-fieldset">
+            <legend class="option-legend">
+              Filters
+              <button type="button" class="help-tooltip" aria-label="Help: Filters" data-tooltip="Narrow down the scan to specific folders or check types. Useful for incremental fixes or debugging.">?</button>
+            </legend>
+
+            <div class="form-group">
+              <label for="ignore-patterns" class="form-label">Ignore Patterns</label>
+              <input type="text" id="ignore-patterns" class="form-input" placeholder="e.g., legacy/, temp/, **/*.spec.ts">
+              <p class="form-hint">Comma-separated glob patterns to skip (node_modules is always skipped)</p>
+            </div>
+
+            <div class="form-group">
+              <label for="severity-filter" class="form-label">Minimum Severity</label>
+              <select id="severity-filter" class="form-select">
+                <option value="">All severities (default)</option>
+                <option value="critical">Critical only</option>
+                <option value="high">High and above</option>
+                <option value="medium">Medium and above</option>
+              </select>
+              <p class="form-hint">Filter results by minimum severity level</p>
+            </div>
+
+            <div class="form-group">
+              <label for="single-check" class="form-label">Run Single Check Only</label>
+              <select id="single-check" class="form-select">
+                <option value="">All checks (default)</option>
+                <!-- Populated by JavaScript -->
+              </select>
+              <p class="form-hint">Focus on fixing one issue type at a time</p>
+            </div>
+          </fieldset>
+            </div>
+          </div>
+
+          <!-- CLI Preview -->
+          <div class="cli-preview-section">
+            <h4 class="cli-preview-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              Equivalent CLI Command
+            </h4>
+            <code class="cli-preview" id="cli-preview">mat-a11y --tier full</code>
+            <button type="button" class="btn btn-small btn-copy" id="copy-cli" aria-label="Copy command">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <div class="scan-actions">
+          <button type="submit" class="btn btn-primary btn-large" id="scan-button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start Accessibility Check
+          </button>
+          <span class="keyboard-hint"><kbd>Enter</kbd> to start</span>
+        </div>
+      </form>
+    </section>
+
+    <!-- Scanning Progress -->
+    <section class="panel progress-panel" id="progress-panel" aria-labelledby="progress-heading" hidden>
+      <h2 id="progress-heading" class="panel-title">Checking Accessibility...</h2>
+      <div class="progress-indicator" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="progress-text" id="progress-text">Analyzing your project for accessibility issues</p>
+      </div>
+      <div class="progress-stages" aria-label="Scan progress">
+        <div class="progress-stage" data-stage="find" aria-current="step">
+          <span class="stage-icon" aria-hidden="true">1</span>
+          <span class="stage-label">Finding files</span>
+        </div>
+        <div class="progress-stage" data-stage="analyze">
+          <span class="stage-icon" aria-hidden="true">2</span>
+          <span class="stage-label">Analyzing components</span>
+        </div>
+        <div class="progress-stage" data-stage="check">
+          <span class="stage-icon" aria-hidden="true">3</span>
+          <span class="stage-label">Running checks</span>
+        </div>
+        <div class="progress-stage" data-stage="report">
+          <span class="stage-icon" aria-hidden="true">4</span>
+          <span class="stage-label">Generating report</span>
+        </div>
+      </div>
+      <p class="progress-tip">This may take a moment for large projects</p>
+    </section>
+
+    <!-- Results Section -->
+    <section class="panel results-panel" id="results-panel" aria-labelledby="results-heading" hidden>
+      <div class="results-header">
+        <h2 id="results-heading" class="results-title">Scan Complete</h2>
+      </div>
+
+      <!-- Simple Mode Stats -->
+      <div class="scan-stats-simple simple-only">
+        <div class="stats-row">
+          <div class="stat-card stat-issues" title="Total accessibility issues detected in your project">
+            <span class="stat-value" id="stat-issues-simple">0</span>
+            <span class="stat-label">Issues Found</span>
+          </div>
+          <div class="stat-card stat-components" title="Number of Angular components analyzed">
+            <span class="stat-value" id="stat-components-simple">0</span>
+            <span class="stat-label">Components</span>
+          </div>
+          <div class="stat-card stat-score" title="Accessibility score: 100 = perfect, lower scores indicate more issues relative to codebase size">
+            <span class="stat-value"><span id="stat-score-simple">--</span><span class="stat-max">/100</span></span>
+            <span class="stat-label">A11y Score</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expert Mode Stats -->
+      <div class="scan-stats expert-only" id="scan-stats">
+        <div class="stats-grid">
+          <div class="stat-item" title="Total HTML, TS, and SCSS files analyzed">
+            <span class="stat-value" id="stat-files">0</span>
+            <span class="stat-label">Files Scanned</span>
+          </div>
+          <div class="stat-item" title="Time taken to complete the accessibility scan">
+            <span class="stat-value" id="stat-time">0s</span>
+            <span class="stat-label">Scan Time</span>
+          </div>
+          <div class="stat-item" title="Number of accessibility rules executed">
+            <span class="stat-value" id="stat-checks">0</span>
+            <span class="stat-label">Checks Run</span>
+          </div>
+          <div class="stat-item stat-critical" title="Critical issues: Must fix immediately - major accessibility barriers">
+            <span class="stat-value" id="stat-critical">0</span>
+            <span class="stat-label">Critical</span>
+          </div>
+          <div class="stat-item stat-high" title="High severity: Significant accessibility problems">
+            <span class="stat-value" id="stat-high">0</span>
+            <span class="stat-label">High</span>
+          </div>
+          <div class="stat-item stat-medium" title="Medium severity: Should be fixed but less impactful">
+            <span class="stat-value" id="stat-medium">0</span>
+            <span class="stat-label">Medium</span>
+          </div>
+        </div>
+        <div class="stats-totals">
+          <span><strong id="total-issues">0</strong> total issues in <strong id="components-count">0</strong> components</span>
+        </div>
+      </div>
+
+      <!-- Export Options -->
+      <div class="export-section" id="export-section">
+        <div class="export-header">
+          <h3 class="section-title">Export Report</h3>
+          <span class="export-count expert-only">18 formats available</span>
+        </div>
+
+        <!-- Search Bar (Expert Mode) -->
+        <div class="export-search expert-only">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="export-search" class="export-search-input" placeholder="Search formats..." aria-label="Search export formats">
+          <span class="search-hint">Type 3+ chars to filter</span>
+        </div>
+
+        <!-- Primary Formats -->
+        <div class="export-group" data-group="primary">
+          <div class="export-options export-options-primary">
+            <button type="button" class="btn btn-large export-btn export-btn-view" data-format="html" data-keywords="html web browser report visual full detailed">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span class="export-label">View Full Report</span>
+              <span class="export-desc">Detailed interactive breakdown</span>
+            </button>
+            <button type="button" class="btn btn-large export-btn export-btn-pdf" data-format="pdf" data-keywords="pdf print document manager executive summary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span class="export-label">PDF Summary</span>
+              <span class="export-desc">Executive report for managers</span>
+            </button>
+            <button type="button" class="btn btn-large export-btn export-btn-ai" data-format="ai" data-keywords="ai backlog copilot claude gpt llm tasks autofix">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M21 12a9 9 0 0 0-9-9v9h9z"/></svg>
+              <span class="export-label">AI-Ready Tasks</span>
+              <span class="export-desc">For Copilot, Claude, ChatGPT</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expert Mode Formats -->
+        <div class="export-options-expert expert-only" id="export-expert-container">
+          <div class="export-group" data-group="data">
+            <h4 class="export-subheading">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Data Formats
+            </h4>
+            <div class="export-options">
+              <button type="button" class="btn btn-secondary export-btn" data-format="json" data-keywords="json data api raw structured">
+                <span class="export-label">JSON</span>
+                <span class="export-desc">Raw data</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="csv" data-keywords="csv excel spreadsheet table">
+                <span class="export-label">CSV</span>
+                <span class="export-desc">Spreadsheets</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="markdown" data-keywords="markdown md readme docs documentation">
+                <span class="export-label">Markdown</span>
+                <span class="export-desc">Documentation</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="export-group" data-group="cicd">
+            <h4 class="export-subheading">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              CI/CD Integration
+            </h4>
+            <div class="export-options">
+              <button type="button" class="btn btn-secondary export-btn" data-format="sarif" data-keywords="sarif github security code scanning">
+                <span class="export-label">SARIF</span>
+                <span class="export-desc">GitHub Security</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="junit" data-keywords="junit jenkins xml test ci">
+                <span class="export-label">JUnit</span>
+                <span class="export-desc">Jenkins/CI</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="github-annotations" data-keywords="github actions annotations pr review">
+                <span class="export-label">GitHub</span>
+                <span class="export-desc">PR Annotations</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="gitlab-codequality" data-keywords="gitlab code quality ci pipeline">
+                <span class="export-label">GitLab</span>
+                <span class="export-desc">Code Quality</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="checkstyle" data-keywords="checkstyle xml java lint">
+                <span class="export-label">Checkstyle</span>
+                <span class="export-desc">XML Lint</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="sonarqube" data-keywords="sonarqube sonar code quality analysis">
+                <span class="export-label">SonarQube</span>
+                <span class="export-desc">Code Analysis</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="export-group" data-group="monitoring">
+            <h4 class="export-subheading">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Monitoring
+            </h4>
+            <div class="export-options">
+              <button type="button" class="btn btn-secondary export-btn" data-format="prometheus" data-keywords="prometheus metrics monitoring observability">
+                <span class="export-label">Prometheus</span>
+                <span class="export-desc">Metrics</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="grafana-json" data-keywords="grafana dashboard visualization">
+                <span class="export-label">Grafana</span>
+                <span class="export-desc">Dashboards</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="datadog" data-keywords="datadog apm monitoring logs">
+                <span class="export-label">Datadog</span>
+                <span class="export-desc">APM</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="export-group" data-group="notifications">
+            <h4 class="export-subheading">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notifications
+            </h4>
+            <div class="export-options">
+              <button type="button" class="btn btn-secondary export-btn" data-format="slack" data-keywords="slack message webhook chat">
+                <span class="export-label">Slack</span>
+                <span class="export-desc">Webhook</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="discord" data-keywords="discord message webhook chat">
+                <span class="export-label">Discord</span>
+                <span class="export-desc">Webhook</span>
+              </button>
+              <button type="button" class="btn btn-secondary export-btn" data-format="teams" data-keywords="teams microsoft webhook chat office">
+                <span class="export-label">MS Teams</span>
+                <span class="export-desc">Webhook</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- No results message -->
+        <div class="export-no-results" id="export-no-results" hidden>
+          <p>No formats match your search</p>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button type="button" class="btn btn-secondary" id="new-scan-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          New Scan
+        </button>
+        <span class="keyboard-hint"><kbd>Esc</kbd> to go back</span>
+      </div>
+    </section>
+
+    <!-- Error Display -->
+    <section class="panel error-panel" id="error-panel" role="alert" aria-labelledby="error-heading" hidden>
+      <h2 id="error-heading" class="panel-title error-title">Something Went Wrong</h2>
+      <p class="error-message" id="error-message"></p>
+      <button type="button" class="btn btn-primary" id="error-retry-btn">Try Again</button>
+    </section>
+
+    <!-- Export Preview Panel -->
+    <section class="panel preview-panel" id="preview-panel" aria-labelledby="preview-heading" hidden>
+      <div class="preview-header">
+        <div class="preview-title-group">
+          <button type="button" class="btn btn-icon preview-back-btn" id="preview-back-btn" aria-label="Back to results">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <h2 id="preview-heading" class="panel-title preview-title">
+            <span id="preview-format-name">Export Preview</span>
+          </h2>
+        </div>
+        <div class="preview-actions">
+          <button type="button" class="btn btn-secondary" id="preview-copy-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <button type="button" class="btn btn-primary" id="preview-download-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+      <div class="preview-content-wrapper" id="preview-content-wrapper">
+        <pre class="preview-content" id="preview-content" tabindex="0"><code id="preview-code"></code></pre>
+      </div>
+      <div class="preview-footer">
+        <span class="preview-info" id="preview-info"></span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="footer-brand">
+      <span class="footer-logo" aria-hidden="true">A11Y</span>
+      <div class="footer-info">
+        <strong>mat-a11y</strong>
+        <span class="footer-version">v7.0.0</span>
+      </div>
+    </div>
+    <p class="footer-note">
+      This tool helps find accessibility issues but doesn't guarantee full WCAG compliance.
+      Always test with real assistive technologies and users.
+    </p>
+    <div class="footer-author">
+      Built by <a href="https://robspan.de" target="_blank" rel="noopener">Robin Spanier</a>
+      <span class="footer-separator">·</span>
+      <a href="https://www.freelancermap.de/profil/robin-spanier" target="_blank" rel="noopener" class="footer-hire">Available for hire</a>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/robspan/mat-a11y" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://github.com/robspan/mat-a11y#readme" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Docs
+      </a>
+      <a href="https://github.com/robspan/mat-a11y/issues" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Report Issue
+      </a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

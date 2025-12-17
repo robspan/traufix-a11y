@@ -13,6 +13,16 @@
  * @license MIT
  */
 
+// Bundle protection: warn if accidentally imported in browser context
+// This shouldn't happen if bundlers respect package.json browser/exports fields
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  console.error(
+    '[mat-a11y] WARNING: This is a Node.js CLI tool (~1MB) that should NOT be bundled into browser code.\n' +
+    'Install as devDependency: npm install --save-dev mat-a11y\n' +
+    'If you see this, your bundler is misconfigured or ignoring package.json exports.'
+  );
+}
+
 const fs = require('fs');
 const path = require('path');
 const colors = require('./colors');

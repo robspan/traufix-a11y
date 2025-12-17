@@ -71,7 +71,7 @@ export class DemoComponent {}
 
 function runCli({ projectDir, outputPath }) {
   const cliPath = path.resolve(__dirname, '..', '..', 'bin', 'cli.js');
-  const result = spawnSync(process.execPath, [cliPath, projectDir, '--markdown', '-o', outputPath], {
+  const result = spawnSync(process.execPath, [cliPath, projectDir, '--headless', '--markdown', '-o', outputPath], {
     cwd: path.resolve(__dirname, '..', '..'),
     encoding: 'utf8'
   });

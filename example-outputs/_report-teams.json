@@ -14,7 +14,7 @@
         "body": [
           {
             "type": "TextBlock",
-            "text": "⚠️ mat-a11y Accessibility Report",
+            "text": "❌ mat-a11y Accessibility Report",
             "weight": "bolder",
             "size": "large",
             "wrap": true
@@ -31,15 +31,15 @@
             "facts": [
               {
                 "title": "Total Components",
-                "value": "307"
+                "value": "305"
               },
               {
                 "title": "Passing",
-                "value": "156 (score >= 90)"
+                "value": "152 (score >= 90)"
               },
               {
                 "title": "Warning",
-                "value": "151 (score 50-89)"
+                "value": "153 (score 50-89)"
               },
               {
                 "title": "Failing",
@@ -47,7 +47,7 @@
               },
               {
                 "title": "Pass Rate",
-                "value": "50.8%"
+                "value": "49.8%"
               },
               {
                 "title": "Tier",
@@ -57,7 +57,7 @@
           },
           {
             "type": "TextBlock",
-            "text": "Worst Performing Components (Top 5)",
+            "text": "Highest Priority Components (Top 5)",
             "weight": "bolder",
             "size": "medium",
             "spacing": "medium"
@@ -67,6 +67,9 @@
             "columns": [
               {
                 "width": 3
+              },
+              {
+                "width": 1
               },
               {
                 "width": 1
@@ -111,41 +114,14 @@
                         "size": "small"
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "type": "TableRow",
-                "cells": [
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "Quote",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
                   },
                   {
                     "type": "TableCell",
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**57** (Warning)",
-                        "wrap": true,
-                        "size": "small"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TableCell",
-                    "items": [
-                      {
-                        "type": "TextBlock",
-                        "text": "4",
-                        "wrap": true,
+                        "text": "Priority",
+                        "weight": "bolder",
                         "size": "small"
                       }
                     ]
@@ -160,7 +136,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "AddDeadlineItemDialog",
+                        "text": "Replies",
                         "wrap": true,
                         "size": "small"
                       }
@@ -171,7 +147,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**64** (Warning)",
+                        "text": "**88** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -182,7 +158,18 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "12",
+                        "text": "17",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "165",
                         "wrap": true,
                         "size": "small"
                       }
@@ -198,7 +185,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "ScheduleBuilder",
+                        "text": "Navigation",
                         "wrap": true,
                         "size": "small"
                       }
@@ -209,7 +196,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**65** (Warning)",
+                        "text": "**90** (Pass)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -220,7 +207,18 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "10",
+                        "text": "22",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "146",
                         "wrap": true,
                         "size": "small"
                       }
@@ -236,7 +234,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "ClosingWords",
+                        "text": "Locations",
                         "wrap": true,
                         "size": "small"
                       }
@@ -247,7 +245,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**67** (Warning)",
+                        "text": "**70** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -258,7 +256,18 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "3",
+                        "text": "20",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "138",
                         "wrap": true,
                         "size": "small"
                       }
@@ -274,7 +283,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "AddSimpleItemDialog",
+                        "text": "RichtextEditor",
                         "wrap": true,
                         "size": "small"
                       }
@@ -285,7 +294,7 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "**69** (Warning)",
+                        "text": "**79** (Warning)",
                         "wrap": true,
                         "size": "small"
                       }
@@ -296,7 +305,67 @@
                     "items": [
                       {
                         "type": "TextBlock",
-                        "text": "2",
+                        "text": "16",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "130",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TableRow",
+                "cells": [
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "Administration",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "**90** (Pass)",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "15",
+                        "wrap": true,
+                        "size": "small"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TableCell",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "129",
                         "wrap": true,
                         "size": "small"
                       }
@@ -308,7 +377,7 @@
           },
           {
             "type": "TextBlock",
-            "text": "Generated: 2025-12-15T16:40:30.677Z",
+            "text": "Generated: 2025-12-17T16:17:39.139Z",
             "size": "small",
             "isSubtle": true,
             "spacing": "medium"

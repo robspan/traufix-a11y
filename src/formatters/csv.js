@@ -110,22 +110,25 @@ function format(results, options = {}) {
 
   // Header row
   if (includeHeader) {
-    const headers = ['URL', 'Score', 'Status', 'IssueCount', 'TopIssue'];
+    const headers = ['URL', 'Score', 'Status', 'IssueCount', 'Priority', 'TopIssue'];
     lines.push(headers.join(delimiter));
   }
 
-  // Data rows
+  // Data rows (entities are pre-sorted by totalPoints descending from normalizeResults)
   for (const url of urls) {
     const score = url.auditScore ?? 0;
     const status = getStatusLabel(score);
     const issueCount = url.issues ? url.issues.length : 0;
     const topIssue = getTopIssue(url);
+    // Priority based on pre-computed issue points (totalPoints = basePoints * usageCount)
+    const priority = url.issuePoints?.totalPoints ?? 0;
 
     const row = [
       escapeCSV(url.label || ''),
       score,
       status,
       issueCount,
+      priority,
       escapeCSV(topIssue)
     ];
 

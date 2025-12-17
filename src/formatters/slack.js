@@ -10,7 +10,7 @@
  * @module formatters/slack
  */
 
-const { normalizeResults, getWorstEntities } = require('./result-utils');
+const { normalizeResults, getCheckWeight } = require('./result-utils');
 
 function getEntityNouns(results, normalized) {
   const kind = (() => {
@@ -58,45 +58,80 @@ function calculatePassRate(results) {
 }
 
 /**
- * Get the worst performing URLs from results
- * @param {object} results - Analysis results
- * @param {number} limit - Maximum number of URLs to return
- * @returns {Array} Array of worst URL objects
+ * Get the highest-priority entities from pre-sorted results
+ * Entities are already sorted by totalPoints descending from normalizeResults
+ *
+ * @param {object} normalized - Normalized results from normalizeResults()
+ * @param {number} limit - Maximum number of entities to return
+ * @returns {Array} Array of worst entity objects (highest priority first)
  */
-function getWorstUrls(normalized, limit = 5) {
-  return getWorstEntities(normalized.entities, limit)
-    .filter(e => (e.auditScore ?? 0) < 90)
+function getHighPriorityEntities(normalized, limit = 5) {
+  // Entities are pre-sorted by issuePoints.totalPoints descending
+  // Just filter to those with issues and take the top N
+  return (normalized.entities || [])
+    .filter(e => (e.auditScore ?? 0) < 90 && e.issues?.length > 0)
+    .slice(0, limit)
     .map(e => ({
       path: e.label,
       auditScore: e.auditScore,
-      issues: e.issues
+      issues: e.issues,
+      issuePoints: e.issuePoints
     }));
 }
 
 /**
- * Format a single URL as a Slack section block
- * @param {object} url - URL result object
+ * Format a single entity as a Slack section block
+ * Shows highest-weight issues first
+ *
+ * @param {object} entity - Entity result object
+ * @param {object} [options={}] - Formatting options
+ * @param {boolean} [options.showPriorityPoints] - Show priority points in output
  * @returns {object} Slack section block
  */
-function formatUrlBlock(url) {
-  const scoreEmoji = url.auditScore >= 90 ? ':white_check_mark:' :
-                     url.auditScore >= 50 ? ':warning:' : ':x:';
+function formatEntityBlock(entity, options = {}) {
+  const { showPriorityPoints = false } = options;
 
-  const issueCount = url.issues ? url.issues.length : 0;
-  const topIssues = url.issues ? url.issues.slice(0, 3) : [];
+  const scoreEmoji = entity.auditScore >= 90 ? ':white_check_mark:' :
+                     entity.auditScore >= 50 ? ':warning:' : ':x:';
+
+  const issueCount = entity.issues ? entity.issues.length : 0;
+
+  // Sort issues by weight descending (highest priority first)
+  const sortedIssues = entity.issues
+    ? [...entity.issues].sort((a, b) => {
+        const weightA = a.weight ?? getCheckWeight(a.check);
+        const weightB = b.weight ?? getCheckWeight(b.check);
+        return weightB - weightA;
+      })
+    : [];
+  const topIssues = sortedIssues.slice(0, 3);
 
   let issueText = '';
   if (topIssues.length > 0) {
     issueText = '\n' + topIssues
-      .map(issue => `  - \`${issue.check}\`: ${issue.message.replace(/^\[(Error|Warning|Info)\]\s*/, '').substring(0, 80)}`)
+      .map(issue => {
+        const weight = issue.weight ?? getCheckWeight(issue.check);
+        const weightTag = showPriorityPoints ? ` [w:${weight}]` : '';
+        return `  - \`${issue.check}\`${weightTag}: ${issue.message.replace(/^\[(Error|Warning|Info)\]\s*/, '').substring(0, 80)}`;
+      })
       .join('\n');
+  }
+
+  // Build status line with optional priority points
+  let statusLine = `Score: ${entity.auditScore}% | Issues: ${issueCount}`;
+  if (showPriorityPoints && entity.issuePoints) {
+    const { totalPoints, usageCount } = entity.issuePoints;
+    statusLine += ` | Priority: ${totalPoints} pts`;
+    if (usageCount > 1) {
+      statusLine += ` (${usageCount}x usage)`;
+    }
   }
 
   return {
     type: 'section',
     text: {
       type: 'mrkdwn',
-      text: `${scoreEmoji} *${url.path}*\nScore: ${url.auditScore}% | Issues: ${issueCount}${issueText}`
+      text: `${scoreEmoji} *${entity.path}*\n${statusLine}${issueText}`
     }
   };
 }
@@ -113,13 +148,15 @@ function formatUrlBlock(url) {
  * @param {string} [options.title] - Custom message title
  * @param {number} [options.maxWorstUrls] - Max worst URLs to show (default: 5)
  * @param {boolean} [options.includeTimestamp] - Include timestamp (default: true)
+ * @param {boolean} [options.showPriorityPoints] - Show priority points for entities/issues (default: false)
  * @returns {string} JSON string of Slack Block Kit message
  */
 function format(results, options = {}) {
   const {
     title = 'Accessibility Report',
     maxWorstUrls = 5,
-    includeTimestamp = true
+    includeTimestamp = true,
+    showPriorityPoints = false
   } = options;
 
   const normalized = normalizeResults(results);
@@ -128,7 +165,8 @@ function format(results, options = {}) {
   const statusEmoji = getStatusEmoji(distribution);
   const statusText = getStatusText(distribution);
   const passRate = calculatePassRate(normalized);
-  const worstUrls = getWorstUrls(normalized, maxWorstUrls);
+  // Use pre-sorted entities from normalizeResults (sorted by totalPoints descending)
+  const highPriorityEntities = getHighPriorityEntities(normalized, maxWorstUrls);
 
   const blocks = [];
 
@@ -177,20 +215,24 @@ function format(results, options = {}) {
     ]
   });
 
-  // Worst URLs section (if any)
-  if (worstUrls.length > 0) {
+  // High-priority entities section (sorted by issue points, highest first)
+  if (highPriorityEntities.length > 0) {
     blocks.push({ type: 'divider' });
+
+    const sectionTitle = showPriorityPoints
+      ? `*Highest Priority ${nouns.plural}${results.sitemapPath ? ' (Sitemap)' : ''}*`
+      : `*Worst Performing ${nouns.plural}${results.sitemapPath ? ' (Sitemap)' : ''}*`;
 
     blocks.push({
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text: `*Worst Performing ${nouns.plural}${results.sitemapPath ? ' (Sitemap)' : ''}*`
+        text: sectionTitle
       }
     });
 
-    for (const url of worstUrls) {
-      blocks.push(formatUrlBlock(url));
+    for (const entity of highPriorityEntities) {
+      blocks.push(formatEntityBlock(entity, { showPriorityPoints }));
     }
   }
 
@@ -207,14 +249,22 @@ function format(results, options = {}) {
       }
     });
 
-    // Show worst internal routes
-    const worstInternal = (results.internal.routes || [])
-      .filter(r => r.auditScore < 90)
-      .sort((a, b) => a.auditScore - b.auditScore)
+    // Show highest-priority internal routes (sorted by issue weight sum)
+    const internalRoutes = (results.internal.routes || [])
+      .filter(r => r.auditScore < 90 && r.issues?.length > 0)
+      .map(r => {
+        // Calculate issue points for sorting
+        let totalWeight = 0;
+        for (const issue of r.issues || []) {
+          totalWeight += issue.weight ?? getCheckWeight(issue.check);
+        }
+        return { ...r, path: r.path || r.url, issuePoints: { totalPoints: totalWeight, usageCount: 1 } };
+      })
+      .sort((a, b) => b.issuePoints.totalPoints - a.issuePoints.totalPoints)
       .slice(0, 3);
 
-    for (const route of worstInternal) {
-      blocks.push(formatUrlBlock(route));
+    for (const route of internalRoutes) {
+      blocks.push(formatEntityBlock(route, { showPriorityPoints }));
     }
   }
 

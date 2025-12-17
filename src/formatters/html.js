@@ -79,7 +79,6 @@ function getMessageSummary(message) {
 }
 
 function formatEntityHTML(results, normalized) {
-  const d = normalized.distribution;
   const modeLabel = getModeLabel(results);
   const title = getTitle(results, normalized);
 
@@ -89,9 +88,25 @@ function formatEntityHTML(results, normalized) {
   const entities = normalized.entities || [];
   const sortedEntities = getEntitiesByIssuePoints(entities, entities.length);
 
-  let totalIssuePoints = 0;
-  for (const e of sortedEntities) {
-    totalIssuePoints += e.issuePoints?.totalPoints || 0;
+  // Calculate severity counts (matching GUI logic)
+  let critical = 0, high = 0, medium = 0;
+  if (results.issueSummary) {
+    for (const issue of results.issueSummary) {
+      const impact = issue.impact || 'medium';
+      const count = issue.count || 0;
+      if (impact === 'critical') critical += count;
+      else if (impact === 'high') high += count;
+      else medium += count;
+    }
+  } else if (results.components) {
+    for (const comp of results.components) {
+      for (const issue of (comp.issues || [])) {
+        const impact = issue.severity || issue.impact || 'medium';
+        if (impact === 'critical') critical++;
+        else if (impact === 'high') high++;
+        else medium++;
+      }
+    }
   }
 
   // Build table rows
@@ -175,18 +190,71 @@ function formatEntityHTML(results, normalized) {
   <title>${escapeHtml(title)}</title>
   <style>
     :root {
-      --pass: #22c55e;
-      --pass-bg: #dcfce7;
-      --warn: #f59e0b;
+      /* Colors aligned with GUI - WCAG AA contrast */
+      --pass: #047857;
+      --pass-bg: #d1fae5;
+      --pass-text: #166534;
+      --warn: #b45309;
       --warn-bg: #fef3c7;
-      --fail: #ef4444;
+      --warn-text: #92400e;
+      --fail: #b91c1c;
       --fail-bg: #fee2e2;
+      --fail-text: #991b1b;
+      --primary: #1a56db;
+      --primary-bg: #dbeafe;
+      --primary-text: #1d4ed8;
       --border: #e5e7eb;
       --text: #111827;
       --text-muted: #6b7280;
       --bg: #ffffff;
       --bg-alt: #f9fafb;
       --bg-hover: #f3f4f6;
+    }
+
+    /* Dark mode - respects system preference */
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light-mode) {
+        --pass: #34d399;
+        --pass-bg: #064e3b;
+        --pass-text: #34d399;
+        --warn: #fbbf24;
+        --warn-bg: #78350f;
+        --warn-text: #fbbf24;
+        --fail: #f87171;
+        --fail-bg: #7f1d1d;
+        --fail-text: #f87171;
+        --primary: #60a5fa;
+        --primary-bg: #1e3a5f;
+        --primary-text: #60a5fa;
+        --border: #374151;
+        --text: #f9fafb;
+        --text-muted: #9ca3af;
+        --bg: #111827;
+        --bg-alt: #1f2937;
+        --bg-hover: #374151;
+      }
+    }
+
+    /* Manual dark mode toggle */
+    :root.dark-mode {
+      --pass: #34d399;
+      --pass-bg: #064e3b;
+      --pass-text: #34d399;
+      --warn: #fbbf24;
+      --warn-bg: #78350f;
+      --warn-text: #fbbf24;
+      --fail: #f87171;
+      --fail-bg: #7f1d1d;
+      --fail-text: #f87171;
+      --primary: #60a5fa;
+      --primary-bg: #1e3a5f;
+      --primary-text: #60a5fa;
+      --border: #374151;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --bg: #111827;
+      --bg-alt: #1f2937;
+      --bg-hover: #374151;
     }
 
     * { box-sizing: border-box; }
@@ -218,17 +286,21 @@ function formatEntityHTML(results, normalized) {
     }
     .stat-value { font-size: 1.75rem; font-weight: 700; }
     .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-card.highlight { background: var(--fail-bg); border-color: var(--fail); }
-    .stat-card.highlight .stat-value { color: var(--fail); }
+    .stat-card.stat-critical { background: var(--fail-bg); border-color: var(--fail); }
+    .stat-card.stat-critical .stat-value { color: var(--fail); }
+    .stat-card.stat-high { background: var(--warn-bg); border-color: var(--warn); }
+    .stat-card.stat-high .stat-value { color: var(--warn); }
+    .stat-card.stat-medium { background: var(--primary-bg); border-color: var(--primary); }
+    .stat-card.stat-medium .stat-value { color: var(--primary-text); }
 
     .optimization-note {
-      background: #eff6ff;
-      border: 1px solid #3b82f6;
+      background: var(--primary-bg);
+      border: 1px solid var(--primary);
       padding: 0.75rem 1rem;
       border-radius: 6px;
       margin-bottom: 1.5rem;
       font-size: 0.875rem;
-      color: #1e40af;
+      color: var(--primary-text);
     }
 
     /* Controls */
@@ -292,7 +364,7 @@ function formatEntityHTML(results, normalized) {
       justify-content: center;
     }
     .expand-btn:hover { background: var(--bg-hover); }
-    .expand-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    .expand-btn:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 
     /* Visually hidden text for screen readers */
     .sr-only {
@@ -314,9 +386,9 @@ function formatEntityHTML(results, normalized) {
       font-weight: 600;
       font-size: 0.75rem;
     }
-    .score-badge.pass { background: var(--pass-bg); color: #166534; }
-    .score-badge.warn { background: var(--warn-bg); color: #92400e; }
-    .score-badge.fail { background: var(--fail-bg); color: #991b1b; }
+    .score-badge.pass { background: var(--pass-bg); color: var(--pass-text); }
+    .score-badge.warn { background: var(--warn-bg); color: var(--warn-text); }
+    .score-badge.fail { background: var(--fail-bg); color: var(--fail-text); }
 
     .check-tag {
       display: inline-block;
@@ -352,13 +424,13 @@ function formatEntityHTML(results, normalized) {
       color: var(--text-muted);
     }
     .view-more-btn:hover { background: var(--bg-hover); }
-    .view-more-btn:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    .view-more-btn:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 
     /* Focus styles for interactive elements */
-    th:focus { outline: 2px solid #3b82f6; outline-offset: -2px; }
-    input:focus, select:focus { outline: 2px solid #3b82f6; outline-offset: 0; border-color: #3b82f6; }
-    a:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
-    .line-num { color: #6366f1; font-weight: 600; margin-left: 0.5rem; }
+    th:focus { outline: 2px solid var(--primary); outline-offset: -2px; }
+    input:focus, select:focus { outline: 2px solid var(--primary); outline-offset: 0; border-color: var(--primary); }
+    a:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .line-num { color: var(--primary); font-weight: 600; margin-left: 0.5rem; }
 
     .disclaimer {
       margin-top: 2rem;
@@ -371,43 +443,110 @@ function formatEntityHTML(results, normalized) {
     }
 
     footer {
-      margin-top: 1rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
       font-size: 0.75rem;
       color: var(--text-muted);
       text-align: center;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { color: var(--text-muted); }
+    .footer-links a { color: var(--primary); }
+    .footer-author { margin-bottom: 0.5rem; }
+    .footer-separator { margin: 0 0.25rem; opacity: 0.5; }
+    .footer-hire { color: var(--primary); font-weight: 500; }
+
+    /* Header with actions */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .page-header h1 { margin: 0; }
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .header-btn, .dark-mode-btn {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 44px;
+    }
+    .header-btn:hover, .dark-mode-btn:hover { background: var(--bg-hover); }
+    .header-btn:focus, .dark-mode-btn:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .header-btn svg, .dark-mode-btn svg { width: 18px; height: 18px; }
+    .icon-sun, .icon-moon { display: none; }
+    .icon-sun { display: block; }
+    :root.dark-mode .icon-sun { display: none; }
+    :root.dark-mode .icon-moon { display: block; }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light-mode) .icon-sun { display: none; }
+      :root:not(.light-mode) .icon-moon { display: block; }
     }
 
     @media print {
       .controls { display: none; }
       .expand-btn { display: none; }
+      .header-actions { display: none; }
       .details-row { display: table-row !important; }
+      body { padding: 0; }
     }
   </style>
 </head>
 <body>
-  <h1>${escapeHtml(title)}</h1>
-  <p class="subtitle">${modeLabel} | ${normalized.total || entities.length} components | Tier: ${(normalized.tier || 'material').toUpperCase()}</p>
+  <div class="page-header">
+    <div>
+      <h1>${escapeHtml(title)}</h1>
+      <p class="subtitle">${modeLabel} | ${normalized.total || entities.length} components | Tier: ${(normalized.tier || 'material').toUpperCase()}</p>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="downloadReport()" aria-label="Download HTML report">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Download</span>
+      </button>
+      <button class="header-btn" onclick="window.print()" aria-label="Print or save as PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>PDF</span>
+      </button>
+      <button class="dark-mode-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <span>Theme</span>
+      </button>
+    </div>
+  </div>
 
   <div class="summary">
-    <div class="stat-card highlight">
-      <div class="stat-value">${totalIssuePoints}</div>
-      <div class="stat-label">Issue Points</div>
-    </div>
     <div class="stat-card">
       <div class="stat-value">${totalIssues}</div>
       <div class="stat-label">Total Issues</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">${d.failing || 0}</div>
-      <div class="stat-label">Failing</div>
+    <div class="stat-card stat-critical">
+      <div class="stat-value">${critical}</div>
+      <div class="stat-label">Critical</div>
+    </div>
+    <div class="stat-card stat-high">
+      <div class="stat-value">${high}</div>
+      <div class="stat-label">High</div>
+    </div>
+    <div class="stat-card stat-medium">
+      <div class="stat-value">${medium}</div>
+      <div class="stat-label">Medium</div>
     </div>
     <div class="stat-card">
-      <div class="stat-value">${d.warning || 0}</div>
-      <div class="stat-label">Needs Work</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">${d.passing || 0}</div>
-      <div class="stat-label">Passing</div>
+      <div class="stat-value">${entities.length}</div>
+      <div class="stat-label">Components</div>
     </div>
   </div>
 
@@ -448,10 +587,61 @@ function formatEntityHTML(results, normalized) {
 
   <footer>
     Generated by mat-a11y | ${new Date().toISOString()}<br>
-    <span style="color: #6b7280;"><a href="https://traufix.de" style="color: #3b82f6;">traufix.de</a> | <a href="https://www.freelancermap.de/profil/robin-spanier" style="color: #3b82f6;">freelancermap.de/profil/robin-spanier</a></span>
+    <span class="footer-links"><a href="https://traufix.de">traufix.de</a> | <a href="https://www.freelancermap.de/profil/robin-spanier">freelancermap.de/profil/robin-spanier</a></span>
   </footer>
 
   <script>
+    // Theme handling and auto-print - check query params
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const theme = params.get('theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.remove('light-mode');
+      } else if (theme === 'light') {
+        document.documentElement.classList.add('light-mode');
+        document.documentElement.classList.remove('dark-mode');
+      }
+
+      // Auto-print for PDF export - trigger immediately, hide content until dialog
+      if (params.get('print') === 'true') {
+        document.body.style.visibility = 'hidden';
+        window.addEventListener('load', function() {
+          requestAnimationFrame(function() {
+            document.body.style.visibility = 'visible';
+            window.print();
+          });
+        });
+      }
+    })();
+
+    function toggleDarkMode() {
+      const root = document.documentElement;
+      const isDark = root.classList.contains('dark-mode') ||
+                     (window.matchMedia('(prefers-color-scheme: dark)').matches && !root.classList.contains('light-mode'));
+
+      if (isDark) {
+        root.classList.remove('dark-mode');
+        root.classList.add('light-mode');
+      } else {
+        root.classList.add('dark-mode');
+        root.classList.remove('light-mode');
+      }
+    }
+
+    function downloadReport() {
+      const html = document.documentElement.outerHTML;
+      const blob = new Blob(['<!DOCTYPE html>' + html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mat-a11y-report-${new Date().toISOString().split('T')[0]}.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     let currentSort = { col: 'points', dir: 'desc' };
 
     function handleHeaderKey(event, col) {
@@ -584,15 +774,41 @@ function formatFileHTML(results, normalized) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mat-a11y Analysis Report</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; }
+    :root {
+      --pass: #047857;
+      --warn: #b45309;
+      --fail: #b91c1c;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --bg: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light-mode) {
+        --pass: #34d399;
+        --warn: #fbbf24;
+        --fail: #f87171;
+        --text: #f9fafb;
+        --text-muted: #9ca3af;
+        --bg: #111827;
+      }
+    }
+    :root.dark-mode {
+      --pass: #34d399;
+      --warn: #fbbf24;
+      --fail: #f87171;
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --bg: #111827;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; background: var(--bg); color: var(--text); }
     h1 { margin: 0 0 1rem; }
     .score { font-size: 3rem; font-weight: 700; margin: 2rem 0; text-align: center; }
-    .score.pass { color: #22c55e; }
-    .score.warn { color: #f59e0b; }
-    .score.fail { color: #ef4444; }
+    .score.pass { color: var(--pass); }
+    .score.warn { color: var(--warn); }
+    .score.fail { color: var(--fail); }
     .issue-group { margin: 1rem 0; }
     .issue-group ul { margin: 0.5rem 0 0 1.5rem; }
-    .issue-group li { margin-bottom: 0.25rem; color: #666; }
+    .issue-group li { margin-bottom: 0.25rem; color: var(--text-muted); }
   </style>
 </head>
 <body>

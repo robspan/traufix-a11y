@@ -5,6 +5,54 @@ All notable changes to mat-a11y will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2025-12-17
+
+### Added
+- **Web-based GUI dashboard** — Running `npx mat-a11y` now opens an interactive accessibility dashboard in your browser. Designed for accessibility testers and management, not just developers.
+  - **Plain language** — Issues described in simple terms ("Buttons without labels" instead of "buttonNames")
+  - **Impact ratings** — Critical, High, Medium severity levels
+  - **How to fix** — Clear instructions for each issue type
+  - **Visual score overview** — See your accessibility score at a glance
+  - **One-click export** — Download reports in HTML, JSON, and more
+  - **Expert mode toggle** — Advanced options for developers (custom paths, ignore patterns, all tiers)
+  - **Fully accessible** — The GUI itself passes accessibility checks (WCAG AA contrast, focus states, keyboard navigation, screen reader support)
+  - **Dark mode support** — Auto-detects system theme preference (`prefers-color-scheme`) with manual toggle
+  - **Severity filter** — Filter results by Critical, High, or Medium severity in expert mode
+  - **Category filter** — Multi-select filter by check categories (HTML, Material, SCSS, Angular, CDK)
+  - **CLI command preview** — Shows the equivalent CLI command for current settings with one-click copy
+  - **Scan statistics panel** — Displays files scanned, scan duration, checks run, and issue counts by severity
+  - **Collapsible expert sections** — Expert mode options organized into collapsible sections
+- **`--headless` flag** — Run without GUI for scripts and automation: `npx mat-a11y --headless`
+- **`--ci` flag** — Alias for `--headless`, convenient for CI/CD pipelines
+- **`--port` flag** — Custom port for GUI server (default: 3847)
+- **GUI demo on GitHub Pages** — Static GUI demo available at `https://robspan.github.io/mat-a11y/gui/`
+- **Priority-based sorting across all 17 formatters** — Entities and issues are now pre-sorted by weighted priority. Highest-impact items appear first in every output format.
+  - `normalizeResults()` now pre-computes `issuePoints` (`basePoints × usageCount = totalPoints`) for all entities
+  - Issues include `weight` property and are sorted by weight descending (most critical first)
+  - AI formatter shows priority points per component: `COMPONENT: StylesComponent [243pts]`
+  - AI formatter shows weight per check type: `[w10] formLabels`, `[w7] colorContrast`
+  - All CI formatters (SARIF, GitLab, GitHub, SonarQube, Checkstyle, JUnit) map weight to severity levels
+  - Monitoring formatters (Prometheus, Grafana, Datadog) include `priority_points` metrics
+  - CSV formatter adds Priority column; Markdown shows priority in tables
+- **Bundle protection** — Prevents accidental inclusion in production bundles (~1MB → ~200 bytes):
+  - `sideEffects: false` enables tree-shaking
+  - `browser` field points to minimal stub for browser builds
+  - Conditional `exports` serve stub to non-Node environments
+  - Stub warns in development, throws if methods are called
+  - New `src/browser-stub.js` with clear "install as devDependency" message
+
+### Changed
+- **Default behavior changed** — `npx mat-a11y` now opens the GUI dashboard instead of outputting to terminal
+- **CLI mode requires flag** — Use `--headless` or `--ci` for terminal/file output
+- **Formatter sorting** — All formatters now respect pre-sorted priority order from `normalizeResults()`
+
+### Migration
+- **For scripts/CI:** Add `--headless` or `--ci` flag to existing commands
+  - Before: `npx mat-a11y --sarif -o report.sarif`
+  - After: `npx mat-a11y --headless --sarif -o report.sarif`
+- **For interactive use:** Just run `npx mat-a11y` and use the dashboard
+- **Install correctly:** Always use `npm install --save-dev mat-a11y` (devDependency)
+
 ## [6.1.1] - 2025-12-15
 
 ### Fixed

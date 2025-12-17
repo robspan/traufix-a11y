@@ -29,7 +29,7 @@ function format(results, options = {}) {
     maxAnnotations = 50
   } = options;
 
-  const { normalizeResults } = require('./result-utils');
+  const { normalizeResults, getCheckWeight } = require('./result-utils');
   const normalized = normalizeResults(results);
 
   const lines = [];
@@ -41,8 +41,9 @@ function format(results, options = {}) {
       break;
     }
 
-      // Determine severity level based on message prefix
-      const level = determineLevel(issue.message);
+      // Determine severity level based on issue weight (pre-computed by normalizeResults)
+      const weight = issue.weight !== undefined ? issue.weight : getCheckWeight(issue.check);
+      const level = determineLevel(weight);
 
       // Clean the message (remove severity prefix)
       const message = cleanMessage(issue.message);
@@ -76,19 +77,24 @@ function format(results, options = {}) {
 }
 
 /**
- * Determine the annotation level based on message content
+ * Determine the annotation level based on issue weight
  *
- * @param {string} message - The issue message
+ * GitHub annotation levels:
+ * - error: Critical issues that should block PR (weight >= 7)
+ * - warning: Important issues to address (weight >= 4)
+ * - notice: Informational issues (weight < 4)
+ *
+ * @param {number} weight - The issue weight (0-10)
  * @returns {string} 'error', 'warning', or 'notice'
  */
-function determineLevel(message) {
-  if (message.startsWith('[Warning]')) {
+function determineLevel(weight) {
+  if (weight >= 7) {
+    return 'error';
+  }
+  if (weight >= 4) {
     return 'warning';
   }
-  if (message.startsWith('[Info]')) {
-    return 'notice';
-  }
-  return 'error';
+  return 'notice';
 }
 
 /**
